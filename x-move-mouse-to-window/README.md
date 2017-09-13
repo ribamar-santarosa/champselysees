@@ -19,5 +19,6 @@ This script works better if you use the focus follow mouse cursor
 of your window manager (like mine, WindowMaker), so you don't have
 to click, but you can extend the script to make xtool click for you.
 
-It still doesn't work properly with  many work spaces, but multiple
+It still doesn't work properly with  many work spaces, and overlapping
+windows (be wise setting your workspace positioning),  but multiple 
 monitors shouldn't be a problem.

@@ -1,6 +1,6 @@
 This tool allows me to update my dynamic DNS settings in namecheap.com, for making my computer to have an name address like `mysubdomain.example.com`, using their REST API (setup required and more info at: https://www.namecheap.com/support/knowledgebase/article.aspx/29/11/how-do-i-use-a-browser-to-dynamically-update-the-hosts-ip ).  
 
-It would also be possible to use `ddclient`, but it it writes a plaintext file, which is not good idea
+It would also be possible to use `ddclient`, but I would have to write down my dynamic DNS password in a  plaintext file, which is not good idea.
 
 Before, note that sensitive data is never printed, and there is no keyboard echoing. 
 

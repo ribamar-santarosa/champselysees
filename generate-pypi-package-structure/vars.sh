@@ -1,0 +1,14 @@
+arbitrary_root_dirname="root-dir"
+my_package_name="pychampselysees"
+my_package_version="0.1"
+my_package_description="many python functions for general purpose"
+author="Ribamar Santarosa"
+python_org_username=ribamar 
+python_org_password=tijolo22
+author_on_github="ribamar-santarosa"
+author_email="ribamar@gmail.com"
+my_package_url="https://github.com/${author_on_github}/${my_package_name}"
+my_package_clone_url="${my_package_url}.git"
+my_package_download_url="https://github.com/${author_on_github}/${my_package_name}/archive/${my_package_version}.tar.gz"
+my_main_file="pychampselysees.py"
+my_file_list="${my_main_file} "

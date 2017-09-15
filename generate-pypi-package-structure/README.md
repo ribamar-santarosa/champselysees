@@ -4,25 +4,25 @@ These are some scripts I use to create a pypi package out of a github repo.
 
 
 Requirements:
-1) have an account at https://pypi.python.org/pypi?%3Aaction=register_form .(You're advised
+1) have **an account** at https://pypi.python.org/pypi?%3Aaction=register_form .(You're advised
 to not take a password that is similar to one of your other passwords, because you'll have
 to let it unencrypted in your .pyrc file, which is very bad security practice. There may
 be a more secure way of doing things, but you'll probably need to take the time to research
 it by yourself. Also logout immediately after usage -- the design of the system allows a successful
 session hijack to steal the account)
 
-2) have an account at https://testpypi.python.org/pypi?%3Aaction=register_form -- the same security concerns above apply.
+2) have **an account** at https://testpypi.python.org/pypi?%3Aaction=register_form -- the same security concerns above apply.
 
-3) have a clean repo for your project set at github, with only `LICENSE` and `README.md` (and do have them, with those exact extensions)
+3) have a **clean repo** for your project set at github, **with only** `LICENSE` and `README.md` (and do have them, with those exact extensions)
 
 4) familiar basic usage of `bash`, `python`, `git`
 
-5) have these pips installed:
+5) have **these pips** installed:
 ````
 sudo pip install twine wheel
 ````
 
-6) Troubleshooting -- be already aware of the problems you might have -- or just skip to the actual steps.
+6) Troubleshooting -- be already aware of the problems you might have -- or **just skip** to the actual steps.
 
 Error:
 ````
@@ -60,16 +60,18 @@ sudo mv /usr/bin/gnome-keyring-daemon /usr/bin/gnome-keyring-daemon__removed
 
 # Actual Steps:
 
-1)Change `var.sh` and change your personal data.
+1) **Change `var.sh`** and change your personal data.
+
 2) Have those vars in your enviroment, generate `.pypirc` (if you still don't have it),
-close your eyes, fingers crossed and let it roll (no commitment yet, only local commits):
+close your eyes, fingers crossed and **let it roll** (no commitment yet, only local commits):
+
 ````
 source vars.sh
 [[ -f  $HOME/.pypirc  ]] || bash ./generate_pypirc.sh
 bash ./let_it_roll.sh
 ````
 
-3) check if you agree to the changes, and commit them. Now you're in your normal flow, add
+3) **check if** you agree to the changes, and commit them. Now you're in your normal flow, add
 the desired files to the git repo:
 ````
 pushd ${my_package_name}
@@ -79,7 +81,7 @@ popd
 ````
 
 
-5) Now do serious stuff -- register and upload your package PyPi (to be done every time you change the package, so not done by `let_it_roll.sh`):
+5) Now do serious stuff -- **register and upload** your package PyPi (to be done every time you change the package, so not done by `let_it_roll.sh`):
 ````
 pushd ${my_package_name}
 pushd ${arbitrary_root_dirname}/
@@ -90,12 +92,13 @@ popd
 popd
 ````
 
-6) Verify it at: https://pypi.python.org
+6) **Verify it** at: https://pypi.python.org  and:
 ````
 sudo pip install ${my_package_name}
-sudo pip show  ${my_package_name} # you'll find out that there are still many things missing
+sudo pip show  ${my_package_name} 
 ````
 
+you'll find out that there are still many **things missing** but the package must be **installed**
 
 Disclaimmer: the above procedure works for me as of today. In the Python world it's common for
 the people not to like much https://en.wikipedia.org/wiki/Design_by_contract or

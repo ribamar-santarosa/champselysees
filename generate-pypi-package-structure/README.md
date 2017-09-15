@@ -101,7 +101,9 @@ sudo pip show  ${my_package_name}
 
 you'll find out that there are still many **things missing** but the package must be **installed**
 
-Disclaimmer: the above procedure works for me as of today. In the Python world it's common for
+## Disclaimmer:
+
+The above procedure works for me as of today. In the Python world it's common for
 the people not to like much https://en.wikipedia.org/wiki/Design_by_contract or
 https://en.wikipedia.org/wiki/Open/closed_principle.
 So, these steps are expected to break very soon (as the great documentation

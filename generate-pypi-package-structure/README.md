@@ -79,7 +79,7 @@ popd
 ````
 
 
-5) Now do serious stuff -- register and upload your package PyPi:
+5) Now do serious stuff -- register and upload your package PyPi (to be done every time you change the package, so not done by `let_it_roll.sh`):
 ````
 pushd ${my_package_name}
 pushd ${arbitrary_root_dirname}/

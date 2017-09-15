@@ -3,7 +3,8 @@
 These are some scripts I use to create a pypi package out of a github repo.
 
 
-Requirements:
+## Requirements:
+
 1) have **an account** at https://pypi.python.org/pypi?%3Aaction=register_form .(You're advised
 to not take a password that is similar to one of your other passwords, because you'll have
 to let it unencrypted in your .pyrc file, which is very bad security practice. There may
@@ -58,7 +59,7 @@ sudo mv /usr/bin/gnome-keyring-daemon /usr/bin/gnome-keyring-daemon__removed
 
 
 
-# Actual Steps:
+##  Actual Steps:
 
 1) **Change `var.sh`** and change your personal data.
 

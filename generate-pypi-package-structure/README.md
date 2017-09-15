@@ -11,9 +11,9 @@ be a more secure way of doing things, but you'll probably need to take the time 
 it by yourself. Also logout immediately after usage -- the design of the system allows a successful
 session hijack to steal the account)
 
-2) have an account at https://testpypi.python.org/pypi?%3Aaction=register_form
+2) have an account at https://testpypi.python.org/pypi?%3Aaction=register_form -- the same security concerns above apply.
 
-3) have a clean repo for your project set at github, with only `LICENSE` and `README.md`
+3) have a clean repo for your project set at github, with only `LICENSE` and `README.md` (and do have them, with those exact extensions)
 
 4) familiar basic usage of `bash`, `python`, `git`
 
@@ -58,7 +58,7 @@ sudo mv /usr/bin/gnome-keyring-daemon /usr/bin/gnome-keyring-daemon__removed
 
 
 
-*Actual Steps:*
+# Actual Steps:
 
 1)Change `var.sh` and change your personal data.
 2) Have those vars in your enviroment, generate `.pypirc` (if you still don't have it),

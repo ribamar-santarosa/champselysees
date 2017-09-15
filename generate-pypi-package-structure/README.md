@@ -4,11 +4,12 @@ These are some scripts I use to create a pypi package out of a github repo.
 
 
 Requirements:
-1) have an account at https://pypi.python.org/pypi?%3Aaction=register_form . You're advised
+1) have an account at https://pypi.python.org/pypi?%3Aaction=register_form .(You're advised
 to not take a password that is similar to one of your other passwords, because you'll have
 to let it unencrypted in your .pyrc file, which is very bad security practice. There may
 be a more secure way of doing things, but you'll probably need to take the time to research
-it by yourself.
+it by yourself. Also logout immediately after usage -- the design of the system allows a successful
+session hijack to steal the account)
 
 2) have an account at https://testpypi.python.org/pypi?%3Aaction=register_form
 
@@ -22,6 +23,7 @@ sudo pip install twine wheel
 ````
 
 6) Troubleshooting -- be already aware of the problems you might have -- or just skip to the actual steps.
+
 Error:
 ````
 ImportError: cannot import name 'IncompleteRead'
@@ -56,7 +58,7 @@ sudo mv /usr/bin/gnome-keyring-daemon /usr/bin/gnome-keyring-daemon__removed
 
 
 
-Steps:
+* Actual Steps:*
 
 1)Change `var.sh` and change your personal data.
 2) Have those vars in your enviroment, generate `.pypirc` (if you still don't have it),
@@ -88,7 +90,11 @@ popd
 popd
 ````
 
-6) Verify it at: https://testpypi.python.org/pypi
+6) Verify it at: https://pypi.python.org
+````
+sudo pip install ${my_package_name}
+sudo pip show  ${my_package_name} # you'll find out that there are still many things missing
+````
 
 
 Disclaimmer: the above procedure works for me as of today. In the Python world it's common for

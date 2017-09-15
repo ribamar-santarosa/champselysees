@@ -58,7 +58,7 @@ sudo mv /usr/bin/gnome-keyring-daemon /usr/bin/gnome-keyring-daemon__removed
 
 
 
-* Actual Steps:*
+*Actual Steps:*
 
 1)Change `var.sh` and change your personal data.
 2) Have those vars in your enviroment, generate `.pypirc` (if you still don't have it),

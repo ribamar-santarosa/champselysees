@@ -110,9 +110,9 @@ So, these steps are expected to break very soon (as the great documentation
 http://peterdowns.com/posts/first-time-with-pypi.html doesn't work anymore, and this one
 https://packaging.python.org/tutorials/distributing-packages/ also doesn't, their instructions
 will lead to errors that point to https://upload.pypi.org/legacy/, which in the browser returns
-Error 404, but actually seems to exits, and https://packaging.python.org/guides/migrating-to-pypi-org/#uploading
+Error 404, but actually seems to exist, and https://packaging.python.org/guides/migrating-to-pypi-org/#uploading
 , which is deprecated). Just need a new
-guy to come and say "hey, I have a new idea of how things should work". Good luck to find
+guy to come and say "hey, I have a new idea of how things should work" =) Good luck to find
 the right documentation again when that happens!
 
 

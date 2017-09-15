@@ -61,7 +61,7 @@ sudo mv /usr/bin/gnome-keyring-daemon /usr/bin/gnome-keyring-daemon__removed
 
 ##  Actual Steps:
 
-1) **Change `var.sh`** and change your personal data.
+1) **Change `var.sh`** and change your personal data. It's supposed to be the only moment you have to use your brain until you get the package installed (but there will always be problems!).
 
 2) Have those vars in your enviroment, generate `.pypirc` (if you still don't have it),
 close your eyes, fingers crossed and **let it roll** (no commitment yet, only local commits):
@@ -99,7 +99,7 @@ sudo pip install ${my_package_name}
 sudo pip show  ${my_package_name} 
 ````
 
-you'll find out that there are still many **things missing** but the package must be **installed**
+you'll find out that there are still many **things missing** but the package must be **installed**.
 
 ## Disclaimmer:
 

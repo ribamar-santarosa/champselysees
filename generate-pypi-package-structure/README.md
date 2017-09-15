@@ -5,6 +5,8 @@ These are some scripts I use to create a pypi package out of a github repo.
 
 ## Requirements:
 
+Things that these scripts can't do for you (because they may need manual interaction/authentication):
+
 1) have **an account** at https://pypi.python.org/pypi?%3Aaction=register_form .(You're advised
 to not take a password that is similar to one of your other passwords, because you'll have
 to let it unencrypted in your .pyrc file, which is very bad security practice. There may

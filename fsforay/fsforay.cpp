@@ -216,21 +216,30 @@ class FSForayExecution : public ProjectExecution {
   /* runs deep by max_level % current_level levels. */
   {
      default_container<default_string>  result;
+     auto path_as_string = path.string();
      if (filesystem_dep::exists( path )) {
-       auto path_as_string = path.string();
        result.push_back(path_as_string);
        if ( max_level == 0 ) {
          // level limited  or max level reached, finishing it up.
        }
        else {
-         /* unfortunately, no directory_iterator::end(), like ::path does
-          fall back to old fashioned way of iterating: */
-         filesystem_dep::directory_iterator path_directory_iterator(path_as_string); 
-         for( ; path_directory_iterator !=  end_directory_iterator ; ++path_directory_iterator) {
-           auto current_path = path_directory_iterator->path();
-           //result.push_back(subpaths(current_path, max_level - 1));
-           auto subresult = (subpaths(current_path, max_level - 1));
-           result.insert(result.end(), subresult.begin(), subresult.end());
+
+         if (filesystem_dep::is_directory(path) ){
+           /* the test for dir shouldn't be necessary if path_directory_iterator
+              was fault tolerant. I need to test it only for avoiding an exception
+              to throw.
+              */
+
+           /* unfortunately, no directory_iterator::end(), like ::path does
+            fall back to old fashioned way of iterating: */
+           filesystem_dep::directory_iterator path_directory_iterator(path_as_string); 
+           for( ; path_directory_iterator !=  end_directory_iterator ; ++path_directory_iterator) {
+             auto current_path = path_directory_iterator->path();
+             //result.push_back(subpaths(current_path, max_level - 1));
+             auto subresult = (subpaths(current_path, max_level - 1));
+             result.insert(result.end(), subresult.begin(), subresult.end());
+           }
+
          }
        }
      }

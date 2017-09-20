@@ -131,26 +131,30 @@ class ProjectExecution {
 class FSForayExecution : public ProjectExecution {
   /* depends on filesystem */
   protected:
-  default_container<std:: string> s;
   public:
   virtual int main(int argc, char** argv)
   {
     return ProjectExecution::main(argc, argv);
   }
 
+
   virtual default_container<default_string>  subpaths(const default_path &path
       , default_int max_level =  0
     )
+  /* note: filesystem_dep::path dependent. */
   {
      default_container<default_string>  result;
      return result;
   }
 
+
   virtual default_container<default_string>  subpaths(const default_string &path
       , default_int max_level =  0
     )
   {
+     /* note: filesystem_dep::path dependent. */
      default_container<default_string>  result;
+     default_path path(default_string);
      return result;
   }
 

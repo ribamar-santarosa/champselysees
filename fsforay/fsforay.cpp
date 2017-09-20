@@ -265,7 +265,6 @@ class FSForayExecution : public ProjectExecution {
   {
     this->persist_args(argc, argv);
     auto super_result = (call_super_main? ProjectExecution::main(argc, argv) : 0 );
-    // this->cerr_container<default_string, default_container>(args);
     auto result = super_result;
     return result;
   }

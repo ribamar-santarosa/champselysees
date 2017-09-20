@@ -98,6 +98,19 @@ class ProjectExecution {
 
   /* concrete functions section */
 
+  virtual int persist_args(int argc, char** argv)
+  /*
+    store argc and argv in this class, without consuming them.
+    not really "persist"  as in disc.
+  */
+  {
+    this->argc = argc;
+    this->argv = argv;
+    this->args = default_container<default_string>(argv + 1, argv + argc);
+    return 0;
+  }
+
+
   virtual int cerr_arguments(bool use_cerr=false)
   /*
     output parameters processed in args to cerr (by default, simpler
@@ -121,18 +134,6 @@ class ProjectExecution {
     return 0;
   }
 
-
-  virtual int persist_args(int argc, char** argv)
-  /*
-    store argc and argv in this class, without consuming them.
-    not really "persist"  as in disc.
-  */
-  {
-    this->argc = argc;
-    this->argv = argv;
-    this->args = default_container<default_string>(argv + 1, argv + argc);
-    return 0;
-  }
 
   virtual int main(int argc, char** argv)
   {

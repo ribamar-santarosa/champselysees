@@ -111,6 +111,7 @@ class ProjectExecution {
   }
 
 
+  /* concrete functions section  -- functions for testing the class itself. */
   virtual int cerr_arguments(bool use_cerr=false)
   /*
     output parameters processed in args to cerr (by default, simpler

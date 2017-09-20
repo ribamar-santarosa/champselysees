@@ -133,14 +133,14 @@ class ProjectExecution {
 };
 
 
-class ForayExecution : public ProjectExecution {
+class FSForayExecution : public ProjectExecution {
   public:
   virtual int main(int argc, char** argv)
   {
     return ProjectExecution::main(argc, argv);
   }
 
-  virtual ~ForayExecution()
+  virtual ~FSForayExecution()
   {
     std::cerr << __FUNCTION__ << std::endl;
   }
@@ -151,7 +151,7 @@ class ForayExecution : public ProjectExecution {
 int main(int argc, char** argv)
 {
   auto pe = std::make_shared<ProjectExecution>();
-  auto fe = std::make_shared<ForayExecution>();
+  auto fe = std::make_shared<FSForayExecution>();
   auto fe_result = pe->main(argc, argv);
   auto pe_result = ( argc > 0 ? pe->main(argc -1, argv) : -1 );
   auto result = fe_result + pe_result;

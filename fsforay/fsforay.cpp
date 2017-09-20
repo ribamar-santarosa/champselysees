@@ -195,10 +195,18 @@ class ProjectExecution {
 class FSForayExecution : public ProjectExecution {
   /* depends on filesystem */
   protected:
-  // default construction yields past-the-end:
+  /* default construction yields past-the-end: */
   filesystem_dep::directory_iterator end_directory_iterator; 
 
   public:
+
+  /*
+  templates section.
+
+  templates can't be virtual. therefore no full polymorphism/Liskov principle
+  not achievable with these functions.
+  */
+
 
   /* concrete functions */
   virtual default_container<default_string>  subpaths(const default_path &path

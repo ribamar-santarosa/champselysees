@@ -110,6 +110,11 @@ class ProjectExecution {
   }
 
 
+  virtual ~ProjectExecution()
+  {
+    std::cerr << __FUNCTION__ << std::endl;
+  }
+
   /* concrete functions section  -- functions for testing the class itself. */
 
   virtual int cerr_arguments(bool use_cerr=false)
@@ -183,10 +188,6 @@ class ProjectExecution {
     return 0;
   }
 
-  virtual ~ProjectExecution()
-  {
-    std::cerr << __FUNCTION__ << std::endl;
-  }
 };
 
 
@@ -196,16 +197,10 @@ class FSForayExecution : public ProjectExecution {
   protected:
   // default construction yields past-the-end:
   filesystem_dep::directory_iterator end_directory_iterator; 
+
   public:
-  virtual int main(int argc, char** argv, default_bool call_super_main=false)
-  {
-    cerr_something<default_string>("will call super main");
-    auto super_result = (call_super_main? ProjectExecution::main(argc, argv) : 0 );
-    auto result = super_result;
-    return result;
-  }
 
-
+  /* concrete functions */
   virtual default_container<default_string>  subpaths(const default_path &path
       , default_int max_level =  10000 // ideally find out the "deepest level"
     )
@@ -253,6 +248,20 @@ class FSForayExecution : public ProjectExecution {
   {
     std::cerr << __FUNCTION__ << std::endl;
   }
+
+
+  /* concrete functions -- testing */
+
+
+  virtual int main(int argc, char** argv, default_bool call_super_main=false)
+  {
+    cerr_something<default_string>("will call super main");
+    auto super_result = (call_super_main? ProjectExecution::main(argc, argv) : 0 );
+    // this->cerr_container<default_string, default_container>(args);
+    auto result = super_result;
+    return result;
+  }
+
 
 };
 

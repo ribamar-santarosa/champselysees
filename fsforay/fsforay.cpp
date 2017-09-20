@@ -174,7 +174,10 @@ class FSForayExecution : public ProjectExecution {
   public:
   virtual int main(int argc, char** argv)
   {
-    return ProjectExecution::main(argc, argv);
+    cerr_something<default_string>("will call super main");
+    auto super_result = ProjectExecution::main(argc, argv);
+    auto result = super_result;
+    return result;
   }
 
 
@@ -233,8 +236,8 @@ int main(int argc, char** argv)
 {
   auto pe = std::make_shared<ProjectExecution>();
   auto fe = std::make_shared<FSForayExecution>();
-  auto fe_result = pe->main(argc, argv);
   auto pe_result = ( argc > 0 ? pe->main(argc -1, argv) : -1 );
+  auto fe_result = fe->main(argc, argv);
   auto result = fe_result + pe_result;
   return result;
 }

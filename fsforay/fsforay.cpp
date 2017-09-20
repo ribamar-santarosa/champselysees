@@ -128,13 +128,6 @@ class ProjectExecution {
 
 
 
-namespace filesystem_dep = boost::filesystem; // tomorrow boost:: will be replaced by std::
-#define default_container std::deque // later a better approach can be defined
-typedef std::string default_string;
-typedef int  default_int;
-typedef filesystem_dep::path default_path;
-
-
 class FSForayExecution : public ProjectExecution {
   /* depends on filesystem */
   protected:

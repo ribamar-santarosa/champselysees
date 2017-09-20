@@ -263,7 +263,7 @@ class FSForayExecution : public ProjectExecution {
 
   virtual int main(int argc, char** argv, default_bool call_super_main=false)
   {
-    cerr_something<default_string>("will call super main");
+    this->persist_args(argc, argv);
     auto super_result = (call_super_main? ProjectExecution::main(argc, argv) : 0 );
     // this->cerr_container<default_string, default_container>(args);
     auto result = super_result;

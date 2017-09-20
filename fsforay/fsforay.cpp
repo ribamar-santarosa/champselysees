@@ -131,6 +131,8 @@ class ProjectExecution {
 class FSForayExecution : public ProjectExecution {
   /* depends on filesystem */
   protected:
+  // default construction yields past-the-end:
+  filesystem_dep::directory_iterator end_directory_iterator; 
   public:
   virtual int main(int argc, char** argv)
   {
@@ -139,22 +141,45 @@ class FSForayExecution : public ProjectExecution {
 
 
   virtual default_container<default_string>  subpaths(const default_path &path
-      , default_int max_level =  0
+      , default_int max_level =  10000 // ideally find out the "deepest level"
     )
   /* note: filesystem_dep::path dependent. */
+  /* runs deep by max_level % current_level levels. */
   {
      default_container<default_string>  result;
+     if (filesystem_dep::exists( path )) {
+       auto path_as_string = path.string();
+       result.push_back(path_as_string);
+       if ( max_level == 0 ) {
+         // level limited  or max level reached, finishing it up.
+       }
+       else {
+         /* unfortunately, no directory_iterator::end(), like ::path does
+          fall back to old fashioned way of iterating: */
+         filesystem_dep::directory_iterator path_directory_iterator(path_as_string); 
+         for( ; path_directory_iterator !=  end_directory_iterator ; ++path_directory_iterator) {
+           auto current_path = path_directory_iterator->path();
+           //result.push_back(subpaths(current_path, max_level - 1));
+           auto subresult = (subpaths(current_path, max_level - 1));
+           result.insert(result.end(), subresult.begin(), subresult.end());
+         }
+       }
+     }
+     else {
+     }
      return result;
   }
 
 
-  virtual default_container<default_string>  subpaths(const default_string &path
-      , default_int max_level =  0
+  virtual default_container<default_string>  subpaths(const default_string &path_as_str
+      , default_int max_level =  10000 // ideally find out the "deepest level"
     )
   {
      /* note: filesystem_dep::path dependent. */
+     /* in this current implementation, this version is uneeded -- it's possible to convert directly from default_string to default_path. */
      default_container<default_string>  result;
-     default_path path(default_string);
+     default_path path_converted(path_as_str);
+     result = subpaths(path_converted, max_level);
      return result;
   }
 

@@ -139,10 +139,13 @@ class ProjectExecution {
   virtual int test_pop_front()
   {
     auto result = 0;
+    /* pop first argument */
     auto first_argument = this->pop_front<default_string, default_container>(args);
     cerr_something<default_string>("first_argument>");
     cerr_something<default_string>(first_argument);
     cerr_something<default_string>("first_argument<");
+
+    /* pop last argument */
     cerr_something<default_string>("last_argument>");
     default_string&(default_container<default_string, std::allocator<default_string> >::*front_function)() =
       &default_container<default_string, std::allocator<default_string> >::back;
@@ -153,6 +156,19 @@ class ProjectExecution {
     auto last_argument = this->pop_front<default_string, default_container>(args, front_function, pop_front_function, empty_function);
     cerr_something<default_string>(last_argument);
     cerr_something<default_string>("last_argument<");
+
+    /* pop frist argument again -- it must be the second argument, if enough provided, or empty */
+    auto first_argument_again = this->pop_front<default_string, default_container>(args);
+    cerr_something<default_string>("first_argument_again>");
+    cerr_something<default_string>(first_argument_again);
+    cerr_something<default_string>("first_argument_again<");
+
+    /* pop frist argument again -- it must be the third argument, if enough provided, or empty */
+    auto first_argument_again_and_again = this->pop_front<default_string, default_container>(args);
+    cerr_something<default_string>("first_argument_again_and_again>");
+    cerr_something<default_string>(first_argument_again_and_again);
+    cerr_something<default_string>("first_argument_again_again<");
+
     return result;
   }
 

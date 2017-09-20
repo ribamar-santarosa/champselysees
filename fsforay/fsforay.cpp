@@ -67,7 +67,7 @@ class ProjectExecution {
     )
   /* 
    this function implements a fault-tolerant pop_front for Container<ElementsType> > (works even if containers are empty) 
-   if ::back, ::pop_back are given instead, the function becomes  a fault-tolerant pop_back
+   if ::back, ::pop_back are given instead, the function becomes  a fault-tolerant pop_back -- see test_pop_front for example
   */
   {
     ElementsType result;

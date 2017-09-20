@@ -60,7 +60,7 @@ class ProjectExecution {
   template <class ElementsType, template <class , class > class Container>
   ElementsType  pop_front
     (
-      Container<ElementsType, std::allocator<ElementsType> > container
+      Container<ElementsType, std::allocator<ElementsType> > &container
       , ElementsType&(Container<ElementsType, std::allocator<ElementsType> >::*front_function)() = &Container<ElementsType, std::allocator<ElementsType> >::front
       , void(Container<ElementsType, std::allocator<ElementsType> >::*pop_front_function)() = &Container<ElementsType, std::allocator<ElementsType> >::pop_front
       , bool(Container<ElementsType, std::allocator<ElementsType> >::*empty_function)() const noexcept(true) = &Container<ElementsType, std::allocator<ElementsType> >::empty
@@ -73,7 +73,6 @@ class ProjectExecution {
     ElementsType result;
     if (! (container.*empty_function)() ) {
       result =  (container.*front_function)();
-      container.pop_front();
       (container.*pop_front_function)();
     }
     return result;

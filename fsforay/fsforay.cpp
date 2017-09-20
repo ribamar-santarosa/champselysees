@@ -133,11 +133,38 @@ class ProjectExecution {
 };
 
 
+
+namespace filesystem_dep = boost::filesystem; // tomorrow boost:: will be replaced by std::
+#define default_container std::deque // later a better approach can be defined
+typedef std::string default_string;
+typedef int  default_int;
+typedef filesystem_dep::path default_path;
+
+
 class FSForayExecution : public ProjectExecution {
+  /* depends on filesystem */
+  protected:
+  default_container<std:: string> s;
   public:
   virtual int main(int argc, char** argv)
   {
     return ProjectExecution::main(argc, argv);
+  }
+
+  virtual default_container<default_string>  subpaths(const default_path &path
+      , default_int max_level =  0
+    )
+  {
+     default_container<default_string>  result;
+     return result;
+  }
+
+  virtual default_container<default_string>  subpaths(const default_string &path
+      , default_int max_level =  0
+    )
+  {
+     default_container<default_string>  result;
+     return result;
   }
 
   virtual ~FSForayExecution()

@@ -197,10 +197,10 @@ class FSForayExecution : public ProjectExecution {
   // default construction yields past-the-end:
   filesystem_dep::directory_iterator end_directory_iterator; 
   public:
-  virtual int main(int argc, char** argv)
+  virtual int main(int argc, char** argv, default_bool call_super_main=false)
   {
     cerr_something<default_string>("will call super main");
-    auto super_result = ProjectExecution::main(argc, argv);
+    auto super_result = (call_super_main? ProjectExecution::main(argc, argv) : 0 );
     auto result = super_result;
     return result;
   }

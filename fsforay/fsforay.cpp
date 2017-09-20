@@ -5,7 +5,7 @@ class ProjectExecution {
   protected: // private -> failure for achieving Liskov principle
   int argc;
   char **argv;
-  std::vector<std::string> args;
+  default_container<default_string> args;
 
   public:
   /*
@@ -82,14 +82,14 @@ class ProjectExecution {
   */
   {
     if (use_cerr) {
-      this->cerr_container<std::string, std::vector>(args);
+      this->cerr_container<default_string, default_container>(args);
     } else {
-      auto l = [this] (std::string s) { 
-        // unfortunately I can't use auto, must explicitly say std::string, maybe in C++17:
-        this->ostream_something<std::string>(s);
+      auto l = [this] (default_string s) { 
+        // unfortunately I can't use auto, must explicitly say default_string, maybe in C++17:
+        this->ostream_something<default_string>(s);
       };
       // TODO: cout_something = l; // of course won't compile, because i am capturing this. how to do it?
-      this->cerr_container<std::string, std::vector>(args
+      this->cerr_container<default_string, default_container>(args
         , true
         , &ProjectExecution::cerr_something  // TODO: should be cout_something
         , &ProjectExecution::cerr_something
@@ -107,7 +107,7 @@ class ProjectExecution {
   {
     this->argc = argc;
     this->argv = argv;
-    this->args = std::vector<std::string>(argv + 1, argv + argc);
+    this->args = default_container<default_string>(argv + 1, argv + argc);
     return 0;
   }
 

@@ -144,6 +144,16 @@ class ProjectExecution {
     cerr_something<default_string>("first_argument>");
     cerr_something<default_string>(first_argument);
     cerr_something<default_string>("first_argument<");
+    cerr_something<default_string>("last_argument>");
+    default_string&(default_container<default_string, std::allocator<default_string> >::*front_function)() =
+      &default_container<default_string, std::allocator<default_string> >::back;
+    void(default_container<default_string, std::allocator<default_string> >::*pop_front_function)() =
+      &default_container<default_string, std::allocator<default_string> >::pop_back;
+    bool(default_container<default_string, std::allocator<default_string> >::*empty_function)() const noexcept(true) =
+      &default_container<default_string, std::allocator<default_string> >::empty;
+    auto last_argument = this->pop_front<default_string, default_container>(args, front_function, pop_front_function, empty_function);
+    cerr_something<default_string>(last_argument);
+    cerr_something<default_string>("last_argument<");
     return result;
   }
 

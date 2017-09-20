@@ -137,10 +137,22 @@ class ProjectExecution {
   }
 
 
+  virtual int test_pop_front()
+  {
+    auto result = 0;
+    auto first_argument = this->pop_front<default_string, default_container>(args);
+    cerr_something<default_string>("first_argument>");
+    cerr_something<default_string>(first_argument);
+    cerr_something<default_string>("first_argument<");
+    return result;
+  }
+
+
   virtual int main(int argc, char** argv)
   {
     this->persist_args(argc, argv);
     this->cerr_arguments();
+    this->test_pop_front();
     /* just override main when deriving.
        call this one with ProjectExecution::main(argc, argv) */
     return 0;

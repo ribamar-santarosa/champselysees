@@ -57,6 +57,29 @@ class ProjectExecution {
   }
 
 
+  template <class ElementsType, template <class , class > class Container>
+  ElementsType  pop_front
+    (
+      Container<ElementsType, std::allocator<ElementsType> > container
+      , ElementsType&(Container<ElementsType, std::allocator<ElementsType> >::*front_function)() = &Container<ElementsType, std::allocator<ElementsType> >::front
+      , void(Container<ElementsType, std::allocator<ElementsType> >::*pop_front_function)() = &Container<ElementsType, std::allocator<ElementsType> >::pop_front
+      , bool(Container<ElementsType, std::allocator<ElementsType> >::*empty_function)() const noexcept(true) = &Container<ElementsType, std::allocator<ElementsType> >::empty
+    )
+  /* 
+   this function implements a fault-tolerant pop_front for Container<ElementsType> > (works even if containers are empty) 
+   if ::back, ::pop_back are given instead, the function becomes  a fault-tolerant pop_back
+  */
+  {
+    ElementsType result;
+    if (! (container.*empty_function)() ) {
+      result =  (container.*front_function)();
+      container.pop_front();
+      (container.*pop_front_function)();
+    }
+    return result;
+  }
+
+
   auto cerr_function_name()
   /* note:
      it still  won't print the callee name, now still required copy and paste

@@ -151,7 +151,7 @@ int main(int argc, char** argv)
   auto pe = std::make_shared<ProjectExecution>();
   auto fe = std::make_shared<ForayExecution>();
   auto fe_result = pe->main(argc, argv);
-  auto pe_result = pe->main(argc -1, argv);
+  auto pe_result = ( argc > 0 ? pe->main(argc -1, argv) : -1 );
   auto result = fe_result + pe_result;
   return result;
 }

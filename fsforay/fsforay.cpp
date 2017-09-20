@@ -270,11 +270,31 @@ class FSForayExecution : public ProjectExecution {
   /* concrete functions -- testing */
 
 
+  virtual int test_subpaths()
+  /*
+    does a  "find"  on each of the arguments in the 
+  */
+  {
+    cerr_something<default_string>( __PRETTY_FUNCTION__);
+    auto result = 0;
+    cerr_something<default_string>("args>");
+    for ( auto &item : args) {  
+      cerr_something<default_string>(item);
+      auto subpaths_results = this->subpaths(item);
+      cerr_something<default_string>("subpaths_results>");
+      this->cerr_container<default_string, default_container>(subpaths_results);
+      cerr_something<default_string>("subpaths_results<");
+    }
+    cerr_something<default_string>("args<");
+    return result;
+  }
+
+
   virtual int main(int argc, char** argv, default_bool call_super_main=false)
   {
     this->persist_args(argc, argv);
     auto super_result = (call_super_main? ProjectExecution::main(argc, argv) : 0 );
-    auto result = super_result;
+    auto result = super_result + test_subpaths();
     return result;
   }
 

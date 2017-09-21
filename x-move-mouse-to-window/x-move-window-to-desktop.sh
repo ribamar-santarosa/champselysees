@@ -1,2 +1,5 @@
 #/bin/bash
-xdotool set_desktop_for_window  $(xdotool  search  "$1" | head -1 ) 10485869 3
+# usage: ./x-move-window-to-desktop.sh gmail wmaker_desktop_number
+for w in $(xdotool  search  "$1" )
+ do xdotool set_desktop_for_window  $w  $(expr $2 - 1)
+done

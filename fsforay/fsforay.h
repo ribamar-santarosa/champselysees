@@ -8,6 +8,7 @@
 #include "boost/filesystem.hpp"
 #include "boost/algorithm/string.hpp"
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string/predicate.hpp>
 #include <boost/range/combine.hpp>
 
 
@@ -20,6 +21,7 @@ namespace filesystem_dep = boost::filesystem; // tomorrow boost:: will be replac
  so I define as "manymap" instead
 */
 #define default_ordered_manymap std::multimap
+#define default_map std::map
 typedef std::string default_string;
 typedef int  default_int;
 typedef bool default_bool;

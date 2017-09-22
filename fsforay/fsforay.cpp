@@ -286,6 +286,218 @@ class FSForayExecution : public ProjectExecution {
   }
 
 
+  virtual default_int remove_file(const default_string &path)
+  /*
+    fault tolerant version to filesystem_dep::remove()
+  */
+  {
+    default_int result = 0;
+    if(filesystem_dep::exists(path)) filesystem_dep::remove(path);
+    return result;
+  }
+
+
+  virtual default_string write_file(const default_string &path
+      , const default_string &contents
+      , bool previous_remove=true
+      , default_string return_text_if_non_open="FAILURE"
+    )
+  {
+    /*
+     fault tolerant - writes files either if exists or not.
+     however, if previous_remove=false, the write may fail (TODO: when?)
+     reads the contents of the file afterwards and returns it as receipt.
+     */
+    auto dirname = filesystem_dep::path(path).parent_path();
+    filesystem_dep::create_directories(dirname);
+    if(previous_remove) this->remove_file(path);
+    std::ofstream file_stream(path);
+    if (!file_stream.is_open()) {
+      return return_text_if_non_open;
+    }
+    file_stream << contents;
+    file_stream.close();
+    auto result = this->get_existing_file_contents(path);
+    return result;
+  }
+
+
+  virtual default_string get_existing_file_contents(const default_string &path)
+  {
+    /*
+      note: no fault tolerance. call get_file_contents instead.
+    */
+    std::ifstream file_stream(path);
+    std::stringstream string_stream;
+    string_stream << file_stream.rdbuf();
+    auto result = string_stream.str();
+    file_stream.close();
+    return result;
+  }
+
+
+  virtual default_string get_file_contents(const default_string &path)
+  {
+    /*
+      fault tolerant (as any function not otherwise stated)
+      => return empty string if file does not exist
+    */
+    bool return_empty_string = (! filesystem_dep::exists(path )) || filesystem_dep::is_directory(path);
+    auto result = (return_empty_string ?  "" : get_existing_file_contents(path) );
+    return result;
+  }
+
+
+  virtual default_string get_derived_file_contents(const default_string &original_path
+      , const default_ordered_manymap<default_string, default_string> &deriving_rules
+      , bool rules_are_regex = false
+    )
+  /*
+     gets a copy of file contents, applies the rules, and then returns a default_string.
+     note that the original file is untouched.
+   */
+  {
+    default_string result;
+    auto file_contents = get_file_contents(original_path);
+    result = derive_string(file_contents, deriving_rules, rules_are_regex);
+    return result;
+  }
+
+
+  virtual default_string derive_file_contents(const default_string &original_path
+      , const default_string &destination_path
+      , const default_ordered_manymap<default_string, default_string> &deriving_rules
+      , bool rules_are_regex = false
+    )
+  /*
+     derive the contents of the file at original_path with the &deriving_rules,
+     and then writes the derived contents to  &destination_path.
+   */
+  {
+    default_string result("");
+    if (filesystem_dep::is_directory(original_path) ){
+      filesystem_dep::create_directories(destination_path);
+    } else {
+      auto derived_file_contents =  get_derived_file_contents(original_path
+          , deriving_rules
+          , rules_are_regex
+        );
+      cerr_something<default_string>("debug>");
+      result = write_file(destination_path, derived_file_contents);
+      cerr_something<default_string>("original_path>");
+      cerr_something<default_string>(original_path);
+      cerr_something<default_string>("original_path<");
+      cerr_something<default_string>("destination_path>");
+      cerr_something<default_string>(destination_path);
+      cerr_something<default_string>("destination_path<");
+      cerr_something<default_string>("derived_file_contents.size()>");
+      cerr_something<default_string>(std::to_string(derived_file_contents.size()));
+      cerr_something<default_string>("derived_file_contents.size()<");
+      cerr_something<default_string>("derived_file_contents>");
+      cerr_something<default_string>(derived_file_contents);
+      cerr_something<default_string>("derived_file_contents<");
+      cerr_something<default_string>("result>");
+      cerr_something<default_string>(result);
+      cerr_something<default_string>("result<");
+      cerr_something<default_string>("debug<");
+/*
+*/
+    }
+    return result;
+  }
+
+
+  virtual default_string derive_file(const default_string &original_path
+      , const default_ordered_manymap<default_string, default_string> &deriving_rules
+      , bool rules_are_regex = false
+      , const default_string &destination_path_prefix = ""
+    )
+  /*
+   derive both file path and contents given original_path. 
+   append destination_path_prefix before saving them. TODO
+  */
+  {
+    default_string derived_path = derive_string(original_path, deriving_rules, rules_are_regex);
+    auto result = derive_file_contents(original_path
+        , (destination_path_prefix + derived_path)
+        , deriving_rules
+        , rules_are_regex
+      );
+    return result;
+  }
+
+
+  virtual default_string derive_file(const default_string &original_path
+      , const default_ordered_manymap<default_string, default_string> &deriving_rules
+      , const default_string &destination_path_prefix
+      , bool rules_are_regex = false
+    )
+  /*
+    same as derive_files before, just changing the order of parameters.
+  */
+  {
+    return this->derive_file(original_path
+        , deriving_rules
+        , rules_are_regex
+        , destination_path_prefix
+      );
+  }
+
+
+  virtual default_container<default_string> derive_files(const default_container<default_string> &original_paths
+      , const default_ordered_manymap<default_string , default_string> &deriving_rules
+      , bool rules_are_regex = false
+      , const default_string &destination_path_prefix = ""
+    )
+  /*
+    same as derive_file, but takes a container of &original_paths (and returns a container of results)
+
+    note that the container may contain 2 or more paths that will be squashed into one, after applying the rules. the
+    natural order of iteration will make the last one overwrite the others.
+
+    this function is useful for forking the files at original_paths into a destination_path_prefix. it will 
+    recreate all the files containing strings in the first column of deriving_rules, with their respective 
+    replacements (second column), at the &destination_path_prefix.
+
+    a limitation of this function is that it is really for data duplication -- not data sharing between the elements
+    in deriving_rules: if in original_paths there is a file supposed to be shared between
+    the elements in the deriving_rules (e.g, the projects in the deriving_rules), the older project will be overwrite.
+
+    so, in the case of forking paths under the same project, it is a good idea to use this function
+    with &destination_path_prefix = "/tmp", eg, and check with diff if no important contents were removed afterwards.
+
+    TODO: create a generic pattern for any function.
+  */
+  {
+    default_container<default_string> result;
+    for(auto &item: original_paths) {
+      result.push_back(this->derive_file(item
+          , deriving_rules
+          , rules_are_regex
+          , destination_path_prefix
+        ));
+
+    }
+    return result;
+  }
+
+  virtual default_container<default_string> derive_files(const default_container<default_string> &original_paths
+      , const default_ordered_manymap<default_string, default_string> &deriving_rules
+      , const default_string &destination_path_prefix
+      , bool rules_are_regex = false
+    )
+  /*
+    same as derive_files before, just changing the order of parameters.
+  */
+  {
+    return this->derive_files(original_paths
+        , deriving_rules
+        , rules_are_regex
+        , destination_path_prefix
+      );
+  }
+
+
   virtual ~FSForayExecution()
   {
     std::cerr << __FUNCTION__ << std::endl;

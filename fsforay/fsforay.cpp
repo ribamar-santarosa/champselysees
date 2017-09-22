@@ -318,10 +318,10 @@ class FSForayExecution : public ProjectExecution {
     cerr_something<default_string>("args>");
     for ( auto &item : args) {  
       cerr_something<default_string>(item);
-      auto subpaths_results = this->subpaths(item);
-      cerr_something<default_string>("subpaths_results>");
-      this->cerr_container<default_string, default_container>(subpaths_results);
-      cerr_something<default_string>("subpaths_results<");
+      auto local_results = this->subpaths(item);
+      cerr_something<default_string>("local_results>");
+      this->cerr_container<default_string, default_container>(local_results);
+      cerr_something<default_string>("local_results<");
     }
     cerr_something<default_string>("args<");
     return result;

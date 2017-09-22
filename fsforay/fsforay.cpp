@@ -6,6 +6,7 @@ class ProjectExecution {
   int argc;
   char **argv;
   default_container<default_string> args;
+  default_map<default_string, default_container<default_string> > args_structured;
 
   public:
   /*
@@ -110,6 +111,39 @@ class ProjectExecution {
   }
 
 
+  virtual default_map<default_string, default_container<default_string> > struct_container
+    ( 
+      default_container<default_string> container
+    )
+  /*
+    stores container in a map of "--option" => container(value), and returns it.
+    note: gets a copy of struct_container for simplyfing implementation. #optimization_possible
+  */
+  {
+    default_string current_option("");
+    default_map<default_string, default_container<default_string> > container_structured;
+    while (!container.empty()) {
+      auto element = this->pop_front<default_string, default_container>(args);
+      if(boost::starts_with(element, "--")) {
+        current_option = element;
+      } else {
+        container_structured[current_option].push_back(element);
+      }
+    }
+    return container_structured;
+  }
+
+
+  virtual default_map<default_string, default_container<default_string> > struct_args()
+  /*
+    stores container in args_structured (a map of "--option" => container(value)), and returns it.
+  */
+  {
+    this->args_structured = struct_container(this->args);
+    return args_structured;
+  }
+
+
   virtual ~ProjectExecution()
   {
     std::cerr << __FUNCTION__ << std::endl;
@@ -178,10 +212,34 @@ class ProjectExecution {
   }
 
 
+  virtual int test_struct_args()
+  {
+    /* 
+     */
+    cerr_something<default_string>( __PRETTY_FUNCTION__);
+    auto result = 0;
+    auto args_structured = this->struct_args();
+
+    cerr_something<default_string>("args_structured>");
+    for (auto &item : args_structured) {
+      cerr_something<default_string>("option>");
+      cerr_something<default_string>(item.first);
+      cerr_something<default_string>("option<");
+      auto  local_results = item.second;
+      cerr_something<default_string>("local_results>");
+      this->cerr_container<default_string, default_container>(local_results);
+      cerr_something<default_string>("local_results<");
+    }
+    cerr_something<default_string>("args_structured<");
+    return result;
+  }
+
+
   virtual int main(int argc, char** argv)
   {
     this->persist_args(argc, argv);
     this->cerr_arguments();
+    this->test_struct_args();
     this->test_pop_front();
     /* just override main when deriving.
        call this one with ProjectExecution::main(argc, argv) */
@@ -599,7 +657,7 @@ int main(int argc, char** argv)
 {
   auto pe = std::make_shared<ProjectExecution>();
   auto fe = std::make_shared<FSForayExecution>();
-  auto pe_result = ( argc > 0 ? pe->main(argc -1, argv) : -1 );
+  auto pe_result = ( argc > 0 ? pe->main(argc -0, argv) : -1 );
   auto fe_result = fe->main(argc, argv);
   auto result = fe_result + pe_result;
   return result;

@@ -414,7 +414,7 @@ class FSForayExecution : public ProjectExecution {
     )
   /*
    derive both file path and contents given original_path. 
-   append destination_path_prefix before saving them. TODO
+   TODO: file permissions are not kept.
   */
   {
     default_string derived_path = derive_string(original_path, deriving_rules, rules_are_regex);

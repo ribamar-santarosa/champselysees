@@ -372,6 +372,7 @@ class FSForayExecution : public ProjectExecution {
   /*
      derive the contents of the file at original_path with the &deriving_rules,
      and then writes the derived contents to  &destination_path.
+   TODO: file permissions are not kept.
    */
   {
     default_string result("");
@@ -395,7 +396,6 @@ class FSForayExecution : public ProjectExecution {
     )
   /*
    derive both file path and contents given original_path. 
-   TODO: file permissions are not kept.
   */
   {
     default_string derived_path = derive_string(original_path, deriving_rules, rules_are_regex);

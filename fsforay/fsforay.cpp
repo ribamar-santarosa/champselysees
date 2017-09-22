@@ -382,26 +382,7 @@ class FSForayExecution : public ProjectExecution {
           , deriving_rules
           , rules_are_regex
         );
-      cerr_something<default_string>("debug>");
       result = write_file(destination_path, derived_file_contents);
-      cerr_something<default_string>("original_path>");
-      cerr_something<default_string>(original_path);
-      cerr_something<default_string>("original_path<");
-      cerr_something<default_string>("destination_path>");
-      cerr_something<default_string>(destination_path);
-      cerr_something<default_string>("destination_path<");
-      cerr_something<default_string>("derived_file_contents.size()>");
-      cerr_something<default_string>(std::to_string(derived_file_contents.size()));
-      cerr_something<default_string>("derived_file_contents.size()<");
-      cerr_something<default_string>("derived_file_contents>");
-      cerr_something<default_string>(derived_file_contents);
-      cerr_something<default_string>("derived_file_contents<");
-      cerr_something<default_string>("result>");
-      cerr_something<default_string>(result);
-      cerr_something<default_string>("result<");
-      cerr_something<default_string>("debug<");
-/*
-*/
     }
     return result;
   }

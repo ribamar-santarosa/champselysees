@@ -507,7 +507,6 @@ class FSForayExecution : public ProjectExecution {
     return result;
   }
 
-
   virtual int test_derive_strings()
   {
     /* 

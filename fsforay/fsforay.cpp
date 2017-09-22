@@ -269,20 +269,6 @@ class FSForayExecution : public ProjectExecution {
     {
       if(rules_are_regex) {
         result = std::regex_replace(result, std::regex(item.first), item.second);
-      } else {
-        result = boost::replace_all_copy(result, item.first, item.second);
-        if (boost::contains(result, item.first)) {
-          cerr_something<default_string>("programming_error>");
-          cerr_something<default_string>("at>");
-          cerr_something<default_string>( __PRETTY_FUNCTION__);
-          cerr_something<default_string>("this>");
-          cerr_something<default_string>(result);
-          cerr_something<default_string>("this<");
-          cerr_something<default_string>("contains>");
-          cerr_something<default_string>(item.first);
-          cerr_something<default_string>("contains<");
-          cerr_something<default_string>("programming_error<<");
-        }
       }
     }
     return result;

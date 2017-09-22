@@ -328,11 +328,44 @@ class FSForayExecution : public ProjectExecution {
   }
 
 
+  virtual int test_derive_strings()
+  {
+    /* 
+       will derive strings given in args havin project1name to project2name, 
+       using similar patterns.
+     */
+    cerr_something<default_string>( __PRETTY_FUNCTION__);
+    auto result = 0;
+    default_ordered_manymap<default_string, default_string> rules;
+    rules.insert(std::make_pair("project1Name", "project2Name"));
+    rules.insert(std::make_pair("project1name", "project2name"));
+    rules.insert(std::make_pair("Project1Name", "Project1Name"));
+    rules.insert(std::make_pair("Project1name", "Project1name"));
+    rules.insert(std::make_pair("project1_name", "project2_name"));
+
+    cerr_something<default_string>("args>");
+    for ( auto &item : args) {  
+      cerr_something<default_string>(item);
+      /* dummy container -- just preserving the pattern */
+      default_container<default_string> item_container;
+      item_container.push_back(item);
+      auto local_results = this->derive_strings(item_container, rules, false);
+      cerr_something<default_string>("local_results>");
+      this->cerr_container<default_string, default_container>(local_results);
+      cerr_something<default_string>("local_results<");
+    }
+    cerr_something<default_string>("args<");
+    return result;
+  }
+
+
   virtual int main(int argc, char** argv, default_bool call_super_main=false)
   {
     this->persist_args(argc, argv);
     auto super_result = (call_super_main? ProjectExecution::main(argc, argv) : 0 );
-    auto result = super_result + test_subpaths();
+    auto result = super_result;
+    result += test_subpaths();
+    result += test_derive_strings();
     return result;
   }
 

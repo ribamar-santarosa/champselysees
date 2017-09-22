@@ -558,6 +558,48 @@ class FSForayExecution : public ProjectExecution {
   }
 
 
+  virtual int test_derive_files()
+  {
+    /* 
+       will fork the paths given in args having project1name to project2name, 
+       using similar patterns.
+       TODO: offer an interface to read the rules. Right now this is only
+       useful by hardcoding this function with the desired rules.
+     */
+    cerr_something<default_string>( __PRETTY_FUNCTION__);
+    auto result = 0;
+    default_ordered_manymap<default_string, default_string> rules;
+
+    rules.insert(std::make_pair("project1Name", "project2Name"));
+    rules.insert(std::make_pair("project1name", "project2name"));
+    rules.insert(std::make_pair("Project1Name", "Project1Name"));
+    rules.insert(std::make_pair("Project1name", "Project1name"));
+    rules.insert(std::make_pair("project1_name", "project2_name"));
+
+    cerr_something<default_string>("args_subpaths>");
+    for ( auto &item : args) {  
+      cerr_something<default_string>("arg>");
+      cerr_something<default_string>(item);
+      cerr_something<default_string>("arg<");
+      auto arg_subpaths = this->subpaths(item);
+      auto derived_files = this->derive_files(arg_subpaths, rules, default_string("/tmp"), false);
+      default_container<default_string> local_results;
+      for (auto inner1_item: boost::combine(arg_subpaths, derived_files)) {
+        default_string arg_subpath;
+        default_string derived_file;
+        boost::tie(arg_subpath, derived_file) = inner1_item;
+        local_results.push_back(arg_subpath);
+        local_results.push_back(derived_file);
+      }
+      cerr_something<default_string>("local_results>");
+      this->cerr_container<default_string, default_container>(local_results);
+      cerr_something<default_string>("local_results<");
+    }
+    cerr_something<default_string>("args_subpaths<");
+    return result;
+  }
+
+
   virtual int main(int argc, char** argv, default_bool call_super_main=false)
   {
     this->persist_args(argc, argv);
@@ -565,6 +607,7 @@ class FSForayExecution : public ProjectExecution {
     auto result = super_result;
     result += test_subpaths();
     result += test_derive_strings();
+    result += test_derive_files();
     return result;
   }
 

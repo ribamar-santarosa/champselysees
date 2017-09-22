@@ -4,8 +4,11 @@
 #include <memory>
 #include <regex>
 #include <map>
+#include <fstream>
 #include "boost/filesystem.hpp"
+#include "boost/algorithm/string.hpp"
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/range/combine.hpp>
 
 
 namespace filesystem_dep = boost::filesystem; // tomorrow boost:: will be replaced by std::

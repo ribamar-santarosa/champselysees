@@ -273,17 +273,6 @@ class FSForayExecution : public ProjectExecution {
       } else {
         result = boost::replace_all_copy(s, item.first, item.second);
       }
-      /*
-      if(s != result) {
-
-        cerr_something<default_string>("string changed>");
-        cerr_something<default_string>("item.first>");
-        cerr_something<default_string>(item.first);
-        cerr_something<default_string>("item.first<");
-        cerr_something<default_string>(item.second);
-        cerr_something<default_string>("string changed<<");
-      }
-      */
     }
     return result;
   }

@@ -261,6 +261,44 @@ class FSForayExecution : public ProjectExecution {
      return result;
   }
 
+
+  virtual default_string derive_string(const default_string &s, const default_ordered_manymap<default_string, default_string> &deriving_rules, bool rules_are_regex = false )
+  {
+    default_string result;
+    for (auto &item : deriving_rules)
+    {
+      result = s;
+      if(rules_are_regex) {
+        result = std::regex_replace(s, std::regex(item.first), item.second);
+      } else {
+        result = boost::replace_all_copy(s, item.first, item.second);
+      }
+      /*
+      if(s != result) {
+
+        cerr_something<default_string>("string changed>");
+        cerr_something<default_string>("item.first>");
+        cerr_something<default_string>(item.first);
+        cerr_something<default_string>("item.first<");
+        cerr_something<default_string>(item.second);
+        cerr_something<default_string>("string changed<<");
+      }
+      */
+    }
+    return result;
+  }
+
+  virtual default_container<default_string> derive_strings(const default_container<default_string> &strings, const default_ordered_manymap<default_string, default_string> &deriving_rules, bool rules_are_regex = false )
+  {
+    default_container<default_string> result;
+    for(auto &item: strings) {
+      result.push_back(derive_string(item, deriving_rules, rules_are_regex));
+
+    }
+    return result;
+  }
+
+
   virtual ~FSForayExecution()
   {
     std::cerr << __FUNCTION__ << std::endl;

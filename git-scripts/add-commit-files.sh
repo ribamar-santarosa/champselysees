@@ -9,10 +9,10 @@
 [[ -z "$files" ]] && read   -p "files:"  files
 [[ -z "$message" ]] && read   -p "Message for [$files]:"  message && delete_message="True"
 for file in $files
-  do echo preparing git commit -m \"$prefix: $file:  $message \"...
+  do echo preparing git commit -m \"${prefix}${file}:  $message \"...
   #  git add -p $file || git add $file # TODO: not working!!
   git add $git_opt $file
-  git commit -m "$prefix $file:  $message "
+  git commit -m "${prefix}${file}:  $message "
 done
 
 [[ ! -z "$delete_message" ]] && message=

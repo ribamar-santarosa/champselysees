@@ -6,19 +6,16 @@
 
 <title>class ProjectExecution - RDoc Documentation</title>
 
-<link href="./fonts.css" rel="stylesheet">
-<link href="./rdoc.css" rel="stylesheet">
-
 <script type="text/javascript">
   var rdoc_rel_prefix = "./";
 </script>
 
 <script src="./js/jquery.js"></script>
-<script src="./js/navigation.js"></script>
-<script src="./js/search_index.js"></script>
-<script src="./js/search.js"></script>
-<script src="./js/searcher.js"></script>
 <script src="./js/darkfish.js"></script>
+
+<link href="./css/fonts.css" rel="stylesheet">
+<link href="./css/rdoc.css" rel="stylesheet">
+
 
 
 <body id="top" role="document" class="class">
@@ -73,7 +70,11 @@
 
   <ul class="link-list" role="directory">
     
+    <li ><a href="#method-i-derive_file">#derive_file</a>
+    
     <li ><a href="#method-i-non_neutral_element">#non_neutral_element</a>
+    
+    <li ><a href="#method-i-replace-21">#replace!</a>
     
     <li ><a href="#method-i-unzip_slice_size_2">#unzip_slice_size_2</a>
     
@@ -90,6 +91,32 @@
 
   <section class="description">
     
+<p>instead of replacing a file, duplicate chunks having an entry.  supposed
+you have a file <a href="modules_txt.html">modules.txt</a>:</p>
+
+<p>MY_MODULE_1:</p>
+
+<p>myModule_1 is a special module. execute it by calling my_module_1 on your
+interface.</p>
+
+<p>MY_MODULE_3:</p>
+
+<p>myModule_3 is a special module. execute it by calling my_module_3 on your
+interface.</p>
+
+<pre class="ruby"><span class="ruby-identifier">probably</span> <span class="ruby-identifier">you</span> <span class="ruby-identifier">want</span> <span class="ruby-identifier">to</span> <span class="ruby-identifier">add</span> <span class="ruby-identifier">entries</span> <span class="ruby-identifier">to</span> <span class="ruby-identifier">my_module_2</span> <span class="ruby-identifier">too</span>, <span class="ruby-identifier">right?</span>
+</pre>
+
+<p>usage: ./derive_file.rb <a href="modules_txt.html">modules.txt</a>
+/dev/stdout “” my_module_1 my_module_2 myModule_1 myModule_2 MY_MODULE_1
+MY_MODULE_2  # outputs to /dev/stdout ./derive_file.rb “” /dev/stdout “” 
+my_module_1 my_module_2 myModule_1 myModule_2 MY_MODULE_1 MY_MODULE_2  #
+edit <a href="modules_txt.html">modules.txt</a> instead</p>
+
+<p>probably you want to fine tune the value  of regexes variable in the source
+code.  the contain which kind of lines should be grouped to the previous
+chunks (empty lines, comments, …)</p>
+
   </section>
 
   
@@ -111,6 +138,51 @@
        </header>
 
     
+      <div id="method-i-derive_file" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">derive_file</span><span
+            class="method-args">(args=ARGV)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="derive_file-source">
+            <pre><span class="ruby-comment"># File derive_file.rb, line 40</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">derive_file</span> <span class="ruby-identifier">args</span>=<span class="ruby-constant">ARGV</span>
+  <span class="ruby-identifier">infile</span>  = <span class="ruby-identifier">args</span>.<span class="ruby-identifier">shift</span>
+  <span class="ruby-identifier">outfile</span> = (<span class="ruby-identifier">non_neutral_element</span> [<span class="ruby-identifier">args</span>.<span class="ruby-identifier">shift</span>])  <span class="ruby-operator">||</span> <span class="ruby-identifier">infile</span>
+  <span class="ruby-identifier">regexes</span> = (<span class="ruby-identifier">non_neutral_element</span> [<span class="ruby-identifier">args</span>.<span class="ruby-identifier">shift</span>])  <span class="ruby-operator">||</span> [<span class="ruby-regexp">/^$/</span>, (<span class="ruby-constant">Regexp</span>.<span class="ruby-identifier">new</span> <span class="ruby-string">&#39;^#$&#39;</span>) ]
+  <span class="ruby-identifier">replacements</span> = <span class="ruby-constant">Hash</span>[<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>].<span class="ruby-identifier">to_a</span>
+  <span class="ruby-identifier">lines</span> =  <span class="ruby-constant">File</span>.<span class="ruby-identifier">readlines</span> <span class="ruby-identifier">infile</span>
+  <span class="ruby-identifier">last_chunck</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-identifier">line_chunks</span> = <span class="ruby-identifier">lines</span>.<span class="ruby-identifier">chunk</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">l</span><span class="ruby-operator">|</span> <span class="ruby-identifier">last_chunck</span> = (( <span class="ruby-identifier">last_chunck</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">regexes</span>.<span class="ruby-identifier">map</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">regex</span><span class="ruby-operator">|</span> (<span class="ruby-identifier">l</span>.<span class="ruby-identifier">index</span> <span class="ruby-identifier">regex</span>)}.<span class="ruby-identifier">any?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">replacements</span>.<span class="ruby-identifier">transpose</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">map</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">what</span><span class="ruby-operator">|</span> (<span class="ruby-identifier">l</span>.<span class="ruby-identifier">index</span> <span class="ruby-identifier">what</span>) }.<span class="ruby-identifier">any?</span> ) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-keyword">true</span> <span class="ruby-operator">||</span> <span class="ruby-keyword">false</span>) }.<span class="ruby-identifier">entries</span>
+
+  <span class="ruby-identifier">new_contents</span> = <span class="ruby-identifier">line_chunks</span>.<span class="ruby-identifier">map</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">line_chunck</span><span class="ruby-operator">|</span>  <span class="ruby-identifier">derive</span>, <span class="ruby-identifier">_lines</span> = <span class="ruby-identifier">line_chunck</span> ;  <span class="ruby-identifier">derive</span> <span class="ruby-operator">&amp;&amp;</span> ( <span class="ruby-identifier">_lines</span>.<span class="ruby-identifier">concat</span> ( <span class="ruby-identifier">_lines</span>.<span class="ruby-identifier">map</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">_l</span><span class="ruby-operator">|</span> (<span class="ruby-identifier">replace!</span> <span class="ruby-identifier">_l</span>.<span class="ruby-identifier">clone</span>, <span class="ruby-identifier">replacements</span>)  }) ) <span class="ruby-operator">||</span> <span class="ruby-identifier">_lines</span> }
+
+
+  <span class="ruby-constant">File</span>.<span class="ruby-identifier">write</span> <span class="ruby-identifier">outfile</span>, <span class="ruby-identifier">new_contents</span>.<span class="ruby-identifier">join</span>
+
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
       <div id="method-i-non_neutral_element" class="method-detail ">
         
         <div class="method-heading">
@@ -130,7 +202,7 @@
 
           
           <div class="method-source-code" id="non_neutral_element-source">
-            <pre><span class="ruby-comment"># File unzip_slice_size_2.rb, line 28</span>
+            <pre><span class="ruby-comment"># File derive_file.rb, line 29</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">non_neutral_element</span> <span class="ruby-identifier">args</span>=<span class="ruby-constant">ARGV</span>
   <span class="ruby-comment"># returns something that can be tested as false if the first element</span>
   <span class="ruby-comment"># in array is considered to be the neutral element of the class.</span>
@@ -139,6 +211,37 @@
   <span class="ruby-identifier">result</span> = (<span class="ruby-identifier">element</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">element</span>.<span class="ruby-identifier">size</span>) <span class="ruby-operator">==</span> <span class="ruby-value">0</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">nil</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">element</span>
   <span class="ruby-identifier">result</span>
 <span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-replace-21" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">replace!</span><span
+            class="method-args">(s, replacements ;)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="replace-21-source">
+            <pre><span class="ruby-comment"># File derive_file.rb, line 38</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">replace!</span> <span class="ruby-identifier">s</span>, <span class="ruby-identifier">replacements</span> ; <span class="ruby-identifier">replacements</span>.<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span> <span class="ruby-identifier">what</span>, <span class="ruby-identifier">with</span> = <span class="ruby-identifier">r</span> ;  (<span class="ruby-identifier">s</span>.<span class="ruby-identifier">gsub!</span> <span class="ruby-identifier">what</span>, <span class="ruby-identifier">with</span>) } ; <span class="ruby-identifier">s</span> ; <span class="ruby-keyword">end</span></pre>
           </div>
           
         </div>
@@ -195,7 +298,7 @@
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="http://rdoc.rubyforge.org">RDoc</a> 4.1.0.
-  <p>Based on <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.1.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

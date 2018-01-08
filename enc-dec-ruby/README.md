@@ -3,6 +3,24 @@ Tool for encrypting-decrypting file.
 
 TODO: SHA1, eliminate iv file.
 
+##Basic/Generic example:
+
+Set the 4 vars bellow (or only 2, for using defaults):
+````
+password="" # leave empty for interactive prompt of password
+contents=the_file_I_want to_encrypt # the file you want to encrypt
+enc_iv_base64_file=${contents}.zip.enc.iv.base64 # metadata of encrypted file  (gen by enc.rb, required by dec.rb)
+encrypted_base64_file=${contents}.enc.encrypted.base64 # actual encrypted file. 
+decrypted_base64_file=${contents}.zip.decrypted # should be the same as $contents after encryption-decryption cycle
+
+./enc.rb ""  ${contents} ""  "${password}" "${encrypted_base64_file}" "${enc_iv_base64_file}"  
+./dec.rb "${enc_iv_base64_file}" "${encrypted_base64_file}" "${password}" > "${decrypted_base64_file}"
+
+diff ${contents} ${decrypted_base64_file} # should be the same
+````
+
+## More Examples:
+
 Generate a file to be encrypted to follow examples:
 ````
 contents=secret_file

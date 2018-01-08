@@ -52,7 +52,8 @@ class ProjectExecution
     STDERR.puts "#{encrypted}"
     STDERR.puts
     STDERR.print "password:"
-    password = args.shift || begin STDIN.noecho{ gets}.chomp rescue gets.chomp end
+    password = args.shift.to_s.split("\0").first || begin STDIN.noecho{ STDIN.gets}.chomp rescue gets.chomp end
+    # password = args.shift || begin STDIN.noecho{ gets}.chomp rescue gets.chomp end
     STDERR.puts
     pw_plain = dec [password, iv, encrypted]
     STDOUT.puts pw_plain

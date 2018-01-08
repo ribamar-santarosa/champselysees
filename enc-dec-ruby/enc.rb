@@ -33,15 +33,25 @@ class ProjectExecution
     data += args.shift || begin STDIN.noecho{ gets}.chomp rescue gets.chomp end
     STDERR.puts
     STDERR.print "password:"
-    password = args.shift || begin STDIN.noecho{ gets}.chomp rescue gets.chomp end
-    STDERR.puts
-    STDERR.print "enc_iv_base64_filename[default=out.enc.iv.base64]:"
-    # basically => any string other than "" or the default one:
-    enc_iv_base64_filename = args.shift.to_s.split("\0").first || "out.enc.iv.base64"
+    # password = args.shift.to_s.split("\0").first
+    # password = args.shift.to_s.split("\0").first || gets.chomp
+    # password = args.shift.to_s.split("\0").first || STDIN.noecho{ STDIN.gets}.chomp
+    # password = args.shift.to_s.split("\0").first || STDIN.noecho{ gets}.chomp
+    # password = args.shift.to_s.split("\0").first || begin STDIN.noecho{ gets}.chomp rescue gets.chomp end
+    password = args.shift.to_s.split("\0").first || begin STDIN.noecho{ STDIN.gets}.chomp rescue gets.chomp end
+    # puts "password: [#{password}]"
+    # password ||= STDIN.gets.chomp
+    puts "password: [#{password}]"
     STDERR.puts
     STDERR.print "encrypted_base64_filename[default=out.enc.encrypted.base64]:"
     # basically => any string other than "" or the default one:
     encrypted_base64_filename = args.shift.to_s.split("\0").first || "out.enc.encrypted.base64"
+    STDERR.puts encrypted_base64_filename
+    STDERR.puts
+    STDERR.print "enc_iv_base64_filename[default=out.enc.iv.base64]:"
+    # basically => any string other than "" or the default one:
+    enc_iv_base64_filename = args.shift.to_s.split("\0").first || "out.enc.iv.base64"
+    STDERR.puts enc_iv_base64_filename
     STDERR.puts
 
 

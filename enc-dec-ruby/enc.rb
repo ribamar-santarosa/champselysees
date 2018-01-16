@@ -8,9 +8,9 @@ class ProjectExecution
     contents
   end
 
-  def url_to_str url
+  def url_to_str url, rescue_value=nil
   require 'open-uri'
-    contents = open(url).read
+    contents = open(url).read rescue rescue_value
   end
 
   def enc args=ARGV

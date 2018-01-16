@@ -45,12 +45,13 @@ class ProjectExecution
     STDERR.print "iv:"
     # basically => any string other than "" or the default one:
     iv = args.shift.to_s.split("\0").first
-    iv = iv || (url_to_str iv) || (url_to_str 'out.enc.iv.base64')
+    iv = (url_to_str iv) || iv || (url_to_str 'out.enc.iv.base64')
+    STDERR.puts iv
     STDERR.puts
     STDERR.print "encrypted:"
     # basically => any string other than "" or the default one:
     encrypted = args.shift.to_s.split("\0").first
-    encrypted = encrypted || (url_to_str encrypted) || (url_to_str 'out.enc.encrypted.base64')
+    encrypted = (url_to_str encrypted) || encrypted  || (url_to_str 'out.enc.encrypted.base64')
     STDERR.puts "#{encrypted}"
     STDERR.puts
     STDERR.print "password:"

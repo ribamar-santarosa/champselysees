@@ -3,10 +3,15 @@
 class ProjectExecution
 
   def file_backup file = __FILE__ , dir = '/tmp/', append = ('-' + Time.now.hash.abs.to_s)
+    require 'fileutils'
     contents = File.read file
-    File.write (dir + '/' + file + append), contents
+    location = dir + '/' + file + append
+    FileUtils.mkdir_p File.dirname location # note "~" doesn't work
+    File.write location, contents
     contents
   end
+
+
 
   def url_to_str url, rescue_value=nil
   require 'open-uri'

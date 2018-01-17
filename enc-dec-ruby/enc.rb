@@ -41,7 +41,6 @@ class ProjectExecution
     password = args.shift.to_s.split("\0").first || begin STDIN.noecho{ STDIN.gets}.chomp rescue gets.chomp end
     # puts "password: [#{password}]"
     # password ||= STDIN.gets.chomp
-    puts "password: [#{password}]"
     STDERR.puts
     STDERR.print "encrypted_base64_filename[default=out.enc.encrypted.base64]:"
     # basically => any string other than "" or the default one:

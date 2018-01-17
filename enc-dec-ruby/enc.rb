@@ -26,11 +26,11 @@ class ProjectExecution
     data += args.shift ||  readlines.join
     STDERR.puts
     print "data_file [data 2/3]:"
-    data_file = args.shift ||  gets.chomp rescue ""
-    data  += url_to_str data_file rescue  ""
+    data_file = args.shift ||  (gets.chomp rescue "")
+    data  += url_to_str data_file, ""
     STDERR.puts
     print "single_line_data[data 3/3, no echo part]:"
-    data += args.shift || begin STDIN.noecho{ gets}.chomp rescue gets.chomp end
+    data += args.shift || (begin STDIN.noecho{ gets}.chomp rescue gets.chomp end)
     STDERR.puts
     STDERR.print "password:"
     # password = args.shift.to_s.split("\0").first

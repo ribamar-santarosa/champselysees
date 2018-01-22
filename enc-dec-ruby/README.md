@@ -3,6 +3,12 @@ Tool for encrypting-decrypting file.
 
 TODO: SHA1, eliminate iv file, accept to encrypt empty string.
 
+## Deps:
+TODO: these are not all required, but they will suffice
+````
+gem install xml-simple ruby-filemagic nokogiri fpm ruby-progressbar parallel citrus redis pry curb fcgi rpm
+````
+
 ##Basic/Generic example:
 
 Set the 4 vars bellow (or only 2, for using defaults):

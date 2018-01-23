@@ -1,7 +1,7 @@
 # enc-dec-ruby
 Tool for encrypting-decrypting file.
 
-TODO: SHA1, eliminate iv file, accept to encrypt empty string.
+TODO: SHA1, eliminate iv file, accept to encrypt empty string, salt.
 
 ## Deps:
 TODO: these are not all required, but they will suffice

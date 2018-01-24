@@ -27,14 +27,14 @@ class ProjectExecution
     require "io/console"
 
     data = ""
-    print "multi_line_data[ data 1/3, echoing, control-D to stop]:"
+    STDERR.print "multi_line_data[ data 1/3, echoing, control-D to stop]:"
     data += args.shift ||  readlines.join
     STDERR.puts
-    print "data_file [data 2/3]:"
+    STDERR.print "data_file [data 2/3]:"
     data_file = args.shift ||  (gets.chomp rescue "")
     data  += url_to_str data_file, ""
     STDERR.puts
-    print "single_line_data[data 3/3, no echo part]:"
+    STDERR.print "single_line_data[data 3/3, no echo part]:"
     data += args.shift || (begin STDIN.noecho{ gets}.chomp rescue gets.chomp end)
     STDERR.puts
     STDERR.print "password:"

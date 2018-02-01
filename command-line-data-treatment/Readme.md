@@ -56,5 +56,26 @@ probably you want to add entries to my_module_2 too, right?
  to the previous chunks (empty lines, comments, ...)
 
 
+# file_backup.rb
+
+equivalent of option `--parents` in `cp`.
+
+copies a file (or url, if `open-uri` available, or its contents if unexisting
+file, or reads from command-line, if still empty) (arg 1), to a destination
+(arg 2), appending a hash (or creating one, using the current time, if empty)
+(arg 3), and prepending it with a string (or '/' if empty)  (arg 4).
+
+
+ usage:
+````
+file=/home/ribamar/tmp/util.pdf
+destination=/tmp
+append=
+prepend=
+# note: (arg 4 cannot be given if arg 3 is not given. wrap it with a
+comma instead)
+./file_backup.rb "${file}" "${destination}" ${append} ${prepend}
+````
+
 # Rdoc pages:
 https://rawgit.com/ribamar-santarosa/champselysees/master/command-line-data-treatment/doc/index.html

@@ -70,13 +70,29 @@
 
   <ul class="link-list" role="directory">
     
+    <li ><a href="#method-c-new">::new</a>
+    
     <li ><a href="#method-i-derive_file">#derive_file</a>
+    
+    <li ><a href="#method-i-file_backup">#file_backup</a>
+    
+    <li ><a href="#method-i-input_non_empty_string_or_multiline_prompt">#input_non_empty_string_or_multiline_prompt</a>
+    
+    <li ><a href="#method-i-input_shift">#input_shift</a>
+    
+    <li ><a href="#method-i-input_shift_or_empty_string">#input_shift_or_empty_string</a>
+    
+    <li ><a href="#method-i-main">#main</a>
     
     <li ><a href="#method-i-non_neutral_element">#non_neutral_element</a>
     
     <li ><a href="#method-i-replace-21">#replace!</a>
     
+    <li ><a href="#method-i-save_file">#save_file</a>
+    
     <li ><a href="#method-i-unzip_slice_size_2">#unzip_slice_size_2</a>
+    
+    <li ><a href="#method-i-url_to_str">#url_to_str</a>
     
   </ul>
 </div>
@@ -92,7 +108,7 @@
   <section class="description">
     
 <p>instead of replacing a file, duplicate chunks having an entry.  supposed
-you have a file <a href="modules_txt.html">modules.txt</a>:</p>
+you have a file modules.txt:</p>
 
 <p>MY_MODULE_1:</p>
 
@@ -107,11 +123,10 @@ interface.</p>
 <pre class="ruby"><span class="ruby-identifier">probably</span> <span class="ruby-identifier">you</span> <span class="ruby-identifier">want</span> <span class="ruby-identifier">to</span> <span class="ruby-identifier">add</span> <span class="ruby-identifier">entries</span> <span class="ruby-identifier">to</span> <span class="ruby-identifier">my_module_2</span> <span class="ruby-identifier">too</span>, <span class="ruby-identifier">right?</span>
 </pre>
 
-<p>usage: ./derive_file.rb <a href="modules_txt.html">modules.txt</a>
-/dev/stdout “” my_module_1 my_module_2 myModule_1 myModule_2 MY_MODULE_1
-MY_MODULE_2  # outputs to /dev/stdout ./derive_file.rb “” /dev/stdout “” 
-my_module_1 my_module_2 myModule_1 myModule_2 MY_MODULE_1 MY_MODULE_2  #
-edit <a href="modules_txt.html">modules.txt</a> instead</p>
+<p>usage: ./derive_file.rb modules.txt /dev/stdout “” my_module_1 my_module_2
+myModule_1 myModule_2 MY_MODULE_1 MY_MODULE_2  # outputs to /dev/stdout
+./derive_file.rb “” /dev/stdout “”  my_module_1 my_module_2 myModule_1
+myModule_2 MY_MODULE_1 MY_MODULE_2  # edit modules.txt instead</p>
 
 <p>probably you want to fine tune the value  of regexes variable in the source
 code.  the contain which kind of lines should be grouped to the previous
@@ -132,6 +147,51 @@ chunks (empty lines, comments, …)</p>
     
 
     
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Class Methods</h3>
+       </header>
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">(memory = {})</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File file_backup.rb, line 6</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span> <span class="ruby-identifier">memory</span> = {}
+  <span class="ruby-ivar">@memory</span> = {
+    <span class="ruby-value">:stderr</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">STDERR</span>,
+    <span class="ruby-value">:time</span>   =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>,
+  }
+  <span class="ruby-ivar">@memory</span>.<span class="ruby-identifier">update</span> <span class="ruby-identifier">memory</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
      <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
        <header>
          <h3>Public Instance Methods</h3>
@@ -172,6 +232,197 @@ chunks (empty lines, comments, …)</p>
 
   <span class="ruby-constant">File</span>.<span class="ruby-identifier">write</span> <span class="ruby-identifier">outfile</span>, <span class="ruby-identifier">new_contents</span>.<span class="ruby-identifier">join</span>
 
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-file_backup" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">file_backup</span><span
+            class="method-args">(file = __FILE__ , dir = '/tmp/', append = ('-' + Time.now.hash.abs.to_s), prepend='/')</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>if file is a nonexisting filepath, or by any reason throws any exception,
+it will be treated as contents instead, and the filename will treated as “”
+file can be a url, if &#39;open-uri&#39; is available.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="file_backup-source">
+            <pre><span class="ruby-comment"># File file_backup.rb, line 19</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">file_backup</span> <span class="ruby-identifier">file</span> = <span class="ruby-keyword">__FILE__</span> , <span class="ruby-identifier">dir</span> = <span class="ruby-string">&#39;/tmp/&#39;</span>, <span class="ruby-identifier">append</span> = (<span class="ruby-string">&#39;-&#39;</span> <span class="ruby-operator">+</span> <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>.<span class="ruby-identifier">hash</span>.<span class="ruby-identifier">abs</span>.<span class="ruby-identifier">to_s</span>), <span class="ruby-identifier">prepend</span>=<span class="ruby-string">&#39;/&#39;</span>
+  <span class="ruby-identifier">stderr</span> = <span class="ruby-ivar">@memory</span>[<span class="ruby-value">:stderr</span>]
+  (<span class="ruby-identifier">require</span> <span class="ruby-string">&#39;open-uri&#39;</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">open_uri</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-identifier">require</span> <span class="ruby-string">&#39;fileutils&#39;</span>
+  <span class="ruby-identifier">file_is_filename</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-identifier">open_uri</span> <span class="ruby-operator">&amp;&amp;</span> (
+    <span class="ruby-identifier">contents</span> = <span class="ruby-identifier">open</span>(<span class="ruby-identifier">file</span>).<span class="ruby-identifier">read</span> <span class="ruby-keyword">rescue</span>  (<span class="ruby-identifier">file_is_filename</span> = <span class="ruby-keyword">false</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">file</span>
+  ) <span class="ruby-operator">||</span> (
+    <span class="ruby-identifier">contents</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span> <span class="ruby-identifier">file</span> <span class="ruby-keyword">rescue</span>  (<span class="ruby-identifier">file_is_filename</span> = <span class="ruby-keyword">false</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">file</span>
+  )
+  <span class="ruby-identifier">stderr</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;location = dir:#{dir} + prepend:#{prepend} + (#{file_is_filename} &amp;&amp; #{file} || &#39;&#39; ) + #{append}&quot;</span>
+  <span class="ruby-identifier">location</span> = <span class="ruby-identifier">dir</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">prepend</span> <span class="ruby-operator">+</span> (<span class="ruby-identifier">file_is_filename</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">file</span> <span class="ruby-operator">||</span> <span class="ruby-string">&#39;&#39;</span> ) <span class="ruby-operator">+</span> <span class="ruby-identifier">append</span>
+  <span class="ruby-identifier">stderr</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;FileUtils.mkdir_p File.dirname #{location}&quot;</span> <span class="ruby-comment"># note &quot;~&quot; doesn&#39;t work</span>
+  <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">mkdir_p</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span> <span class="ruby-identifier">location</span> <span class="ruby-comment"># note &quot;~&quot; doesn&#39;t work</span>
+  <span class="ruby-constant">File</span>.<span class="ruby-identifier">write</span> <span class="ruby-identifier">location</span>, <span class="ruby-identifier">contents</span>
+  <span class="ruby-identifier">contents</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-input_non_empty_string_or_multiline_prompt" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">input_non_empty_string_or_multiline_prompt</span><span
+            class="method-args">(args=ARGV)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>returns the first value of args if it is a non empty string, or prompt.
+useful for reading file contents, e.g.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="input_non_empty_string_or_multiline_prompt-source">
+            <pre><span class="ruby-comment"># File file_backup.rb, line 58</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">input_non_empty_string_or_multiline_prompt</span> <span class="ruby-identifier">args</span>=<span class="ruby-constant">ARGV</span>
+  <span class="ruby-identifier">stderr</span> = <span class="ruby-ivar">@memory</span>[<span class="ruby-value">:stderr</span>]
+  <span class="ruby-identifier">stderr</span>.<span class="ruby-identifier">print</span> <span class="ruby-string">&quot;multiline[control-D to stop]:&quot;</span>
+  <span class="ruby-identifier">args</span>.<span class="ruby-identifier">shift</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&quot;\0&quot;</span>).<span class="ruby-identifier">first</span> <span class="ruby-operator">||</span>  <span class="ruby-identifier">readlines</span>.<span class="ruby-identifier">join</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-input_shift" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">input_shift</span><span
+            class="method-args">(args=ARGV)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="input_shift-source">
+            <pre><span class="ruby-comment"># File file_backup.rb, line 69</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">input_shift</span> <span class="ruby-identifier">args</span>=<span class="ruby-constant">ARGV</span>
+  <span class="ruby-identifier">args</span>.<span class="ruby-identifier">shift</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-input_shift_or_empty_string" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">input_shift_or_empty_string</span><span
+            class="method-args">(args=ARGV, default = '')</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="input_shift_or_empty_string-source">
+            <pre><span class="ruby-comment"># File file_backup.rb, line 65</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">input_shift_or_empty_string</span> <span class="ruby-identifier">args</span>=<span class="ruby-constant">ARGV</span>, <span class="ruby-identifier">default</span> = <span class="ruby-string">&#39;&#39;</span>
+  <span class="ruby-identifier">args</span>.<span class="ruby-identifier">shift</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">default</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-main" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">main</span><span
+            class="method-args">(args=ARGV)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="main-source">
+            <pre><span class="ruby-comment"># File file_backup.rb, line 73</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">main</span> <span class="ruby-identifier">args</span>=<span class="ruby-constant">ARGV</span>
+  <span class="ruby-identifier">stderr</span> = <span class="ruby-ivar">@memory</span>[<span class="ruby-value">:stderr</span>]
+  <span class="ruby-identifier">time</span>   = <span class="ruby-ivar">@memory</span>[<span class="ruby-value">:time</span>]
+  <span class="ruby-identifier">file</span>    = <span class="ruby-identifier">input_non_empty_string_or_multiline_prompt</span> <span class="ruby-identifier">args</span>
+  <span class="ruby-identifier">dir</span>     = <span class="ruby-identifier">input_shift_or_empty_string</span> <span class="ruby-identifier">args</span>
+  <span class="ruby-identifier">append</span>  = <span class="ruby-identifier">input_shift_or_empty_string</span> <span class="ruby-identifier">args</span>, <span class="ruby-string">&#39;.&#39;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">time</span>.<span class="ruby-identifier">strftime</span>(<span class="ruby-string">&quot;%Y.%m.%d_%H:%M:%S&quot;</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&quot;.&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">time</span>.<span class="ruby-identifier">hash</span>.<span class="ruby-identifier">abs</span>.<span class="ruby-identifier">to_s</span>
+  <span class="ruby-identifier">stderr</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;append{#{append}}append&quot;</span>
+  <span class="ruby-identifier">prepend</span> = <span class="ruby-identifier">input_shift_or_empty_string</span> <span class="ruby-identifier">args</span>, <span class="ruby-string">&#39;/&#39;</span>
+  <span class="ruby-identifier">file_backup</span> <span class="ruby-identifier">file</span>, <span class="ruby-identifier">dir</span>, <span class="ruby-identifier">append</span>, <span class="ruby-identifier">prepend</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -252,6 +503,45 @@ chunks (empty lines, comments, …)</p>
       </div>
 
     
+      <div id="method-i-save_file" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">save_file</span><span
+            class="method-args">(url, location, wtime=0)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="save_file-source">
+            <pre><span class="ruby-comment"># File file_backup.rb, line 38</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">save_file</span> <span class="ruby-identifier">url</span>, <span class="ruby-identifier">location</span>, <span class="ruby-identifier">wtime</span>=<span class="ruby-value">0</span>
+<span class="ruby-identifier">require</span> <span class="ruby-string">&#39;open-uri&#39;</span>
+ <span class="ruby-identifier">require</span> <span class="ruby-string">&#39;fileutils&#39;</span>
+ <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">mkdir_p</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span> <span class="ruby-identifier">location</span> <span class="ruby-comment"># note &quot;~&quot; doesn&#39;t work</span>
+  <span class="ruby-identifier">contents</span> = <span class="ruby-identifier">open</span>(<span class="ruby-identifier">url</span>).<span class="ruby-identifier">read</span>
+  <span class="ruby-identifier">r</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">write</span> <span class="ruby-identifier">location</span>, <span class="ruby-identifier">contents</span>
+  <span class="ruby-identifier">sleep</span> <span class="ruby-identifier">wtime</span>
+  <span class="ruby-identifier">contents</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
       <div id="method-i-unzip_slice_size_2" class="method-detail ">
         
         <div class="method-heading">
@@ -279,6 +569,40 @@ chunks (empty lines, comments, …)</p>
   <span class="ruby-identifier">prepend_1</span> = <span class="ruby-identifier">args</span>.<span class="ruby-identifier">shift</span>
   <span class="ruby-identifier">append_1</span> = <span class="ruby-identifier">args</span>.<span class="ruby-identifier">shift</span>
   <span class="ruby-identifier">args</span>.<span class="ruby-identifier">each_slice</span>(<span class="ruby-value">2</span>).<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span> [ <span class="ruby-node">&quot;#{prepend_0}#{e[0]}#{append_0}&quot;</span>, <span class="ruby-node">&quot;#{prepend_1}#{e[1]}#{append_1}&quot;</span> ] }.<span class="ruby-identifier">transpose</span>.<span class="ruby-identifier">map</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:compact</span>).<span class="ruby-identifier">flatten</span>.<span class="ruby-identifier">each</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">method</span>(<span class="ruby-identifier">print_method</span>))
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-url_to_str" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">url_to_str</span><span
+            class="method-args">(url, rescue_value=nil)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="url_to_str-source">
+            <pre><span class="ruby-comment"># File file_backup.rb, line 49</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">url_to_str</span> <span class="ruby-identifier">url</span>, <span class="ruby-identifier">rescue_value</span>=<span class="ruby-keyword">nil</span>
+<span class="ruby-identifier">require</span> <span class="ruby-string">&#39;open-uri&#39;</span>
+  <span class="ruby-identifier">contents</span> = <span class="ruby-identifier">open</span>(<span class="ruby-identifier">url</span>).<span class="ruby-identifier">read</span> <span class="ruby-keyword">rescue</span> <span class="ruby-identifier">rescue_value</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           

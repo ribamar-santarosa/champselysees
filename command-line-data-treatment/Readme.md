@@ -1,3 +1,33 @@
+# columns_format.rb
+
+gets 2 params: the number of columns (arg1), and a file name (or uri, or file
+contents, or will prompt for file contents in standard input) (arg2)
+
+Example:
+````
+./columns_format.rb  10 "hello you there? what have you been doing?"
+hello you
+there? what
+have you
+been doing?
+
+sudo cat /var/log/messages | grep error  -i | ./columns_format.rb 40
+14:10:52 localhost gvfsd-network[23917]:
+Couldn't create directory monitor on
+smb://x-gnome-default-workgroup/. Error:
+Operation not supported by backend Feb 5
+14:10:55 localhost gvfsd-network[23917]:
+Couldn't create directory monitor on
+smb://x-gnome-default-workgroup/. Error:
+Operation not supported by backend
+
+./columns_format.rb 20 https://raw.githubusercontent.com/ribamar-santarosa/champselysees/master/README.md
+# champselysees Il y a
+tous ce que vous voulez
+aux champs elysees -
+collection of tools
+````
+
 # unzip_slice_size_2.rb
 
 Alternates  a stream of params into 2 streams (starting from `$5`). 

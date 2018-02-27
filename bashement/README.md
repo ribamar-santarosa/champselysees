@@ -7,3 +7,11 @@ create, I'll put each one in a function, that will be loaded by
 `bashement.sh`.
 
 All the functions in `bashement.sh` starts with `bm_`
+
+## Some functions:
+
+####  function bm_psql_restore_dump
+dumps `bm_db_dump_file` into  `bm_db_name`
+
+````
+````

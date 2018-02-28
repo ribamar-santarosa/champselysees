@@ -153,6 +153,26 @@ function bm_install_itself {
 }
 
 
+# bm_update
+# downloads the latest version of this
+# script's environment, of this script,
+# sources it and installs champselysees.
+# * expects:
+#
+# * becomes interactive:
+#
+# * requires
+#  bm_source_newest_env,
+#  bm_install_itself
+#
+# *(over)writes:
+#
+function bm_update {
+  bm_source_newest_env
+  bm_install_itself
+}
+
+
 # function bm_psql_restore_dump
 # dumps $bm_db_dump_file into
 # bm_db_name

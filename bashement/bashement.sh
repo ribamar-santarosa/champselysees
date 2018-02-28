@@ -127,6 +127,32 @@ function bm_source_newest_env {
 }
 
 
+# bm_install_itself
+# downloads the newest version of this script,
+# sources it and
+# installs champelysees
+# * expects:
+# bm_bashement_raw_url,
+# bm_bashement_path
+# * becomes interactive:
+#
+# * requires
+#  bm_wget_download,
+#  bm_champselysees_install
+#
+# *(over)writes:
+# bm_wget_url,
+# bm_wget_output_path
+#
+function bm_install_itself {
+  export bm_wget_url="${bm_bashement_raw_url}"
+  export bm_wget_output_path="${bm_bashement_path}"
+  bm_wget_download
+  . "${bm_bashement_path}"
+  bm_champselysees_install
+}
+
+
 # function bm_psql_restore_dump
 # dumps $bm_db_dump_file into
 # bm_db_name

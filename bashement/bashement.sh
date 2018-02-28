@@ -29,6 +29,30 @@ function bm_git_clone_and_pull{
 }
 
 
+# installs champselysees, a collection of
+# bash and ruby scripts, in
+# bm_champselysees_repo_dir
+#
+# * expects:
+# bm_champselysees_repo_url,
+# bm_champselysees_repo_dir
+#
+# * becomes interactive:
+# bm_champselysees_repo_url requires password
+#
+# * requires
+# bm_git_clone_and_pull
+#
+# *(over)writes:
+# bm_repo_url, bm_repo_dir
+
+function bm_champselysees_install {
+  export bm_repo_url="${bm_champselysees_repo_url}"
+  export bm_repo_dir="${bm_champselysees_repo_dir}"
+  bm_git_clone_and_pull
+}
+
+
 # function bm_psql_restore_dump
 # dumps $bm_db_dump_file into
 # bm_db_name

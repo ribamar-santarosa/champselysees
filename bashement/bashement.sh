@@ -41,8 +41,6 @@ function bm_git_clone_and_pull{
 # bm_db_password
 # * requires:
 # sudo, postgres, psql
-# * destroys:
-# database bm_db_name in psql
 # * (over)writes:
 # database bm_db_name in psql,
 # file bm_out_psql_restore,

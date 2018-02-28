@@ -115,7 +115,6 @@ function bm_wget_download {
 # bm_wget_url,
 # bm_wget_output_path,
 # environment vars set by bm_bashement_env_raw_url
-# function: bm_source_newest_env
 function bm_source_newest_env {
   # fallbacks:
   [[ -z "${bm_bashement_env_raw_url}" ]] && export bm_bashement_env_raw_url="//raw.githubusercontent.com/ribamar-santarosa/champselysees/master/bashement/bashement-env.sh"

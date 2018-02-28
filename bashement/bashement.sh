@@ -82,6 +82,7 @@ function bm_ensure_dirname_exists {
 # * becomes interactive:
 #
 # * requires
+# bm_ensure_dirname_exists
 #  wget
 #
 # *(over)writes:

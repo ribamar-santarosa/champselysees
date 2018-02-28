@@ -16,3 +16,7 @@ export bm_champselysees_repo_url="https://github.com/ribamar-santarosa/champsely
 
 # function: bm_ensure_dirname_exists
 export bm_ensure_dirname_path=
+
+#  function: bm_wget_download
+export bm_wget_url=
+export bm_wget_output_path="-"

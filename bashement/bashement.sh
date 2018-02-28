@@ -6,6 +6,29 @@ function bm_help {
 }
 
 
+# clones and pull a git repository
+#
+# * expects:
+# bm_repo_url,
+# bm_repo_dir
+#
+# * becomes interactive:
+# bm_repo_url requires password
+#
+# * requires
+#  git
+#
+# *(over)writes:
+# bm_repo_dir contents
+
+function bm_git_clone_and_pull{
+  git clone "${bm_repo_url}" "${bm_repo_dir}"
+  cd "${bm_repo_dir}"
+  git pull
+  cd -
+}
+
+
 # function bm_psql_restore_dump
 # dumps $bm_db_dump_file into
 # bm_db_name

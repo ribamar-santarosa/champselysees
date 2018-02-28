@@ -4,6 +4,9 @@
 export bm_bashement_env_raw_url=
 export bm_bashement_env_path=
 
+# function: bm_install_itself
+export bm_bashement_raw_url="https://raw.githubusercontent.com/ribamar-santarosa/champselysees/master/bashement/bashement.sh"
+export bm_bashement_path="/tmp/bashement.sh"
 
 # function: bm_sudo_psql_restore_dump
 export bm_db_name=bm_database

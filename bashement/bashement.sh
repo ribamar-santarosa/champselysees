@@ -53,6 +53,28 @@ function bm_champselysees_install {
 }
 
 
+# bm_ensure_dirname_path
+# ensure that the dirname of
+# a path exists, creating if
+# it doesn't.
+# * expects:
+#  bm_ensure_dirname_path
+# * becomes interactive:
+#
+# * requires
+#
+# *(over)writes:
+# recursively the dirname of
+# bm_ensure_dirname_path in
+# the case it doesn't exist
+#
+# function: bm_ensure_dirname_exists
+export bm_ensure_dirname_path=
+function bm_ensure_dirname_exists {
+  mkdir -p "$(dirname "${bm_ensure_dirname_path}")"
+}
+
+
 # function bm_psql_restore_dump
 # dumps $bm_db_dump_file into
 # bm_db_name

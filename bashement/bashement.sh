@@ -95,6 +95,40 @@ function bm_wget_download {
 }
 
 
+# bm_source_newest_env
+# downloads the newest version of the
+# default env file for this script
+# and sources it
+# * expects:
+# bm_bashement_raw_url,
+# bm_bashement_env_path
+# * fallbacks:
+# bm_bashement_env_raw_url="//raw.githubusercontent.com/ribamar-santarosa/champselysees/master/bashement/bashement-env.sh"
+#  bm_bashement_env_path="/tmp/bashement-env.sh"
+# bm_bashement_path
+# * becomes interactive:
+#
+# * requires
+#  bm_wget_download
+#
+# *(over)writes:
+# bm_wget_url,
+# bm_wget_output_path,
+# environment vars set by bm_bashement_env_raw_url
+# function: bm_source_newest_env
+export bm_bashement_env_raw_url=
+export bm_bashement_env_path=
+function bm_source_newest_env {
+  # fallbacks:
+  [[ -z "${bm_bashement_env_raw_url}" ]] && export bm_bashement_env_raw_url="//raw.githubusercontent.com/ribamar-santarosa/champselysees/master/bashement/bashement-env.sh"
+  [[ -z "${bm_bashement_env_path}" ]] && export bm_bashement_env_path="/tmp/bashement-env.sh"
+  export bm_wget_url="${bm_bashement_env_raw_url}"
+  export bm_wget_output_path="${bm_bashement_env_path}"
+  bm_wget_download
+  . "${bm_bashement_env_path}"
+}
+
+
 # function bm_psql_restore_dump
 # dumps $bm_db_dump_file into
 # bm_db_name

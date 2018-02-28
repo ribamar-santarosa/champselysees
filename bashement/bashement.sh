@@ -75,6 +75,25 @@ function bm_ensure_dirname_exists {
 }
 
 
+# bm_wget_download
+# * expects:
+# bm_wget_url,
+# bm_wget_output_path
+# * becomes interactive:
+#
+# * requires
+#  wget
+#
+# *(over)writes:
+# bm_ensure_dirname_path
+#
+function bm_wget_download {
+  export bm_ensure_dirname_path="${bm_wget_output_path}"
+  bm_ensure_dirname_exists
+  wget "${bm_wget_url}" --output-document "${bm_wget_output_path}"
+}
+
+
 # function bm_psql_restore_dump
 # dumps $bm_db_dump_file into
 # bm_db_name

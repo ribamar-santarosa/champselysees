@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# function: bm_source_newest_env
+export bm_bashement_env_raw_url=
+export bm_bashement_env_path=
+
+
 # function: bm_sudo_psql_restore_dump
 export bm_db_name=bm_database
 export bm_db_user=$(whoami)

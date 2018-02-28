@@ -178,3 +178,24 @@ function bm_sudo_psql_restore_dump {
   export bm_query=" select tablename from pg_tables; "
   echo "$bm_query"  | PGPASSWORD="${bm_db_password}"    psql  -h ${bm_db_host} -U ${bm_db_user} ${bm_db_name}  | tee "${bm_out_psql_restore_query}"
 }
+
+
+# section future:
+
+# section: templates:
+# bm_new_function
+#
+# * expects:
+#
+# * becomes interactive:
+#
+# * requires
+#
+# *(over)writes:
+#
+# function: bm_new_function
+export bm_new_function_var=
+function bm_new_function {
+}
+
+

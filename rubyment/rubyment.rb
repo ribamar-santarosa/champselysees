@@ -136,6 +136,7 @@ class Rubyment
   end
 
 
+  # makes a rest request. todo: parameters
   def rest_request args=ARGV
     require 'base64'
     require 'rest-client'

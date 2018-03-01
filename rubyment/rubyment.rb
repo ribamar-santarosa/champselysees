@@ -121,6 +121,45 @@ class Rubyment
     puts (string_in_columns text, number_of_columns)
   end
 
+
+  def rest_request args=ARGV
+    require 'base64'
+    require 'rest-client'
+    require 'json'
+    stderr = @memory[:stderr]
+    time   = @memory[:time]
+
+    atlasian_account="my_atlasian_account"
+    jira_host = "https://mydomain.atlassian.net/"
+    issue = "JIRAISSUE-6517"
+    url = "#{jira_host}/rest/api/2/issue/#{issue}/comment"
+    # ways to set base64_auth:
+    # 1) programmatically: let pw in plain text:
+    # auth = "my_user:my_pw"
+    # base64_auth = Base64.encode64 auth
+    # 2) a bit safer (this hash can be still used
+    # to hijack your account):
+    #  echo "my_user:my_pw" | base64 # let a whitespace in the beginning
+    base64_auth = "bXlfdXNlcjpteV9wdwo="
+    # todo: it has to be interactive, or fetch from a keying
+    # to achieve good security standards
+    method = :get
+    method = :post
+    timeout = 2000
+    headers = {"Authorization" => "Basic #{base64_auth}" }
+    verify_ssl = true
+    json =<<-ENDHEREDOC
+    {
+        "body" : "my comment"
+    }
+    ENDHEREDOC
+    payload = "#{json}"
+    request_execution = RestClient::Request.execute(:method => method, :url => url, :payload => payload, :headers => headers, :verify_ssl => verify_ssl, :timeout => timeout)
+    parsed_json = JSON.parse request_execution.to_s
+    stderr.puts parsed_json
+    parsed_json
+  end
+
 end
 
 Rubyment.new({:invoke => ARGV})

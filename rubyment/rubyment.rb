@@ -128,6 +128,13 @@ class Rubyment
   end
 
 
+  def test__ args=ARGV
+    stderr = @memory[:stderr]
+    time   = @memory[:time]
+    puts args.join " "
+  end
+
+
   def rest_request args=ARGV
     require 'base64'
     require 'rest-client'

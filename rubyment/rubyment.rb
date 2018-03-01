@@ -128,6 +128,7 @@ class Rubyment
   end
 
 
+  # print arguments given
   def test__ args=ARGV
     stderr = @memory[:stderr]
     time   = @memory[:time]

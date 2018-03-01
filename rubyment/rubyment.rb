@@ -18,7 +18,7 @@ class Rubyment
     }
     @memory.update memory
     invoke = @memory[:invoke].to_a
-    self.method(invoke[0]).call *(invoke[1, -1]) rescue nil
+    self.method(invoke[0]).call *(invoke[1, -1])
   end
 
 

@@ -1,6 +1,12 @@
 #!/usr/bin/env ruby
 
-#
+# Collection of Ruby functions
+# * output
+# normally outputs to STDERR, with
+# no mercy
+# STDOUT, just qualified output:
+# only if the function is expected
+# to output something
 class Rubyment
 
 

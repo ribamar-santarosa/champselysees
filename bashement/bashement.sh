@@ -95,6 +95,26 @@ function bm_wget_download {
 }
 
 
+# bm_source_env
+# sources the newest version of the
+# default env file for this script
+# * expects:
+# bm_bashement_env_path
+# * fallbacks:
+#  bm_bashement_env_path="/tmp/bashement-env.sh"
+# bm_bashement_path
+# * becomes interactive:
+#
+# * requires
+#
+# *(over)writes:
+function bm_source_env {
+  # fallbacks:
+  [[ -z "${bm_bashement_env_path}" ]] && export bm_bashement_env_path="/tmp/bashement-env.sh"
+  . "${bm_bashement_env_path}"
+}
+
+
 # bm_source_newest_env
 # downloads the newest version of the
 # default env file for this script

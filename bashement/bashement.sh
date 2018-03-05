@@ -103,7 +103,7 @@ function bm_wget_download {
 # bm_bashement_raw_url,
 # bm_bashement_env_path
 # * fallbacks:
-# bm_bashement_env_raw_url="//raw.githubusercontent.com/ribamar-santarosa/champselysees/master/bashement/bashement-env.sh"
+# bm_bashement_env_raw_url="https://raw.githubusercontent.com/ribamar-santarosa/champselysees/master/bashement/bashement-env.sh"
 #  bm_bashement_env_path="/tmp/bashement-env.sh"
 # bm_bashement_path
 # * becomes interactive:

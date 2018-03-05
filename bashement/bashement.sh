@@ -148,7 +148,7 @@ function bm_source_newest_env {
 
 # bm_install_itself
 # downloads the newest version of this script,
-# sources it and installs champselysees.
+# sources it.
 # note that it requires a previously env
 # to be loaded.
 # * expects:
@@ -157,8 +157,7 @@ function bm_source_newest_env {
 # * becomes interactive:
 #
 # * requires
-#  bm_wget_download,
-#  bm_champselysees_install
+#  bm_wget_download
 #
 # *(over)writes:
 # bm_wget_url,

@@ -171,6 +171,26 @@ function bm_install_itself {
 }
 
 
+# bm_update_itself
+# downloads the latest version of this
+# script's environment, of this script,
+# sources it.
+# * expects:
+#
+# * becomes interactive:
+#
+# * requires
+#  bm_source_newest_env,
+#  bm_install_itself
+#
+# *(over)writes:
+#
+function bm_update_itself {
+  bm_source_newest_env
+  bm_install_itself
+}
+
+
 # bm_install
 # downloads the newest version of this script,
 # sources it and installs champselysees.

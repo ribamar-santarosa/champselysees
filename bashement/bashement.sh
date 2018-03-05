@@ -173,6 +173,33 @@ function bm_install_itself {
 }
 
 
+# bm_install
+# downloads the newest version of this script,
+# sources it and installs champselysees.
+# note that it requires a previously env
+# to be loaded.
+# * expects:
+# bm_bashement_raw_url,
+# bm_bashement_path
+# * becomes interactive:
+#
+# * requires
+#  bm_wget_download,
+#  bm_champselysees_install
+#
+# *(over)writes:
+# bm_wget_url,
+# bm_wget_output_path
+#
+function bm_install {
+  export bm_wget_url="${bm_bashement_raw_url}"
+  export bm_wget_output_path="${bm_bashement_path}"
+  bm_wget_download
+  . "${bm_bashement_path}"
+  bm_champselysees_install
+}
+
+
 # bm_update
 # downloads the latest version of this
 # script's environment, of this script,

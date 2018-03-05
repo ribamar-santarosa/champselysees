@@ -30,5 +30,11 @@ bm_update # combination of 2 above
 ## Some functions:
 
 ####  function bm_psql_restore_dump
-dumps `bm_db_dump_file` into  `bm_db_name`
+dumps `bm_db_dump_file` into  `bm_db_name`, using the credentials
+`bm_db_name`, `bm_db_user` at `bm_db_host`; becomes interactive
+if `bm_db_password` is not set.
 
+````
+export  bm_db_dump_file='pg_dump'
+bm_psql_restore_dump
+````

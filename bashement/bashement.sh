@@ -217,6 +217,7 @@ function bm_sudo_psql_restore_dump {
 # function: bm_new_function
 export bm_new_function_var=
 function bm_new_function {
+  echo # needs one line
 }
 
 

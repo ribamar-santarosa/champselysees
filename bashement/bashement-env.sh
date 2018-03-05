@@ -14,11 +14,19 @@ export bm_bashement_env_path=
 export bm_bashement_raw_url="https://raw.githubusercontent.com/ribamar-santarosa/champselysees/master/bashement/bashement.sh"
 export bm_bashement_path="/tmp/bashement.sh"
 
-# function: bm_sudo_psql_restore_dump
+# function: bm_sudo_psql_*
 export bm_db_name=bm_database
 export bm_db_user=$(whoami)
 export bm_db_host=$(hostname)
 export bm_db_password=
+export bm_psql_out_prefix=user_${db_user}.db_${db_name}.host_${db_host}.${bm_out_prefix}
+export bm_db_dump_file=pg_dump.${bm_psql_out_prefix}
+export bm_out_psql_query=out.query.${bm_psql_out_prefix}
+export bm_out_psql_restore=out.psql.restore.pg_dump.${bm_psql_out_prefix}
+export bm_out_psql_restore_query=out.psql.restore.query.${bm_psql_out_prefix}
+export bm_out_pg_restore_query=out.pg_restore.query.${bm_psql_out_prefix}
+
+
 
 # function: bm_git_clone_and_pull
 export bm_repo_url=

@@ -3,7 +3,7 @@
 # globals:
 
 export bm_time=$(date +"%Y.%m.%d_%H:%M:%S")  #  timestamp
-export bm_out_prefix=bm_${time}
+export bm_out_prefix=bm_${bm_time}
 
 
 # function: bm_source_newest_env, bm_source_env

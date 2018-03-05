@@ -21,7 +21,7 @@ bm_source_newest_env
 # whenever needed, reload the environment
 bm_source_env
 
-# install at ~/.champselysees:
+# downloads and loads itself:
 bm_install_itself
 
 bm_update # combination of 2 above

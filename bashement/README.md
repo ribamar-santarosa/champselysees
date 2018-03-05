@@ -22,7 +22,7 @@ bm_source_newest_env
 bm_source_env
 
 # install at ~/.champselysees:
-bm_install_itself # fetches newest bashement -- but respects the old env. some stuff may not work
+bm_install_itself
 
 bm_update # combination of 2 above
 ````

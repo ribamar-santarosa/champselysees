@@ -179,7 +179,7 @@ function bm_update {
 #
 # * expects:
 # bm_db_host, bm_db_user, bm_db_name,
-# bm_db_dump_file (which file must
+# bm_db_dump_file (must
 # exist), bm_db_password
 # * becomes interactive if not given:
 # bm_db_password

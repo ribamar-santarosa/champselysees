@@ -21,7 +21,7 @@ function bm_help {
 # *(over)writes:
 # bm_repo_dir contents
 
-function bm_git_clone_and_pull{
+function bm_git_clone_and_pull {
   git clone "${bm_repo_url}" "${bm_repo_dir}"
   cd "${bm_repo_dir}"
   git pull

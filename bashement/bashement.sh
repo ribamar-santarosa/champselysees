@@ -169,7 +169,6 @@ function bm_install_itself {
   export bm_wget_output_path="${bm_bashement_path}"
   bm_wget_download
   . "${bm_bashement_path}"
-  bm_champselysees_install
 }
 
 

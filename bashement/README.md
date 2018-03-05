@@ -14,10 +14,16 @@ All the functions in `bashement.sh` starts with `bm_`
 # download and load the script.
 wget https://raw.githubusercontent.com/ribamar-santarosa/champselysees/master/bashement/bashement.sh
 . ./bashement.sh
+
 # ready to use. alternatively, download default environment
 bm_source_newest_env
+
+# whenever needed, reload the environment
+bm_source_env
+
 # install at ~/.champselysees:
 bm_install_itself # fetches newest bashement -- but respects the old env. some stuff may not work
+
 bm_update # combination of 2 above
 ````
 

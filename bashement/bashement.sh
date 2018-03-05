@@ -234,7 +234,7 @@ function bm_install {
 #
 function bm_update {
   bm_source_newest_env
-  bm_install_itself
+  bm_install
 }
 
 

@@ -50,4 +50,9 @@ export bm_export_value=
 
 # function: bm_resolve
 export bm_resolve_var=
+
+# function: bm_fallback
+export bm_fallback_var=
+export bm_fallback_to=
+
 # end of environment

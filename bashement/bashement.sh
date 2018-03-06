@@ -378,7 +378,6 @@ function bm_assign {
 # * requires
 #
 # *(over)writes:
-# env var having bm_export_var as name
 #
 function bm_namespace_add {
   ${bm_echo_command} ${bm_namespace_left}${bm_namespace_right}

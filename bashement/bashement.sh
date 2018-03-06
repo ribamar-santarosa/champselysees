@@ -457,3 +457,6 @@ function bm_new_function {
 }
 
 
+# end of script
+
+

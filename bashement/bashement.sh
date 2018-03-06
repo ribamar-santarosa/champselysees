@@ -263,6 +263,31 @@ function bm_export {
 }
 
 
+# bm_resolve
+# returns the value of the having having
+# the name stored in the value of bm_resolve_var.
+# "dereferences" bm_resolve_var.
+# 
+# * expects:
+# bm_echo_command,
+# bm_resolve_var
+#
+# * fallbacks:
+#
+# * becomes interactive:
+#
+# * requires
+#
+# *(over)writes:
+# bm_resolve_tmp_var
+#
+function bm_resolve {
+  export bm_resolve_tmp_var=$(echo  ${bm_resolve_var})
+  ${bm_echo_command} ${!bm_resolve_tmp_var}
+
+}
+
+
 # function bm_psql_generate_dump
 # dumps bm_db_name
 # into $bm_db_dump_file (if non existing)

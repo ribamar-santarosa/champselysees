@@ -337,6 +337,33 @@ function bm_psql_generate_dump {
 }
 
 
+# bm_assign
+# the env var having the name stored
+# in the value of bm_assign_to will
+# have the same value as of the var
+# in bm_assign_var
+# * expects:
+# bm_assign_to,
+# bm_assign_var
+#
+# * fallbacks:
+#
+# * becomes interactive:
+#
+# * requires
+#
+# *(over)writes:
+# bm_export_var,
+# bm_export_value
+#
+# function: bm_assign
+function bm_assign {
+  export bm_export_var=${bm_assign_var}
+  export bm_export_value=$(bm_resolve ${bm_assign_value})
+  bm_export
+}
+
+
 # function bm_psql_restore_dump
 # dumps $bm_db_dump_file into
 # bm_db_name

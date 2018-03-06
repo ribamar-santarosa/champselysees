@@ -42,3 +42,5 @@ export bm_ensure_dirname_path=
 #  function: bm_wget_download
 export bm_wget_url=
 export bm_wget_output_path="-"
+
+# end of environment

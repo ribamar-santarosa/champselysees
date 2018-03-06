@@ -62,4 +62,5 @@ export bm_assign_to=
 # function: bm_namespace_*
 export bm_namespace_left=
 export bm_namespace_right=
+
 # end of environment

@@ -34,10 +34,10 @@ class ProjectExecution
   end
 
   def dec args=ARGV
-    password, iv, encrypted = args
+    password, iv, encrypted, big_file = args
     decipher = OpenSSL::Cipher.new('aes-128-cbc')
     decipher.decrypt
-    decipher.padding = 0
+    (big_file) && decipher.padding = 0
     decipher.key = Digest::SHA256.hexdigest password
     decipher.iv = Base64.decode64 iv
     plain = decipher.update(Base64.decode64 encrypted) + decipher.final
@@ -64,7 +64,8 @@ class ProjectExecution
     password = args.shift.to_s.split("\0").first || begin STDIN.noecho{ STDIN.gets}.chomp rescue gets.chomp end
     # password = args.shift || begin STDIN.noecho{ gets}.chomp rescue gets.chomp end
     STDERR.puts
-    pw_plain = dec [password, iv, encrypted]
+    big_file = args.shift
+    pw_plain = dec [password, iv, encrypted, big_file]
     STDOUT.puts pw_plain
   end
 

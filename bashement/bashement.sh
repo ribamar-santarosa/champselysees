@@ -427,6 +427,7 @@ function bm_sudo_psql_restore_dump {
 
   PGPASSWORD="${bm_db_password}"   psql -h  ${bm_db_host} -U ${bm_db_user} ${bm_db_name} --set ON_ERROR_STOP=off  <  ${bm_db_dump_file} &> /dev/stdout | tee "${bm_out_psql_restore}"
   export bm_query=" select tablename from pg_tables; "
+  echo "$bm_query"  \| psql  -h ${bm_db_host} -U ${bm_db_user} ${bm_db_name} \&\> /dev/stdout  | tee "${bm_out_psql_restore_query}"
   echo "$bm_query"  | PGPASSWORD="${bm_db_password}"    psql  -h ${bm_db_host} -U ${bm_db_user} ${bm_db_name} &> /dev/stdout  | tee "${bm_out_psql_restore_query}"
 }
 

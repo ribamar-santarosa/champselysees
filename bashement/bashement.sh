@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# Output policy for this script:
+# /dev/stderr can have anything output
+# /dev/stdout, depends on the function, but
+# only objects that the function is
+# "returning"
 
 function bm_help {
   echo "This is bashement.sh. Help yourself."

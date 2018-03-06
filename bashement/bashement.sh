@@ -364,6 +364,27 @@ function bm_assign {
 }
 
 
+# bm_namespace_add
+#
+# * expects:
+# bm_echo_command
+# bm_namespace_left
+# bm_namespace_right
+#
+# * fallbacks:
+#
+# * becomes interactive:
+#
+# * requires
+#
+# *(over)writes:
+# env var having bm_export_var as name
+#
+function bm_namespace_add {
+  ${bm_echo_command} ${bm_namespace_left}${bm_namespace_right}
+}
+
+
 # function bm_psql_restore_dump
 # dumps $bm_db_dump_file into
 # bm_db_name

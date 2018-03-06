@@ -288,6 +288,29 @@ function bm_resolve {
 }
 
 
+# bm_fallback
+#
+# * expects:
+# bm_fallback_var,
+# bm_fallback_to
+#
+# * fallbacks:
+#
+# * becomes interactive:
+#
+# * requires
+#
+# *(over)writes:
+# bm_export_var,
+# bm_export_value
+#
+function bm_fallback {
+  export bm_export_var=${bm_fallback_var}
+  export bm_export_value=${bm_fallback_to}
+  test -z "$(bm_resolve ${bm_fallback_value})" && bm_export
+}
+
+
 # function bm_psql_generate_dump
 # dumps bm_db_name
 # into $bm_db_dump_file (if non existing)

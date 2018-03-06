@@ -48,4 +48,6 @@ export bm_wget_output_path="-"
 export bm_export_var=
 export bm_export_value=
 
+# function: bm_resolve
+export bm_resolve_var=
 # end of environment

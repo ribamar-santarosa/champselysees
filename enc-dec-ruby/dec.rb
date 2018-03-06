@@ -37,6 +37,7 @@ class ProjectExecution
     password, iv, encrypted = args
     decipher = OpenSSL::Cipher.new('aes-128-cbc')
     decipher.decrypt
+    decipher.padding = 0
     decipher.key = Digest::SHA256.hexdigest password
     decipher.iv = Base64.decode64 iv
     plain = decipher.update(Base64.decode64 encrypted) + decipher.final

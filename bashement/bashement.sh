@@ -318,11 +318,15 @@ function bm_sudo_psql_restore_dump {
 
 
 # section future:
+# TODO: bm_bashement_env_path must be set by any installer of bashement
+
 
 # section: templates:
 # bm_new_function
 #
 # * expects:
+#
+# * fallbacks:
 #
 # * becomes interactive:
 #

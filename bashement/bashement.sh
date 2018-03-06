@@ -243,6 +243,26 @@ function bm_update {
 }
 
 
+# bm_export
+#
+# * expects:
+# bm_export_var,
+# bm_export_value
+#
+# * fallbacks:
+#
+# * becomes interactive:
+#
+# * requires
+#
+# *(over)writes:
+# env var having bm_export_var as name
+#
+function bm_export {
+  export ${bm_export_var}=${bm_export_value}
+}
+
+
 # function bm_psql_generate_dump
 # dumps bm_db_name
 # into $bm_db_dump_file (if non existing)

@@ -38,3 +38,19 @@ if `bm_db_password` is not set.
 export  bm_db_dump_file='pg_dump'
 bm_psql_restore_dump
 ````
+
+
+## Output policy:
+
+
+Output policy for this script:
+- `/dev/stderr` can have anything output
+- `/dev/stdout`, depends on the function, but
+only objects that the function is
+"returning", ie, it will take into consideration
+things like backwards compatibily, and are
+supposed to be trustworthy -- it still won't
+derive legal rights for you, but you have moral
+rights to punch developers' faces if it
+changes.
+

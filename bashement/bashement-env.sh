@@ -4,6 +4,7 @@
 
 export bm_time=$(date +"%Y.%m.%d_%H:%M:%S")  #  timestamp
 export bm_out_prefix=${bm_time}.bm
+export bm_echo_command="echo -n"
 
 
 # function: bm_source_newest_env, bm_source_env

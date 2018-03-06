@@ -398,7 +398,6 @@ function bm_namespace_add {
 # * requires
 #
 # *(over)writes:
-# env var having bm_export_var as name
 #
 function bm_namespace_rm {
   ${bm_echo_command} ${bm_namespace_left} | sed "s/^${bm_namespace_right}//"

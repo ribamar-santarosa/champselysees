@@ -263,8 +263,9 @@ function bm_update {
 #
 function bm_psql_generate_dump {
   [[  -f  "${bm_db_dump_file}"   ]] &&   echo "${bm_db_dump_file} exists" || (   ( PGPASSWORD="${bm_db_password}"  pg_dump  -h  ${bm_db_host} -U ${bm_db_user} ${bm_db_name}  )  |  tee  ${bm_db_dump_file} )     #iffileexists
-  echo "Generated (I hope) dump file:"
-  echo "${bm_db_dump_file}"
+  echo "Generated (I hope) dump file, if it didn't exist." &> /dev/stderr
+  echo "For restoring it (later), export the following var:" &> /dev/stderr
+  echo "export bm_db_dump_file='${bm_db_dump_file}'" &> /dev/stderr
 }
 
 

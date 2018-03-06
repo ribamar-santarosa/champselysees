@@ -311,32 +311,6 @@ function bm_fallback {
 }
 
 
-# function bm_psql_generate_dump
-# dumps bm_db_name
-# into $bm_db_dump_file (if non existing)
-#
-# * expects:
-# bm_db_host, bm_db_user, bm_db_name,
-# bm_db_dump_file (must
-# exist), bm_db_password
-# * becomes interactive if not given:
-# bm_db_password
-# * requires:
-# sudo, postgres, psql
-# * (over)writes:
-# database bm_db_name in psql,
-# file bm_out_psql_restore,
-# bm_out_psql_restore_query
-# PGPASSWORD
-#
-function bm_psql_generate_dump {
-  [[  -f  "${bm_db_dump_file}"   ]] &&   echo "${bm_db_dump_file} exists" || (   ( PGPASSWORD="${bm_db_password}"  pg_dump  -h  ${bm_db_host} -U ${bm_db_user} ${bm_db_name}  )  |  tee  ${bm_db_dump_file} )     #iffileexists
-  echo "Generated (I hope) dump file, if it didn't exist." &> /dev/stderr
-  echo "For restoring it (later), export the following var:" &> /dev/stderr
-  echo "export bm_db_dump_file='${bm_db_dump_file}'" &> /dev/stderr
-}
-
-
 # bm_assign
 # the env var having the name stored
 # in the value of bm_assign_to will
@@ -402,6 +376,32 @@ function bm_namespace_add {
 function bm_namespace_rm {
   ${bm_echo_command} ${bm_namespace_left} | sed "s/^${bm_namespace_right}//"
 }
+
+# function bm_psql_generate_dump
+# dumps bm_db_name
+# into $bm_db_dump_file (if non existing)
+#
+# * expects:
+# bm_db_host, bm_db_user, bm_db_name,
+# bm_db_dump_file (must
+# exist), bm_db_password
+# * becomes interactive if not given:
+# bm_db_password
+# * requires:
+# sudo, postgres, psql
+# * (over)writes:
+# database bm_db_name in psql,
+# file bm_out_psql_restore,
+# bm_out_psql_restore_query
+# PGPASSWORD
+#
+function bm_psql_generate_dump {
+  [[  -f  "${bm_db_dump_file}"   ]] &&   echo "${bm_db_dump_file} exists" || (   ( PGPASSWORD="${bm_db_password}"  pg_dump  -h  ${bm_db_host} -U ${bm_db_user} ${bm_db_name}  )  |  tee  ${bm_db_dump_file} )     #iffileexists
+  echo "Generated (I hope) dump file, if it didn't exist." &> /dev/stderr
+  echo "For restoring it (later), export the following var:" &> /dev/stderr
+  echo "export bm_db_dump_file='${bm_db_dump_file}'" &> /dev/stderr
+}
+
 
 # function bm_psql_restore_dump
 # dumps $bm_db_dump_file into

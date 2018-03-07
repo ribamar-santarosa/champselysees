@@ -517,7 +517,7 @@ function bm_psql_db_reset {
 # * requires:
 # sudo,
 # su,
-# postgres,
+# postgres user,
 # dropdb,
 # create db
 #

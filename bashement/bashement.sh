@@ -477,6 +477,33 @@ function bm_psql_generate_dump {
 }
 
 
+# function bm_psql_query
+# queries a database
+#
+# * expects:
+# bm_db_host, bm_db_user, bm_db_name,
+# bm_db_query, bm_db_password
+#
+# * becomes interactive if not given:
+# bm_db_password
+#
+# * requires:
+# psql
+#
+# * (over)writes:
+# database bm_db_name in psql,
+# file bm_out_psql_restore,
+# bm_out_psql_restore_query
+# PGPASSWORD
+#
+function bm_psql_query {
+  # output command:
+  echo \"$bm_db_query\"  \| psql  -h ${bm_db_host} -U ${bm_db_user} ${bm_db_name} \&\> /dev/stdout  | tee -a "${bm_psql_query_out_file}"
+  # actual command:
+  echo "$bm_db_query"  | PGPASSWORD="${bm_db_password}"    psql  -h ${bm_db_host} -U ${bm_db_user} ${bm_db_name} &> /dev/stdout  | tee -a "${bm_psql_query_out_file}"
+}
+
+
 # function bm_psql_apply_dump
 # dumps $bm_db_dump_file into
 # bm_db_name

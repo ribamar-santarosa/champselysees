@@ -267,7 +267,7 @@ function bm_export {
 # returns the value of the having having
 # the name stored in the value of bm_resolve_var.
 # "dereferences" bm_resolve_var.
-# 
+#
 # * expects:
 # bm_echo_command,
 # bm_resolve_var

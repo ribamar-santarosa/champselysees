@@ -492,8 +492,7 @@ function bm_psql_generate_dump {
 #
 # * (over)writes:
 # database bm_db_name in psql,
-# file bm_out_psql_restore,
-# bm_out_psql_restore_query
+# file bm_psql_query_out_file,
 # PGPASSWORD
 #
 function bm_psql_query {

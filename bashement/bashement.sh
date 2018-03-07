@@ -542,6 +542,37 @@ function bm_psql_apply_dump_command_output {
 }
 
 
+# function bm_psql_apply_dump_silent
+# dumps $bm_db_dump_file into
+# bm_db_name
+# was created after bm_psql_apply_dump
+# was found printing output, when
+# sometimes it's not good.
+#
+# * expects:
+# bm_db_host, bm_db_user, bm_db_name,
+# bm_db_dump_file (must
+# exist), bm_db_password
+#
+# * becomes interactive if not given:
+# bm_db_password
+#
+# * requires:
+# psql,
+# bm_psql_query
+#
+# * (over)writes:
+# database bm_db_name in psql,
+# file bm_out_psql_restore,
+# bm_db_query,
+# bm_psql_query_out_file
+# PGPASSWORD
+#
+function bm_psql_apply_dump_silent {
+  PGPASSWORD="${bm_db_password}"   psql -h  ${bm_db_host} -U ${bm_db_user} ${bm_db_name} --set ON_ERROR_STOP=off  <  ${bm_db_dump_file} &> /dev/stdout | tee -a "${bm_out_psql_restore}"
+}
+
+
 # function bm_psql_apply_dump
 # dumps $bm_db_dump_file into
 # bm_db_name

@@ -62,6 +62,9 @@ export bm_assign_to=
 # function: bm_function_*
 export bm_function_name=
 
+# function: bm_function_subshell
+export bm_function_subshell_command="bash -c"
+
 # function: bm_namespace_*
 export bm_namespace_left=
 export bm_namespace_right=

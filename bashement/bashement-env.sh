@@ -15,7 +15,7 @@ export bm_bashement_env_path=
 export bm_bashement_raw_url="https://raw.githubusercontent.com/ribamar-santarosa/champselysees/master/bashement/bashement.sh"
 export bm_bashement_path="/tmp/bashement.sh"
 
-# function: bm_sudo_psql_*
+# function: bm_psql_*
 export bm_db_name=bm_database
 export bm_db_user=$(whoami)
 export bm_db_host=$(hostname)

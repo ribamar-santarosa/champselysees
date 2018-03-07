@@ -362,6 +362,28 @@ function bm_function_definition {
 }
 
 
+# bm_function_subshell
+# runs the function bm_sudo_function_name
+# in a subshell, with a pre-command
+#
+# * expects:
+# bm_function_name
+# bm_function_subshell_command
+#
+# * fallbacks:
+#
+# * becomes interactive:
+#
+# * requires
+# bm_function_definition
+#
+# *(over)writes:
+#
+function bm_function_subshell {
+  ${bm_function_subshell_command} "$(bm_function_definition); ${bm_function_name}"
+}
+
+
 # bm_namespace_add
 #
 # * expects:

@@ -517,7 +517,7 @@ function bm_psql_query_command_output_output {
 #
 function bm_psql_query {
   # output command:
-  echo \"$bm_db_query\"  \| psql  -h ${bm_db_host} -U ${bm_db_user} ${bm_db_name} \&\> /dev/stdout  | tee -a "${bm_psql_query_out_file}"
+  bm_psql_query_command_output_output
   # actual command:
   echo "$bm_db_query"  | PGPASSWORD="${bm_db_password}"    psql  -h ${bm_db_host} -U ${bm_db_user} ${bm_db_name} &> /dev/stdout  | tee -a "${bm_psql_query_out_file}"
 }

@@ -479,7 +479,7 @@ function bm_psql_generate_dump {
 
 # function bm_psql_query_command_output
 # prints the command that bm_psql_query
-# will run.
+# will run. password is not printed.
 #
 # * expects:
 # bm_db_host, bm_db_user, bm_db_name,

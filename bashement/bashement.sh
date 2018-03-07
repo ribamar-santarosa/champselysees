@@ -575,26 +575,24 @@ function bm_psql_apply_dump_silent {
 
 # function bm_psql_apply_dump
 # dumps $bm_db_dump_file into
-# bm_db_name
+# bm_db_name, and select all
+# tables from it afterwards.
 #
 # * expects:
-# bm_db_host, bm_db_user, bm_db_name,
-# bm_db_dump_file (must
-# exist), bm_db_password
+# bm_db_query_show_pg_tables,
+# bm_out_psql_restore,
 #
 # * becomes interactive if not given:
-# bm_db_password
 #
 # * requires:
-# psql,
-# bm_psql_query
+#   bm_psql_apply_dump_command_output,
+#   bm_psql_apply_dump_silent,
+#   bm_psql_query_command_output_output,
+#   bm_psql_query
 #
 # * (over)writes:
-# database bm_db_name in psql,
-# file bm_out_psql_restore,
 # bm_db_query,
 # bm_psql_query_out_file
-# PGPASSWORD
 #
 function bm_psql_apply_dump {
   # output command:

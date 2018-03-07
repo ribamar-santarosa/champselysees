@@ -8,6 +8,11 @@ create, I'll put each one in a function, that will be loaded by
 
 All the functions in `bashement.sh` starts with `bm_`
 
+There are 2 files: one `bashement.sh` (containing functions) and another
+`bashement-env.sh` (containing examples or sensitive default values for
+each var expected to be set by the functions of `bashement.sh`). They
+can be updated separately, but this flexibility makes the initial usage
+slightly more complex.
 
 ## Basic usage:
 ````
@@ -15,13 +20,13 @@ All the functions in `bashement.sh` starts with `bm_`
 wget --no-cache https://raw.githubusercontent.com/ribamar-santarosa/champselysees/master/bashement/bashement.sh
 . ./bashement.sh
 
-# ready to use. alternatively, download default environment
+# ready to use, but it's highly recommended in the first run: download default environment (overrides the current one) to the location set by bm_bashement_env_path, or /tmp/environment-env.sh if not set):
 bm_source_newest_env
 
-# whenever needed, reload the environment
+# whenever needed, reload that  environment (without download, so if you made your changes to the file, they will be preserved)
 bm_source_env
 
-# downloads and loads itself:
+# downloads and loads itself (update functions, but preserves both bashement-env.sh and the environment vars)
 bm_install_itself
 
 bm_update # combination of 2 above

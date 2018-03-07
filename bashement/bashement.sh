@@ -477,6 +477,26 @@ function bm_psql_generate_dump {
 }
 
 
+# function bm_psql_query_command_output
+# prints the command that bm_psql_query
+# will run.
+#
+# * expects:
+# bm_db_host, bm_db_user, bm_db_name,
+# bm_db_query, bm_db_password
+#
+# * becomes interactive if not given:
+#
+# * requires:
+#
+# * (over)writes:
+#
+function bm_psql_query_command_output_output {
+  # output command:
+  echo \"$bm_db_query\"  \| psql  -h ${bm_db_host} -U ${bm_db_user} ${bm_db_name} \&\> /dev/stdout  | tee -a "${bm_psql_query_out_file}"
+}
+
+
 # function bm_psql_query
 # queries a database
 #

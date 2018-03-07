@@ -423,6 +423,29 @@ function bm_namespace_rm {
   ${bm_echo_command} ${bm_namespace_left} | sed "s/^${bm_namespace_right}//"
 }
 
+# bm_fs_wipe_swp
+#
+# * expects:
+# bm_fs_wipe_swp_sudo_find,
+# bm_fs_wipe_swp_sudo_rm
+#
+# * fallbacks:
+#
+# * becomes interactive:
+#
+# * requires
+# bm_echo_command,
+# bm_echo_command (command),
+#
+# *(over)writes:
+# remove files ending in swp in the current tree
+# bm_line
+#
+function bm_fs_wipe_swp {
+  ${bm_fs_wipe_swp_sudo_find} find . | grep "\.swp$" | while read bm_line ; do ${bm_fs_wipe_swp_sudo_rm} ${bm_echo_command} rm -rfv "$bm_line" ; done
+}
+
+
 # function bm_psql_generate_dump
 # dumps bm_db_name
 # into $bm_db_dump_file (if non existing)

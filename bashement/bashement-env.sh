@@ -69,4 +69,8 @@ export bm_function_subshell_command="bash -c"
 export bm_namespace_left=
 export bm_namespace_right=
 
+# function: bm_fs_wipe_swp
+export bm_fs_wipe_swp_sudo_find=
+export bm_fs_wipe_swp_sudo_rm=
+
 # end of environment

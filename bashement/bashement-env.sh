@@ -55,6 +55,7 @@ export bm_resolve_var=
 export bm_fallback_var=
 export bm_fallback_to=
 
+# function: bm_assign
 export bm_assign_var=
 export bm_assign_to=
 

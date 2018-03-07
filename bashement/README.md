@@ -12,7 +12,7 @@ All the functions in `bashement.sh` starts with `bm_`
 ## Basic usage:
 ````
 # download and load the script.
-wget https://raw.githubusercontent.com/ribamar-santarosa/champselysees/master/bashement/bashement.sh
+wget --no-cache https://raw.githubusercontent.com/ribamar-santarosa/champselysees/master/bashement/bashement.sh
 . ./bashement.sh
 
 # ready to use. alternatively, download default environment

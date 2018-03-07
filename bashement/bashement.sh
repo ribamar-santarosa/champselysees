@@ -567,7 +567,7 @@ function bm_psql_apply_dump_command_output {
 #
 function bm_psql_apply_dump {
   # output command:
-  echo psql -h  ${bm_db_host} -U ${bm_db_user} ${bm_db_name} --set ON_ERROR_STOP=off  \<  ${bm_db_dump_file} \&\> /dev/stdout | tee -a "${bm_out_psql_restore}"
+  bm_psql_apply_dump_command_output
   # actual command:
   PGPASSWORD="${bm_db_password}"   psql -h  ${bm_db_host} -U ${bm_db_user} ${bm_db_name} --set ON_ERROR_STOP=off  <  ${bm_db_dump_file} &> /dev/stdout | tee -a "${bm_out_psql_restore}"
   # todo: use bm_assign

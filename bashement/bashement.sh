@@ -464,25 +464,21 @@ function bm_sudo_psql_db_reset {
 
 # function bm_sudo_psql_restore_dump
 # dumps $bm_db_dump_file into
-# bm_db_name
+# bm_db_name, after resetting it.
 #
 # * expects:
-# bm_db_host, bm_db_user, bm_db_name,
-# bm_db_dump_file (must
-# exist), bm_db_password
+#
 # * becomes interactive if not given:
 # bm_db_password
 # * requires:
-#  bm_psql_apply_dump,
-# sudo,
-# postgres
+# bm_psql_apply_dump,
+# bm_sudo_psql_db_reset
 #
 # * (over)writes:
 # database bm_db_name in psql
 #
 function bm_sudo_psql_restore_dump {
-  sudo  su -  postgres bash -c "dropdb  ${bm_db_name}"
-  sudo  su -  postgres bash -c "createdb  ${bm_db_name}"
+  bm_sudo_psql_db_reset
   bm_psql_apply_dump
 
 }

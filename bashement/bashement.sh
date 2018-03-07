@@ -403,7 +403,7 @@ function bm_psql_generate_dump {
 }
 
 
-# function bm_psql_restore_dump
+# function bm_sudo_psql_restore_dump
 # dumps $bm_db_dump_file into
 # bm_db_name
 #

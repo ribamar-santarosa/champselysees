@@ -58,6 +58,8 @@ export bm_fallback_to=
 export bm_assign_var=
 export bm_assign_to=
 
+# function: bm_function_*
+export bm_function_name=
 
 # function: bm_namespace_*
 export bm_namespace_left=

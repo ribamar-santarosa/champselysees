@@ -33,7 +33,7 @@ export bm_db_query_tablename=
 export bm_psql_query_out_file="out.psql.query.${bm_psql_out_prefix}"
 
 # valid assigments for: bm_db_query
-export bm_db_query_select_all="select * from ${bm_db_name};"
+export bm_db_query_select_all="select * from ${bm_db_tablename};"
 export bm_db_query_show_pg_tables="select tablename from pg_tables; "
 
 

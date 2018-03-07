@@ -96,7 +96,7 @@ function bm_ensure_dirname_exists {
 function bm_wget_download {
   export bm_ensure_dirname_path="${bm_wget_output_path}"
   bm_ensure_dirname_exists
-  (wget -q --spider --no-cache "${bm_wget_url}") && (wget -q --no-cache "${bm_wget_url}" --output-document "${bm_wget_output_path}")
+  (wget -q -O --spider --no-cache "${bm_wget_url}") && (wget -q -O --no-cache "${bm_wget_url}" --output-document "${bm_wget_output_path}")
 }
 
 

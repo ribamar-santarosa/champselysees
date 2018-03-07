@@ -529,11 +529,11 @@ function bm_psql_apply_dump {
   echo psql -h  ${bm_db_host} -U ${bm_db_user} ${bm_db_name} --set ON_ERROR_STOP=off  \<  ${bm_db_dump_file} \&\> /dev/stdout | tee -a "${bm_out_psql_restore}"
   # actual command:
   PGPASSWORD="${bm_db_password}"   psql -h  ${bm_db_host} -U ${bm_db_user} ${bm_db_name} --set ON_ERROR_STOP=off  <  ${bm_db_dump_file} &> /dev/stdout | tee -a "${bm_out_psql_restore}"
-  export bm_query=" select tablename from pg_tables; "
-  # output command:
-  echo \"$bm_query\"  \| psql  -h ${bm_db_host} -U ${bm_db_user} ${bm_db_name} \&\> /dev/stdout  | tee -a "${bm_out_psql_restore_query}"
-  # actual command:
-  echo "$bm_query"  | PGPASSWORD="${bm_db_password}"    psql  -h ${bm_db_host} -U ${bm_db_user} ${bm_db_name} &> /dev/stdout  | tee -a "${bm_out_psql_restore_query}"
+  # todo: use bm_assign
+  export bm_db_query="${bm_db_query_select_all}"
+  export bm_db_query="${bm_db_query_show_pg_tables}"
+  export bm_psql_query_out_file="${bm_out_psql_restore}"
+  bm_psql_query
 }
 
 

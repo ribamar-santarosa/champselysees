@@ -29,6 +29,7 @@ export bm_out_pg_restore_query=out.pg_restore.query.${bm_psql_out_prefix}
 
 # function: bm_psql_query
 export bm_db_query=
+export bm_db_query_tablename=
 export bm_psql_query_out_file="out.psql.query.${bm_psql_out_prefix}"
 
 # valid assigments for: bm_db_query

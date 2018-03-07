@@ -343,6 +343,11 @@ function bm_assign {
 # (if there is such a function defined
 # on the environment)
 #
+# * planned changes:
+# by now this function depends on "declare -f"
+# which returns wrong code (missing ; before the
+# last })
+#
 # * expects:
 # bm_function_name
 #

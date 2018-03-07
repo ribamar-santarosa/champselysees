@@ -27,6 +27,10 @@ export bm_out_psql_restore=out.psql.restore.pg_dump.${bm_psql_out_prefix}
 export bm_out_psql_restore_query=out.psql.restore.query.${bm_psql_out_prefix}
 export bm_out_pg_restore_query=out.pg_restore.query.${bm_psql_out_prefix}
 
+# function: bm_psql_query
+export bm_db_query=
+export bm_psql_query_out_file="out.psql.query.${bm_psql_out_prefix}"
+
 
 
 # function: bm_git_clone_and_pull

@@ -338,6 +338,30 @@ function bm_assign {
 }
 
 
+# bm_function_definition
+# gets the definition of a function
+# (if there is such a function defined
+# on the environment)
+#
+# * expects:
+# bm_function_name
+#
+# * fallbacks:
+#
+# * becomes interactive:
+#
+# * requires
+# bm_echo_command
+#
+# *(over)writes:
+# bm_function_definition
+#
+function bm_function_definition {
+  bm_function_definition="function $(declare -f ${bm_function_name})"
+  ${bm_echo_command} ${bm_function_definition}
+}
+
+
 # bm_namespace_add
 #
 # * expects:

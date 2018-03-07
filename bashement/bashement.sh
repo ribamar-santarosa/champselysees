@@ -411,10 +411,13 @@ function bm_psql_generate_dump {
 # bm_db_host, bm_db_user, bm_db_name,
 # bm_db_dump_file (must
 # exist), bm_db_password
+#
 # * becomes interactive if not given:
 # bm_db_password
+#
 # * requires:
-# postgres, psql
+# psql
+#
 # * (over)writes:
 # database bm_db_name in psql,
 # file bm_out_psql_restore,

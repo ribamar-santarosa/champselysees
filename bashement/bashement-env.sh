@@ -31,6 +31,10 @@ export bm_out_pg_restore_query=out.pg_restore.query.${bm_psql_out_prefix}
 export bm_db_query=
 export bm_psql_query_out_file="out.psql.query.${bm_psql_out_prefix}"
 
+# valid assigments for: bm_db_query
+export bm_db_query_select_all="select * from ${bm_db_name};"
+export bm_db_query_show_pg_tables="select tablename from pg_tables; "
+
 
 
 # function: bm_git_clone_and_pull

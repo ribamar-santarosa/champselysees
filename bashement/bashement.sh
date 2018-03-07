@@ -508,7 +508,8 @@ function bm_psql_query_command_output_output {
 # bm_db_password
 #
 # * requires:
-# psql
+# psql,
+# bm_psql_query_command_output_output
 #
 # * (over)writes:
 # database bm_db_name in psql,

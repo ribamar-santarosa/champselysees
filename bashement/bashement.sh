@@ -553,6 +553,9 @@ function bm_psql_apply_dump {
   export bm_db_query="${bm_db_query_select_all}"
   export bm_db_query="${bm_db_query_show_pg_tables}"
   export bm_psql_query_out_file="${bm_out_psql_restore}"
+  # output command:
+  bm_psql_query_command_output_output
+  # actual command:
   bm_psql_query
 }
 

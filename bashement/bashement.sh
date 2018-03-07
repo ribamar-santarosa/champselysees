@@ -521,7 +521,8 @@ function bm_psql_query {
 # * (over)writes:
 # database bm_db_name in psql,
 # file bm_out_psql_restore,
-# bm_out_psql_restore_query
+# bm_db_query,
+# bm_psql_query_out_file
 # PGPASSWORD
 #
 function bm_psql_apply_dump {

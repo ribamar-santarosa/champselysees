@@ -516,7 +516,8 @@ function bm_psql_query {
 # bm_db_password
 #
 # * requires:
-# psql
+# psql,
+# bm_psql_query
 #
 # * (over)writes:
 # database bm_db_name in psql,

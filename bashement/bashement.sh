@@ -543,6 +543,35 @@ function bm_fs_wipe_swp {
 }
 
 
+# bm_fs_ln_current_to_time
+#
+# * expects:
+# bm_fs_ln_time,
+# bm_fs_ln_path,
+# bm_fs_ln_current_pattern,
+#
+# * fallbacks:
+# bm_fs_ln_current_pattern="current"
+#
+# * becomes interactive:
+#
+# * requires
+#
+# *(over)writes:
+# bm_fs_ln_current_path,
+# bm_fallback_var,
+# bm_fallback_to,
+#
+function bm_fs_ln_current_to_time {
+  export bm_fallback_var="bm_fs_ln_current_pattern"
+  export bm_fallback_to="current"
+  bm_fallback
+  bm_fallback_echo_command
+  export bm_fs_ln_current_path=$(${bm_echo_command}"${bm_fs_ln_path}" | sed "s/${bm_fs_ln_time}/${bm_fs_ln_current_pattern}/")
+  ln -sf  "${bm_fs_ln_path}" "${bm_fs_ln_current_path}"
+}
+
+
 # function bm_psql_generate_dump
 # dumps bm_db_name
 # into $bm_db_dump_file (if non existing)

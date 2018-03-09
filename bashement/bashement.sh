@@ -178,6 +178,30 @@ function bm_install_itself {
 }
 
 
+# bm_install_itself_if_not_done
+# bm_install_itself  if bm_install_itself_done
+# is not set.
+#
+# * expects:
+# bm_install_itself_done to be set or unset
+#
+# * becomes interactive:
+#
+# * requires
+#  bm_install_itself,
+#  bm_conditioned_run
+#
+# *(over)writes:
+# bm_conditioned_run_condition_var,
+# bm_echo_command,
+#
+function bm_install_itself_if_not_done {
+  export bm_conditioned_run_condition_var="bm_install_itself_done"
+  export bm_conditioned_run_command="bm_install_itself"
+  bm_conditioned_run
+}
+
+
 # bm_update_itself
 # downloads the latest version of this
 # script's environment, of this script,

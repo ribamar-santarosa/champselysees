@@ -337,6 +337,29 @@ function bm_fallback {
 }
 
 
+# bm_fallback_echo_command
+#
+# * expects:
+# bm_echo_command,
+#
+# * fallbacks:
+# bm_echo_command="echo -n"
+#
+# * becomes interactive:
+#
+# * requires
+#
+# *(over)writes:
+# bm_fallback_var,
+# bm_fallback_to
+#
+function bm_fallback_echo_command {
+  export bm_fallback_var="bm_echo_command"
+  export bm_fallback_to="echo -n"
+  bm_fallback
+}
+
+
 # bm_assign
 # the env var having the name stored
 # in the value of bm_assign_to will

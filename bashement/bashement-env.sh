@@ -87,4 +87,10 @@ export bm_namespace_right=
 export bm_fs_wipe_swp_sudo_find=
 export bm_fs_wipe_swp_sudo_rm=
 
+# function: bm_fs_ln_current_to_time
+export bm_fs_ln_time=
+export bm_fs_ln_path=
+export bm_fs_ln_current_pattern=
+export bm_fs_ln_current_path=
+
 # end of environment

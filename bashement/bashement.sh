@@ -334,7 +334,8 @@ function bm_resolve {
 function bm_fallback {
   export bm_export_var=${bm_fallback_var}
   export bm_export_value=${bm_fallback_to}
-  test -z "$(bm_resolve ${bm_fallback_value})" && bm_export
+  export bm_resolve_var="bm_fallback_value"
+  test -z "$(bm_resolve)" && bm_export
 }
 
 

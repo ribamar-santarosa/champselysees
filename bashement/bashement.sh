@@ -284,7 +284,7 @@ function bm_update {
 # env var having bm_export_var as name
 #
 function bm_export {
-  export ${bm_export_var}=${bm_export_value}
+  export ${bm_export_var}="${bm_export_value}"
 }
 
 

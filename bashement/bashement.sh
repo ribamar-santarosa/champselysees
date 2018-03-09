@@ -427,6 +427,8 @@ function bm_conditioned_run {
 # * becomes interactive:
 #
 # * requires
+# bm_resolve
+# bm_conditioned_run_command contents
 #
 # *(over)writes:
 # bm_resolve_var,

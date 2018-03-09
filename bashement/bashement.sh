@@ -433,11 +433,15 @@ function bm_conditioned_run {
 # *(over)writes:
 # bm_resolve_var,
 #
-function bm_conditioned_negatve_run {
+function bm_conditioned_negative_run {
   export bm_resolve_var="bm_conditioned_run_condition_var"
   test "$(bm_resolve)" && echo -n || ${bm_conditioned_run_command}
 }
 
+# alias: bm_conditioned_negatve_run (typo)
+function bm_conditioned_negatve_run {
+  bm_conditioned_negative_run
+}
 
 # bm_function_definition
 # gets the definition of a function

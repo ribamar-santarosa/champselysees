@@ -302,6 +302,7 @@ function bm_export {
 # * becomes interactive:
 #
 # * requires
+# bm_echo_command contents
 #
 # *(over)writes:
 # bm_resolve_tmp_var

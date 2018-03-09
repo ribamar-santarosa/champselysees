@@ -556,11 +556,13 @@ function bm_fs_wipe_swp {
 # * becomes interactive:
 #
 # * requires
+# bm_ensure_dirname_exists,
 #
 # *(over)writes:
 # bm_fs_ln_current_path,
 # bm_fallback_var,
 # bm_fallback_to,
+# bm_ensure_dirname_path,
 #
 function bm_fs_ln_current_to_time {
   export bm_fallback_var="bm_fs_ln_current_pattern"

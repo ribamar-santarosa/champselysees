@@ -366,11 +366,11 @@ function bm_assign {
 
 # bm_conditioned_run
 # runs a command if a condition var
-# is not set.
+# is set.
 #
 # * expects:
 # bm_conditioned_run_condition_var,
-# bm_conditioned_run_command
+# bm_conditioned_run_command,
 #
 # * becomes interactive:
 #

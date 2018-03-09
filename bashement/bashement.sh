@@ -571,7 +571,7 @@ function bm_fs_ln_current_to_time {
   export bm_fallback_to="current"
   bm_fallback
   bm_fallback_echo_command
-  export bm_fs_ln_current_path=$(${bm_echo_command}"${bm_fs_ln_path}" | sed "s/${bm_fs_ln_time}/${bm_fs_ln_current_pattern}/")
+  export bm_fs_ln_current_path=$(${bm_echo_command} "${bm_fs_ln_path}" | sed "s/${bm_fs_ln_time}/${bm_fs_ln_current_pattern}/")
   export bm_ensure_dirname_path="${bm_fs_ln_current_path}"
   bm_ensure_dirname_exists
   ln -sf  "${bm_fs_ln_path}" "${bm_fs_ln_current_path}"

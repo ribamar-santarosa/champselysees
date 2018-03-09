@@ -556,6 +556,8 @@ function bm_fs_wipe_swp {
 # * becomes interactive:
 #
 # * requires
+# bm_fallback,
+# bm_fallback_echo_command,
 # bm_ensure_dirname_exists,
 #
 # *(over)writes:

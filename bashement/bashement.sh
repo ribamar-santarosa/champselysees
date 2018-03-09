@@ -329,7 +329,8 @@ function bm_resolve {
 #
 # *(over)writes:
 # bm_export_var,
-# bm_export_value
+# bm_export_value,
+# bm_resolve_var
 #
 function bm_fallback {
   export bm_export_var=${bm_fallback_var}

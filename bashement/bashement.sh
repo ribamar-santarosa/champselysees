@@ -193,7 +193,6 @@ function bm_install_itself {
 #
 # *(over)writes:
 # bm_conditioned_run_condition_var,
-# bm_echo_command,
 #
 function bm_install_itself_if_not_done {
   export bm_conditioned_run_condition_var="bm_install_itself_done"

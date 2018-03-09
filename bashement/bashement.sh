@@ -166,7 +166,8 @@ function bm_source_newest_env {
 #
 # *(over)writes:
 # bm_wget_url,
-# bm_wget_output_path
+# bm_wget_output_path,
+# bm_install_itself_done
 #
 function bm_install_itself {
   export bm_wget_url="${bm_bashement_raw_url}"

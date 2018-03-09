@@ -324,6 +324,7 @@ function bm_resolve {
 # * becomes interactive:
 #
 # * requires
+# bm_export
 #
 # *(over)writes:
 # bm_export_var,

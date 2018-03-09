@@ -374,6 +374,7 @@ function bm_fallback_echo_command {
 # * becomes interactive:
 #
 # * requires
+# bm_export
 #
 # *(over)writes:
 # bm_export_var,

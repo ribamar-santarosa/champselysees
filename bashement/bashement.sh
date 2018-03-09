@@ -381,7 +381,8 @@ function bm_fallback_echo_command {
 #
 # *(over)writes:
 # bm_export_var,
-# bm_export_value
+# bm_export_value,
+# bm_resolve_var
 #
 # function: bm_assign
 function bm_assign {

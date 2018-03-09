@@ -69,6 +69,10 @@ export bm_fallback_to=
 export bm_assign_var=
 export bm_assign_to=
 
+# function: bm_conditioned_run
+export bm_conditioned_run_condition_var=
+export bm_conditioned_run_command=
+
 # function: bm_function_*
 export bm_function_name=
 

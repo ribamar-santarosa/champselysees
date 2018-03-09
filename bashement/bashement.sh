@@ -340,6 +340,27 @@ function bm_assign {
 }
 
 
+# bm_conditioned_run
+# runs a command if a condition var
+# is not set.
+#
+# * expects:
+# bm_conditioned_run_condition_var,
+# bm_conditioned_run_command
+#
+# * becomes interactive:
+#
+# * requires
+#
+# *(over)writes:
+# bm_resolve_var,
+#
+function bm_conditioned_run {
+  export bm_resolve_var="bm_conditioned_run_condition_var"
+  test "$(bm_resolve)" && ${bm_conditioned_run_command}
+}
+
+
 # bm_function_definition
 # gets the definition of a function
 # (if there is such a function defined

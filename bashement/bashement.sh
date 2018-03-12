@@ -858,6 +858,72 @@ function bm_list_shift {
 }
 
 
+# bm_export_prepare_with_namespace_rm
+# exports a var (given by bm_export_prepare_var)
+# with the results of calling bm_list_shift
+# 
+# * expects:
+# bm_export_prepare_var,
+# bm_namespace_left,
+# bm_namespace_right
+#
+# * fallbacks:
+#
+# * becomes interactive:
+#
+# * requires
+# bm_export_prepare_value,
+#
+# *(over)writes:
+# bm_export_prepare_command,
+# bm_export_prepare_command_args,
+#
+function bm_export_prepare_with_list_shift {
+  export bm_export_prepare_command="bm_list_shift"
+  export bm_export_prepare_command_args=
+  bm_export_prepare_value
+}
+
+
+# bm_list_export
+# exports a list of values to
+# a list of vars.
+#
+# * planned changes:
+#
+# * expects:
+# bm_list_export_vars,
+# bm_list_export_values
+#
+# * fallbacks:
+#
+# * becomes interactive:
+#
+# * requires
+# bm_export_prepare_with_list_shift
+# bm_export
+#
+# *(over)writes:
+# bm_list,
+# bm_list_export_var,
+# bm_export_prepare_var,
+# bm_list_export_value,
+# bm_export_var,
+# bm_export_value,
+#
+function bm_list_export {
+  export bm_list="${bm_list_export_values}"
+  for bm_list_export_var in ${bm_list_export_vars} ; do
+    # stores corresponding value in bm_list_export_value
+    export bm_export_prepare_var="bm_list_export_value"
+    bm_export_prepare_with_list_shift
+    export bm_export_var="${bm_list_export_var}"
+    export bm_export_value="${bm_list_export_value}"
+    bm_export
+  done
+}
+
+
 # bm_fs_wipe_swp
 #
 # * expects:

@@ -198,6 +198,37 @@ function bm_git_update_branch {
 }
 
 
+# bm_git_backup
+# backups the current branch
+#
+# * planned changes:
+#
+# * expects:
+#
+# * fallbacks:
+#
+# * becomes interactive:
+#
+# * requires
+# bm_set_git_branch_backup
+#
+# *(over)writes:
+# bm_list_assign_vars,
+# bm_list_assign_values,
+# bm_git_branch_a,
+# bm_git_branch_b
+# bm_git_reset_and_hard,
+# bm_git_reset_at_head
+#
+function bm_git_backup {
+  bm_set_git_branch_backup
+  export bm_list_assign_vars="bm_git_current_branch bm_git_branch_backup"
+  export bm_list_assign_other_vars="bm_git_branch_a bm_git_branch_b bm_git_reset_and_hard bm_git_reset_at_head"
+  bm_list_assign
+  bm_git_update_branch
+}
+
+
 # installs champselysees, a collection of
 # bash and ruby scripts, in
 # bm_champselysees_repo_dir

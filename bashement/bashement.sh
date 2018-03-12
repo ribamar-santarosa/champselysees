@@ -533,7 +533,7 @@ function bm_export_prepare_var {
 # bm_resolve_tmp_var
 #
 function bm_resolve {
-  export bm_resolve_tmp_var=$(echo  ${bm_resolve_var})
+  export bm_resolve_tmp_var=$(${bm_echo_command} ${bm_resolve_var})
   ${bm_echo_command} ${!bm_resolve_tmp_var}
 
 }

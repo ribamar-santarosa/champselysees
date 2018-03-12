@@ -66,7 +66,7 @@ function bm_git_clone_and_pull {
 # *(over)writes:
 # bm_fallback_var,
 # bm_fallback_to,
-# git_bm_current_branch,
+# bm_git_current_branch,
 # bm_conditioned_run_condition_var,
 # bm_conditioned_run_command,
 #

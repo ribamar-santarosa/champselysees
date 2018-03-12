@@ -825,6 +825,8 @@ function bm_sudo_psql_restore_dump {
 # section: templates:
 # bm_new_function
 #
+# * planned changes:
+#
 # * expects:
 #
 # * fallbacks:

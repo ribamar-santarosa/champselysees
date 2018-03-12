@@ -818,6 +818,7 @@ function bm_export_prepare_with_namespace_add {
 # *(over)writes:
 #
 function bm_namespace_rm {
+  bm_fallback_echo_command
   ${bm_echo_command} ${bm_namespace_left} | sed "s/^${bm_namespace_right}//"
 }
 

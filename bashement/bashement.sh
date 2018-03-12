@@ -86,6 +86,7 @@ function bm_export_git_current_branch {
 #
 # * requires
 # bm_fallback,
+# bm_export_git_current_branch,
 # bm_conditioned_run,
 # git checkout,
 # git checkout -b,
@@ -94,7 +95,6 @@ function bm_export_git_current_branch {
 # *(over)writes:
 # bm_fallback_var,
 # bm_fallback_to,
-# bm_git_current_branch,
 # bm_conditioned_run_condition_var,
 # bm_conditioned_run_command,
 #

@@ -34,6 +34,62 @@ function bm_git_clone_and_pull {
 }
 
 
+# bm_git_update_branch
+# backups, forks or clones bm_branch_a,
+# into bm_branch_b, at the head
+# bm_git_reset_at_head.
+# bm_branch_b will be a fork of bm_branch_a,
+# reset at the commit's having the hash
+# bm_git_reset_at_head.
+# set bm_git_reset_and_hard=" " to avoid
+# a hard reset.
+#
+# * planned changes:
+#
+# * expects:
+# bm_git_branch_a,
+# bm_git_branch_b,
+# bm_git_reset_and_hard,
+# bm_git_reset_at_head
+#
+# * fallbacks:
+#
+# * becomes interactive:
+#
+# * requires
+# bm_fallback,
+# bm_conditioned_run,
+# git checkout,
+# git checkout -b,
+# git reset --hard,
+#
+# *(over)writes:
+# bm_fallback_var,
+# bm_fallback_to,
+# git_bm_current_branch,
+# bm_conditioned_run_condition_var,
+# bm_conditioned_run_command,
+#
+# function: bm_git_update_branch
+export bm_git_branch_a=
+export bm_git_branch_b=
+export bm_git_reset_and_hard=
+export bm_git_reset_at_head=
+export git_bm_current_branch=
+function bm_git_update_branch {
+  export bm_fallback_var="bm_git_reset_and_hard"
+  export bm_fallback_to="--hard"
+  bm_fallback
+  export git_bm_current_branch=$(git rev-parse --abbrev-ref HEAD)
+  git checkout ${bm_git_branch_a}
+  git checkout ${bm_git_branch_b}  ||  git checkout -b ${bm_git_branch_b}
+  export bm_conditioned_run_condition_var="bm_git_reset_at_head"
+  export bm_conditioned_run_command="git reset ${bm_git_reset_and_hard} ${bm_git_reset_at_head}"
+  bm_conditioned_run
+  git checkout ${git_bm_current_branch}
+}
+
+
 # installs champselysees, a collection of
 # bash and ruby scripts, in
 # bm_champselysees_repo_dir

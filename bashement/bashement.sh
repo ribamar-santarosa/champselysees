@@ -34,7 +34,7 @@ function bm_git_clone_and_pull {
 }
 
 
-# bm_set_git_current_branch
+# bm_export_git_current_branch
 #
 # * planned changes:
 #

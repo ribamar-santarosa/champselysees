@@ -103,6 +103,13 @@ export bm_list=
 export bm_list_separator=
 export bm_list_first=
 
+# function: bm_list_export
+export bm_list_export_vars=
+export bm_list_export_values=
+export bm_list_pop_list=
+export bm_list_export_var=
+export bm_list_export_value=
+
 # function: bm_fs_wipe_swp
 export bm_fs_wipe_swp_sudo_find=
 export bm_fs_wipe_swp_sudo_rm=

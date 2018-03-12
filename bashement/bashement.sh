@@ -924,6 +924,46 @@ function bm_list_export {
 }
 
 
+# bm_list_assign
+# assigns each of the vars in a list
+# to each of the vars in
+# another list.
+#
+# * planned changes:
+#
+# * expects:
+# bm_list_assign_vars,
+# bm_list_assign_other_vars
+#
+# * fallbacks:
+#
+# * becomes interactive:
+#
+# * requires
+# bm_export_prepare_with_list_shift,
+# bm_assign
+#
+# *(over)writes:
+# bm_list
+# bm_list_assign_var,
+# bm_list_assign_to,
+# bm_assign_var,
+# bm_assign_to,
+# bm_export_prepare_var,
+#
+function bm_list_assign {
+  export bm_list="${bm_list_assign_other_vars}"
+  for bm_list_assign_var in ${bm_list_assign_vars} ; do
+    # stores corresponding var name in in bm_list_assign_to
+    export bm_export_prepare_var="bm_list_assign_to"
+    bm_export_prepare_with_list_shift
+    export bm_assign_var="${bm_list_assign_var}"
+    export bm_assign_to="${bm_list_assign_to}"
+    bm_assign
+  done
+}
+
+
 # bm_fs_wipe_swp
 #
 # * expects:

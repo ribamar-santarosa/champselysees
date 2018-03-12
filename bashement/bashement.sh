@@ -694,6 +694,7 @@ function bm_conditioned_negatve_run {
 # bm_function_definition
 #
 function bm_function_definition {
+  bm_fallback_echo_command
   bm_function_definition="function $(declare -f ${bm_function_name})"
   ${bm_echo_command} ${bm_function_definition}
 }

@@ -52,6 +52,7 @@ function bm_git_clone_and_pull {
 # bm_export_prepare_var,
 # bm_export_prepare_command,
 # bm_export_prepare_command_args,
+# bm_git_current_branch,
 #
 function bm_export_git_current_branch {
   export bm_export_prepare_var="bm_git_current_branch"

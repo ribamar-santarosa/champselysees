@@ -1007,12 +1007,11 @@ function bm_list_assign {
 # bm_fallback_echo_command
 #
 # * fallbacks:
+# bm_fallback_echo_command
 #
 # * becomes interactive:
 #
 # * requires
-# bm_echo_command,
-# bm_echo_command (command),
 #
 # *(over)writes:
 # remove files ending in swp in the current tree

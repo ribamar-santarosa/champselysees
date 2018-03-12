@@ -43,6 +43,13 @@ export bm_db_query_show_pg_tables="select tablename from pg_tables; "
 export bm_repo_url=
 export bm_repo_dir=
 
+# function: bm_git_*
+export bm_git_branch_a=
+export bm_git_branch_b=
+export bm_git_reset_and_hard=
+export bm_git_reset_at_head=
+export git_bm_current_branch=
+
 # function: bm_champselysees_install
 export bm_champselysees_repo_dir="${HOME}/.champselysees"
 export bm_champselysees_repo_url="https://github.com/ribamar-santarosa/champselysees.git"

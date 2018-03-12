@@ -739,9 +739,9 @@ function bm_namespace_add {
 }
 
 
-# bm_export_prepare_with_namespace_rm
+# bm_export_prepare_with_namespace_add
 # exports a var (given by bm_export_prepare_var)
-# with the results of calling bm_namespace_rm
+# with the results of calling bm_namespace_add
 # 
 # * expects:
 # bm_export_prepare_var,
@@ -759,8 +759,8 @@ function bm_namespace_add {
 # bm_export_prepare_command,
 # bm_export_prepare_command_args,
 #
-function bm_export_prepare_with_namespace_rm {
-  export bm_export_prepare_command="bm_namespace_rm"
+function bm_export_prepare_with_namespace_add {
+  export bm_export_prepare_command="bm_namespace_add"
   export bm_export_prepare_command_args=
   bm_export_prepare_value
 }

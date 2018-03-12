@@ -711,14 +711,13 @@ function bm_conditioned_negatve_run {
 #
 # * expects:
 # bm_function_name,
-# bm_fallback_echo_command,
 #
 # * fallbacks:
 #
 # * becomes interactive:
 #
 # * requires
-# bm_echo_command
+# bm_fallback_echo_command,
 #
 # *(over)writes:
 # bm_function_definition

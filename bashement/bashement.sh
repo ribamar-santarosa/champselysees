@@ -681,7 +681,8 @@ function bm_conditioned_negatve_run {
 # last })
 #
 # * expects:
-# bm_function_name
+# bm_function_name,
+# bm_fallback_echo_command,
 #
 # * fallbacks:
 #

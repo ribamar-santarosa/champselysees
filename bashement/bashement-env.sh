@@ -73,11 +73,6 @@ export bm_export_prepare_value=
 export bm_export_prepare_command=
 export bm_export_prepare_command_args=
 
-# function: bm_export_derive_*
-export bm_export_derive_var=
-export bm_export_derive_value=
-export bm_export_derive_format=
-
 # function: bm_resolve
 export bm_resolve_var=
 

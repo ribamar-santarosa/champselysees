@@ -374,6 +374,37 @@ function bm_export_prepare_value {
 }
 
 
+# bm_export_prepare_var
+# (sibiling: bm_export_prepare_value)
+# derived from bm_export.
+# but, instead of setting a var with
+# the value stored in bm_export_var,
+# uses the value from the result of
+# a command.
+#
+# * expects:
+# bm_export_prepare_value,
+# bm_export_prepare_command,
+# bm_export_prepare_command_args
+#
+# * fallbacks:
+#
+# * becomes interactive:
+#
+# * requires
+# bm_export
+#
+# *(over)writes:
+# bm_export_var,
+# bm_export_value
+#
+function bm_export_prepare_var {
+  export bm_export_var="$(${bm_export_prepare_command} ${bm_export_prepare_command_args})"
+  export bm_export_value="${bm_export_prepare_value}"
+  bm_export
+}
+
+
 # bm_resolve
 # returns the value of the having having
 # the name stored in the value of bm_resolve_var.

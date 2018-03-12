@@ -91,6 +91,36 @@ function bm_export_git_time {
 }
 
 
+# bm_derive_git_branch_backup
+# derives bm_git_branch_backup,
+# from currently set bm_git_time,
+# and bm_git_current_branch
+#
+# * planned changes:
+#
+# * expects:
+#   bm_git_time,
+#   bm_git_current_branch
+#
+# * fallbacks:
+#
+# * becomes interactive:
+#
+# * requires
+# bm_export,
+#
+# *(over)writes:
+# bm_export_var,
+# bm_export_value,
+# bm_git_branch_backup,
+#
+function bm_derive_git_branch_backup {
+  export bm_export_var="bm_git_branch_backup"
+  export bm_export_value="bk-${bm_git_time}-${bm_git_current_branch}"
+  bm_export
+}
+
+
 # bm_git_update_branch
 # backups, forks or clones bm_branch_a,
 # into bm_branch_b, at the head

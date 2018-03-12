@@ -102,7 +102,7 @@ function bm_git_update_branch {
   export bm_fallback_var="bm_git_reset_and_hard"
   export bm_fallback_to="--hard"
   bm_fallback
-  export bm_git_current_branch=$(git rev-parse --abbrev-ref HEAD)
+  bm_export_git_current_branch
   git checkout ${bm_git_branch_a}
   git checkout ${bm_git_branch_b}  ||  git checkout -b ${bm_git_branch_b}
   export bm_conditioned_run_condition_var="bm_git_reset_at_head"

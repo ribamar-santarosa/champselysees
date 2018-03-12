@@ -550,7 +550,6 @@ function bm_export_prepare_var {
 # "dereferences" bm_resolve_var.
 #
 # * expects:
-# bm_echo_command,
 # bm_resolve_var
 #
 # * fallbacks:
@@ -558,8 +557,7 @@ function bm_export_prepare_var {
 # * becomes interactive:
 #
 # * requires
-# bm_fallback_echo_command,
-# bm_echo_command contents
+# bm_fallback_echo_command
 #
 # *(over)writes:
 # bm_resolve_tmp_var

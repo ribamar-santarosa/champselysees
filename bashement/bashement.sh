@@ -1005,7 +1005,8 @@ function bm_list_assign {
 #
 # * expects:
 # bm_fs_wipe_swp_sudo_find,
-# bm_fs_wipe_swp_sudo_rm
+# bm_fs_wipe_swp_sudo_rm,
+# bm_fallback_echo_command
 #
 # * fallbacks:
 #

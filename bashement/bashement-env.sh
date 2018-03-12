@@ -65,6 +65,12 @@ export bm_wget_output_path="-"
 export bm_export_var=
 export bm_export_value=
 
+# function: bm_export_prepare_*
+export bm_export_prepare_var=
+export bm_export_prepare_value=
+export bm_export_prepare_command=
+export bm_export_prepare_command_args=
+
 # function: bm_resolve
 export bm_resolve_var=
 

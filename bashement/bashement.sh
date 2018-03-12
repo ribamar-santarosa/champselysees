@@ -813,6 +813,51 @@ function bm_export_prepare_with_namespace_rm {
 }
 
 
+# bm_list_shift
+# shift an element from a list (ie,
+# pops the first element)
+#
+# * planned changes:
+#
+# * expects:
+# bm_list,
+# bm_list_separator,
+#
+# * fallbacks:
+# bm_list_separator=" "
+#
+# * becomes interactive:
+#
+# * requires
+# bm_fallback,
+# bm_namespace_rm,
+# bm_resolve
+#
+# *(over)writes:
+# bm_list,
+# bm_list_element,
+# bm_list_first,
+# bm_fallback_var,
+# bm_fallback_to,
+# bm_namespace_left,
+# bm_namespace_right
+#
+function bm_list_shift {
+  export bm_fallback_var="bm_list_separator"
+  export bm_fallback_to=" "
+  bm_fallback
+  for bm_list_first in $bm_list ; do
+    break
+  done
+  export bm_namespace_left="$bm_list"
+  export bm_namespace_right="${bm_list_first}${bm_list_separator}"
+  export bm_export_prepare_var="bm_list"
+  bm_export_prepare_with_namespace_rm
+  export bm_resolve_var="bm_list_element"
+  bm_resolve
+}
+
+
 # bm_fs_wipe_swp
 #
 # * expects:

@@ -1021,6 +1021,7 @@ function bm_list_assign {
 # bm_line
 #
 function bm_fs_wipe_swp {
+  bm_fallback_echo_command
   ${bm_fs_wipe_swp_sudo_find} find . | grep "\.swp$" | while read bm_line ; do ${bm_fs_wipe_swp_sudo_rm} ${bm_echo_command} rm -rfv "$bm_line" ; done
 }
 

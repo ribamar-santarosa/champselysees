@@ -527,6 +527,7 @@ function bm_export_prepare_var {
 # * becomes interactive:
 #
 # * requires
+# bm_fallback_echo_command,
 # bm_echo_command contents
 #
 # *(over)writes:

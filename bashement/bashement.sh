@@ -757,7 +757,6 @@ function bm_function_subshell {
 # bm_namespace_add
 #
 # * expects:
-# bm_echo_command,
 # bm_namespace_left,
 # bm_namespace_right,
 # bm_fallback_echo_command

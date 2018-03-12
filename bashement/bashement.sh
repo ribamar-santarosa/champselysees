@@ -770,6 +770,7 @@ function bm_function_subshell {
 # *(over)writes:
 #
 function bm_namespace_add {
+  bm_fallback_echo_command
   ${bm_echo_command} ${bm_namespace_left}${bm_namespace_right}
 }
 

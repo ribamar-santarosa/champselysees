@@ -106,7 +106,6 @@ export bm_list_first=
 # function: bm_list_export
 export bm_list_export_vars=
 export bm_list_export_values=
-export bm_list_pop_list=
 export bm_list_export_var=
 export bm_list_export_value=
 

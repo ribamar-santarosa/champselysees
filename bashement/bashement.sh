@@ -763,6 +763,7 @@ function bm_function_subshell {
 # * becomes interactive:
 #
 # * requires
+#   bm_fallback_echo_command
 #
 # *(over)writes:
 #

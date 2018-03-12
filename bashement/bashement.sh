@@ -739,6 +739,33 @@ function bm_namespace_add {
 }
 
 
+# bm_export_prepare_with_namespace_rm
+# exports a var (given by bm_export_prepare_var)
+# with the results of calling bm_namespace_rm
+# 
+# * expects:
+# bm_export_prepare_var,
+# bm_namespace_left,
+# bm_namespace_right
+#
+# * fallbacks:
+#
+# * becomes interactive:
+#
+# * requires
+# bm_export_prepare_value,
+#
+# *(over)writes:
+# bm_export_prepare_command,
+# bm_export_prepare_command_args,
+#
+function bm_export_prepare_with_namespace_rm {
+  export bm_export_prepare_command="bm_namespace_rm"
+  export bm_export_prepare_command_args=
+  bm_export_prepare_value
+}
+
+
 # bm_namespace_rm
 #
 # * expects:

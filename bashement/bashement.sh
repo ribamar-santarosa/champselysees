@@ -34,6 +34,33 @@ function bm_git_clone_and_pull {
 }
 
 
+# bm_set_git_current_branch
+#
+# * planned changes:
+#
+# * expects:
+#
+# * fallbacks:
+#
+# * becomes interactive:
+#
+# * requires
+# git rev-parse --abbrev-ref HEAD,
+# bm_export_prepare_value,
+#
+# *(over)writes:
+# bm_export_prepare_var,
+# bm_export_prepare_command,
+# bm_export_prepare_command_args,
+#
+function bm_export_git_current_branch {
+  export bm_export_prepare_var="bm_git_current_branch"
+  export bm_export_prepare_command="git rev-parse --abbrev-ref HEAD"
+  export bm_export_prepare_command_args=
+  bm_export_prepare_value
+}
+
+
 # bm_git_update_branch
 # backups, forks or clones bm_branch_a,
 # into bm_branch_b, at the head

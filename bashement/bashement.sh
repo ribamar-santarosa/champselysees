@@ -803,7 +803,6 @@ function bm_export_prepare_with_namespace_add {
 # bm_namespace_rm
 #
 # * expects:
-# bm_fallback_echo_command,
 # bm_namespace_left
 # bm_namespace_right
 #
@@ -812,6 +811,7 @@ function bm_export_prepare_with_namespace_add {
 # * becomes interactive:
 #
 # * requires
+#   bm_fallback_echo_command
 #
 # *(over)writes:
 #

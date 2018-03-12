@@ -113,7 +113,6 @@ export bm_list_export_value=
 # function: bm_list_assign
 export bm_list_assign_vars=
 export bm_list_assign_other_vars=
-export bm_list_pop_list=
 export bm_list_assign_var=
 export bm_list_assign_to=
 

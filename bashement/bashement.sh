@@ -62,6 +62,35 @@ function bm_export_git_current_branch {
 }
 
 
+# bm_export_git_time
+# exports bm_git_time
+#
+# * planned changes:
+#
+# * expects:
+#
+# * fallbacks:
+#
+# * becomes interactive:
+#
+# * requires
+# date +"%Y.%m.%d_%H.%M.%S",
+# bm_export_prepare_value,
+#
+# *(over)writes:
+# bm_export_prepare_var,
+# bm_export_prepare_command,
+# bm_export_prepare_command_args,
+# bm_git_time,
+#
+function bm_export_git_time {
+  export bm_export_prepare_var="bm_git_time"
+  export bm_export_prepare_command="date +\"%Y.%m.%d_%H.%M.%S\""
+  export bm_export_prepare_command_args=
+  bm_export_prepare_value
+}
+
+
 # bm_git_update_branch
 # backups, forks or clones bm_branch_a,
 # into bm_branch_b, at the head

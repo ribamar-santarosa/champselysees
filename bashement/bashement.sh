@@ -121,6 +121,33 @@ function bm_derive_git_branch_backup {
 }
 
 
+# bm_set_git_branch_backup
+# derives bm_git_branch_backup,
+# from currently set bm_git_time,
+# and bm_git_current_branch
+#
+# * planned changes:
+#
+# * expects:
+#
+# * fallbacks:
+#
+# * becomes interactive:
+#
+# * requires
+# bm_export_git_time,
+# bm_export_git_current_branch,
+# bm_derive_git_branch_backup
+#
+# *(over)writes:
+#
+function bm_set_git_branch_backup {
+  bm_export_git_time
+  bm_export_git_current_branch
+  bm_derive_git_branch_backup
+}
+
+
 # bm_git_update_branch
 # backups, forks or clones bm_branch_a,
 # into bm_branch_b, at the head

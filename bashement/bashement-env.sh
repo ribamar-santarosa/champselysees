@@ -49,6 +49,8 @@ export bm_git_branch_b=
 export bm_git_reset_and_hard=
 export bm_git_reset_at_head=
 export bm_git_current_branch=
+export bm_git_time=
+export bm_git_branch_backup=
 
 # function: bm_champselysees_install
 export bm_champselysees_repo_dir="${HOME}/.champselysees"

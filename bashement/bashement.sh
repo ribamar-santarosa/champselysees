@@ -344,6 +344,36 @@ function bm_export {
 }
 
 
+# bm_export_prepare_value
+# (sibiling: bm_export_prepare_var)
+# derived from bm_export.
+# does the same, but uses
+# the result of bm_export_prepare_command
+# as value.
+#
+# * expects:
+# bm_export_prepare_var,
+# bm_export_prepare_command,
+# bm_export_prepare_command_args
+#
+# * fallbacks:
+#
+# * becomes interactive:
+#
+# * requires
+# bm_export
+#
+# *(over)writes:
+# bm_export_var,
+# bm_export_value
+#
+function bm_export_prepare_value {
+  export bm_export_var="${bm_export_prepare_var}"
+  export bm_export_value="$(${bm_export_prepare_command} ${bm_export_prepare_command_args})"
+  bm_export
+}
+
+
 # bm_resolve
 # returns the value of the having having
 # the name stored in the value of bm_resolve_var.

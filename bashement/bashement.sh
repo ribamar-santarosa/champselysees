@@ -912,9 +912,13 @@ function bm_list_shift {
   for bm_list_first in $bm_list ; do
     break
   done
-  export bm_namespace_left="$bm_list"
-  export bm_namespace_right="${bm_list_first}${bm_list_separator}"
   export bm_export_prepare_var="bm_list"
+  export bm_namespace_left="$bm_list"
+  export bm_namespace_right="${bm_list_first}"
+  bm_export_prepare_with_namespace_rm
+  export bm_export_prepare_var="bm_list"
+  export bm_namespace_left="$bm_list"
+  export bm_namespace_right="${bm_list_separator}"
   bm_export_prepare_with_namespace_rm
   export bm_resolve_var="bm_list_element"
   bm_resolve

@@ -670,9 +670,10 @@ function bm_fallback_echo_command {
 #
 # function: bm_assign
 function bm_assign {
-  export bm_export_var="${bm_assign_var}"
-  export bm_resolve_var="bm_assign_value"
+  export bm_export_var="${bm_assign_to}"
+  export bm_resolve_var="${bm_assign_var}"
   export bm_export_value="$(bm_resolve)"
+
   bm_export
 }
 

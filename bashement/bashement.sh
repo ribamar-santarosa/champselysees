@@ -588,10 +588,10 @@ function bm_export_prepare_var {
 # * requires
 #
 # *(over)writes:
-# bm_resolve_tmp_var
+# bm_resolve_tmp_var,
 #
 function bm_resolve {
-  bm_fallback_echo_command
+  test -z "${bm_echo_command}" && export bm_echo_command="echo -n"
   export bm_resolve_tmp_var=$(${bm_echo_command} ${bm_resolve_var})
   ${bm_echo_command} ${!bm_resolve_tmp_var}
 

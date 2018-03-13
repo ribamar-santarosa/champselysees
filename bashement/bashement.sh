@@ -315,7 +315,7 @@ function bm_wget_download {
 #
 function bm_install_bashement {
   wget -q --no-cache "https://raw.githubusercontent.com/ribamar-santarosa/champselysees/master/bashement/bashement.sh" --output-document "/tmp/bashement.sh"
-  . ${bm_wget_output_path}
+  . "/tmp/bashement.sh"
   bm_source_newest_env
   bm_install_itself
   bm_source_env

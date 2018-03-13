@@ -898,7 +898,6 @@ function bm_export_prepare_with_namespace_rm {
 #
 # *(over)writes:
 # bm_list,
-# bm_list_element,
 # bm_list_first,
 # bm_fallback_var,
 # bm_fallback_to,

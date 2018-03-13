@@ -920,7 +920,7 @@ function bm_list_shift {
   export bm_namespace_left="$bm_list"
   export bm_namespace_right="${bm_list_separator}"
   bm_export_prepare_with_namespace_rm
-  export bm_resolve_var="bm_list_element"
+  export bm_resolve_var="bm_list_first"
   bm_resolve
 }
 

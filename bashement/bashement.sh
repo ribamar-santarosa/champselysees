@@ -295,6 +295,33 @@ function bm_wget_download {
 }
 
 
+# the basic case for downloading this script and
+# it running. it's mostly supposed to be copied
+# and pasted to other scripts.
+#
+# * expects:
+#
+# * fallbacks:
+#
+#
+# * becomes interactive:
+#
+# * requires
+# bm_source_newest_env,
+# bm_install_itself,
+# bm_source_env
+#
+# *(over)writes:
+#
+function bm_install_bashement {
+  wget -q --no-cache "https://raw.githubusercontent.com/ribamar-santarosa/champselysees/master/bashement/bashement.sh" --output-document "/tmp/bashement.sh"
+  . ${bm_wget_output_path}
+  bm_source_newest_env
+  bm_install_itself
+  bm_source_env
+}
+
+
 # bm_source_env
 # sources the newest version of the
 # default env file for this script

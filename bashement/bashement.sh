@@ -1339,6 +1339,20 @@ function bm_new_function {
 }
 
 
+function bm_derive_var_debug_format {
+  bm_fallback_echo_command
+}
+
+
+function bm_derive_var_debug_format {
+  bm_fallback_echo_command
+}
+
+function bm_fs_write_pid_file {
+  echo $$ > /tmp/bm_pid
+}
+
+
 # end of script
 
 

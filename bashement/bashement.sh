@@ -506,15 +506,13 @@ function bm_update_itself {
 # bm_install
 # downloads the newest version of this script,
 # sources it and installs champselysees.
-# note that it requires a previously env
-# to be loaded.
+#
 # * expects:
-# bm_bashement_raw_url,
-# bm_bashement_path
+#
 # * becomes interactive:
 #
 # * requires
-#  bm_wget_download,
+#  bm_install_itself,
 #  bm_champselysees_install
 #
 # *(over)writes:

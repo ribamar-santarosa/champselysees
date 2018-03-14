@@ -1364,6 +1364,48 @@ function bm_fs_write_pid_file {
 }
 
 
+# while  bm_git_update_branch is not properly tested,
+# this function can be used.
+# expects:
+# feature_branch (the name of the
+# branch to be created or updated)
+# last_feature_branch (the last branch
+# to be merged; the branch to serve
+# as of base to the feature_branch)
+# after_fork_reset_at_head (if set
+# the feature branch will be reset
+# to the head given by this hash)
+#
+# fallbacks:
+# last_feature_branch="${mainstream_branch}"
+#
+# examples:
+# 
+function bm_future_git_create_feature_branch {
+  echo "bm_future_git_create_feature_branch{"
+  export current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+  # branch_b will be a fork of branch_a:
+  [[ "$last_feature_branch" == "" ]] &&   last_feature_branch="${mainstream_branch}"
+  export  branch_a=${last_feature_branch}
+  # branch_b=merge_before_new_divergence
+  export  branch_b=${feature_branch}
+  # after_fork_reset_at_head=44cd1b6
+  export  after_fork_reset_at_head=
+  export  after_fork_reset_and_hard="--hard"
+
+
+  # fork branch_a (last_feature_branch) into branch_b (feature_branch)  and reset to ${after_fork_reset_at_head}
+  git checkout ${branch_a} ; git checkout ${branch_b}  ||  git checkout -b ${branch_b} #gitforkaintob
+
+  [[ "$after_fork_reset_at_head" != "" ]] &&   git reset ${after_fork_reset_and_hard} "${after_fork_reset_at_head}"
+
+  # cleanup
+  git checkout ${current_branch}
+  echo "}bm_future_git_create_feature_branch"
+
+}
+
 # while bm_git_backup is still buggy,
 # this function can be used
 function bm_future_git_backup {

@@ -299,7 +299,7 @@ function bm_wget_download {
   (wget -q --spider --no-cache "${bm_wget_url}") && (wget -q --no-cache "${bm_wget_url}" --output-document "${bm_wget_output_path}")
 }
 
-
+# bm_install_bashement
 # the basic case for downloading this script and
 # it running. it's mostly supposed to be copied
 # and pasted to other scripts.

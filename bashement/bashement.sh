@@ -1427,7 +1427,7 @@ function bm_future_git_backup {
 #   export pick_commits_message_matching=${jira_issue}
 #   export  pick_commits_message_matching="cleanup"
 #   export  pick_commits_message_matching="password empty or nil|MailboxIns:"
-#   export  pick_commits_stop_at="1588912" #TODO>< #WIP>< unset? then HEAD of current branch
+#   export  pick_commits_stop_at="1588912" #TODO #WIP unset? then HEAD of current branch
 #   export  pick_commits_stop_at="divergence separator."
 function bm_future_git_list_commits {
   echo "bm_future_git_list_commits{"

@@ -334,9 +334,9 @@ function bm_install_bashement {
   test  -z "${bm_bashement_dir}"     && export bm_bashement_dir="/tmp/"
   mkdir -p "${bm_bashement_dir}"
   test  -z "${bm_bashement_raw_url}" && export bm_bashement_raw_url="https://raw.githubusercontent.com/ribamar-santarosa/champselysees/master/bashement/bashement.sh"
-  test  -z "${bm_bashement_path}"    && export bm_bashement_path="${bm_bashement_dir}/bashement.sh"
+  test  -z "${bm_bashement_path}"    && export bm_bashement_path="${bm_bashement_dir}bashement.sh"
   test  -z "${bm_bashement_env_raw_url}" && export bm_bashement_env_raw_url="https://raw.githubusercontent.com/ribamar-santarosa/champselysees/master/bashement/bashement-env.sh"
-  test -z "${bm_bashement_env_path}"     && export bm_bashement_env_path="${bm_bashement_dir}/bashement-env.sh"
+  test -z "${bm_bashement_env_path}"     && export bm_bashement_env_path="${bm_bashement_dir}bashement-env.sh"
   wget -q --no-cache ${bm_bashement_raw_url} --output-document "${bm_bashement_path}"
   . "${bm_bashement_path}"
   bm_source_newest_env

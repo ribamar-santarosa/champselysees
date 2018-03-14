@@ -962,6 +962,7 @@ function bm_export_prepare_with_list_shift {
 # a list of vars.
 #
 # * planned changes:
+# TODO: untested
 #
 # * expects:
 # bm_list_export_vars,

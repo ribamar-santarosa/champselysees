@@ -226,6 +226,7 @@ function bm_git_update_branch {
 function bm_git_backup {
   bm_set_git_branch_backup
   export bm_list_assign_vars="bm_git_current_branch bm_git_branch_backup"
+# TODO: other_vars => to_vars
   export bm_list_assign_other_vars="bm_git_branch_a bm_git_branch_b bm_git_reset_and_hard bm_git_reset_at_head"
   bm_list_assign
   bm_git_update_branch

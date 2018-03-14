@@ -1548,6 +1548,110 @@ function bm_future_git_cherry_pick_listed_commits {
 
 }
 
+# expects:
+# pick_commits_stop=
+# pick_commits_list_reversed=
+# pick_commits_list_reversed_negative=
+# (these vars are set or required by bm_future_git_list_commits
+# call that function and you'll have them
+# set on your environment)
+# temporary_branch=temporary_branch_tmp #this branch will be deleted!
+# experimental_branch (the branch under rebase --
+# probably the same as pick_commits_branch)
+#
+function bm_future_git_properrebase_experimental_branch {
+  local_debug_command="echo"
+  ${local_debug_command} "bm_future_git_properrebase_experimental_branch{"
+  test -z "${temporary_branch}" && export temporary_branch=temporary_branch_tmp
+  git branch -D ${temporary_branch}
+
+  ${local_debug_command} "it must fork the experimental branch and hard reset to ${pick_commits_stop}~1"
+  branch_a=${experimental_branch}
+  branch_b=${temporary_branch}
+  after_fork_reset_at_head="${pick_commits_stop}~1"
+  after_fork_reset_and_hard="--hard"
+  current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+  ${local_debug_command} "fork branch_a into branch_b"
+  ${local_debug_command} "git checkout ${branch_a} ; git checkout ${branch_b}  ||  git checkout -b ${branch_b}"
+  git checkout ${branch_a} ; git checkout ${branch_b}  ||  git checkout -b ${branch_b}
+
+  git_properrebase_tmp_branch_milestone=m0-fork-
+  cb=$(git rev-parse --abbrev-ref HEAD) ; git checkout  -b ${git_properrebase_tmp_branch_milestone}bk-$(date +"%Y.%m.%d_%H.%M.%S")-$cb ; git checkout $cb
+
+  [[ "$after_fork_reset_at_head" != "" ]] &&   ${local_debug_command} "git reset ${after_fork_reset_and_hard} ${after_fork_reset_at_head}"
+  [[ "$after_fork_reset_at_head" != "" ]] &&   git reset ${after_fork_reset_and_hard} "${after_fork_reset_at_head}"
+
+  git_properrebase_tmp_branch_milestone=m1-reset-
+  cb=$(git rev-parse --abbrev-ref HEAD) ; git checkout  -b ${git_properrebase_tmp_branch_milestone}bk-$(date +"%Y.%m.%d_%H.%M.%S")-$cb ; git checkout $cb
+
+  ${local_debug_command} "then it must cherry pick each of  pick_commits_list_reversed=[${pick_commits_list_reversed}]. first show them:"
+  git_command=show ; commit_list=${pick_commits_list_reversed} ; outfile_command_prefix=git.${git_command}.${outfile_prefix}
+  for commit in ${commit_list} ; do git ${git_command} ${commit} ; export status_git_${git_command}_commit_${commit}=$?  ; done  #interactive
+
+  git_command=cherry-pick ; commit_list=${pick_commits_list_reversed} ; outfile_command_prefix=git.${git_command}.${outfile_prefix}
+  for commit in ${commit_list} ; do  git ${git_command} ${commit} &> /dev/stdout  | tee out.${outfile_command_prefix}.commit_${commit} | tee -a  out.${outfile_command_prefix} ; export status_git_cherry_pick_commit_${commit}=$?  ; done #noninteractive
+
+  git_properrebase_tmp_branch_milestone=m2-reversed-
+  cb=$(git rev-parse --abbrev-ref HEAD) ; git checkout  -b ${git_properrebase_tmp_branch_milestone}bk-$(date +"%Y.%m.%d_%H.%M.%S")-$cb ; git checkout $cb
+
+  ${local_debug_command} "then it must cherry-pick the  pick_commits_stop=${pick_commits_stop}"
+  git_command=show ; commit_list=${pick_commits_stop} ; outfile_command_prefix=git.${git_command}.${outfile_prefix}
+  for commit in ${commit_list} ; do git ${git_command} ${commit} ; export status_git_${git_command}_commit_${commit}=$?  ; done  #interactive
+
+  git_command=cherry-pick ; commit_list=${pick_commits_stop} ; outfile_command_prefix=git.${git_command}.${outfile_prefix}
+  for commit in ${commit_list} ; do  git ${git_command} ${commit} &> /dev/stdout  | tee out.${outfile_command_prefix}.commit_${commit} | tee -a  out.${outfile_command_prefix} ; export status_git_cherry_pick_commit_${commit}=$?  ; done #noninteractive
+
+  git_properrebase_tmp_branch_milestone=m3-divisor-
+  cb=$(git rev-parse --abbrev-ref HEAD) ; git checkout  -b ${git_properrebase_tmp_branch_milestone}bk-$(date +"%Y.%m.%d_%H.%M.%S")-$cb ; git checkout $cb
+
+
+  ${local_debug_command} "then it must cherry-pick each of the \$pick_commits_list_reversed_negative . note that maybe it's \${pick_commits_list_negative} reversed, I don' t know now right now."
+
+
+  git_command=show ; commit_list=${pick_commits_list_reversed_negative} ; outfile_command_prefix=git.${git_command}.${outfile_prefix}
+  for commit in ${commit_list} ; do git ${git_command} ${commit} ; export status_git_${git_command}_commit_${commit}=$?  ; done  #interactive
+
+  git_command=cherry-pick ; commit_list=${pick_commits_list_reversed_negative} ; outfile_command_prefix=git.${git_command}.${outfile_prefix}
+  for commit in ${commit_list} ; do  git ${git_command} ${commit} &> /dev/stdout  | tee out.${outfile_command_prefix}.commit_${commit} | tee -a  out.${outfile_command_prefix} ; export status_git_${git_command}_commit_${commit}=$?  ; done #noninteractive
+
+  git_properrebase_tmp_branch_milestone=m4-final-
+  cb=$(git rev-parse --abbrev-ref HEAD) ; git checkout  -b ${git_properrebase_tmp_branch_milestone}bk-$(date +"%Y.%m.%d_%H.%M.%S")-$cb ; git checkout $cb
+
+  ${local_debug_command} "temporary branch is now the way we want the experimental to be."
+
+  branch_to_fork=${temporary_branch}
+  branch_being_overwritten=${experimental_branch}
+  branch_a=${branch_to_fork}
+  branch_b=${branch_being_overwritten}
+  git_delete_option="-d"
+  git_delete_option="-D"
+
+  ${local_debug_command} "fork branch_a (last_feature_branch) into branch_b (feature_branch):"
+  ${local_debug_command} "git checkout ${branch_a} ; git branch ${git_delete_option} ${branch_b}  &&  git checkout -b ${branch_b}"
+  git checkout ${branch_a} ; git branch ${git_delete_option} ${branch_b}  &&  git checkout -b ${branch_b}
+
+  git_properrebase_tmp_branch_milestone=m5-success-
+  cb=$(git rev-parse --abbrev-ref HEAD) ; git checkout  -b ${git_properrebase_tmp_branch_milestone}bk-$(date +"%Y.%m.%d_%H.%M.%S")-$cb ; git checkout $cb
+
+  ${local_debug_command} "ensure the new experimental branch has changed only the order of commits, but not the final content:"
+  git checkout ${experimental_branch}
+
+  git_diff_options=""
+  git_current_branch="$(git rev-parse --abbrev-ref HEAD)"
+  git_current_origin="origin/${git_current_branch}"
+  branch_a=${git_current_branch}
+  branch_b=${git_current_origin}
+  ${local_debug_command} "git diff ${git_diff_options} ${branch_a}..${branch_b} | wc -l #don't push if not 0:"
+  git diff ${git_diff_options} ${branch_a}..${branch_b} | wc -l #don't push if not 0
+
+  ${local_debug_command} "if above is 0, push the new experimental branch:"
+  ${local_debug_command} git checkout ${experimental_branch}
+  ${local_debug_command} "git push -u origin :$(git rev-parse --abbrev-ref HEAD) --tags ; git push  origin $(git rev-parse --abbrev-ref HEAD) --tags"
+
+  ${local_debug_command} "}bm_future_git_properrebase_experimental_branch"
+
+}
 # end of script
 
 

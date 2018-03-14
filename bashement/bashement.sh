@@ -1536,7 +1536,7 @@ function bm_future_git_cherry_pick_listed_commits {
 
   echo analyze if the cherry-pick output had no issues:
   echo vim -p \"\${outfile}\" \#outfilevim
-  echo vim -p "${outfile}" #outfilevim
+  echo vim -p \"${outfile}\"
   #interactive>< todo>< write down PR link
   echo if the output shows successful cherry-picks,
   echo the branch can be pushed with:

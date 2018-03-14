@@ -388,13 +388,15 @@ function bm_fallback_bashement_vars {
 # * expects:
 # bm_bashement_env_path
 # * fallbacks:
-#  bm_bashement_env_path="/tmp/bashement-env.sh"
+#
 # bm_bashement_path
 # * becomes interactive:
 #
 # * requires
+# bm_fallback_bashement_vars
 #
 # *(over)writes:
+#
 function bm_source_env {
   bm_fallback_bashement_vars
   . "${bm_bashement_env_path}"

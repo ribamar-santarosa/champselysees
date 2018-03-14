@@ -202,6 +202,7 @@ function bm_git_update_branch {
 # backups the current branch
 #
 # * planned changes:
+# bm_list_assign is used but buggy.
 #
 # * expects:
 #

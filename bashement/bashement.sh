@@ -857,7 +857,7 @@ function bm_namespace_rm {
 # bm_export_prepare_with_namespace_rm
 # exports a var (given by bm_export_prepare_var)
 # with the results of calling bm_namespace_rm
-# 
+#
 # * expects:
 # bm_export_prepare_var,
 # bm_namespace_left,

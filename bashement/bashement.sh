@@ -341,6 +341,7 @@ function bm_install_bashement {
   wget -q --no-cache ${bm_bashement_raw_url} --output-document "${bm_bashement_path}"
   . "${bm_bashement_path}"
   bm_source_newest_env
+  bm_fallback_bashement_vars
   bm_install_itself
   bm_source_env
 }

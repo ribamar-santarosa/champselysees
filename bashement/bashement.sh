@@ -331,6 +331,8 @@ function bm_wget_download {
 # *(over)writes:
 #
 function bm_install_bashement {
+  # note it could simply call bm_fallback_bashement_vars.
+  # however, since this thing is intended
   test  -z "${bm_bashement_dir}"     && export bm_bashement_dir="/tmp/"
   mkdir -p "${bm_bashement_dir}"
   test  -z "${bm_bashement_raw_url}" && export bm_bashement_raw_url="https://raw.githubusercontent.com/ribamar-santarosa/champselysees/master/bashement/bashement.sh"

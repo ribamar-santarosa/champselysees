@@ -303,6 +303,8 @@ function bm_wget_download {
 # the basic case for downloading this script and
 # it running. it's mostly supposed to be copied
 # and pasted to other scripts.
+# recommended way: set only bm_bashement_dir,
+# and call this function
 #
 # * expects:
 # bm_bashement_dir,

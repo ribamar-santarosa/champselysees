@@ -1039,7 +1039,7 @@ function bm_list_assign {
 
 
 # bm_fs_wipe_swp
-#
+# TODO: output one per line
 # * expects:
 # bm_fs_wipe_swp_sudo_find,
 # bm_fs_wipe_swp_sudo_rm,

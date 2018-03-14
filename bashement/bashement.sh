@@ -1539,6 +1539,7 @@ function bm_future_git_cherry_pick_listed_commits {
   echo if the output shows successful cherry-picks,
   echo the branch can be pushed with:
   echo git push -u origin $(git rev-parse --abbrev-ref HEAD) --tags
+  echo "don't forget, after merge, to update last_feature_branch, if you use multiflow"
   echo "}bm_future_git_cherry_pick_listed_commits"
 
 

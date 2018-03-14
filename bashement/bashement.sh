@@ -396,8 +396,7 @@ function bm_fallback_bashement_vars {
 #
 # *(over)writes:
 function bm_source_env {
-  # fallbacks:
-  [[ -z "${bm_bashement_env_path}" ]] && export bm_bashement_env_path="/tmp/bashement-env.sh"
+  bm_fallback_bashement_vars
   . "${bm_bashement_env_path}"
 }
 

@@ -932,7 +932,7 @@ function bm_list_shift {
 # bm_export_prepare_with_list_shift
 # exports a var (given by bm_export_prepare_var)
 # with the results of calling bm_list_shift
-# 
+#
 # * expects:
 # bm_export_prepare_var,
 # bm_namespace_left,

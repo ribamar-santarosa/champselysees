@@ -522,10 +522,7 @@ function bm_update_itself {
 # bm_wget_output_path
 #
 function bm_install {
-  export bm_wget_url="${bm_bashement_raw_url}"
-  export bm_wget_output_path="${bm_bashement_path}"
-  bm_wget_download
-  . "${bm_bashement_path}"
+  bm_install_itself
   bm_champselysees_install
 }
 

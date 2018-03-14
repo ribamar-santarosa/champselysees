@@ -1402,6 +1402,8 @@ function bm_future_git_create_feature_branch {
 
   # cleanup
   git checkout ${current_branch}
+  echo git branch -a \| grep "${feature_branch}"
+  git branch -a | grep "${feature_branch}"
   echo "}bm_future_git_create_feature_branch"
 
 }

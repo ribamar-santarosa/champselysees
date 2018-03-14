@@ -1361,6 +1361,139 @@ function bm_fs_write_pid_file {
 }
 
 
+# bm_future_git_list_commits matching
+# a pattern.
+# expects pick_commits_branch (the branch
+# history to look for commits)
+# pick_commits_message_matching (a commit
+# will be listed if its message or hash
+# matches this egrep pattern)
+# pick_commits_stop_at (the search will stop
+# at the commit having the message or hash
+# matching this pattern).
+# examples:
+#   export pick_commits_branch=${experimental_branch}
+#   export pick_commits_message_matching=${jira_issue}
+#   export  pick_commits_message_matching="cleanup"
+#   export  pick_commits_message_matching="password empty or nil|MailboxIns:"
+#   export  pick_commits_stop_at="1588912" #TODO>< #WIP>< unset? then HEAD of current branch
+#   export  pick_commits_stop_at="divergence separator."
+function bm_future_git_list_commits {
+  echo "bm_future_git_list_commits{"
+
+  export  outfile_prefix=list_commits.${bm_time}
+  export  outfile_base=out.outfile_base.${outfile_prefix}
+
+
+  echo "pick_commits_stop_full_output{"
+  git_command=log
+  export outfile_command_prefix=git.${git_command}.${outfile_prefix}
+  export outfile=out.pick_commits_stop_full_output.${outfile_command_prefix}
+
+  # this file is important for the script. make it  "outfile_base":
+  ln -sf "${outfile}" "${outfile_base}"
+
+  git log --oneline ${experimental_branch}  | sed "/${pick_commits_stop_at}/q"    | tac   | tee "${outfile}" #pick_commits_stop_full_output
+
+  echo "check the list of all involved commits, including the stop_at commit, with their corresponding messages:"
+  cat "${outfile}"
+  echo "}pick_commits_stop_full_output"
+
+  echo "pick_commits_stop{"
+
+  export git_command=
+  export  outfile_command_prefix=cat.outfile_base.${outfile_prefix}
+  export  outfile=out.pick_commits_stop.${outfile_command_prefix}
+
+  export  pick_commits_stop=$(cat "${outfile_base}"   | head -1   | cut -f 1 -d " " | xargs echo   ) ; echo ${pick_commits_stop} | tee "${outfile}" #pick_commits_stop
+
+  echo "check the stop_at commit, without its corresponding messages:"
+  cat "${outfile}"
+  echo "}pick_commits_stop"
+
+
+  echo "}pick_commits_stop"
+  echo "pick_commits_list_reversed{"
+
+  export  git_command=
+  export  outfile_command_prefix=cat.outfile_base.${outfile_prefix}
+  export  outfile=out.pick_commits_list_reversed.${outfile_command_prefix}
+
+  export  pick_commits_list_reversed=$(cat  "${outfile_base}" | tail -n +2  |  egrep "${pick_commits_message_matching}"   |  cut -f 1 -d " " | xargs echo   ) ; echo ${pick_commits_list_reversed}  | tee "${outfile}" #pick_commits_list_reversed
+
+  echo "check the list of commits to be picked (naturally excluding the stop_at commit), without their corresponding messages:"
+  cat "${outfile}"
+  echo "}pick_commits_list_reversed"
+
+  echo "pick_commits_negative_list{"
+
+
+  export  git_command=
+  export  outfile_command_prefix=cat.outfile_base.${outfile_prefix}
+  export  outfile=out.pick_commits_negative_list.${outfile_command_prefix}
+
+  export pick_commits_negative_list=$(cat    "${outfile_base}" | tail -n +2  |  egrep -v "${pick_commits_message_matching}"   | cut -f 1 -d " " | xargs echo   ) ; echo ${pick_commits_negative_list} |  tee "${outfile}"  #pick_commits_negative_list
+
+  echo "check the negative list of commits -- the commits that are before stop, but won't be picked  (naturally excluding the stop_at commit) -- without their corresponding messages:"
+  cat "${outfile}"
+  echo "}pick_commits_negative_list"
+  echo "}bm_future_git_list_commits"
+}
+
+# expects:
+#  pick_commits_list_reversed,
+#  branch_b the destination branch of the cherry-pick'ed  commits)
+# show_before_cherry_pick (outputs a git show before
+# cherry-pick the branch, set to 1 if desided):
+#  export  show_before_cherry_pick=
+# export show_before_cherry_pick=1
+# overwrites many things.
+function bm_future_git_cherry_pick_listed_commits {
+
+  echo "bm_future_git_cherry_pick_listed_commits{"
+  git checkout ${branch_b}  ||  git checkout -b ${branch_b}
+  # export commit_list=$(cat "${filename}")
+  # export commit_list=${pick_commits_stop}
+  # export  commit_list=${pick_commits_negative_list}
+  export  commit_list=${pick_commits_list_reversed}
+  export  git_command=cherry-pick
+  export  outfile_command_prefix=git.${git_command}.${outfile_prefix}
+  export  outfile=out.${outfile_command_prefix}
+  export  status_var_prefix=status_git_${git_command}_commit
+  export  status_var_prefix=status_git_cherry_pick_commit #TODO escaperegex
+
+  echo "commit_list{${commit_list}}commit_list"
+
+  # mv "${outfile}" ~/outs/ || rm "${outfile}"
+  for commit in ${commit_list} ; do
+    echo "git{${git_command}{${commit}{" ;
+    echo "show_before_cherry_pick{${show_before_cherry_pick}{" ;
+    [[ ! -z "${show_before_cherry_pick}"  ]] && echo git show ${commit} ;
+    [[ ! -z "${show_before_cherry_pick}"  ]] && git show ${commit} ;
+    echo "${show_before_cherry_pick}}show_before_cherry_pick" ;
+    echo git ${git_command} ${commit} ;
+    echo "output{" ;
+    git ${git_command} ${commit}  ;
+    export ${status_var_prefix}_${commit}=$?
+    echo "}output" ;
+    echo "status{${status_var_prefix}_${commit}}status" ;
+
+    echo "}${commit}}${git_command}}git" ;
+  done  &>/dev/stdout  | tee -a  "${outfile}"  #noninteractive
+
+  echo analyze if the cherry-pick output had no issues:
+  echo vim -p \"\${outfile}\" \#outfilevim
+  echo vim -p "${outfile}" #outfilevim
+  #interactive>< todo>< write down PR link
+  echo if the output shows successful cherry-picks,
+  echo the branch can be pushed with:
+  echo git push -u origin $(git rev-parse --abbrev-ref HEAD) --tags
+  echo "}bm_future_git_cherry_pick_listed_commits"
+
+
+
+}
+
 # end of script
 
 

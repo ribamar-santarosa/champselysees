@@ -121,7 +121,9 @@ function bm_derive_git_branch_backup {
 }
 
 
+# TODO: bad name
 # bm_set_git_branch_backup
+# TODO: bad name
 # derives bm_git_branch_backup,
 # from currently set bm_git_time,
 # and bm_git_current_branch

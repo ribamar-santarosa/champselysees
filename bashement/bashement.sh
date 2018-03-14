@@ -310,20 +310,14 @@ function bm_wget_download {
 # bm_bashement_dir,
 # bm_bashement_raw_url,
 # bm_bashement_path,
-# bm_bashement_env_raw_url,
-# bm_bashement_env_path
 #
 # * fallbacks:
-# bm_bashement_dir="/tmp/"
-# bm_bashement_raw_url="https://raw.githubusercontent.com/ribamar-santarosa/champselysees/master/bashement/bashement.sh"
-# bm_bashement_path="${bm_bashement_dir}/bashement.sh"
-# bm_bashement_env_raw_url="https://raw.githubusercontent.com/ribamar-santarosa/champselysees/master/bashement/bashement-env.sh"
-# bm_bashement_env_path="${bm_bashement_dir}/bashement-env.sh"
-#
 #
 # * becomes interactive:
 #
 # * requires
+# bm_fallback_bashement_vars,
+# wget
 # bm_source_newest_env,
 # bm_install_itself,
 # bm_source_env

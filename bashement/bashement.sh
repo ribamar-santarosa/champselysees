@@ -434,15 +434,16 @@ function bm_source_newest_env {
 # bm_install_itself
 # downloads the newest version of this script,
 # sources it.
-# note that it requires a previously env
-# to be loaded.
+#
 # * expects:
 # bm_bashement_raw_url,
 # bm_bashement_path
+#
 # * becomes interactive:
 #
 # * requires
-#  bm_wget_download
+#  bm_wget_download,
+# bm_fallback_bashement_vars
 #
 # *(over)writes:
 # bm_wget_url,

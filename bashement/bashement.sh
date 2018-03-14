@@ -407,6 +407,8 @@ function bm_source_env {
 # downloads the newest version of the
 # default env file for this script
 # and sources it
+# TODO: missing a function that would
+# load only the new vars
 # * expects:
 # bm_bashement_raw_url,
 # bm_bashement_env_path

@@ -450,6 +450,7 @@ function bm_source_newest_env {
 # bm_install_itself_done
 #
 function bm_install_itself {
+  bm_fallback_bashement_vars
   export bm_wget_url="${bm_bashement_raw_url}"
   export bm_wget_output_path="${bm_bashement_path}"
   bm_wget_download

@@ -343,6 +343,41 @@ function bm_install_bashement {
 }
 
 
+# bm_fallback_bashement_vars
+#
+# * expects:
+# bm_bashement_dir,
+# bm_bashement_raw_url,
+# bm_bashement_path,
+# bm_bashement_env_raw_url,
+# bm_bashement_env_path
+#
+# * fallbacks:
+# bm_bashement_dir="/tmp/"
+# bm_bashement_raw_url="https://raw.githubusercontent.com/ribamar-santarosa/champselysees/master/bashement/bashement.sh"
+# bm_bashement_path="${bm_bashement_dir}/bashement.sh"
+# bm_bashement_env_raw_url="https://raw.githubusercontent.com/ribamar-santarosa/champselysees/master/bashement/bashement-env.sh"
+# bm_bashement_env_path="${bm_bashement_dir}/bashement-env.sh"
+#
+#
+# * becomes interactive:
+#
+# * requires
+#
+# *(over)writes:
+#
+function bm_fallback_bashement_vars {
+  test  -z "${bm_bashement_dir}"     && export bm_bashement_dir="/tmp/"
+  mkdir -p "${bm_bashement_dir}"
+  test  -z "${bm_bashement_raw_url}" && export bm_bashement_raw_url="https://raw.githubusercontent.com/ribamar-santarosa/champselysees/master/bashement/bashement.sh"
+  test  -z "${bm_bashement_path}"    && export bm_bashement_path="${bm_bashement_dir}/bashement.sh"
+  test  -z "${bm_bashement_env_raw_url}" && export bm_bashement_env_raw_url="https://raw.githubusercontent.com/ribamar-santarosa/champselysees/master/bashement/bashement-env.sh"
+  test -z "${bm_bashement_env_path}"     && export bm_bashement_env_path="${bm_bashement_dir}/bashement-env.sh"
+  wget -q --no-cache ${bm_bashement_raw_url} --output-document "${bm_bashement_path}"
+  . "${bm_bashement_path}"
+}
+
+
 # bm_source_env
 # sources the newest version of the
 # default env file for this script

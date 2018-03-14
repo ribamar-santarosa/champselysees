@@ -161,6 +161,7 @@ function bm_set_git_branch_backup {
 # a hard reset.
 #
 # * planned changes:
+# TODO: untested
 #
 # * expects:
 # bm_git_branch_a,

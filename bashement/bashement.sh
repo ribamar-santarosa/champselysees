@@ -1001,6 +1001,7 @@ function bm_list_export {
 # another list.
 #
 # * planned changes:
+# TODO: currently bugged
 #
 # * expects:
 # bm_list_assign_vars,

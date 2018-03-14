@@ -1362,6 +1362,12 @@ function bm_fs_write_pid_file {
 }
 
 
+# while bm_git_backup is still buggy,
+# this function can be used
+function bm_future_git_backup {
+  cb=$(git rev-parse --abbrev-ref HEAD) ; git checkout  -b bk-$(date +"%Y.%m.%d_%H.%M.%S")-$cb ; git checkout $cb
+}
+
 # bm_future_git_list_commits matching
 # a pattern.
 # expects pick_commits_branch (the branch

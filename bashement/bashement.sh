@@ -338,9 +338,19 @@ function bm_install_bashement {
   test  -z "${bm_bashement_path}"    && export bm_bashement_path="${bm_bashement_dir}bashement.sh"
   test  -z "${bm_bashement_env_raw_url}" && export bm_bashement_env_raw_url="https://raw.githubusercontent.com/ribamar-santarosa/champselysees/master/bashement/bashement-env.sh"
   test -z "${bm_bashement_env_path}"     && export bm_bashement_env_path="${bm_bashement_dir}bashement-env.sh"
+  export bm_bashement_dir_old="${bm_bashement_dir}"
+  export bm_bashement_raw_url_old="${bm_bashement_raw_url}"
+  export bm_bashement_path_old="${bm_bashement_path}"
+  export bm_bashement_env_raw_url_old="${bm_bashement_env_raw_url}"
+  export bm_bashement_env_path_old="${bm_bashement_env_path}"
   wget -q --no-cache ${bm_bashement_raw_url} --output-document "${bm_bashement_path}"
   . "${bm_bashement_path}"
   bm_source_newest_env
+  export bm_bashement_dir="${bm_bashement_dir_old}"
+  export bm_bashement_raw_url="${bm_bashement_raw_url_old}"
+  export bm_bashement_path="${bm_bashement_path_old}"
+  export bm_bashement_env_raw_url="${bm_bashement_env_raw_url_old}"
+  export bm_bashement_env_path="${bm_bashement_env_path_old}"
   bm_fallback_bashement_vars
   bm_install_itself
   bm_source_env

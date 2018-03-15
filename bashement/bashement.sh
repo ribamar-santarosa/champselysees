@@ -305,7 +305,7 @@ function bm_wget_download {
 # and pasted to other scripts.
 # recommended way: set only bm_bashement_dir,
 # and call this function
-# TODO: bug: bm_source_newest_env: will destroy the user pre-set bm_bashement_dir
+#
 #
 # * expects:
 # bm_bashement_dir,

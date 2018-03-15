@@ -330,6 +330,11 @@ function bm_wget_download {
 # bm_source_env
 #
 # *(over)writes:
+# bm_bashement_dir_old,
+# bm_bashement_raw_url_old,
+# bm_bashement_path_old,
+# bm_bashement_env_raw_url_old,
+# bm_bashement_env_path_old,
 #
 function bm_install_bashement {
   test  -z "${bm_bashement_dir}"     && export bm_bashement_dir="/tmp/"

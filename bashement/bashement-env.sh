@@ -18,6 +18,13 @@ export bm_bashement_raw_url=
 export bm_bashement_path=
 export bm_install_itself_done=
 
+# function:  bm_install_bashement
+export bm_bashement_dir_old=
+export bm_bashement_raw_url_old=
+export bm_bashement_path_old=
+export bm_bashement_env_raw_url_old=
+export bm_bashement_env_path_old=
+
 # function: bm_psql_*
 export bm_db_name=bm_database
 export bm_db_user=$(whoami)

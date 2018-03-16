@@ -1781,6 +1781,53 @@ function bm_future_git_properrebase_experimental_branch {
   ${local_debug_command} "}bm_future_git_properrebase_experimental_branch"
 
 }
+
+
+
+# bm_future_move_commits
+# export show_before_cherry_pick=1
+# export pick_commits_message_matching=.
+# export pick_commits_stop_at="divergence separator."
+function bm_future_move_commits {
+  export destination_branch=${feature_branch}
+  export pick_commits_branch=${experimental_branch}
+  export outfile_list_commits=out.bm_future_git_list_commits
+  export outfile_list_commits_cherry_pick=out.bm_future_git_cherry_pick_listed_commits
+  export outfile_list_commits_properrebase=out.bm_future_git_properrebase_experimental_branch
+
+  bm_export_git_current_branch
+  stack_branch="$bm_git_current_branch"
+
+  bm_export_git_current_branch ; echo $bm_git_current_branch
+
+  bm_future_git_create_feature_branch
+
+
+  bm_future_git_list_commits
+  bm_future_git_list_commits &> "${outfile_list_commits}" # note: | will open a new and prevent variables to be exported. this is why this function is called twice
+
+  export branch_b=${destination_branch}
+  bm_future_git_cherry_pick_listed_commits | tee "${outfile_list_commits_cherry_pick}"
+
+  # egrep -C 1 "^output{|^}output" "${outfile_list_commits_cherry_pick}" | egrep -v "^--|^status{.*}status"
+
+
+  # push feature branch
+  # git push -u origin $(git rev-parse --abbrev-ref HEAD) --tags #gitpushcurrentbranch
+
+  git checkout  ${experimental_branch}
+
+  bm_future_git_properrebase_experimental_branch | tee  "${outfile_list_commits_properrebase}"
+
+  # pushforce experimental branch
+  # git push -u origin :$(git rev-parse --abbrev-ref HEAD) --tags ; git push  origin $(git rev-parse --abbrev-ref HEAD) --tags #gitforcepushgitpushforce
+
+
+}
+
+
+
+
 # end of script
 
 

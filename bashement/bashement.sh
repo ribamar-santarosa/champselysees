@@ -1458,7 +1458,8 @@ function bm_future_git_pull_current_branch {
    export bm_git_branch_command="pull"
    export bm_git_branch_a="$(git rev-parse --abbrev-ref HEAD)"
    export bm_git_branch_command_include="--tags"
-   git ${git_branch_command} -u origin ${bm_git_branch_a}  ${bm_git_branch_command_include} || git ${git_branch_command} origin ${bm_git_branch_a}  ${bm_git_branch_command_include}
+   git ${bm_git_branch_command} origin ${bm_git_branch_a} || git ${bm_git_branch_command} origin -u ${bm_git_branch_a}
+
 }
 
 
@@ -1470,10 +1471,10 @@ function bm_future_git_pull_current_branch {
 # bm_git_branch_a,
 # bm_git_branch_command_include
 function bm_future_git_push_current_branch {
-   export bm_git_branch_command="pull"
+   export bm_git_branch_command="push"
    export bm_git_branch_a="$(git rev-parse --abbrev-ref HEAD)"
    export bm_git_branch_command_include="--tags"
-   git ${git_branch_command} -u origin ${bm_git_branch_a}  ${bm_git_branch_command_include} || git ${git_branch_command} origin ${bm_git_branch_a}  ${bm_git_branch_command_include}
+   git ${bm_git_branch_command} -u origin ${bm_git_branch_a} || git ${bm_git_branch_command} origin ${bm_git_branch_a}
 }
 
 

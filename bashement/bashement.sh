@@ -1447,6 +1447,36 @@ function bm_fs_write_pid_file {
 }
 
 
+# bm_future_pull_current_branch
+#  TODO: untested
+# pulls the current branch
+# overwrites:
+# bm_git_branch_command,
+# bm_git_branch_a,
+# bm_git_branch_command_include
+function bm_future_pull_current_branch {
+   export bm_git_branch_command="pull"
+   export bm_git_branch_a="$(git rev-parse --abbrev-ref HEAD)"
+   export bm_git_branch_command_include="--tags"
+   git ${git_branch_command} -u origin ${bm_git_branch_a}  ${bm_git_branch_command_include} || git ${git_branch_command} origin ${bm_git_branch_a}  ${bm_git_branch_command_include}
+}
+
+
+# bm_future_push_current_branch
+#  TODO: untested
+# pulls the current branch
+# overwrites:
+# bm_git_branch_command,
+# bm_git_branch_a,
+# bm_git_branch_command_include
+function bm_future_push_current_branch {
+   export bm_git_branch_command="pull"
+   export bm_git_branch_a="$(git rev-parse --abbrev-ref HEAD)"
+   export bm_git_branch_command_include="--tags"
+   git ${git_branch_command} -u origin ${bm_git_branch_a}  ${bm_git_branch_command_include} || git ${git_branch_command} origin ${bm_git_branch_a}  ${bm_git_branch_command_include}
+}
+
+
 # while  bm_git_update_branch is not properly tested,
 # this function can be used.
 # expects:

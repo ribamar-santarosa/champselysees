@@ -1630,6 +1630,7 @@ function bm_future_git_list_commits {
 #  export  show_before_cherry_pick=
 # export show_before_cherry_pick=1
 # overwrites many things.
+# git_push_after_every_cherry_pick
 function bm_future_git_cherry_pick_listed_commits {
 
   echo "bm_future_git_cherry_pick_listed_commits{"
@@ -1656,6 +1657,8 @@ function bm_future_git_cherry_pick_listed_commits {
     echo git ${git_command} ${commit} ;
     echo "output{" ;
     git ${git_command} ${commit}  ;
+    test "$git_push_after_every_cherry_pick" && bm_future_git_push_current_branch
+
     export ${status_var_prefix}_${commit}=$?
     echo "}output" ;
     echo "status{${status_var_prefix}_${commit}}status" ;
@@ -1788,6 +1791,8 @@ function bm_future_git_properrebase_experimental_branch {
 # export show_before_cherry_pick=1
 # export pick_commits_message_matching=.
 # export pick_commits_stop_at="divergence separator."
+# expects last_feature_branch or mainstream_branch}
+# TODO bad name _git_ missing
 function bm_future_move_commits {
   export destination_branch=${feature_branch}
   export pick_commits_branch=${experimental_branch}

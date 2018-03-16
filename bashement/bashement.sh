@@ -1447,6 +1447,17 @@ function bm_fs_write_pid_file {
 }
 
 
+# bm_future_git_checkout checkouts
+# a branch, even in the case
+# of multiple remotes
+# overwrites:
+# bm_git_branch_checkout
+function bm_future_git_checkout {
+   test -z "${bm_git_branch_checkout}" && export bm_git_branch_checkout="$1"
+   git checkout -b ${bm_git_branch_checkout}  origin/${bm_git_branch_checkout}
+}
+
+
 # bm_future_git_pull_current_branch
 #  TODO: untested
 # pulls the current branch

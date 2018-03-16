@@ -1447,14 +1447,14 @@ function bm_fs_write_pid_file {
 }
 
 
-# bm_future_pull_current_branch
+# bm_future_git_pull_current_branch
 #  TODO: untested
 # pulls the current branch
 # overwrites:
 # bm_git_branch_command,
 # bm_git_branch_a,
 # bm_git_branch_command_include
-function bm_future_pull_current_branch {
+function bm_future_git_pull_current_branch {
    export bm_git_branch_command="pull"
    export bm_git_branch_a="$(git rev-parse --abbrev-ref HEAD)"
    export bm_git_branch_command_include="--tags"
@@ -1462,14 +1462,14 @@ function bm_future_pull_current_branch {
 }
 
 
-# bm_future_push_current_branch
+# bm_future_git_push_current_branch
 #  TODO: untested
 # pulls the current branch
 # overwrites:
 # bm_git_branch_command,
 # bm_git_branch_a,
 # bm_git_branch_command_include
-function bm_future_push_current_branch {
+function bm_future_git_push_current_branch {
    export bm_git_branch_command="pull"
    export bm_git_branch_a="$(git rev-parse --abbrev-ref HEAD)"
    export bm_git_branch_command_include="--tags"

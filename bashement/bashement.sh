@@ -1447,6 +1447,10 @@ function bm_fs_write_pid_file {
 }
 
 
+function bm_future_git_log_oneline {
+  git log --oneline
+}
+
 # bm_future_git_checkout checkouts
 # a branch, even in the case
 # of multiple remotes

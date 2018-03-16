@@ -1489,7 +1489,7 @@ function bm_future_git_push_current_branch {
    export bm_git_branch_command="push"
    export bm_git_branch_a="$(git rev-parse --abbrev-ref HEAD)"
    export bm_git_branch_command_include="--tags"
-   git ${bm_git_branch_command} -u origin ${bm_git_branch_a} || git ${bm_git_branch_command} origin ${bm_git_branch_a}
+   git ${bm_git_branch_command} -u origin ${bm_git_branch_a}
 }
 
 

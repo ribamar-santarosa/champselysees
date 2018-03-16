@@ -1451,6 +1451,11 @@ function bm_future_git_log_oneline {
   git log --oneline
 }
 
+
+function bm_future_git_reset_hard_origin {
+  git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
+}
+
 # bm_future_git_checkout checkouts
 # a branch, even in the case
 # of multiple remotes

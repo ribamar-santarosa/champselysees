@@ -1512,15 +1512,13 @@ function bm_future_git_push_current_branch {
 # expects:
 # feature_branch (the name of the
 # branch to be created or updated)
-# last_feature_branch (the last branch
+# mainstream_branch (the last branch
 # to be merged; the branch to serve
 # as of base to the feature_branch)
 # after_fork_reset_at_head (if set
 # the feature branch will be reset
 # to the head given by this hash)
 #
-# fallbacks:
-# last_feature_branch="${mainstream_branch}"
 #
 # examples:
 # 
@@ -1529,8 +1527,9 @@ function bm_future_git_create_feature_branch {
   export current_branch=$(git rev-parse --abbrev-ref HEAD)
 
   # branch_b will be a fork of branch_a:
-  [[ "$last_feature_branch" == "" ]] &&   last_feature_branch="${mainstream_branch}"
-  export  branch_a=${last_feature_branch}
+  # [[ "$last_feature_branch" == "" ]] &&   last_feature_branch="${mainstream_branch}"
+  # export  branch_a=${last_feature_branch}
+  export  branch_a=${mainstream_branch}
   # branch_b=merge_before_new_divergence
   export  branch_b=${feature_branch}
   # after_fork_reset_at_head=44cd1b6

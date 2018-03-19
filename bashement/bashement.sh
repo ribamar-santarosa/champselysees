@@ -1447,6 +1447,11 @@ function bm_fs_write_pid_file {
 }
 
 
+function bm_future_git_push_force_current_branch {
+  # TODO; option to backup the remote branch
+  git push -u origin :$(git rev-parse --abbrev-ref HEAD) --tags ; git push  origin $(git rev-parse --abbrev-ref HEAD) --tags #gitforcepushgitpushforce
+}
+
 function bm_future_git_log_oneline {
   git log --oneline
 }

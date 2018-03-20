@@ -1121,6 +1121,38 @@ function bm_list_assign {
 }
 
 
+# bm_operate_binary
+#
+# * planned changes:
+#
+# * expects:
+# bm_operate_var,
+# bm_operate_operation,
+# bm_operate_operand,
+# bm_operate_command,
+#
+# * fallbacks:
+#
+# * becomes interactive:
+#
+# * requires
+# bm_export_prepare_value
+#
+# *(over)writes:
+# bm_resolve_var,
+# bm_export_prepare_var,
+# bm_export_prepare_command,
+# bm_export_prepare_command_args,
+#
+function bm_operate_binary {
+  export bm_resolve_var="${bm_operate_var}"
+  export bm_export_prepare_var="${bm_operate_var}"
+  export bm_export_prepare_command="${bm_operate_command} $(bm_resolve) ${bm_operate_operation} ${bm_operate_operand}"
+  export bm_export_prepare_command_args=
+  bm_export_prepare_value
+}
+
+
 # bm_int_inc
 #
 # * planned changes:

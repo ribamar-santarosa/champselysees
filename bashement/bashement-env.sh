@@ -124,6 +124,9 @@ export bm_list_assign_other_vars=
 export bm_list_assign_var=
 export bm_list_assign_to=
 
+# function: bm_int_*
+export bm_int_var=
+
 # function: bm_fs_wipe_swp
 export bm_fs_wipe_swp_sudo_find=
 export bm_fs_wipe_swp_sudo_rm=

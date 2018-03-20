@@ -1121,6 +1121,35 @@ function bm_list_assign {
 }
 
 
+# bm_int_inc
+#
+# * planned changes:
+#
+# * expects:
+# bm_int_var
+#
+# * fallbacks:
+#
+# * becomes interactive:
+#
+# * requires
+# bm_export_prepare_value
+#
+# *(over)writes:
+# bm_resolve_var,
+# bm_export_prepare_var,
+# bm_export_prepare_command,
+# bm_export_prepare_command_args,
+#
+function bm_int_inc {
+  export bm_resolve_var="${bm_int_var}"
+  export bm_export_prepare_var="${bm_int_var}"
+  export bm_export_prepare_command="expr $(bm_resolve) + 1"
+  export bm_export_prepare_command_args=
+  bm_export_prepare_value
+}
+
+
 # bm_fs_wipe_swp
 #
 # * expects:

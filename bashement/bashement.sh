@@ -1174,11 +1174,11 @@ function bm_operate_binary {
 # bm_export_prepare_command_args,
 #
 function bm_int_inc {
-  export bm_resolve_var="${bm_int_var}"
-  export bm_export_prepare_var="${bm_int_var}"
-  export bm_export_prepare_command="expr $(bm_resolve) + 1"
-  export bm_export_prepare_command_args=
-  bm_export_prepare_value
+  export bm_operate_var="${bm_int_var}"
+  export bm_operate_operation="+"
+  export bm_operate_operand="1"
+  export bm_operate_command="expr "
+  bm_operate_binary
 }
 
 

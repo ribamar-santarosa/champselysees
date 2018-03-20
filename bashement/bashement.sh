@@ -1182,6 +1182,35 @@ function bm_int_inc {
 }
 
 
+# bm_int_dec
+#
+# * planned changes:
+#
+# * expects:
+# bm_int_var
+#
+# * fallbacks:
+#
+# * becomes interactive:
+#
+# * requires
+# bm_operate_binary
+#
+# *(over)writes:
+# bm_resolve_var,
+# bm_export_prepare_var,
+# bm_export_prepare_command,
+# bm_export_prepare_command_args,
+#
+function bm_int_dec {
+  export bm_operate_var="${bm_int_var}"
+  export bm_operate_operation="-"
+  export bm_operate_operand="1"
+  export bm_operate_command="expr "
+  bm_operate_binary
+}
+
+
 # bm_fs_wipe_swp
 #
 # * expects:

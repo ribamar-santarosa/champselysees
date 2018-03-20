@@ -1165,7 +1165,7 @@ function bm_operate_binary {
 # * becomes interactive:
 #
 # * requires
-# bm_export_prepare_value
+# bm_operate_binary
 #
 # *(over)writes:
 # bm_resolve_var,

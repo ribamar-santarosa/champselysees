@@ -1675,7 +1675,7 @@ function bm_future_git_workflow_undo_move {
 
   git checkout -b ${restoring_branch}
   test "${undo_remotely}" && bm_future_git_push_force_current_branch
-  unset deleting_branch backup_branch
+  unset deleting_branch backup_branch undo_remotely
 }
 
 

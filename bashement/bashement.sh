@@ -1666,14 +1666,18 @@ function bm_future_git_workflow_undo_move {
 
   deleting_branch=${feature_branch}
 
+  echo git branch -D ${deleting_branch}
   git branch -D ${deleting_branch}
+  test "${undo_remotely}" && echo git push  origin :${deleting_branch}
   test "${undo_remotely}" && git push  origin :${deleting_branch}
 
   deleting_branch=${restoring_branch}
+  echo git branch -D ${deleting_branch}
   git branch -D ${deleting_branch}
   deleting_branch=
 
   git checkout -b ${restoring_branch}
+  test "${undo_remotely}" && echo bm_future_git_push_force_current_branch
   test "${undo_remotely}" && bm_future_git_push_force_current_branch
   unset deleting_branch backup_branch undo_remotely
 }

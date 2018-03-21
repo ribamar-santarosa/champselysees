@@ -1650,6 +1650,35 @@ function bm_future_git_backup {
   cb=$(git rev-parse --abbrev-ref HEAD) ; git checkout  -b bk-$(date +"%Y.%m.%d_%H.%M.%S")-$cb ; git checkout $cb
 }
 
+
+# deletes backup_branch, and experimental_branch
+# restore backup_branch as experimental_branch
+# if backup_branch is not set, bails out
+# if backup_branch (in despite of being set),
+# does not exist, uses the current branch as it.
+# if undo_remotely is set, also operate on
+# the remove versions of feature and experimental
+# branches.
+function bm_future_git_workflow_undo_move {
+  test -z "${backup_branch}" && echo "won't touch anything if backup_branch is not set" && return 1
+  restoring_branch=${experimental_branch}
+  git checkout ${backup_branch}  ||  git checkout -b ${backup_branch}
+
+  deleting_branch=${feature_branch}
+
+  git branch -D ${deleting_branch}
+  test "${undo_remotely}" && git push  origin :${deleting_branch}
+
+  deleting_branch=${restoring_branch}
+  git branch -D ${deleting_branch}
+  deleting_branch=
+
+  git checkout -b ${restoring_branch}
+  test "${undo_remotely}" && bm_future_git_push_force_current_branch
+  unset deleting_branch backup_branch
+}
+
+
 # bm_future_git_list_commits matching
 # a pattern.
 # expects pick_commits_branch (the branch

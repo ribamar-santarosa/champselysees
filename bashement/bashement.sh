@@ -1566,7 +1566,7 @@ function bm_future_git_reset_hard_origin {
 # bm_git_branch_checkout
 function bm_future_git_checkout {
    test -z "${bm_git_branch_checkout}" && export bm_git_branch_checkout="$1"
-   echo 'git checkout -b ${bm_git_branch_checkout}  origin/${bm_git_branch_checkout}'
+   echo "git checkout -b ${bm_git_branch_checkout}  origin/${bm_git_branch_checkout}"
    git checkout -b ${bm_git_branch_checkout}  origin/${bm_git_branch_checkout}
 }
 

@@ -1586,6 +1586,16 @@ function bm_future_git_pull_current_branch {
 }
 
 
+function bm_future_git_pull {
+   bm_export_git_current_branch
+   test -z "${bm_git_branch_pull}" && export bm_git_branch_pull="$1"
+   bm_future_git_checkout "$bm_git_branch_pull"
+   bm_future_git_pull_current_branch
+   bm_future_git_checkout "$bm_git_current_branch"
+
+}
+
+
 # bm_future_git_push_current_branch
 #  TODO: untested
 # pulls the current branch

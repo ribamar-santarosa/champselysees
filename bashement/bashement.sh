@@ -1593,6 +1593,7 @@ function bm_future_git_pull {
    bm_future_git_checkout "$bm_git_branch_pull"
    bm_future_git_pull_current_branch
    bm_future_git_checkout "$bm_git_current_branch"
+   export bm_git_branch_pull=
 
 }
 

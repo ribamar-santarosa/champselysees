@@ -1565,6 +1565,7 @@ function bm_future_git_reset_hard_origin {
 # overwrites:
 # bm_git_branch_checkout
 function bm_future_git_checkout {
+   echo "1=$1"
    test -z "${bm_git_branch_checkout}" && export bm_git_branch_checkout="$1"
    echo "git checkout -b ${bm_git_branch_checkout}  origin/${bm_git_branch_checkout}"
    git checkout -b ${bm_git_branch_checkout}  origin/${bm_git_branch_checkout}
@@ -1589,6 +1590,7 @@ function bm_future_git_pull_current_branch {
 
 function bm_future_git_pull {
    bm_export_git_current_branch
+   echo "1=$1"
    test -z "${bm_git_branch_pull}" && export bm_git_branch_pull="$1"
    bm_future_git_checkout "$bm_git_branch_pull"
    bm_future_git_pull_current_branch

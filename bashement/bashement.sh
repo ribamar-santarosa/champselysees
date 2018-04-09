@@ -1998,9 +1998,13 @@ function bm_future_move_commits {
 }
 
 
-
 function bm_future_git_move_commits {
   bm_future_move_commits
+}
+
+function bm_future_time_update {
+  export bm_time=$(date +"%Y.%m.%d_%H:%M:%S")  #  timestamp
+  export bm_out_prefix=${bm_time}.bm
 }
 
 

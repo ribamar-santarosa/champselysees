@@ -1568,6 +1568,12 @@ function bm_future_git_diff_origin_current_branch {
   git diff ${git_diff_options} $(git rev-parse --abbrev-ref HEAD)..origin/$(git rev-parse --abbrev-ref HEAD)
 }
 
+
+function bm_future_git_reset_current_branch_to_origin {
+  git fetch ; git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
+}
+
+
 # bm_future_git_checkout checkouts
 # a branch, even in the case
 # of multiple remotes

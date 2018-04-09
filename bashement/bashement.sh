@@ -1993,6 +1993,10 @@ function bm_future_move_commits {
 
 
 
+function bm_future_git_move_commits {
+  bm_future_move_commits
+}
+
 
 # end of script
 

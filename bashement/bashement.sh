@@ -1613,6 +1613,13 @@ function bm_future_git_pull {
 }
 
 
+function bm_future_git_pull_mainstream_branch {
+   export bm_git_branch_pull="$mainstream_branch"
+   bm_future_git_pull
+
+}
+
+
 # bm_future_git_push_current_branch
 #  TODO: untested
 # pulls the current branch

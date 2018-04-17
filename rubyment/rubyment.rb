@@ -14,6 +14,8 @@ class Rubyment
     @memory = {
       :invoke => [],
       :stderr => STDERR,
+      :stdout => STDOUT,
+      :stdin  => STDIN,
       :time   => Time.now,
     }
     @memory.update memory

@@ -1,3 +1,13 @@
 #  rubyment
 
 A ruby class having many functions.
+
+Each of the functions are callable from the command line.
+
+E.g: the `main` function just outputs the arguments given
+to `rubyment.rb`, like this:
+
+````
+./rubyment.rb main arg1 arg2 arg3
+main arg1 arg2 arg3
+````

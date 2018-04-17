@@ -119,7 +119,7 @@ class Rubyment
   end
 
 
-  def main args=ARGV
+  def shell_string_in_columns args=ARGV
     stderr = @memory[:stderr]
     time   = @memory[:time]
     number_of_columns = input_shift args

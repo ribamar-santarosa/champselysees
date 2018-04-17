@@ -129,7 +129,7 @@ class Rubyment
 
 
   # print arguments given
-  def test__ args=ARGV
+  def main args=ARGV
     stderr = @memory[:stderr]
     time   = @memory[:time]
     puts args.join " "

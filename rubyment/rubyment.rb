@@ -59,6 +59,7 @@ class Rubyment
   end
 
 
+  # returns url contents
   def url_to_str url, rescue_value=nil
   require 'open-uri'
     contents = open(url).read rescue rescue_value
@@ -86,7 +87,7 @@ class Rubyment
   end
 
   # returns the first value of args if it is a non empty
-  # string, or prompt.
+  # string, or prompt for a multi line string.
   # useful for reading file contents, e.g.
   def input_non_empty_string_or_multiline_prompt args=ARGV
     stderr = @memory[:stderr]
@@ -95,6 +96,10 @@ class Rubyment
   end
 
 
+  # returns the filepath_or_contents of the first value of args
+  # if it is a non empty string,
+  # or prompt for a multi line string.
+  # useful for reading file contents, e.g.
   def input_non_empty_filepath_or_contents_or_multiline_prompt args=ARGV
     stderr = @memory[:stderr]
     stderr.print "multiline[control-D to stop]:"

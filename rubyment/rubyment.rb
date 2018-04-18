@@ -183,6 +183,136 @@ class Rubyment
     parsed_json
   end
 
+
+  # decrypt encrypted (string), having password (string), iv (string),
+  # big_file(bool) is a flag to set padding to 0.
+  #
+  # planned changes:
+  # decipher.key = Digest::SHA256.hexdigest is not the best security.
+  # encrypted could be called base64_encrypted
+  # iv could be called base64_iv
+  #
+  def dec args=ARGV
+    require 'openssl'
+    require 'base64'
+    password, iv, encrypted, big_file = args
+    decipher = OpenSSL::Cipher.new('aes-128-cbc')
+    decipher.decrypt
+    (big_file) && decipher.padding = 0
+    decipher.key = Digest::SHA256.hexdigest password
+    decipher.iv = Base64.decode64 iv
+    plain = decipher.update(Base64.decode64 encrypted) + decipher.final
+  end
+
+
+  # prompts for arguments to dec, calls dec,
+  # and output the decrypted data to stdout.
+  #
+  # planned changes:
+  # call separate functions.
+  #
+  def shell_dec args=ARGV
+    require 'stringio'
+    require "io/console"
+    memory = @memory
+    debug = memory[:debug]
+    stderr = @memory[:stderr]
+    stdout = @memory[:stdout]
+    stdin = @memory[:stdin]
+
+    stderr.print "iv:"
+    # basically => any string other than "" or the default one:
+    iv = args.shift.to_s.split("\0").first
+    iv = (url_to_str iv) || iv.to_s.split("\0").first || (url_to_str 'out.enc.iv.base64')
+    debug && (stderr.puts iv)
+    stderr.puts
+    stderr.print "encrypted:"
+    # basically => any string other than "" or the default one:
+    encrypted = args.shift.to_s.split("\0").first
+    encrypted = (url_to_str encrypted) || encrypted.to_s.split("\0").first  || (url_to_str 'out.enc.encrypted.base64')
+    debug && (stderr.puts "#{encrypted}")
+    stderr.puts
+    stderr.print "password:"
+    password = args.shift.to_s.split("\0").first || begin stdin.noecho{ stdin.gets}.chomp rescue gets.chomp end
+    stderr.puts
+    big_file = args.shift
+    pw_plain = dec [password, iv, encrypted, big_file]
+    stdout.puts pw_plain
+  end
+
+
+  # encrypt data (string), with password (string)
+  # returns [base64_iv, base64_encrypted]
+  #
+  # planned changes:
+  # decipher.key = Digest::SHA256.hexdigest is not the best security.
+  #
+  def enc args=ARGV
+    require 'openssl'
+    require 'base64'
+    password, data = args
+    cipher = OpenSSL::Cipher.new('aes-128-cbc')
+    cipher.encrypt
+    key = cipher.key = Digest::SHA256.hexdigest password
+    iv = cipher.random_iv
+    encrypted = cipher.update(data) + cipher.final
+
+    base64_iv = Base64.encode64 iv
+    base64_encrypted = Base64.encode64  encrypted
+
+    [base64_encrypted, base64_iv]
+  end
+
+
+  # prompts for arguments to dec, calls dec,
+  # and output the decrypted data to stdout.
+  #
+  # planned changes:
+  # call separate functions.
+  #
+  def shell_enc args=ARGV
+    memory = @memory
+    stderr = @memory[:stderr]
+    stdout = @memory[:stdout]
+    debug = memory[:debug]
+    require 'stringio'
+    require "io/console"
+
+    data = ""
+    stderr.print "multi_line_data[ data 1/3, echoing, control-D to stop]:"
+    data += args.shift ||  readlines.join
+    stderr.puts
+    stderr.print "data_file [data 2/3]:"
+    data_file = args.shift ||  (gets.chomp rescue "")
+    data  += url_to_str data_file, ""
+    stderr.puts
+    stderr.print "single_line_data[data 3/3, no echo part]:"
+    data += args.shift || (begin stdin.noecho{ gets}.chomp rescue gets.chomp end)
+    stderr.puts
+    stderr.print "password:"
+    password = args.shift.to_s.split("\0").first || begin stdin.noecho{ stdin.gets}.chomp rescue gets.chomp end
+    stderr.puts
+    stderr.print "encrypted_base64_filename[default=out.enc.encrypted.base64]:"
+    # basically => any string other than "" or the default one:
+    encrypted_base64_filename = args.shift.to_s.split("\0").first || "out.enc.encrypted.base64"
+    stderr.puts encrypted_base64_filename
+    stderr.puts
+    stderr.print "enc_iv_base64_filename[default=out.enc.iv.base64]:"
+    # basically => any string other than "" or the default one:
+    enc_iv_base64_filename = args.shift.to_s.split("\0").first || "out.enc.iv.base64"
+    stderr.puts enc_iv_base64_filename
+
+    base64_encrypted, base64_iv = (enc password, data)
+
+    puts base64_iv
+    puts base64_encrypted
+    File.write  enc_iv_base64_filename, base64_iv
+    File.write  encrypted_base64_filename, base64_encrypted
+    stderr.puts
+  end
+
+
+
 end
 
 Rubyment.new({:invoke => ARGV})

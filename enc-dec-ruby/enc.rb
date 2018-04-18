@@ -1,5 +1,12 @@
 #!/usr/bin/env ruby
 
+=begin
+# Deprecation Note:
+`enc-dec-ruby`: both `dec.rb` and `enc.rb` are outdated in favour of
+`rubyment`'s `shell_dec` and `shell_enc`. Files left for API contract,
+but not a good idea to start using them.
+=end
+
 class ProjectExecution
 
   def file_backup file = __FILE__ , dir = '/tmp/', append = ('-' + Time.now.hash.abs.to_s)

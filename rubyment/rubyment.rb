@@ -344,7 +344,7 @@ class Rubyment
     payload, metadata, separator = args
     metadata ||= { }
     separator ||= static_separator
-    string = (JSON.pretty_generate metadata) + separator + payload
+    serialized_string = (JSON.pretty_generate metadata) + separator + payload
   end
 
 

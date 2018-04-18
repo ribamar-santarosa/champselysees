@@ -289,7 +289,63 @@ class Rubyment
   # planned changes:
   # call separate functions.
   #
+  def shell_enc_input args=ARGV
+    memory = @memory
+    stderr = @memory[:stderr]
+    stdout = @memory[:stdout]
+    stdin  = @memory[:stdin]
+    debug = memory[:debug]
+    require 'stringio'
+    require "io/console"
+
+    data = ""
+    stderr.print "multi_line_data[ data 1/3, echoing, control-D to stop]:"
+    data += args.shift ||  readlines.join
+    stderr.puts
+    stderr.print "data_file [data 2/3]:"
+    data_file = args.shift ||  (gets.chomp rescue "")
+    data  += url_to_str data_file, ""
+    stderr.puts
+    stderr.print "single_line_data[data 3/3, no echo part]:"
+    data += args.shift || (begin stdin.noecho{ gets}.chomp rescue gets.chomp end)
+    stderr.puts
+    stderr.print "password:"
+    password = args.shift.to_s.split("\0").first || begin stdin.noecho{ stdin.gets}.chomp rescue gets.chomp end
+    stderr.puts
+    stderr.print "encrypted_base64_filename[default=out.enc.encrypted.base64]:"
+    # basically => any string other than "" or the default one:
+    encrypted_base64_filename = args.shift.to_s.split("\0").first || "out.enc.encrypted.base64"
+    stderr.puts encrypted_base64_filename
+    stderr.puts
+    stderr.print "enc_iv_base64_filename[default=out.enc.iv.base64]:"
+    # basically => any string other than "" or the default one:
+    enc_iv_base64_filename = args.shift.to_s.split("\0").first || "out.enc.iv.base64"
+    stderr.puts enc_iv_base64_filename
+
+    [password, data, encrypted_base64_filename, enc_iv_base64_filename]
+  end
+
+
+  def shell_enc_output args=ARGV
+    memory = @memory
+    stderr = memory[:stderr]
+    base64_encrypted, base64_iv, encrypted_base64_filename, enc_iv_base64_filename = args
+    puts base64_iv
+    puts base64_encrypted
+    File.write  enc_iv_base64_filename, base64_iv
+    File.write  encrypted_base64_filename, base64_encrypted
+    stderr.puts
+  end
+
+
   def shell_enc args=ARGV
+    password, data, encrypted_base64_filename, enc_iv_base64_filename  = shell_enc_input args
+    base64_encrypted, base64_iv = enc [password, data]
+    shell_enc_output [base64_encrypted, base64_iv, encrypted_base64_filename, enc_iv_base64_filename ]
+  end
+
+
+  def deprecated__shell_enc args=ARGV
     memory = @memory
     stderr = @memory[:stderr]
     stdout = @memory[:stdout]

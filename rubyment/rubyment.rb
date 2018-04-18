@@ -126,6 +126,8 @@ class Rubyment
   end
 
 
+  # planned changes:
+  # use stdin from memory instead
   def shell_string_in_columns args=ARGV
     stderr = @memory[:stderr]
     time   = @memory[:time]

@@ -316,7 +316,7 @@ class Rubyment
     enc_iv_base64_filename = args.shift.to_s.split("\0").first || "out.enc.iv.base64"
     stderr.puts enc_iv_base64_filename
 
-    base64_encrypted, base64_iv = (enc password, data)
+    base64_encrypted, base64_iv = enc [password, data]
 
     puts base64_iv
     puts base64_encrypted

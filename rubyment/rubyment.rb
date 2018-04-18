@@ -368,6 +368,45 @@ class Rubyment
   end
 
 
+  # test__json_metadata_serialization
+  # sanity test for serialize_json_metadata and deserialize_json_metadata
+  def test__json_metadata_serialization args=ARGV
+    judgement = true
+    payload = "Payload"
+    # note: keys with : instead can't be recovered, because
+    # they aren't described in JSON files
+    metadata = { "metadata"  => "Metadata" }
+    serialized = (serialize_json_metadata [payload, metadata ])
+    new_payload, new_metadata = deserialize_json_metadata [serialized]
+    judgement =
+      [ [payload, new_payload, "payload"], [metadata, new_metadata, "metadata"]]
+        .map(&method("expect_equal")).all?
+  end
+
+
+  # format strings for  expect_format_string
+  def expect_format_string args=ARGV
+    memory = @memory
+    debug = memory[:debug]
+    prepend_text, value_before, value_after, value_label, comparison_text = args
+    "#{prepend_text} #{value_label}: #{value_before} #{comparison_text} #{value_after}"
+  end
+
+
+  # expect_equal
+  # args:
+  # [ value_before (Object), value_after (Object), value_label (String) ]
+  # returns the value of testing value_before == value_after, printing to
+  # stderr upon failure
+  def expect_equal args=ARGV
+    memory = @memory
+    stderr = memory[:stderr]
+    value_before, value_after, value_label = args
+    judgement = (value_before == value_after)
+    (!judgement) && (stderr.puts  expect_format_string ["unexpected", value_before, value_after, value_label, "!="])
+    judgement
+  end
+
 end
 
 (__FILE__ == $0) && Rubyment.new({:invoke => ARGV})

@@ -348,6 +348,26 @@ class Rubyment
   end
 
 
+  # deserialize_json_metadata
+  # args:
+  # [serialized_string (String), separator (String)]
+  # undo what serialize_json_metadata
+  # returns array:
+  # [payload (String), metadata (Hash or String), separator (String)]
+  # metadata is returned as Hash after a  JSON.parse, but in case
+  # of any failure, it returns the String itself.
+  def deserialize_json_metadata args=ARGV
+    require 'json'
+    memory = @memory
+    static_separator = memory[:static_separator_key]
+    serialized_string, separator = args
+    separator ||= static_separator
+    metadata_json, separator, payload  = serialized_string.split separator
+    metadata = (JSON.parse metadata_json) || metadata_json
+    [payload, metadata, separator]
+  end
+
+
 end
 
 Rubyment.new({:invoke => ARGV})

@@ -261,7 +261,8 @@ class Rubyment
   #
   # planned changes:
   # add metadata information to encrypted
-  # return only one string, having encrypted + metadata
+  # return only one string, having encrypted + metadata (having iv)
+  # add string length to metadata
   # decipher.key = Digest::SHA256.hexdigest is not the best security.
   #
   def enc args=ARGV

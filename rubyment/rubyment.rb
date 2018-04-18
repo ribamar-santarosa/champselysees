@@ -287,6 +287,7 @@ class Rubyment
     memory = @memory
     stderr = @memory[:stderr]
     stdout = @memory[:stdout]
+    stdin  = @memory[:stdin]
     debug = memory[:debug]
     require 'stringio'
     require "io/console"

@@ -370,5 +370,5 @@ class Rubyment
 
 end
 
-Rubyment.new({:invoke => ARGV})
+(__FILE__ == $0) && Rubyment.new({:invoke => ARGV})
 

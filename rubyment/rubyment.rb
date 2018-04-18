@@ -204,6 +204,7 @@ class Rubyment
   # decipher.key = Digest::SHA256.hexdigest is not the best security.
   # encrypted could be called base64_encrypted
   # iv could be called base64_iv
+  # get only one string (see enc planned changes)
   #
   def dec args=ARGV
     require 'openssl'
@@ -258,6 +259,7 @@ class Rubyment
   # returns [base64_iv, base64_encrypted]
   #
   # planned changes:
+  # return only one string, having encrypted + metadata
   # decipher.key = Digest::SHA256.hexdigest is not the best security.
   #
   def enc args=ARGV

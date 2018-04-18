@@ -332,6 +332,21 @@ class Rubyment
   end
 
 
+  # serialize_json_metadata
+  # args:
+  # [payload (String), metadata (Hash), separator (String)]
+  # prepends a JSON dump of metadata followed by separator
+  # to the payload.
+  def serialize_json_metadata args=ARGV
+    require 'json'
+    memory = @memory
+    static_separator = memory[:static_separator_key]
+    payload, metadata_hash, separator = args
+    metadata ||= { }
+    separator ||= static_separator
+    string = (JSON.pretty_generate metadata) + separator + payload
+  end
+
 
 end
 

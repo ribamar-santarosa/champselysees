@@ -284,8 +284,7 @@ class Rubyment
   end
 
 
-  # prompts for arguments to dec, calls dec,
-  # and output the decrypted data to stdout.
+  # prompts for arguments to dec
   #
   # planned changes:
   # call separate functions.
@@ -327,6 +326,7 @@ class Rubyment
   end
 
 
+  # outputs the results from enc
   def shell_enc_output args=ARGV
     memory = @memory
     stderr = memory[:stderr]
@@ -339,6 +339,15 @@ class Rubyment
   end
 
 
+  # shell_enc
+  # args
+  # [password, data, encrypted_base64_filename, enc_iv_base64_filename] (all Strings)
+  # encrypts data using password and stores to encrypted_base64_filename
+  # and initialization vector to enc_iv_base64_filename.
+  #
+  # planned changes:
+  # deprecate enc_iv_base64_filename and store it as metadata in
+  # encrypted_base64_filename
   def shell_enc args=ARGV
     password, data, encrypted_base64_filename, enc_iv_base64_filename  = shell_enc_input args
     base64_encrypted, base64_iv = enc [password, data]

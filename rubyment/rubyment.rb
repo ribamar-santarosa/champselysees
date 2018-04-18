@@ -362,8 +362,8 @@ class Rubyment
     static_separator = memory[:static_separator_key]
     serialized_string, separator = args
     separator ||= static_separator
-    metadata_json, separator, payload  = serialized_string.split separator
-    metadata = (JSON.parse metadata_json) || metadata_json
+    metadata_json, payload  = serialized_string.to_s.split separator
+    metadata = (JSON.parse metadata_json) rescue metadata_json
     [payload, metadata, separator]
   end
 

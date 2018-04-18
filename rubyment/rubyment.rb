@@ -293,29 +293,18 @@ class Rubyment
     require "io/console"
 
     data = ""
-    p "----"
-    p args
-    stderr.puts
     stderr.print "multi_line_data[ data 1/3, echoing, control-D to stop]:"
     data += args.shift ||  readlines.join
     stderr.puts
-    p "----"
-    p args
     stderr.print "data_file [data 2/3]:"
     data_file = args.shift ||  (gets.chomp rescue "")
     data  += url_to_str data_file, ""
     stderr.puts
-    p "----"
-    p args
     stderr.print "single_line_data[data 3/3, no echo part]:"
     data += args.shift || (begin stdin.noecho{ gets}.chomp rescue gets.chomp end)
     stderr.puts
-    p "----"
-    p args
     stderr.print "password:"
     password = args.shift.to_s.split("\0").first || begin stdin.noecho{ stdin.gets}.chomp rescue gets.chomp end
-    # ideal:
-    # password = args.shift.to_s.split("\0").first || begin stdin.noecho{ stdin.gets}.chomp rescue gets.chomp end
     stderr.puts
     stderr.print "encrypted_base64_filename[default=out.enc.encrypted.base64]:"
     # basically => any string other than "" or the default one:

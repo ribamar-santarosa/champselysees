@@ -336,7 +336,7 @@ class Rubyment
   # args:
   # [payload (String), metadata (Hash), separator (String)]
   # prepends a JSON dump of metadata followed by separator
-  # to the payload.
+  # to a copy of payload, and returns it.
   def serialize_json_metadata args=ARGV
     require 'json'
     memory = @memory

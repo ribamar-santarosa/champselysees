@@ -201,6 +201,7 @@ class Rubyment
   # big_file(bool) is a flag to set padding to 0.
   #
   # planned changes:
+  # add metadata information to encrypted
   # decipher.key = Digest::SHA256.hexdigest is not the best security.
   # encrypted could be called base64_encrypted
   # iv could be called base64_iv
@@ -259,6 +260,7 @@ class Rubyment
   # returns [base64_iv, base64_encrypted]
   #
   # planned changes:
+  # add metadata information to encrypted
   # return only one string, having encrypted + metadata
   # decipher.key = Digest::SHA256.hexdigest is not the best security.
   #

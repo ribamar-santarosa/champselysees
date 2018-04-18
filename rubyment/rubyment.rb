@@ -17,6 +17,7 @@ class Rubyment
       :stdout => STDOUT,
       :stdin  => STDIN,
       :time   => Time.now,
+      :static_separator_key => "strings_having_this_string_not_guaranteed_to_work",
     }
     @memory.update memory
     invoke = @memory[:invoke].to_a

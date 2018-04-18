@@ -270,6 +270,7 @@ class Rubyment
     require 'openssl'
     require 'base64'
     memory = @memory
+    password, data = args
     cipher = OpenSSL::Cipher.new('aes-128-cbc')
     cipher.encrypt
     key = cipher.key = Digest::SHA256.hexdigest password

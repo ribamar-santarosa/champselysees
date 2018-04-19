@@ -201,7 +201,7 @@ class Rubyment
 
   # generates (by default) a 128 bit key for a Cipher (e.g. AES)
   # args:
-  # [key, password, salt, iter, key_len]
+  # [ password, salt, iter, key_len ]
   # returns:
   # [key, password, salt, iter, key_len]
   #

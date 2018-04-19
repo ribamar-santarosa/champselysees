@@ -483,6 +483,17 @@ class Rubyment
     judgement
   end
 
+
+  # test__shell_enc_dec
+  # sanity test for shell_enc and shell_dec
+  # planned changes:
+  # don't output to stdout
+  def test__shell_enc_dec args=ARGV
+    shell_enc ["my secret",  "", "",  "tijolo22", "", ""]
+    judgement = ( shell_dec ["", "", "tijolo22"] || true) rescue false
+  end
+
+
 end
 
 (__FILE__ == $0) && Rubyment.new({:invoke => ARGV})

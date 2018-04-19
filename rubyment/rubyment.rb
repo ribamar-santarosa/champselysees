@@ -226,20 +226,19 @@ class Rubyment
   end
 
 
-  # prompts for arguments to dec, calls dec,
-  # and output the decrypted data to stdout.
+  # prompts for arguments to dec function
   #
   # planned changes:
   # call separate functions.
   #
-  def shell_dec args=ARGV
+  def shell_dec_input args=ARGV
     require 'stringio'
     require "io/console"
     memory = @memory
-    debug = memory[:debug]
-    stderr = @memory[:stderr]
-    stdout = @memory[:stdout]
-    stdin = @memory[:stdin]
+    debug  = memory[:debug]
+    stderr = memory[:stderr]
+    stdout = memory[:stdout]
+    stdin  = memory[:stdin]
 
     stderr.print "iv:"
     # basically => any string other than "" or the default one:
@@ -256,11 +255,38 @@ class Rubyment
     stderr.print "password:"
     password = args.shift.to_s.split("\0").first || begin stdin.noecho{ stdin.gets}.chomp rescue gets.chomp end
     stderr.puts
-    big_file = args.shift
-    pw_plain = dec [password, iv, encrypted, big_file]
+    [password, encrypted, iv]
+ end
+
+
+  # and output the decrypted data to stdout.
+  #
+  # planned changes:
+  # stop argument shifting.
+  # call separate functions.
+  #
+  def shell_dec_output args=ARGV
+    memory = @memory
+    stdout = memory[:stdout]
+    pw_plain, reserved_for_future = args
     stdout.puts pw_plain
   end
 
+
+  # prompts for arguments to dec, calls dec,
+  # and output the decrypted data to stdout.
+  #
+  # planned changes:
+  # stop argument shifting.
+  # call separate functions.
+  #
+  def shell_dec args=ARGV
+    memory = @memory
+    stderr = memory[:stderr]
+    password, encrypted, iv = shell_dec_input args
+    pw_plain = dec [password, iv, encrypted]
+    shell_dec_output [pw_plain]
+  end
 
   # encrypt data (string), with password (string)
   # returns [base64_iv, base64_encrypted]

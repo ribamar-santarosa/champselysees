@@ -311,12 +311,14 @@ class Rubyment
     require 'openssl'
     require 'base64'
     memory = @memory
-    password, data = args
+    static_end_key = memory[:static_end_key]
+    password, data, ending = args
+    ending ||= static_end_key
     cipher = OpenSSL::Cipher.new('aes-128-cbc')
     cipher.encrypt
     key = cipher.key = Digest::SHA256.hexdigest password
     iv = cipher.random_iv
-    encrypted = cipher.update(data) + cipher.final
+    encrypted = cipher.update(data + ending) + cipher.final
 
     base64_iv = Base64.encode64 iv
     base64_encrypted = Base64.encode64  encrypted

@@ -293,9 +293,11 @@ class Rubyment
   def shell_dec args=ARGV
     memory = @memory
     stderr = memory[:stderr]
-    password, base64_serialized_data, iv = shell_dec_input args
+    password, base64_serialized_data, iv_deprecated = shell_dec_input args
     encrypted, metadata = deserialize_json_metadata [(Base64.decode64 base64_serialized_data)]
-    pw_plain = dec [password, iv, encrypted]
+    iv = metadata["base64_iv"]
+    base64_encrypted = metadata["base64_encrypted"]
+    pw_plain = dec [password, iv, base64_encrypted]
     shell_dec_output [pw_plain]
   end
 
@@ -402,7 +404,11 @@ class Rubyment
   def shell_enc args=ARGV
     password, data, encrypted_base64_filename, enc_iv_base64_filename  = shell_enc_input args
     base64_encrypted, base64_iv = enc [password, data]
-    metadata = { "metadata"  => "Metadata" }
+    metadata = {
+      "metadata"  => "Metadata",
+      "base64_iv" => base64_iv,
+      "base64_encrypted" => base64_encrypted,
+    }
     base64_serialized_data = Base64.encode64 (serialize_json_metadata [base64_encrypted, metadata])
     shell_enc_output [base64_serialized_data, base64_iv, encrypted_base64_filename, enc_iv_base64_filename ]
   end

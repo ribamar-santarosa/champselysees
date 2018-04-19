@@ -207,7 +207,8 @@ class Rubyment
   # decipher.key = Digest::SHA256.hexdigest is not the best security.
   # encrypted could be called base64_encrypted
   # iv could be called base64_iv
-  # get only one string (see enc planned changes)
+  # get only one string, not encrypted and iv (see enc planned changes)
+  # remove dependence on the uniqueness of ending
   #
   def dec args=ARGV
     require 'openssl'
@@ -222,6 +223,8 @@ class Rubyment
     decipher.key = Digest::SHA256.hexdigest password
     decipher.iv = Base64.decode64 iv
     plain = decipher.update(Base64.decode64 encrypted) + decipher.final
+    # split is not the ideal, if ever ending is duplicated it won't
+    # work. also may be innefficient.
     (plain.split ending).first
   end
 

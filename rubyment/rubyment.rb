@@ -289,6 +289,7 @@ class Rubyment
   #
   # planned changes:
   # call separate functions.
+  # stop argument shifting.
   #
   def shell_enc_input args=ARGV
     memory = @memory

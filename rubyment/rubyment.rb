@@ -199,6 +199,19 @@ class Rubyment
   end
 
 
+  # generates (by default) a 128 bit key for a Cipher (e.g. AES)
+  # planned changes:
+  #  ensure that random_bytes == key_len
+  def generate_pbkdf2_key args=ARGV
+    require 'openssl'
+    password, salt, iter, key_len = args
+    iter ||= 20000
+    key_len ||= (salt && salt.size || 16)
+    salt ||= OpenSSL::Random.random_bytes(key_len)
+    key = OpenSSL::PKCS5.pbkdf2_hmac_sha1(password, salt, iter, key_len)
+  end
+
+
   # decrypt encrypted (string), having password (string), iv (string),
   # big_file(bool) is a flag to set padding to 0.
   #

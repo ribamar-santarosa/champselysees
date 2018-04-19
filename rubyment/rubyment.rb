@@ -212,13 +212,17 @@ class Rubyment
   def dec args=ARGV
     require 'openssl'
     require 'base64'
-    password, iv, encrypted, big_file = args
+    memory = @memory
+    static_end_key = memory[:static_end_key]
+    password, iv, encrypted, ending = args
+    ending ||= static_end_key
     decipher = OpenSSL::Cipher.new('aes-128-cbc')
     decipher.decrypt
-    (big_file) && decipher.padding = 0
+    decipher.padding = 0
     decipher.key = Digest::SHA256.hexdigest password
     decipher.iv = Base64.decode64 iv
     plain = decipher.update(Base64.decode64 encrypted) + decipher.final
+    (plain.split ending).first
   end
 
 

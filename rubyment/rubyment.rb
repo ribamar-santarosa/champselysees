@@ -230,7 +230,10 @@ class Rubyment
 
 
   # prompts for arguments to dec function
-  #
+  # args:
+  # [ iv, encrypted, password ] (all Strings)
+  # returns:
+  #  [password, encrypted, iv] (all Strings)
   # planned changes:
   # call separate functions.
   #
@@ -278,6 +281,10 @@ class Rubyment
 
   # prompts for arguments to dec, calls dec,
   # and output the decrypted data to stdout.
+  # args:
+  # (forwarded to shell_dec_input, as of now:
+  # returns:
+  # nil
   #
   # planned changes:
   # stop argument shifting.
@@ -319,6 +326,10 @@ class Rubyment
 
 
   # prompts for arguments to dec
+  # args:
+  # [ multiline_data, data_file, single_line_data, password, encrypted_base64_filename, enc_iv_base64_filename] (all Strings)
+  # returns:
+  #   [password, data, encrypted_base64_filename, enc_iv_base64_filename]
   #
   # planned changes:
   # call separate functions.
@@ -379,6 +390,8 @@ class Rubyment
   # [password, data, encrypted_base64_filename, enc_iv_base64_filename] (all Strings)
   # encrypts data using password and stores to encrypted_base64_filename
   # and initialization vector to enc_iv_base64_filename.
+  # returns
+  # nil
   #
   # planned changes:
   # deprecate enc_iv_base64_filename and store it as metadata in

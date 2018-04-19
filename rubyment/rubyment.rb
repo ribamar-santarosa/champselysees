@@ -291,10 +291,11 @@ class Rubyment
   # call separate functions.
   #
   def shell_dec args=ARGV
+    require 'json'
     memory = @memory
     stderr = memory[:stderr]
-    password, base64_serialized_data, iv_deprecated = shell_dec_input args
-    encrypted, metadata = deserialize_json_metadata [(Base64.decode64 base64_serialized_data)]
+    password, json_serialized_data, iv_deprecated = shell_dec_input args
+    metadata = JSON.parse json_serialized_data
     iv = metadata["base64_iv"]
     base64_encrypted = metadata["base64_encrypted"]
     pw_plain = dec [password, iv, base64_encrypted]
@@ -399,6 +400,7 @@ class Rubyment
   # planned changes:
   # encrypted_base64_filename
   def shell_enc args=ARGV
+    require 'json'
     password, data, encrypted_base64_filename, enc_iv_base64_filename_deprecated  = shell_enc_input args
     base64_encrypted, base64_iv = enc [password, data]
     metadata = {
@@ -406,8 +408,8 @@ class Rubyment
       "base64_iv" => base64_iv,
       "base64_encrypted" => base64_encrypted,
     }
-    base64_serialized_data = Base64.encode64 (serialize_json_metadata ["", metadata])
-    shell_enc_output [base64_serialized_data, base64_iv, encrypted_base64_filename ]
+    json_serialized_data =  JSON.pretty_generate metadata
+    shell_enc_output [json_serialized_data, base64_iv, encrypted_base64_filename ]
   end
 
 

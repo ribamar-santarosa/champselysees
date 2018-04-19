@@ -332,9 +332,9 @@ class Rubyment
 
   # prompts for arguments to dec
   # args:
-  # [ multiline_data, data_file, single_line_data, password, encrypted_base64_filename, enc_iv_base64_filename] (all Strings)
+  # [ multiline_data, data_file, single_line_data, password, encrypted_base64_filename, enc_iv_base64_filename_deprecated] (all Strings)
   # returns:
-  #   [password, data, encrypted_base64_filename, enc_iv_base64_filename]
+  #   [password, data, encrypted_base64_filename, enc_iv_base64_filename_deprecated]
   #
   # planned changes:
   # call separate functions.
@@ -368,12 +368,12 @@ class Rubyment
     encrypted_base64_filename = args.shift.to_s.split("\0").first || "out.enc.encrypted.base64"
     stderr.puts encrypted_base64_filename
     stderr.puts
-    stderr.print "enc_iv_base64_filename[default=out.enc.iv.base64]:"
+    stderr.print "enc_iv_base64_filename[DEPRECATED]:"
     # basically => any string other than "" or the default one:
-    enc_iv_base64_filename = args.shift.to_s.split("\0").first || "out.enc.iv.base64"
-    stderr.puts enc_iv_base64_filename
+    enc_iv_base64_filename_deprecated = args.shift.to_s.split("\0").first || "out.enc.iv.base64"
+    stderr.puts enc_iv_base64_filename_deprecated
 
-    [password, data, encrypted_base64_filename, enc_iv_base64_filename]
+    [password, data, encrypted_base64_filename, enc_iv_base64_filename_deprecated]
   end
 
 
@@ -381,10 +381,9 @@ class Rubyment
   def shell_enc_output args=ARGV
     memory = @memory
     stderr = memory[:stderr]
-    base64_encrypted, base64_iv, encrypted_base64_filename, enc_iv_base64_filename = args
+    base64_encrypted, base64_iv, encrypted_base64_filename, enc_iv_base64_filename_deprecated = args
     puts base64_iv
     puts base64_encrypted
-    File.write  enc_iv_base64_filename, base64_iv
     File.write  encrypted_base64_filename, base64_encrypted
     stderr.puts
   end
@@ -392,17 +391,15 @@ class Rubyment
 
   # shell_enc
   # args
-  # [password, data, encrypted_base64_filename, enc_iv_base64_filename] (all Strings)
+  # [password, data, encrypted_base64_filename, enc_iv_base64_filename_deprecated] (all Strings)
   # encrypts data using password and stores to encrypted_base64_filename
-  # and initialization vector to enc_iv_base64_filename.
   # returns
   # nil
   #
   # planned changes:
-  # deprecate enc_iv_base64_filename and store it as metadata in
   # encrypted_base64_filename
   def shell_enc args=ARGV
-    password, data, encrypted_base64_filename, enc_iv_base64_filename  = shell_enc_input args
+    password, data, encrypted_base64_filename, enc_iv_base64_filename_deprecated  = shell_enc_input args
     base64_encrypted, base64_iv = enc [password, data]
     metadata = {
       "metadata"  => "Metadata",
@@ -410,7 +407,7 @@ class Rubyment
       "base64_encrypted" => base64_encrypted,
     }
     base64_serialized_data = Base64.encode64 (serialize_json_metadata ["", metadata])
-    shell_enc_output [base64_serialized_data, base64_iv, encrypted_base64_filename, enc_iv_base64_filename ]
+    shell_enc_output [base64_serialized_data, base64_iv, encrypted_base64_filename ]
   end
 
 

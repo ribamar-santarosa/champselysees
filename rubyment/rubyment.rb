@@ -409,7 +409,7 @@ class Rubyment
       "base64_iv" => base64_iv,
       "base64_encrypted" => base64_encrypted,
     }
-    base64_serialized_data = Base64.encode64 (serialize_json_metadata [base64_encrypted, metadata])
+    base64_serialized_data = Base64.encode64 (serialize_json_metadata ["", metadata])
     shell_enc_output [base64_serialized_data, base64_iv, encrypted_base64_filename, enc_iv_base64_filename ]
   end
 

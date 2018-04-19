@@ -210,16 +210,10 @@ class Rubyment
   def generate_pbkdf2_key args=ARGV
     require 'openssl'
     password, salt, iter, key_len = args
-    p "generate_pbkdf2_key{"
-    p [password, salt, iter, key_len]
     iter ||= 20000
-    # expect_equal [iter.to_i, 20000, "iter"]
     key_len ||= (salt && salt.size || 16)
-    salt ||= OpenSSL::Random.random_bytes(key_len.to_i)
-    p [password, salt.to_i, iter.to_i, key_len.to_i]
-    p "}generate_pbkdf2_key"
-    key = OpenSSL::PKCS5.pbkdf2_hmac_sha1(password, salt.to_i, iter.to_i, key_len.to_i)
-    # key = OpenSSL::PKCS5.pbkdf2_hmac_sha1(password, OpenSSL::Random.random_bytes(16), 2000, 16)
+    salt ||= OpenSSL::Random.random_bytes(key_len)
+    key = OpenSSL::PKCS5.pbkdf2_hmac_sha1(password, salt, iter, key_len)
     [key, password, salt, iter, key_len]
   end
 
@@ -240,24 +234,17 @@ class Rubyment
     require 'base64'
     memory = @memory
     static_end_key = memory[:static_end_key]
-    password, iv, encrypted, ending, salt, iter = args
+    password, iv, encrypted, ending = args
     ending ||= static_end_key
-    key, password, salt, iter = salt && (
-      generate_pbkdf2_key [password, salt, iter]
-    )|| [nil, password, salt, iter]
-    # [key, password, salt, iter]
-
     decipher = OpenSSL::Cipher.new('aes-128-cbc')
     decipher.decrypt
     decipher.padding = 0
-
-    decipher.key = key || (Digest::SHA256.hexdigest password)
+    decipher.key = Digest::SHA256.hexdigest password
     decipher.iv = Base64.decode64 iv
     plain = decipher.update(Base64.decode64 encrypted) + decipher.final
     # split is not the ideal, if ever ending is duplicated it won't
     # work. also may be innefficient.
     (plain.split ending).first
-
   end
 
 
@@ -330,12 +317,7 @@ class Rubyment
     metadata = JSON.parse json_serialized_data
     base64_iv = metadata["base64_iv"]
     base64_encrypted = metadata["base64_encrypted"]
-    base64_salt = metadata["base64_salt"]
-    base64_iter = metadata["base64_iter"]
-    base64_key  = metadata["base64_key" ]
     pw_plain = dec [password, base64_iv, base64_encrypted]
-    # pw_plain = dec [password, base64_iv, base64_encrypted, base64_salt, base64_iter]
-    p pw_plain
     shell_dec_output [pw_plain]
   end
 
@@ -353,30 +335,18 @@ class Rubyment
     require 'base64'
     memory = @memory
     static_end_key = memory[:static_end_key]
-    password, data, ending, salt, iter = args
+    password, data, ending = args
     ending ||= static_end_key
-    # p "enc{"
-    # p [ password, data, ending, salt, iter ]
-    key, password, salt, iter = salt && (
-      generate_pbkdf2_key [password, salt, iter]
-    )|| [nil, password, salt, iter]
-    # p [ password, data, ending, salt, iter ]
-    # p "}enc"
-
     cipher = OpenSSL::Cipher.new('aes-128-cbc')
     cipher.encrypt
-
-    cipher.key = key || (Digest::SHA256.hexdigest password)
+    key = cipher.key = Digest::SHA256.hexdigest password
     iv = cipher.random_iv
     encrypted = cipher.update(data + ending) + cipher.final
 
     base64_iv = Base64.encode64 iv
     base64_encrypted = Base64.encode64  encrypted
-    base64_salt = Base64.encode64 salt.to_s
-    base64_iter = Base64.encode64 iter.to_s
-    base64_key = Base64.encode64 key.to_s
 
-    [base64_encrypted, base64_iv,  base64_salt, base64_iter, base64_key]
+    [base64_encrypted, base64_iv]
   end
 
 
@@ -450,19 +420,12 @@ class Rubyment
   # encrypted_base64_filename
   def shell_enc args=ARGV
     require 'json'
-    require 'openssl'
     password, data, encrypted_base64_filename, enc_iv_base64_filename_deprecated  = shell_enc_input args
-    base64_encrypted, base64_iv, base64_salt, base64_iter, base64_key = enc [password, data]
-    salt = OpenSSL::Random.random_bytes(16)
-    iter = 20000
-    # base64_encrypted, base64_iv, base64_salt, base64_iter, base64_key = enc [password, data, salt, iter]
+    base64_encrypted, base64_iv = enc [password, data]
     metadata = {
       "metadata"  => "Metadata",
       "base64_iv" => base64_iv,
       "base64_encrypted" => base64_encrypted,
-      "base64_salt" => base64_salt,
-      "base64_iter" => base64_iter,
-      "base64_key"  => base64_key,
     }
     json_serialized_data =  JSON.pretty_generate metadata
     shell_enc_output [json_serialized_data, base64_iv, encrypted_base64_filename ]

@@ -315,9 +315,9 @@ class Rubyment
     stderr = memory[:stderr]
     password, json_serialized_data, iv_deprecated = shell_dec_input args
     metadata = JSON.parse json_serialized_data
-    iv = metadata["base64_iv"]
+    base64_iv = metadata["base64_iv"]
     base64_encrypted = metadata["base64_encrypted"]
-    pw_plain = dec [password, iv, base64_encrypted]
+    pw_plain = dec [password, base64_iv, base64_encrypted]
     shell_dec_output [pw_plain]
   end
 

@@ -209,6 +209,7 @@ class Rubyment
     key_len ||= (salt && salt.size || 16)
     salt ||= OpenSSL::Random.random_bytes(key_len)
     key = OpenSSL::PKCS5.pbkdf2_hmac_sha1(password, salt, iter, key_len)
+    [key, password, salt, iter, key_len]
   end
 
 

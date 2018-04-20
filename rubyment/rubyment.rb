@@ -321,8 +321,8 @@ class Rubyment
     require 'json'
     memory = @memory
     stderr = memory[:stderr]
-    password, json_serialized_data, iv_deprecated = shell_dec_input args
-    metadata = JSON.parse json_serialized_data
+    password, base64_json_serialized_data, iv_deprecated = shell_dec_input args
+    metadata = JSON.parse Base64.decode64 base64_json_serialized_data
     base64_iv = metadata["base64_iv"]
     base64_encrypted = metadata["base64_encrypted"]
     base64_salt = metadata["base64_salt"]
@@ -453,8 +453,8 @@ class Rubyment
       "base64_salt" => base64_salt,
       "base64_iter" => base64_iter,
     }
-    json_serialized_data =  JSON.pretty_generate metadata
-    shell_enc_output [json_serialized_data, base64_iv, encrypted_base64_filename ]
+    base64_json_serialized_data =  Base64.encode64 JSON.pretty_generate metadata
+    shell_enc_output [base64_json_serialized_data, base64_iv, encrypted_base64_filename ]
   end
 
 

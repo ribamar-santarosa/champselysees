@@ -210,10 +210,10 @@ class Rubyment
   def generate_pbkdf2_key args=ARGV
     require 'openssl'
     password, salt, iter, key_len = args
-    iter ||= 20000
-    key_len ||= (salt && salt.size || 16)
-    salt ||= OpenSSL::Random.random_bytes(key_len)
-    key = OpenSSL::PKCS5.pbkdf2_hmac_sha1(password, salt, iter, key_len)
+    iter = (iter.to_i > 0) && iter.to_i || 20000
+    key_len = (salt.to_s.split("\0").first && salt.to_s.size > 0 && salt.size || 16)
+    salt = salt.to_s.split("\0").first || OpenSSL::Random.random_bytes(key_len)
+    key = OpenSSL::PKCS5.pbkdf2_hmac_sha1(password.to_s, salt.to_s, iter.to_i, key_len.to_i)
     [key, password, salt, iter, key_len]
   end
 

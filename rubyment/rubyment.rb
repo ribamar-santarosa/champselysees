@@ -440,12 +440,18 @@ class Rubyment
   # encrypted_base64_filename
   def shell_enc args=ARGV
     require 'json'
+    require 'openssl'
     password, data, encrypted_base64_filename, enc_iv_base64_filename_deprecated  = shell_enc_input args
-    base64_encrypted, base64_iv = enc [password, data]
+    salt = nil
+    iter = nil
+    ending = nil
+    base64_encrypted, base64_iv, base64_salt, base64_iter, base64_key = enc [password, data, ending, salt, iter]
     metadata = {
       "metadata"  => "Metadata",
       "base64_iv" => base64_iv,
       "base64_encrypted" => base64_encrypted,
+      "base64_salt" => base64_salt,
+      "base64_iter" => base64_iter,
     }
     json_serialized_data =  JSON.pretty_generate metadata
     shell_enc_output [json_serialized_data, base64_iv, encrypted_base64_filename ]

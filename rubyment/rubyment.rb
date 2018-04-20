@@ -319,6 +319,7 @@ class Rubyment
   #
   def shell_dec args=ARGV
     require 'json'
+    require 'base64'
     memory = @memory
     stderr = memory[:stderr]
     password, base64_json_serialized_data, iv_deprecated = shell_dec_input args
@@ -440,6 +441,7 @@ class Rubyment
   # encrypted_base64_filename
   def shell_enc args=ARGV
     require 'json'
+    require 'base64'
     require 'openssl'
     password, data, encrypted_base64_filename, enc_iv_base64_filename_deprecated  = shell_enc_input args
     salt = nil

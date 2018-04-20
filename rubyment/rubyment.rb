@@ -238,7 +238,7 @@ class Rubyment
     salt = Base64.decode64 base64_salt
     iter = Base64.decode64 base64_iter
     ending ||= static_end_key
-    key, password, salt, iter = salt.to_s.split("\0").first && (
+    key, password, salt, iter =  (
       generate_pbkdf2_key [password, salt, iter]
     )|| [nil, password, salt, iter]
 
@@ -349,7 +349,7 @@ class Rubyment
     static_end_key = memory[:static_end_key]
     password, data, ending, salt, iter = args
     ending ||= static_end_key
-    key, password, salt, iter = salt.to_s.split("\0").first && (
+    key, password, salt, iter = (
       generate_pbkdf2_key [password, salt, iter]
     )|| [nil, password, salt, iter]
 

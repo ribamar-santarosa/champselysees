@@ -343,18 +343,26 @@ class Rubyment
     require 'base64'
     memory = @memory
     static_end_key = memory[:static_end_key]
-    password, data, ending = args
+    password, data, ending, salt, iter = args
     ending ||= static_end_key
+    key, password, salt, iter = salt.to_s.split("\0").first && (
+      generate_pbkdf2_key [password, salt, iter]
+    )|| [nil, password, salt, iter]
+
     cipher = OpenSSL::Cipher.new('aes-128-cbc')
     cipher.encrypt
-    key = cipher.key = Digest::SHA256.hexdigest password
+
+    cipher.key = key || (Digest::SHA256.hexdigest password)
     iv = cipher.random_iv
     encrypted = cipher.update(data + ending) + cipher.final
 
     base64_iv = Base64.encode64 iv
     base64_encrypted = Base64.encode64  encrypted
+    base64_salt = Base64.encode64 salt.to_s
+    base64_iter = Base64.encode64 iter.to_s
+    base64_key = Base64.encode64 key.to_s
 
-    [base64_encrypted, base64_iv]
+    [base64_encrypted, base64_iv,  base64_salt, base64_iter, base64_key]
   end
 
 

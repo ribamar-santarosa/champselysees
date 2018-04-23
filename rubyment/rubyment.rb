@@ -558,10 +558,12 @@ class Rubyment
   # args: none
   # returns: a gem spec string for Rubyment
   def rubyment_gem_spec args=ARGV
+    memory = @memory
+    basic_version = memory[:basic_version]
     contents =<<-ENDHEREDOC
 Gem::Specification.new do |s|
   s.name        = 'rubyment'
-  s.version     = '0.0.1'
+  s.version     = '#{basic_version}'
   s.date        = '2018-04-23'
   s.summary     = "a set of ruby helpers"
   s.description = "a gem for keeping Rubyment, a set of ruby helpers"

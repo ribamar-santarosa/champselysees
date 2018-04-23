@@ -627,6 +627,16 @@ end
     `gem uninstall #{gem_spec}`
   end
 
+  # system_rubyment
+  # requires a system's Rubyment and invoke it using args
+  # args:
+  # args (Array)
+  # returns:
+  # Rubyment or false
+  def system_rubyment args=ARGV
+    require 'rubyment' && Rubyment.new({:invoke => args ]})
+  end
+
 end
 
 (__FILE__ == $0) && Rubyment.new({:invoke => ARGV})

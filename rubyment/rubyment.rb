@@ -563,7 +563,7 @@ Gem::Specification.new do |s|
   s.description = "a gem for keeping Rubyment, a set of ruby helpers"
   s.authors     = ["Ribamar Santarosa"]
   s.email       = 'ribamar@gmail.com'
-  s.files       = ["rubyment.rb"]
+  s.files       = ["lib/rubyment.rb"]
   s.homepage    =
     'http://rubygems.org/gems/rubyment'
   s.license       = 'GPL-3.0'

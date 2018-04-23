@@ -594,11 +594,16 @@ end
   end
 
   # test for gem_build: builds gem for this rubyment file
+  # after it, these commands will install/uninstall it:
+  # sudo gem install $PWD/rubyment-0.0.1.gem ; sudo gem uninstall  rubyment
   # args:
   # [gem_spec_path (String), gem_spec_contents (String)]
   # returns: none
   # outputs of gem build (String)
   def test__gem_build args=ARGV
+    require 'fileutils'
+    FileUtils.mkdir_p 'lib'
+    save_file __FILE__, 'lib/rubyment.rb'
     puts gem_build ["rubyment.spec", rubyment_gem_spec ]
   end
 

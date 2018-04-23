@@ -545,6 +545,28 @@ class Rubyment
     judgement = ( shell_dec ["", "", "tijolo22"] || true) rescue false
   end
 
+  # rubyment_gem_spec
+  # args: none
+  # returns: a gem spec string for Rubyment
+  def rubyment_gem_spec args=ARGV
+    contents =<<-ENDHEREDOC
+Gem::Specification.new do |s|
+  s.name        = 'rubyment'
+  s.version     = '0.0.1'
+  s.date        = '2018-04-23'
+  s.summary     = "a set of ruby helpers"
+  s.description = "a gem for keeping Rubyment, a set of ruby helpers"
+  s.authors     = ["Ribamar Santarosa"]
+  s.email       = 'ribamar@gmail.com'
+  s.files       = ["lib/hola.rb"]
+  s.homepage    =
+    'http://rubygems.org/gems/rubyment'
+  s.license       = 'GPLv3'
+end
+    ENDHEREDOC
+    contents
+  end
+
 
 end
 

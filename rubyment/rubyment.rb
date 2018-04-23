@@ -619,7 +619,7 @@ end
   # returns:
   # console output of gem install (String)
   def gem_install args=ARGV
-    gem_spec_path, future_arg = args
+    gem_spec, future_arg = args
     `gem install #{gem_spec}`
   end
 

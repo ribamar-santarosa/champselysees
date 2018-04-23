@@ -634,7 +634,7 @@ end
   # returns:
   # Rubyment or false
   def system_rubyment args=ARGV
-    require 'rubyment' && Rubyment.new({:invoke => args ]})
+    require 'rubyment' && Rubyment.new({:invoke => args })
   end
 
 end

@@ -629,7 +629,7 @@ end
   # returns:
   # console output of gem uninstall (String)
   def gem_uninstall args=ARGV
-    gem_spec_path, future_arg = args
+    gem_spec, future_arg = args
     `gem uninstall #{gem_spec}`
   end
 

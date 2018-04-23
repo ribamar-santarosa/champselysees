@@ -575,6 +575,18 @@ end
     puts rubyment_gem_spec
   end
 
+  # rubyment_gem_build
+  # args:
+  # [gem_spec_path (String), gem_spec_contents (String)]
+  # returns:
+  # console output of gem build (String)
+  def gem_build args=ARGV
+    gem_spec_path, gem_spec_contents  = args
+    FileUtils.mkdir_p File.dirname gem_spec_path
+    File.write gem_spec_path, gem_spec_contents || (File.read gem_spec_path)
+    `gem build #{gem_spec_path}`
+  end
+
 end
 
 (__FILE__ == $0) && Rubyment.new({:invoke => ARGV})

@@ -17,6 +17,7 @@ class Rubyment
       :stdout => STDOUT,
       :stdin  => STDIN,
       :time   => Time.now,
+      :basic_version => (Time.now.to_i  / 60), # new one every minute
       :static_separator_key => "strings_having_this_string_not_guaranteed_to_work",
       :static_end_key => "strings_havinng_this_string_also_not_guaranteed_to_work",
     }

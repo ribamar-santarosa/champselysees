@@ -61,6 +61,11 @@ class Rubyment
 
 
   # save url contents to a local file location
+  # url can be a uri to a local file
+  # args:
+  # url (String), location (String), wtime (Integer)
+  # returns
+  #  contents of url (String)
   def save_file url, location, wtime=0
     require 'open-uri'
     require 'fileutils'

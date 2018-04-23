@@ -575,7 +575,7 @@ end
     puts rubyment_gem_spec
   end
 
-  # rubyment_gem_build
+  # gem_build
   # args:
   # [gem_spec_path (String), gem_spec_contents (String)]
   # returns:

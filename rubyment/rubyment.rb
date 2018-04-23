@@ -563,7 +563,7 @@ class Rubyment
     contents =<<-ENDHEREDOC
 Gem::Specification.new do |s|
   s.name        = 'rubyment'
-  s.version     = '#{basic_version}'
+  s.version     = '0.0.#{basic_version}'
   s.date        = '2018-04-23'
   s.summary     = "a set of ruby helpers"
   s.description = "a gem for keeping Rubyment, a set of ruby helpers"

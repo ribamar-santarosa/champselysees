@@ -635,6 +635,16 @@ end
     `gem uninstall #{gem_spec}`
   end
 
+  # gem_list
+  # args:
+  # [gem_spec (String)]
+  # returns:
+  # console output of gem install (String)
+  def gem_list args=ARGV
+    gem_spec, future_arg = args
+    `gem list | grep #{gem_spec}`
+  end
+
   # system_rubyment
   # requires a system's Rubyment and invoke it using args
   # args:

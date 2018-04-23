@@ -27,12 +27,15 @@ class Rubyment
       # a function has only one argument (if it has
       # more, the rescue case would fail anyway. if
       # it has zero, both are equally OK).
-      # In only one argument case, it is better to
-      # splat -- because arguments from shell are
-      # strings, and not arrays.
-      self.method(invoke[0]).call *(invoke[1..-1])
-    rescue ArgumentError => e
+      # In only one argument case, it is better not to
+      # splat -- because most of the functions takes
+      # an array as argument. the drawback is that
+      # functions taking only one argument can't be
+      # called from the command line (an array will
+      # be given to them)
       self.method(invoke[0]).call (invoke[1..-1])
+    rescue ArgumentError => e
+      self.method(invoke[0]).call *(invoke[1..-1])
     end
   end
 

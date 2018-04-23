@@ -587,6 +587,7 @@ end
   # console output of gem build (String)
   def gem_build args=ARGV
     gem_spec_path, gem_spec_contents  = args
+    require 'fileutils'
     FileUtils.mkdir_p File.dirname gem_spec_path
     File.write gem_spec_path, gem_spec_contents || (File.read gem_spec_path)
     `gem build #{gem_spec_path}`

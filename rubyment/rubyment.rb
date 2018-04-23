@@ -637,6 +637,16 @@ end
     require 'rubyment' && Rubyment.new({:invoke => args })
   end
 
+  # test for system_rubyment
+  # args:
+  # args (Arraya or nil)
+  # returns:
+  # Rubyment or false
+  def test__system_rubyment args=ARGV
+    rubyment_args = (args.to_a.size > 0 && args) || ["main" "tested system_rubyment"]
+    system_rubyment rubyment_args
+  end
+
 end
 
 (__FILE__ == $0) && Rubyment.new({:invoke => ARGV})

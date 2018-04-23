@@ -617,6 +617,16 @@ end
     `gem install #{gem_spec}`
   end
 
+  # gem_uninstall
+  # args:
+  # [gem_spec (String)]
+  # returns:
+  # console output of gem install (String)
+  def gem_install args=ARGV
+    gem_spec_path, future_arg = args
+    `gem install #{gem_spec}`
+  end
+
 end
 
 (__FILE__ == $0) && Rubyment.new({:invoke => ARGV})

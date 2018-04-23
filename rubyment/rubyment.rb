@@ -670,6 +670,27 @@ end
     p system_rubyment rubyment_args
   end
 
+
+  # test for gem_build, gem_install, gem_list
+  # system_rubyment, gem_uninstall
+  # args:
+  # args (Array or nil)
+  # returns:
+  # Rubyment or false
+  def test__gem_build_install_validate_uninstall args=ARGV
+    memory = @memory
+    basic_version = memory[:basic_version]
+    running_dir = memory[:running_dir]
+    test__gem_build []
+    gem_uninstall ["rubyment"]
+    puts gem_list ["rubyment"]
+    gem_install ["#{running_dir}/rubyment-0.0.#{basic_version}.gem"]
+    puts gem_list ["rubyment"]
+    v = test__system_rubyment []
+    gem_uninstall ["rubyment"]
+    v
+  end
+
 end
 
 (__FILE__ == $0) && Rubyment.new({:invoke => ARGV})

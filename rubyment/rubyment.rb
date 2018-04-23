@@ -567,6 +567,13 @@ end
     contents
   end
 
+  # test for rubyment_gem_spec. outputs the contents
+  # returned by that function.
+  # args: none
+  # returns: none
+  def test__rubyment_gem_spec args=ARGV
+    puts rubyment_gem_spec
+  end
 
 end
 

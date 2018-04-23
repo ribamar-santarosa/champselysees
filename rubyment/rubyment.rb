@@ -624,7 +624,7 @@ end
   # console output of gem uninstall (String)
   def gem_install args=ARGV
     gem_spec_path, future_arg = args
-    `gem install #{gem_spec}`
+    `gem uninstall #{gem_spec}`
   end
 
 end

@@ -582,9 +582,19 @@ end
   # console output of gem build (String)
   def gem_build args=ARGV
     gem_spec_path, gem_spec_contents  = args
+    require 'fileutils'
     FileUtils.mkdir_p File.dirname gem_spec_path
     File.write gem_spec_path, gem_spec_contents || (File.read gem_spec_path)
     `gem build #{gem_spec_path}`
+  end
+
+  # test for gem_build: builds gem for this rubyment file
+  # args:
+  # [gem_spec_path (String), gem_spec_contents (String)]
+  # returns: none
+  # outputs of gem build (String)
+  def test__gem_build args=ARGV
+    puts gem_build ["rubyment.rb", rubyment_gem_spec ]
   end
 
 end

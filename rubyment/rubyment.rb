@@ -593,6 +593,15 @@ end
     `gem build #{gem_spec_path}`
   end
 
+  # test for gem_build: builds gem for this rubyment file
+  # args:
+  # [gem_spec_path (String), gem_spec_contents (String)]
+  # returns: none
+  # outputs of gem build (String)
+  def test__gem_build args=ARGV
+    puts gem_build ["rubyment.spec", rubyment_gem_spec ]
+  end
+
 end
 
 (__FILE__ == $0) && Rubyment.new({:invoke => ARGV})

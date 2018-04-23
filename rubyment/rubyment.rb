@@ -643,7 +643,7 @@ end
   # returns:
   # Rubyment or false
   def test__system_rubyment args=ARGV
-    rubyment_args = (args.to_a.size > 0 && args) || ["main" "tested system_rubyment"]
+    rubyment_args = (args.to_a.size > 0 && args) || ["main", "tested system_rubyment"]
     system_rubyment rubyment_args
   end
 

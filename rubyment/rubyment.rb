@@ -542,37 +542,7 @@ class Rubyment
   # don't output to stdout
   def test__shell_enc_dec args=ARGV
     shell_enc ["my secret",  "", "",  "tijolo22", "", ""]
-    judgement = ( shell_dec ["", "", "tijolo22"] || true) # rescue false
-  end
-
-
-  # generates contents of a gemspec file
-  # args:
-  #  [spec_hash (Hash), keys (Array, if nil,
-  #  spec_hash.keys is assumed)]
-  # returns:
-  #  string
-  #
-  def gem_spec args=ARGV
-    spec_hash, keys = args
-    keys ||= spec_hash.keys
-    do_tab_start         = ""
-    do_what              = "Gem::Specification.new"
-    do_begin             = " do "
-    do_local_def_begin   = "|"
-    do_local_var         = "s"
-    do_local_def_end     = "|"
-    do_separator         = "\n"
-    do_tab_step          = "  "
-    do_each_key_begin    = "#{do_local_var}."
-    do_each_key_end      = " "
-    do_each_separator    = "= "
-    do_each_value_begin  = "'"
-    do_each_value_end    = "'"
-    do_end               = "end"
-    spec_hash.map { |k, v|
-
-    }
+    judgement = ( shell_dec ["", "", "tijolo22"] || true) rescue false
   end
 
 

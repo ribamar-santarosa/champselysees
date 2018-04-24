@@ -676,8 +676,10 @@ end
   # returns:
   # console output of gem uninstall (String)
   def gem_uninstall args=ARGV
-    gem_spec, future_arg = args
-    `gem uninstall #{gem_spec}`
+    system_user_is_super = @memory[:system_user_is_super]
+    gem_spec, user_install = args
+    user_install ||= (!system_user_is_super) && "--user-install" || ""
+    `gem uninstall #{user_install}  #{gem_spec}`
   end
 
   # gem_list

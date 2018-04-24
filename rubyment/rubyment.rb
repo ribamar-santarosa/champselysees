@@ -160,7 +160,7 @@ class Rubyment
   end
 
 
-  # opens a non-echoing prompt, if arg1 is string
+  # opens a non-echoing prompt, if arg1 is nil or empty
   # args:
   # [ arg1 (String or nil)]
   def input_single_line_non_echo args=ARGV

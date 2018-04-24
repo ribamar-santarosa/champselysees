@@ -728,15 +728,17 @@ end
   # prompts for arguments when username or password
   # not provided.
   # args:
-  # [username (String or nil), password (String or nil)]
+  # [username (String or nil), password (String or nil),
+  # file_destination (String, "/dev/null" if empty/nil given)]
   # returns
   # key_contents (String)
   def gem_get_api_key args=ARGV
-    username, password = args
+    username, password, file_destination = args
     username = input_single_line [username]
     password = input_single_line_non_echo [password]
+    file_destination = file_destination.to_s.split("\0").first || "/dev/null"
     key_contents = save_file "https://rubygems.org/api/v1/api_key.yaml",
-      "/dev/null", 0, {:username => username, :password => password }
+      file_destination, 0, {:username => username, :password => password }
   end
 
 

@@ -719,6 +719,22 @@ end
     v
   end
 
+
+  # gets the api key needed to push gems to rubygems.
+  # prompts for arguments when username or password
+  # not provided.
+  # args:
+  # [username (String or nil), password (String or nil)]
+  # returns
+  # key_contents (String)
+  def gem_get_api_key args=ARGV
+    username, password = args
+    username = input_single_line [username]
+    password = input_single_line_non_echo [password]
+    key_contents = save_file "https://rubygems.org/api/v1/api_key.yaml",
+      "/dev/null", 0, {:username => username, :password => password }
+  end
+
 end
 
 (__FILE__ == $0) && Rubyment.new({:invoke => ARGV})

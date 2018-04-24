@@ -691,6 +691,8 @@ end
   end
 
   # test for system_rubyment
+  # dependee:
+  #  test__gem_install_validate_uninstall
   # args:
   # args (Array or nil)
   # returns:

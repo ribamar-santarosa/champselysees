@@ -204,6 +204,19 @@ class Rubyment
   end
 
 
+  def output_array_to_shell args=ARGV
+    # p  dec_args.map(&:to_s).map(&:chomp).join " "  #('" "')
+    # to_s.split("\0").first
+    # puts dec_args.map(&:inspect).map(&:to_s).join " "
+    args.map {|arg|
+      # arg.to_s.split("\0").first.inspect
+      # arg && arg.inspect || "\"\""
+      # arg && arg.inspect || nil
+      arg && arg.inspect || ""
+      # arg && arg.to_s || ""
+    }.join " "
+  end
+
   # place a \n at every max_column chars
   # approximately (a word can be bigger
   # than max_column, and some other

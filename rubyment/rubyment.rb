@@ -153,6 +153,7 @@ class Rubyment
   def input_single_line_non_echo args=ARGV
     stderr = @memory[:stderr]
     stdin  = @memory[:stdin]
+    require "io/console"
     stderr.print "non echo single line:"
     args.shift.to_s.split("\0").first || stdin.noecho{ stdin.gets}.chomp
   end

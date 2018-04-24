@@ -733,10 +733,12 @@ end
   # returns
   # key_contents (String)
   def gem_get_api_key args=ARGV
+    require 'fileutils'
     username, password, file_destination = args
     username = input_single_line [username]
     password = input_single_line_non_echo [password]
     file_destination = file_destination.to_s.split("\0").first || "/dev/null"
+    FileUtils.mkdir_p File.dirname file_destination
     key_contents = save_file "https://rubygems.org/api/v1/api_key.yaml",
       file_destination, 0, {:username => username, :password => password }
   end

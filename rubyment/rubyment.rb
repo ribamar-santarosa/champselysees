@@ -130,6 +130,16 @@ class Rubyment
     (filepath_or_contents args.shift).to_s.split("\0").first ||  readlines.join
   end
 
+
+  # opens a non-echoing prompt, if arg1 is string
+  # args:
+  # [ arg1 (String or nil)]
+  def input_single_line_non_echo args=ARGV
+    stderr = @memory[:stderr]
+    stderr.print "non echo single line:"
+    args.shift.to_s.split("\0").first || stdin.noecho{ stdin.gets}.chomp
+  end
+
   def input_shift_or_empty_string args=ARGV, default = ''
     args.shift || default
   end

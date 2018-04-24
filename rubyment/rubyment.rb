@@ -171,6 +171,18 @@ class Rubyment
     args.shift.to_s.split("\0").first || stdin.noecho{ stdin.gets}.chomp
   end
 
+
+  # opens an echoing multiline prompt, if arg1 is nil or empty
+  # args:
+  # [ arg1 (String or nil)]
+  def input_multi_line args=ARGV
+    stderr = @memory[:stderr]
+    stdin  = @memory[:stdin]
+    stderr.print "multiline[control-D to stop]:"
+    args.shift.to_s.split("\0").first || stdin.readlines.join
+  end
+
+
   def input_shift_or_empty_string args=ARGV, default = ''
     args.shift || default
   end

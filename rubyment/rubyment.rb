@@ -149,7 +149,7 @@ class Rubyment
   end
 
 
-  # opens an echoing prompt, if arg1 is string
+  # opens an echoing prompt, if arg1 is nil
   # args:
   # [ arg1 (String or nil)]
   def input_single_line args=ARGV

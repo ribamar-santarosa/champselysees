@@ -735,6 +735,16 @@ end
       "/dev/null", 0, {:username => username, :password => password }
   end
 
+
+  # test for test__gem_get_api_key
+  # args:
+  # (Array - forwarded to gem_get_api_key)
+  # returns:
+  # nil
+  def test__gem_get_api_key args=ARGV
+    puts gem_get_api_key args
+  end
+
 end
 
 (__FILE__ == $0) && Rubyment.new({:invoke => ARGV})

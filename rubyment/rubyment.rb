@@ -69,6 +69,15 @@ class Rubyment
   end
 
 
+  # args:
+  # path (String)
+  # returns:
+  # file_permissions_octal (Integer, ready to go to chmod)
+  def file_permissions_octal path
+    File.stat(path).mode.to_s(8).split("")[-4..-1].join.to_i(8)
+  end
+
+
   # save url contents to a local file location
   # url can be a uri to a local file
   # args:

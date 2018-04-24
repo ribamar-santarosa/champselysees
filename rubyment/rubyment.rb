@@ -72,9 +72,10 @@ class Rubyment
   # args:
   # path (String)
   # returns:
-  # file_permissions_octal (Integer, ready to go to chmod)
+  # file_permissions_octal (Integer, ready to go to chmod, or nil,
+  # if file doesn't exist)
   def file_permissions_octal path
-    File.stat(path).mode.to_s(8).split("")[-4..-1].join.to_i(8)
+    File.stat(path).mode.to_s(8).split("")[-4..-1].join.to_i(8) || nil
   end
 
 

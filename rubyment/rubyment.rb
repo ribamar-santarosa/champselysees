@@ -70,13 +70,18 @@ class Rubyment
   # url can be a uri to a local file
   # args:
   # url (String), location (String), wtime (Integer)
+  # more (Hash)
+  # details:
+  # more[:username], more[:password] for http_basic_authentication
   # returns
   #  contents of url (String)
-  def save_file url, location, wtime=0
+  def save_file url, location, wtime=0, more = {}
     require 'open-uri'
     require 'fileutils'
     FileUtils.mkdir_p File.dirname location # note "~" doesn't work
-    contents = open(url).read
+    user = more[:username]
+    pw = more[:password]
+    contents = open(url, :http_basic_authentication => [user, pw]).read
     r = File.write location, contents
     sleep wtime
     contents

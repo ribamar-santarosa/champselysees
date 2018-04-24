@@ -136,6 +136,7 @@ class Rubyment
   # [ arg1 (String or nil)]
   def input_single_line args=ARGV
     stderr = @memory[:stderr]
+    stdin  = @memory[:stdin]
     stderr.print "single line:"
     args.shift.to_s.split("\0").first || stdin.gets.chomp
   end

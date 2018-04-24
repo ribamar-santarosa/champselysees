@@ -676,6 +676,7 @@ end
   # console output of gem push (String)
   def gem_push args=ARGV
     gem_spec, future_arg = args
+    (File.chmod 0600, gem_spec) rescue nil
     `gem push #{gem_spec}`
   end
 

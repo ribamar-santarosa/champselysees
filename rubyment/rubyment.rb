@@ -147,6 +147,7 @@ class Rubyment
   # [ arg1 (String or nil)]
   def input_single_line_non_echo args=ARGV
     stderr = @memory[:stderr]
+    stdin  = @memory[:stdin]
     stderr.print "non echo single line:"
     args.shift.to_s.split("\0").first || stdin.noecho{ stdin.gets}.chomp
   end

@@ -655,6 +655,16 @@ end
     `gem install #{gem_spec}`
   end
 
+  # gem_push
+  # args:
+  # [gem_spec (String)]
+  # returns:
+  # console output of gem push (String)
+  def gem_push args=ARGV
+    gem_spec, future_arg = args
+    `gem push #{gem_spec}`
+  end
+
   # gem_uninstall
   # args:
   # [gem_spec (String)]

@@ -131,6 +131,16 @@ class Rubyment
   end
 
 
+  # opens an echoing prompt, if arg1 is string
+  # args:
+  # [ arg1 (String or nil)]
+  def input_single_line args=ARGV
+    stderr = @memory[:stderr]
+    stderr.print "single line:"
+    args.shift.to_s.split("\0").first || stdin.gets.chomp
+  end
+
+
   # opens a non-echoing prompt, if arg1 is string
   # args:
   # [ arg1 (String or nil)]

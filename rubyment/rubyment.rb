@@ -632,6 +632,8 @@ end
   # test for gem_build: builds gem for this rubyment file
   # after it, these commands will install/uninstall it:
   # sudo gem install $PWD/rubyment-0.0.#{@memory[:basic_version]} ; gem list  | grep -i rubyment ; sudo gem uninstall  rubyment
+  # dependee:
+  #  test__gem_install_validate_uninstall
   # args:
   # [gem_spec_path (String), gem_spec_contents (String)]
   # returns: none

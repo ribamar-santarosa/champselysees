@@ -204,16 +204,12 @@ class Rubyment
   end
 
 
+  # outputs in such a way that it can be given
+  # as an array of parameters via bash shell
+  # not fully tested, use with caution.
   def output_array_to_shell args=ARGV
-    # p  dec_args.map(&:to_s).map(&:chomp).join " "  #('" "')
-    # to_s.split("\0").first
-    # puts dec_args.map(&:inspect).map(&:to_s).join " "
     args.map {|arg|
-      # arg.to_s.split("\0").first.inspect
-      # arg && arg.inspect || "\"\""
-      # arg && arg.inspect || nil
-      arg && arg.inspect || ""
-      # arg && arg.to_s || ""
+      "\"" << (arg && arg.to_s || "") << "\""
     }.join " "
   end
 

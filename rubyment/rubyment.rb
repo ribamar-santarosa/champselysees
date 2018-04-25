@@ -629,7 +629,6 @@ class Rubyment
   # sanity test for shell_enc and shell_dec
   # planned changes:
   # don't output to stdout
-  # TODO: test__shell_enc_dec regression detected
   def test__shell_enc_dec args=ARGV
     shell_enc ["my secret",  "", "",  "tijolo22", "", ""]
     judgement = ( shell_dec ["", "", "tijolo22"] || true) rescue false

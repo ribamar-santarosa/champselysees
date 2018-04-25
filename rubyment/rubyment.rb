@@ -55,6 +55,7 @@ class Rubyment
   #  called file_permissions_octal which returns without output
   # can be output as:
   # [ "puts", "file_permissions_octal", "/"]
+  # TODO; flawed example
   def invoke_double args=ARGV
     second_invokation, first_invokation = [args[0], args[1..-1]]
     first_invokation_result = (invoke first_invokation)

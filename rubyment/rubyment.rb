@@ -9,6 +9,25 @@
 # to output something
 class Rubyment
 
+  # invoke first arg with following args
+  # used by initialize
+  def invoke args=ARGV
+    begin
+      # this condition could become ambiguous only when
+      # a function has only one argument (if it has
+      # more, the rescue case would fail anyway. if
+      # it has zero, both are equally OK).
+      # In only one argument case, it is better not to
+      # splat -- because most of the functions takes
+      # an array as argument. the drawback is that
+      # functions taking only one argument can't be
+      # called from the command line (an array will
+      # be given to them)
+      self.method(args[0]).call (args[1..-1])
+    rescue ArgumentError => e
+      self.method(args[0]).call *(args[1..-1])
+    end
+  end
 
   def initialize memory = {}
     @memory = {

@@ -50,6 +50,17 @@ class Rubyment
   end
 
 
+  # enables the possibility to inkove a second method with
+  # the results of a first one. eg, the results of a method
+  #  called file_permissions_octal which returns without output
+  # can be output as:
+  # [ "puts", "file_permissions_octal", "/"]
+  def invoke_double args=ARGV
+    second_invokation, first_invokation = [args[0], args[1..-1]]
+    first_invokation_result = (invoke first_invokation)
+    invoke [second_invokation] + [first_invokation_result].flatten(1)
+  end
+
   # if file is a nonexisting filepath, or by any reason
   # throws any exception, it will be treated as contents
   # instead, and the filename will treated as ""

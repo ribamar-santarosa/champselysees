@@ -631,6 +631,7 @@ class Rubyment
   # don't output to stdout
   def test__shell_enc_dec args=ARGV
     shell_enc ["my secret",  "", "",  "tijolo22", "", ""]
+    # shell_dec will read from the output file:
     judgement = ( shell_dec ["", "", "tijolo22"] || true) rescue false
   end
 

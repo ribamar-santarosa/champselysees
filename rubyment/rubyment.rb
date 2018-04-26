@@ -940,9 +940,10 @@ end
   # Rubyment or false
   def validate_require args=ARGV
     stderr = @memory[:stderr]
-    requirement, future_arg = args
+    requirement, validator = args
     begin
       require requirement
+      invoke [validator].flatten(1)
     rescue LoadError => e
       stderr.puts e
       nil

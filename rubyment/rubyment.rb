@@ -873,6 +873,8 @@ end
     FileUtils.mkdir_p File.dirname file_destination
     key_contents = save_file "https://rubygems.org/api/v1/api_key.yaml",
       file_destination, 0, {:username => username, :password => password }
+    (File.chmod 0600, file_destination)
+    key_contents
   end
 
 

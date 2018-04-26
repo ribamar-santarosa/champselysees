@@ -37,6 +37,7 @@ class Rubyment
       :stdout => STDOUT,
       :stdin  => STDIN,
       :time   => Time.now,
+      :major_version => "0.1",
       :basic_version => (Time.now.to_i  / 60), # new one every minute
       :filepath => __FILE__,
       :running_dir => Dir.pwd,

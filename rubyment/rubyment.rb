@@ -25,7 +25,8 @@ class Rubyment
   # invoke first arg with following args
   # used by initialize
   def invoke args=ARGV
-    !args.to_a[0] && (return true)
+    method_name, arg_list = array_first_remainder args
+    !method_name && (return true)
     begin
       # this condition could become ambiguous only when
       # a function has only one argument (if it has
@@ -37,9 +38,9 @@ class Rubyment
       # functions taking only one argument can't be
       # called from the command line (an array will
       # be given to them)
-      self.method(args[0]).call (args[1..-1])
+      self.method(method_name).call (arg_list)
     rescue ArgumentError => e
-      self.method(args[0]).call *(args[1..-1])
+      self.method(method_name).call *(arg_list)
     end
   end
 

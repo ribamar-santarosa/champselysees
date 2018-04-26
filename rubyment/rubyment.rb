@@ -770,6 +770,31 @@ end
 
 
 
+  # defaults for the rubyment gem
+  # args:
+  # [gem_name, gem_version, gem_dir, gem_ext, gem_hifen]
+  # all Strings.
+  # defaults:
+  # ["rubyment", version [], memory[:running_dir],
+  # ".gem", "-"]
+  # returns:
+  # [gem_name, gem_version, gem_dir, gem_ext, gem_hifen]
+  #
+  def rubyment_gem_defaults args=ARGV
+    memory = @memory
+    running_dir   = memory[:running_dir]
+    basic_version = memory[:basic_version]
+    major_version = memory[:major_version]
+    gem_name, gem_version, gem_dir, gem_ext, gem_hifen = args
+    gem_name ||= "rubyment"
+    gem_version ||= (version [])
+    gem_dir ||= running_dir
+    gem_ext ||= ".gem"
+    gem_hifen ||= "-"
+    [gem_name, gem_version, gem_dir, gem_ext, gem_hifen]
+  end
+
+
   # returns the gem path given the params.
   # args:
   # [gem_name, gem_version, gem_dir, gem_ext, gem_hifen]

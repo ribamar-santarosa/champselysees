@@ -931,6 +931,24 @@ end
     `gem list | grep #{gem_spec}`
   end
 
+  # validate_require
+  # requires a file/gem in the system
+  # returns nil if not found
+  # args:
+  # args (Array)
+  # returns:
+  # Rubyment or false
+  def validate_require args=ARGV
+    stderr = @memory[:stderr]
+    requirement, future_arg = args
+    begin
+      require requirement
+    rescue LoadError => e
+      stderr.puts e
+      nil
+    end
+  end
+
   # system_rubyment
   # requires a system's Rubyment and invoke it using args
   # args:

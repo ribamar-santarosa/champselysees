@@ -9,6 +9,19 @@
 # to output something
 class Rubyment
 
+  # this class very often needs to split
+  # first argument and remaining elements.
+  # args:
+  # args
+  # default:
+  # ARGV
+  # returns:
+  # [ args[0], args[1..-1] ]
+  def array_first_remainder args=ARGV
+    [ args[0], args[1..-1] ]
+  end
+
+
   # invoke first arg with following args
   # used by initialize
   def invoke args=ARGV

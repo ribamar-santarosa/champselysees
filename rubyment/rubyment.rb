@@ -768,6 +768,30 @@ end
     puts rubyment_gem_spec
   end
 
+
+
+  # returns the gem path given the params.
+  # args:
+  # [gem_name, gem_version, gem_dir, gem_ext, gem_hifen]
+  # all Strings.
+  # defaults:
+  # ["rubyment", version [], memory[:running_dir],
+  # ".gem", "-"]
+  def gem_path args=ARGV
+    memory = @memory
+    running_dir   = memory[:running_dir]
+    basic_version = memory[:basic_version]
+    major_version = memory[:major_version]
+    gem_name, gem_version, gem_dir, gem_ext, gem_hifen = args
+    gem_name ||= "rubyment"
+    gem_version ||= (version [])
+    gem_dir ||= running_dir
+    gem_ext ||= ".gem"
+    gem_hifen ||= "-"
+    "#{gem_dir}/#{gem_name}#{gem_hifen}#{gem_version}#{gem_ext}"
+  end
+
+
   # gem_build
   # args:
   # [gem_spec_path (String), gem_spec_contents (String)]

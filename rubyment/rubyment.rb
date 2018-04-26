@@ -682,9 +682,11 @@ class Rubyment
   # data, password, and use the stderr output
   def test__enc_dec args=ARGV
     stderr = @memory[:stderr]
-    data, password = ["tinga" "tijolo22"]
-    # data = input_multi_line_non_echo [data]
-    # password = input_single_line_non_echo [password]
+    data, password = args
+    stderr.print "[data]"
+    data = input_multi_line_non_echo [data]
+    stderr.print "[password]"
+    password = input_single_line_non_echo [password]
     base64_encrypted, base64_iv, base64_salt, base64_iter, base64_key = enc [password, data]
     dec_args = [password, base64_iv, base64_encrypted, nil, base64_salt, base64_iter]
     stderr.puts "# programmatically:"

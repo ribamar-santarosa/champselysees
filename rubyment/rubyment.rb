@@ -884,7 +884,7 @@ end
     require 'fileutils'
     FileUtils.mkdir_p 'lib'
     save_file __FILE__, 'lib/rubyment.rb'
-    puts gem_build ["rubyment.spec", rubyment_gem_spec ]
+    puts gem_build ["rubyment.spec", rubyment_gem_spec(args) ]
   end
 
   # gem_install

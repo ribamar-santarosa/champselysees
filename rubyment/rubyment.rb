@@ -825,7 +825,7 @@ end
     gem_email       ||= 'ribamar@gmail.com'
     gem_files       ||= ["lib/rubyment.rb"]
     gem_homepage    ||=
-      'http://rubygems.org/gems/#{gem_name}'
+      "http://rubygems.org/gems/#{gem_name}"
     gem_license     ||= 'GPL-3.0'
     [
        gem_name,

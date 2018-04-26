@@ -207,7 +207,7 @@ class Rubyment
     stdin  = @memory[:stdin]
     require "io/console"
     stderr.print "multiline[control-D to stop]:"
-    args.shift.to_s.split("\0").first || stdin.noecho{ stdin.readlines}.chomp
+    args.shift.to_s.split("\0").first || stdin.noecho{ stdin.readlines}.join.chomp
   end
 
 

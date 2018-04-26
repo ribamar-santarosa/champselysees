@@ -52,6 +52,25 @@ class Rubyment
   end
 
 
+  # returns a version number comprised
+  # of a major and a minor number
+  # args:
+  # [major_version (String or nil), minor_version (String or nil) ]
+  # defaults:
+  #  [@memory[:major_version]], @memory[:basic_version]]
+  # returns:
+  # "#{major}.#{minor}"
+  def version args=ARGV
+    memory = @memory
+    major_version = memory[:major_version]
+    basic_version = memory[:basic_version]
+    major, minor = args
+    major ||= major_version
+    minor ||= basic_version
+    "#{major}.#{minor}"
+  end
+
+
   # enables the possibility to inkove a second method with
   # the results of a first one. eg, the results of a method
   #  called file_permissions_octal which returns without output

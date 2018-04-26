@@ -689,8 +689,8 @@ class Rubyment
     dec_args = [password, base64_iv, base64_encrypted, nil, base64_salt, base64_iter]
     stderr.puts "# programmatically:"
     stderr.puts "dec " + dec_args.to_s
-    stderr.puts "# shell: (note: output_array_to_shell is still buggy)"
-    stderr.puts "#{$0} dec " + (output_array_to_shell dec_args).to_s
+    stderr.puts "# shell: "
+    stderr.puts "#{$0} invoke_double p dec " + (output_array_to_shell dec_args).to_s
     data_plain = dec [password, base64_iv, base64_encrypted, nil, base64_salt, base64_iter]
     judgement =
       [

@@ -12,6 +12,7 @@ class Rubyment
   # invoke first arg with following args
   # used by initialize
   def invoke args=ARGV
+    !args.to_a[0] && (return true)
     begin
       # this condition could become ambiguous only when
       # a function has only one argument (if it has

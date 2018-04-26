@@ -1013,13 +1013,14 @@ end
   def test__gem_build_install_validate_uninstall args=ARGV
     memory = @memory
     basic_version = memory[:basic_version]
+    major_version = memory[:major_version]
     running_dir = memory[:running_dir]
     test__gem_build []
     already_installed = (system_rubyment ["p", "already installed"])
     sleep 1
     gem_uninstall ["rubyment"]
     puts gem_list ["rubyment"]
-    gem_install ["#{running_dir}/rubyment-0.0.#{basic_version}.gem"]
+    gem_install ["#{running_dir}/rubyment-#{major_version}.#{basic_version}.gem"]
     puts gem_list ["rubyment"]
     v = test__system_rubyment []
     gem_uninstall ["rubyment"]

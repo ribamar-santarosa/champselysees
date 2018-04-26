@@ -1071,12 +1071,13 @@ end
     running_dir      = memory[:running_dir]
     home_dir         = memory[:home_dir]
     basic_version    = memory[:basic_version]
+    major_version    = memory[:major_version]
     gem_api_key_file = "#{home_dir}/.gem/credentials"
     permissions = file_permissions_octal gem_api_key_file
     credentials_contents = url_to_str gem_api_key_file, ""
     gem_get_api_key [args[0], args[1], gem_api_key_file]
     validated = test__gem_build_install_validate_uninstall []
-    puts validated && (gem_push ["#{running_dir}/rubyment-0.0.#{basic_version}.gem"])
+    puts validated && (gem_push ["#{running_dir}/rubyment-#{major_version}.#{basic_version}.gem"])
     File.write gem_api_key_file, credentials_contents
     File.chmod permissions, gem_api_key_file
   end

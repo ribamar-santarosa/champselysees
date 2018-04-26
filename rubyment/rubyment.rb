@@ -741,20 +741,32 @@ class Rubyment
   # returns: a gem spec string for Rubyment
   def rubyment_gem_spec args=ARGV
     memory = @memory
-    basic_version = memory[:basic_version]
+    gem_name,
+    gem_version,
+    gem_dir,
+    gem_ext,
+    gem_hifen,
+    gem_date,
+    gem_summary,
+    gem_description,
+    gem_authors,
+    gem_email,
+    gem_files,
+    gem_homepage,
+    gem_license = rubyment_gem_defaults args
+
     contents =<<-ENDHEREDOC
 Gem::Specification.new do |s|
-  s.name        = 'rubyment'
-  s.version     = '0.0.#{basic_version}'
-  s.date        = '2018-04-23'
-  s.summary     = "a set of ruby helpers"
-  s.description = "a gem for keeping Rubyment, a set of ruby helpers"
-  s.authors     = ["Ribamar Santarosa"]
-  s.email       = 'ribamar@gmail.com'
-  s.files       = ["lib/rubyment.rb"]
-  s.homepage    =
-    'http://rubygems.org/gems/rubyment'
-  s.license       = 'GPL-3.0'
+  s.name        = '#{gem_name}'
+  s.version     = '#{gem_version}'
+  s.date        = '#{gem_date}'
+  s.summary     = '#{gem_summary}'
+  s.description = '#{gem_description}'
+  s.authors     = #{gem_authors.inspect}
+  s.email       = '#{gem_email}'
+  s.files       = #{gem_files.inspect}
+  s.homepage    = '#{gem_homepage}'
+  s.license     = '#{gem_license}'
 end
     ENDHEREDOC
     contents
@@ -785,13 +797,51 @@ end
     running_dir   = memory[:running_dir]
     basic_version = memory[:basic_version]
     major_version = memory[:major_version]
-    gem_name, gem_version, gem_dir, gem_ext, gem_hifen = args
+
+    gem_name,
+    gem_version,
+    gem_dir,
+    gem_ext,
+    gem_hifen,
+    gem_date,
+    gem_summary,
+    gem_description,
+    gem_authors,
+    gem_email,
+    gem_files,
+    gem_homepage,
+    gem_license = args
+
     gem_name ||= "rubyment"
     gem_version ||= (version [])
     gem_dir ||= running_dir
     gem_ext ||= ".gem"
     gem_hifen ||= "-"
-    [gem_name, gem_version, gem_dir, gem_ext, gem_hifen]
+    gem_ext ||= "date"
+    gem_date ||= "2018-04-23"
+    gem_summary     ||= "a set of ruby helpers"
+    gem_description ||= "a gem for keeping Rubyment, a set of ruby helpers"
+    gem_authors     ||= ["Ribamar Santarosa"]
+    gem_email       ||= 'ribamar@gmail.com'
+    gem_files       ||= ["lib/rubyment.rb"]
+    gem_homepage    ||=
+      'http://rubygems.org/gems/#{gem_name}'
+    gem_license     ||= 'GPL-3.0'
+    [
+       gem_name,
+       gem_version,
+       gem_dir,
+       gem_ext,
+       gem_hifen,
+       gem_date,
+       gem_summary,
+       gem_description,
+       gem_authors,
+       gem_email,
+       gem_files,
+       gem_homepage,
+       gem_license,
+   ]
   end
 
 

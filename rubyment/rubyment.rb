@@ -959,6 +959,32 @@ end
   end
 
 
+  # validate the installation of a gem
+  # that gem definition still depends on hardcoding
+  # rubyment_gem_defaults  and rubyment_gem_spec,
+  # but planned to change.
+  # args:
+  # ignored
+  # returns:
+  # Rubyment or false
+  def gem_validate args=ARGV
+    memory = @memory
+    gem_name, gem_version, gem_dir = rubyment_gem_defaults []
+    test__gem_build []
+    already_installed = (system_rubyment ["p", "already installed"])
+    sleep 1
+    gem_uninstall [gem_name]
+    puts gem_list [gem_name]
+    p (gem_path [gem_name, gem_version])
+    gem_install [(gem_path [gem_name, gem_version])]
+    puts gem_list [gem_name]
+    v = test__system_rubyment ["p", "installed"]
+    gem_uninstall [gem_name]
+    already_installed && (gem_install [gem_name])
+    v
+  end
+
+
   # test for gem_build, gem_install, gem_list
   # system_rubyment, gem_uninstall
   # note that, if there is a "rubyment" gem

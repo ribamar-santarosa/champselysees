@@ -1218,7 +1218,8 @@ end
 
 
   # builds, validates and push a gem accordingly
-  # to the arguments
+  # to the arguments. if arguments not given,
+  # will do for the defaults (see rubyment_gem_defaults)
   # args:
   # args (Array or nil)
   # returns:

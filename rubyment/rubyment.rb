@@ -157,33 +157,40 @@ class Rubyment
   # returns:
   #  method_object (Method)
   def to_method args=ARGV
+    stderr = @memory[:stderr]
     name, object = containerize args
     begin
       method =  object.method("method").call(name)
-    rescue NameError => nameErrorE
+    rescue NameError => nameError
       # every object (even nil) has :method,
       # and every Method has :call: exception
       # is thrown in call
+      stderr.puts nameError
       nil
     end
   end
 
-
   # calls object.method call_args
+  # note: function closed for extension.
+  # a new extension if ever made, will 
+  # be created with a new function.
   # args:
-  # [object (Object), method (Method or String), call_args (Array)]
+  # [method (Method or String), object (Object), call_args (Array)]
   # returns:
   #
   def object_method_args_call args=ARGV
-    object, method, call_args = containerize args
+    stderr = @memory[:stderr]
+    method, object, *call_args = containerize args
     object ||= self
-    call_args = containerize call_args
+    method = to_method [method, object]
+    call_args = call_args && (containerize call_args)
     begin
-      to_method(method).call *args
-    rescue NameErrorxxx => nameErrorE
+      call_args && (method.call *call_args) || method.call
+    rescue NameError => nameError
       # every object (even nil) has :method,
       # and every Method has :call: exception
       # is thrown in call
+      stderr.puts nameError
       nil
     end
   end

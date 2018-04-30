@@ -967,7 +967,7 @@ end
   # returns:
   # console output of gem build (String)
   def gem_build args=ARGV
-    gem_spec_path, gem_spec_contents, gem_is_current_file  = args
+    gem_spec_path, gem_spec_contents, gem_is_current_file, gem_name  = args
     require 'fileutils'
 
     # this supposes that  the current file is listed by the

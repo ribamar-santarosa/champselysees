@@ -1011,17 +1011,19 @@ end
   # requires a file/gem in the system
   # returns nil if not found
   # args:
-  # args (Array)
+  # [requirement (String), validator_class (Class or String or nil),
+  #  validator_args (Array), validator_method (Method or String)]
   # returns:
-  # Rubyment or false
+  # Rubyment, true or false
   def validate_require args=ARGV
     stderr = @memory[:stderr]
     requirement, validator_class, validator_args, validator_method = containerize args
+    validate_call = validator_class && true
     validator_class = to_class validator_class
     validator_method ||=  "new"
     begin
       require requirement
-      object_method_args_call [validator_method, validator_class, validator_args]
+      validate_call && (object_method_args_call [validator_method, validator_class, validator_args]) || (!validate_call) && true
     rescue LoadError => e
       stderr.puts e
       nil

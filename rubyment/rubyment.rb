@@ -142,7 +142,7 @@ class Rubyment
   def to_class args=ARGV
     class_name, future_arg = containerize args
     begin
-      class_object = ( class_name.is_a? Class ) && class_name || (Object.const_get class_name)
+      class_object = ( class_name.is_a? Class ) && class_name || (Object.const_get class_name.to_s)
     rescue NameError => nameErrorE
       nil
     end

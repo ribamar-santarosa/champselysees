@@ -1106,14 +1106,26 @@ end
     FileUtils.mkdir_p 'lib'
     save_file __FILE__, "lib/#{gem_name}.rb"
     puts gem_build ["#{gem_name}.spec", gem_spec(gem_defaults) ]
-    already_installed = (system_rubyment ["p", "already installed"])
+    already_installed = (
+      validate_require [
+        gem_validate_class,
+        gem_validate_class_args,
+        gem_validate_class_method
+      ]
+    )
     sleep 1
     gem_uninstall [gem_name]
     puts gem_list [gem_name]
     p (gem_path [gem_name, gem_version])
     gem_install [(gem_path [gem_name, gem_version])]
     puts gem_list [gem_name]
-    v = test__system_rubyment ["p", "installed"]
+    v = (
+      validate_require [
+        gem_validate_class,
+        gem_validate_class_args,
+        gem_validate_class_method
+      ]
+    )
     gem_uninstall [gem_name]
     already_installed && (gem_install [gem_name])
     v

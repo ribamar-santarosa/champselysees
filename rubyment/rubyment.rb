@@ -1075,7 +1075,22 @@ end
   # Rubyment or false
   def gem_validate args=ARGV
     memory = @memory
-    gem_name, gem_version, gem_dir = rubyment_gem_defaults []
+    gem_name,
+    gem_version,
+    gem_dir,
+    gem_ext,
+    gem_hifen,
+    gem_date,
+    gem_summary,
+    gem_description,
+    gem_authors,
+    gem_email,
+    gem_files,
+    gem_homepage,
+    gem_license,
+    gem_validate_class,
+    gem_validate_class_args,
+    gem_validate_class_method = rubyment_gem_defaults args
     test__gem_build []
     already_installed = (system_rubyment ["p", "already installed"])
     sleep 1

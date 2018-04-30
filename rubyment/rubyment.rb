@@ -120,6 +120,16 @@ class Rubyment
   end
 
 
+  # returns a Class object out of class_name (or itself if it is already
+  # a class)
+  def to_class class_name
+    begin
+      class_object = ( class_name.is_a? Class ) && class_name || (Object.const_get class_name)
+    rescue NameError => nameErrorE
+      nil
+    end
+  end
+
   # args:
   # path (String)
   # returns:

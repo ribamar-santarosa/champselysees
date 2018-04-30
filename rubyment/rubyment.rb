@@ -967,12 +967,23 @@ end
   # returns:
   # console output of gem build (String)
   def gem_build args=ARGV
-    gem_spec_path, gem_spec_contents  = args
+    gem_spec_path, gem_spec_contents, gem_is_current_file  = args
     require 'fileutils'
+
+    # this supposes that  the current file is listed by the
+    # s.files
+    # field of the specification. it is not currently checked.
+    gem_is_current_file && (
+      FileUtils.mkdir_p 'lib'
+      file_backup "lib/#{gem_name}.rb", "lib/"
+      save_file __FILE__, "lib/#{gem_name}.rb"
+    )
+
     FileUtils.mkdir_p File.dirname gem_spec_path
     File.write gem_spec_path, gem_spec_contents || (File.read gem_spec_path)
     `gem build #{gem_spec_path}`
   end
+
 
   # test for gem_build: builds gem for this rubyment file
   # after it, these commands will install/uninstall it:

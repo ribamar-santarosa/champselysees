@@ -160,6 +160,26 @@ class Rubyment
   end
 
 
+  # calls object.method call_args
+  # args:
+  # [object (Object), method (Method or String), call_args (Array)]
+  # returns:
+  #
+  def object_method_args_call args=ARGV
+    object, method, call_args = containerize args
+    object ||= self
+    call_args = containerize call_args
+    begin
+      to_method(method).call *args
+    rescue NameErrorxxx => nameErrorE
+      # every object (even nil) has :method,
+      # and every Method has :call: exception
+      # is thrown in call
+      nil
+    end
+  end
+
+
   # args:
   # path (String)
   # returns:

@@ -1037,9 +1037,7 @@ end
   # returns:
   # Rubyment or false
   def system_rubyment args=ARGV
-    (validate_require ['rubyment']) && (
-      Rubyment.new({:invoke => args })
-    )
+    validate_require ['rubyment', 'Rubyment', {:invoke => args }]
   end
 
   # test for system_rubyment

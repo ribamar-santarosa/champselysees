@@ -829,7 +829,10 @@ class Rubyment
     gem_email,
     gem_files,
     gem_homepage,
-    gem_license = rubyment_gem_defaults args
+    gem_license,
+    gem_validate_class,
+    gem_validate_class_args,
+    gem_validate_class_method = rubyment_gem_defaults args
 
     contents =<<-ENDHEREDOC
 Gem::Specification.new do |s|

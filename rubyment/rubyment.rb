@@ -1091,7 +1091,10 @@ end
     gem_validate_class,
     gem_validate_class_args,
     gem_validate_class_method = rubyment_gem_defaults args
-    test__gem_build []
+    require 'fileutils'
+    FileUtils.mkdir_p 'lib'
+    save_file __FILE__, 'lib/rubyment.rb'
+    puts gem_build ["rubyment.spec", rubyment_gem_spec(args) ]
     already_installed = (system_rubyment ["p", "already installed"])
     sleep 1
     gem_uninstall [gem_name]

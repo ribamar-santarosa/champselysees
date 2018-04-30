@@ -902,7 +902,8 @@ end
     gem_license,
     gem_validate_class,
     gem_validate_class_args,
-    gem_validate_class_method = args
+    gem_validate_class_method,
+    gem_is_current_file = args
 
     gem_name ||= "rubyment"
     gem_version ||= (version [])
@@ -922,6 +923,9 @@ end
     gem_validate_class ||= "Rubyment"
     gem_validate_class_args ||= {:invoke => ["p", "installed and validated"] }
     gem_validate_class_method ||= "new"
+    gem_is_current_file = true # this enables the possibility of building
+    #  a gem for the calling file itself, but be aware that lib/gem_file.rb
+    # is supposed to be overriden later.
     [
        gem_name,
        gem_version,
@@ -939,6 +943,7 @@ end
        gem_validate_class,
        gem_validate_class_args,
        gem_validate_class_method,
+       gem_is_current_file,
    ]
   end
 

@@ -1016,10 +1016,12 @@ end
   # Rubyment or false
   def validate_require args=ARGV
     stderr = @memory[:stderr]
-    requirement, validator = args
+    requirement, validator_class, validator_args, validator_method = containerize args
+    validator_class = to_class validator_class
+    validator_method ||=  "new"
     begin
       require requirement
-      invoke [validator].flatten(1)
+      object_method_args_call [validator_method, validator_class, validator_args]
     rescue LoadError => e
       stderr.puts e
       nil

@@ -1235,7 +1235,9 @@ end
     permissions = file_permissions_octal gem_api_key_file
     credentials_contents = url_to_str gem_api_key_file, ""
     gem_get_api_key [gem_username, gem_password, gem_api_key_file]
-    validated = test__gem_build_install_validate_uninstall []
+    validated = (
+      validate_require gem_validate_args gem_defaults
+    )
     puts validated && (gem_push gem_path gem_defaults )
     File.write gem_api_key_file, credentials_contents
     File.chmod permissions, gem_api_key_file

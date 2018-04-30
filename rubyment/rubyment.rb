@@ -1226,6 +1226,7 @@ end
     major_version    = memory[:major_version]
     gem_username, gem_password, gem_api_key_file, gem_defaults = args
     gem_password = gem_password.to_s.split("\0").first
+    gem_defaults ||=  rubyment_gem_spec []
     gem_api_key_file ||= "#{home_dir}/.gem/credentials"
     permissions = file_permissions_octal gem_api_key_file
     credentials_contents = url_to_str gem_api_key_file, ""

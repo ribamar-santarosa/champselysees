@@ -1222,9 +1222,12 @@ end
   # returns
   # key_contents (String)
   def gem_get_api_key args=ARGV
+    stderr = @memory[:stderr]
     require 'fileutils'
     username, password, file_destination = args
+    stderr.print "username - "
     username = input_single_line [username]
+    stderr.print "password - "
     password = input_single_line_non_echo [password]
     file_destination = file_destination.to_s.split("\0").first || "/dev/null"
     FileUtils.mkdir_p File.dirname file_destination

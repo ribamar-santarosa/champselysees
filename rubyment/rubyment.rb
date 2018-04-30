@@ -1085,6 +1085,7 @@ end
   # Rubyment or false
   def gem_validate args=ARGV
     memory = @memory
+    gem_defaults = rubyment_gem_defaults args
     gem_name,
     gem_version,
     gem_dir,
@@ -1100,11 +1101,11 @@ end
     gem_license,
     gem_validate_class,
     gem_validate_class_args,
-    gem_validate_class_method = rubyment_gem_defaults args
+    gem_validate_class_method = gem_defaults
     require 'fileutils'
     FileUtils.mkdir_p 'lib'
-    save_file __FILE__, 'lib/rubyment.rb'
-    puts gem_build ["rubyment.spec", rubyment_gem_spec(args) ]
+    save_file __FILE__, "lib/#{gem_name}.rb"
+    puts gem_build ["#{gem_name}.spec", gem_spec(gem_defaults) ]
     already_installed = (system_rubyment ["p", "already installed"])
     sleep 1
     gem_uninstall [gem_name]

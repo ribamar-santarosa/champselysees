@@ -1049,7 +1049,7 @@ end
   # Rubyment or false
   def test__system_rubyment args=ARGV
     rubyment_args = (args.to_a.size > 0 && args) || ["main", "tested system_rubyment"]
-    p system_rubyment rubyment_args
+    p validate_require ['rubyment', 'Rubyment', {:invoke => rubyment_args }]
   end
 
 

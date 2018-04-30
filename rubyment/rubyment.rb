@@ -1079,6 +1079,33 @@ end
   end
 
 
+  #  extract only the arguments referring to files
+  # from args
+  def gem_files_args args=ARGV
+    gem_name,
+    gem_version,
+    gem_dir,
+    gem_ext,
+    gem_hifen,
+    gem_date,
+    gem_summary,
+    gem_description,
+    gem_authors,
+    gem_email,
+    gem_files,
+    gem_homepage,
+    gem_license,
+    gem_validate_class,
+    gem_validate_class_args,
+    gem_validate_class_method,
+    gem_is_current_file = args
+    [
+        gem_files,
+        gem_is_current_file,
+    ]
+  end
+
+
   #  extract only the arguments for validation
   # from args
   def gem_validate_args args=ARGV

@@ -122,7 +122,8 @@ class Rubyment
 
   # returns a Class object out of class_name (or itself if it is already
   # a class)
-  def to_class class_name
+  def to_class args=ARGV
+    class_name, future_arg = [args].flatten 1
     begin
       class_object = ( class_name.is_a? Class ) && class_name || (Object.const_get class_name)
     rescue NameError => nameErrorE

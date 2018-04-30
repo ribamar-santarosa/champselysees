@@ -1217,7 +1217,7 @@ end
   # args:
   # args (Array or nil)
   # returns:
-  # Rubyment or false
+  # ignore
   def test__gem_complete_flow args=ARGV
     memory = @memory
     running_dir      = memory[:running_dir]

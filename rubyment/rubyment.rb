@@ -1092,13 +1092,13 @@ end
 
 
   # validate the installation of a gem
-  # that gem definition still depends on hardcoding
-  # rubyment_gem_defaults  and rubyment_gem_spec,
+  # args rubyment_gem_defaults
   # but planned to change.
-  # args:
-  # ignored
+  # bug detected: require x won't reload the gem.
+  # args (Array just like the one
+  # returned by rubyment_gem_defaults)
   # returns:
-  # Rubyment or false
+  # true or false
   def gem_validate args=ARGV
     memory = @memory
     gem_defaults = rubyment_gem_defaults args
@@ -1117,11 +1117,14 @@ end
     gem_license,
     gem_validate_class,
     gem_validate_class_args,
-    gem_validate_class_method = gem_defaults
-    require 'fileutils'
-    FileUtils.mkdir_p 'lib'
-    save_file __FILE__, "lib/#{gem_name}.rb"
-    puts gem_build ["#{gem_name}.spec", gem_spec(gem_defaults) ]
+    gem_validate_class_method,
+    gem_is_current_file = gem_defaults
+    puts gem_build [
+      "#{gem_name}.spec",
+      gem_spec(gem_defaults),
+      gem_is_current_file,
+      gem_name
+    ]
     already_installed = (
       validate_require [
         gem_name,

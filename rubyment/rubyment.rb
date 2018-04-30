@@ -1108,9 +1108,10 @@ end
     puts gem_build ["#{gem_name}.spec", gem_spec(gem_defaults) ]
     already_installed = (
       validate_require [
+        gem_name,
         gem_validate_class,
         gem_validate_class_args,
-        gem_validate_class_method
+        gem_validate_class_method,
       ]
     )
     sleep 1
@@ -1121,9 +1122,10 @@ end
     puts gem_list [gem_name]
     v = (
       validate_require [
+        gem_name,
         gem_validate_class,
         gem_validate_class_args,
-        gem_validate_class_method
+        gem_validate_class_method,
       ]
     )
     gem_uninstall [gem_name]

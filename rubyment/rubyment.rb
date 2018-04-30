@@ -853,43 +853,13 @@ end
 
 
   # rubyment_gem_spec
-  # args: none
+  # args (Array, forwarded and transfomed by rubyment_gem_defaults)
   # returns: a gem spec string for Rubyment
   def rubyment_gem_spec args=ARGV
     memory = @memory
-    gem_name,
-    gem_version,
-    gem_dir,
-    gem_ext,
-    gem_hifen,
-    gem_date,
-    gem_summary,
-    gem_description,
-    gem_authors,
-    gem_email,
-    gem_files,
-    gem_homepage,
-    gem_license,
-    gem_validate_class,
-    gem_validate_class_args,
-    gem_validate_class_method = rubyment_gem_defaults args
-
-    contents =<<-ENDHEREDOC
-Gem::Specification.new do |s|
-  s.name        = '#{gem_name}'
-  s.version     = '#{gem_version}'
-  s.date        = '#{gem_date}'
-  s.summary     = '#{gem_summary}'
-  s.description = '#{gem_description}'
-  s.authors     = #{gem_authors.inspect}
-  s.email       = '#{gem_email}'
-  s.files       = #{gem_files.inspect}
-  s.homepage    = '#{gem_homepage}'
-  s.license     = '#{gem_license}'
-end
-    ENDHEREDOC
-    contents
+    gem_spec rubyment_gem_defaults args
   end
+
 
   # test for rubyment_gem_spec. outputs the contents
   # returned by that function.

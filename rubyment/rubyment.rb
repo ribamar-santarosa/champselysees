@@ -1132,23 +1132,7 @@ end
   def gem_validate args=ARGV
     memory = @memory
     gem_defaults = rubyment_gem_defaults args
-    gem_name,
-    gem_version,
-    gem_dir,
-    gem_ext,
-    gem_hifen,
-    gem_date,
-    gem_summary,
-    gem_description,
-    gem_authors,
-    gem_email,
-    gem_files,
-    gem_homepage,
-    gem_license,
-    gem_validate_class,
-    gem_validate_class_args,
-    gem_validate_class_method,
-    gem_is_current_file = gem_defaults
+    gem_name, gem_version = gem_defaults
     puts gem_build [
       "#{gem_name}.spec",
       gem_spec(gem_defaults),
@@ -1156,12 +1140,7 @@ end
       gem_name
     ]
     already_installed = (
-      validate_require [
-        gem_name,
-        gem_validate_class,
-        gem_validate_class_args,
-        gem_validate_class_method,
-      ]
+      validate_require gem_validate_args gem_defaults
     )
     sleep 1
     already_installed && (gem_uninstall [gem_name])
@@ -1170,12 +1149,7 @@ end
     gem_install [(gem_path [gem_name, gem_version])]
     puts gem_list [gem_name]
     v = (
-      validate_require [
-        gem_name,
-        gem_validate_class,
-        gem_validate_class_args,
-        gem_validate_class_method,
-      ]
+      validate_require gem_validate_args gem_defaults
     )
     gem_uninstall [gem_name]
     already_installed && (gem_install [gem_name])

@@ -1134,7 +1134,7 @@ end
       ]
     )
     sleep 1
-    gem_uninstall [gem_name]
+    already_installed && (gem_uninstall [gem_name])
     puts gem_list [gem_name]
     p (gem_path [gem_name, gem_version])
     gem_install [(gem_path [gem_name, gem_version])]

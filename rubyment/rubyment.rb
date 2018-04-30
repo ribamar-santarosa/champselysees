@@ -25,6 +25,7 @@ class Rubyment
   # invoke first arg with following args
   # used by initialize
   def invoke args=ARGV
+    stderr = @memory[:stderr]
     method_name, arg_list = array_first_remainder args
     !method_name && (return true)
     begin
@@ -40,7 +41,15 @@ class Rubyment
       # be given to them)
       self.method(method_name).call (arg_list)
     rescue ArgumentError => e
-      self.method(method_name).call *(arg_list)
+      begin
+        self.method(method_name).call *(arg_list)
+      rescue ArgumentError => e2
+        # it didn't work -- the arguments given can't
+        # be fit. better just try to let the caller
+        # figure out when it first called the function.
+        stderr.puts e2
+        raise e
+      end
     end
   end
 

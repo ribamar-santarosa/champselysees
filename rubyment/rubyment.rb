@@ -963,7 +963,7 @@ end
 
   # gem_build
   # args:
-  # [gem_spec_path (String), gem_spec_contents (String)]
+  # [gem_spec_path (String), gem_spec_contents (String), gem_is_current_file, gem_name]
   # returns:
   # console output of gem build (String)
   def gem_build args=ARGV

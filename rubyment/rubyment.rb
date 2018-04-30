@@ -139,6 +139,27 @@ class Rubyment
     end
   end
 
+
+  # returns a Method (object.method if object is
+  # given). give self as object to look up
+  # at the current context
+  # args:
+  # [ name (String), object (Object) ]
+  # returns:
+  #  method_object (Method)
+  def to_method args=ARGV
+    name, object = containerize args
+    begin
+      method =  object.method("method").call(name)
+    rescue NameError => nameErrorE
+      # every object (even nil) has :method,
+      # and every Method has :call: exception
+      # is thrown in call
+      nil
+    end
+  end
+
+
   # args:
   # path (String)
   # returns:

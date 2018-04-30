@@ -812,6 +812,46 @@ class Rubyment
   end
 
 
+  # gem_spec
+  # args (Array like the one returned by rubyment_gem_defaults)
+  # returns: a gem spec string accordingly to args
+  def gem_spec args=ARGV
+    memory = @memory
+    gem_name,
+    gem_version,
+    gem_dir,
+    gem_ext,
+    gem_hifen,
+    gem_date,
+    gem_summary,
+    gem_description,
+    gem_authors,
+    gem_email,
+    gem_files,
+    gem_homepage,
+    gem_license,
+    gem_validate_class,
+    gem_validate_class_args,
+    gem_validate_class_method = args
+
+    contents =<<-ENDHEREDOC
+Gem::Specification.new do |s|
+  s.name        = '#{gem_name}'
+  s.version     = '#{gem_version}'
+  s.date        = '#{gem_date}'
+  s.summary     = '#{gem_summary}'
+  s.description = '#{gem_description}'
+  s.authors     = #{gem_authors.inspect}
+  s.email       = '#{gem_email}'
+  s.files       = #{gem_files.inspect}
+  s.homepage    = '#{gem_homepage}'
+  s.license     = '#{gem_license}'
+end
+    ENDHEREDOC
+    contents
+  end
+
+
   # rubyment_gem_spec
   # args: none
   # returns: a gem spec string for Rubyment

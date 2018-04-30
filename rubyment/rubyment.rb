@@ -1228,8 +1228,6 @@ end
     memory = @memory
     running_dir      = memory[:running_dir]
     home_dir         = memory[:home_dir]
-    basic_version    = memory[:basic_version]
-    major_version    = memory[:major_version]
     gem_username, gem_password, gem_api_key_file, gem_defaults = args
     gem_password = gem_password.to_s.split("\0").first
     gem_defaults ||=  rubyment_gem_spec []

@@ -97,6 +97,14 @@ class Rubyment
     invoke [second_invokation] + [first_invokation_result].flatten(1)
   end
 
+
+  # returns a Class object out of class_name (or itself if it is already
+  # a class)
+  def containerize args=ARGV
+    [args].flatten 1
+  end
+
+
   # if file is a nonexisting filepath, or by any reason
   # throws any exception, it will be treated as contents
   # instead, and the filename will treated as ""

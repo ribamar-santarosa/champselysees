@@ -120,6 +120,7 @@ class Rubyment
   # file can be a url, if 'open-uri' is available.
   def file_backup file = __FILE__ , dir = '/tmp/', append = ('-' + Time.now.hash.abs.to_s), prepend='/'
     stderr = @memory[:stderr]
+    debug  = @memory[:debug]
     (require 'open-uri') && open_uri = true
     require 'fileutils'
     file_is_filename = true
@@ -128,9 +129,9 @@ class Rubyment
     ) || (
       contents = File.read file rescue  (file_is_filename = false) || file
     )
-    stderr.puts "location = dir:#{dir} + prepend:#{prepend} + (#{file_is_filename} && #{file} || '' ) + #{append}"
+    debug && (stderr.puts "location = dir:#{dir} + prepend:#{prepend} + (#{file_is_filename} && #{file} || '' ) + #{append}")
     location = dir + prepend + (file_is_filename && file || '' ) + append
-    stderr.puts "FileUtils.mkdir_p File.dirname #{location}" # note "~" doesn't work
+    debug && (stderr.puts "FileUtils.mkdir_p File.dirname #{location}")
     FileUtils.mkdir_p File.dirname location # note "~" doesn't work
     File.write location, contents
     contents

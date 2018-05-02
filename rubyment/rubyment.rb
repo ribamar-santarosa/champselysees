@@ -916,7 +916,7 @@ end
     gem_description ||= "a gem for keeping Rubyment, a set of ruby helpers"
     gem_authors     ||= ["Ribamar Santarosa"]
     gem_email       ||= 'ribamar@gmail.com'
-    gem_files       ||= ["lib/rubyment.rb"]
+    gem_files       ||= ["lib/#{gem_name}.rb"]
     gem_homepage    ||=
       "http://rubygems.org/gems/#{gem_name}"
     gem_license     ||= 'GPL-3.0'

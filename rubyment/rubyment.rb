@@ -800,6 +800,7 @@ class Rubyment
     password = input_single_line_non_echo [password]
     base64_encrypted, base64_iv, base64_salt, base64_iter, base64_key = enc [password, data]
     dec_args = [password, base64_iv, base64_encrypted, nil, base64_salt, base64_iter]
+    stderr.puts "# WARNING: secrets, including password are printed here. Storing them may be a major security incident."
     stderr.puts "# programmatically:"
     stderr.puts "dec " + dec_args.to_s
     stderr.puts "# shell: "

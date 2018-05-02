@@ -850,7 +850,7 @@ class Rubyment
     stderr.puts "# programmatically:"
     stderr.puts "dec_interactive " + dec_interactive_args.to_s
     stderr.puts "# shell: "
-    stderr.puts "#{$0} invoke_double p dec_interactive " + (output_array_to_shell dec_interactive_args).to_s
+    stderr.puts "#{$0} invoke_double puts dec_interactive " + (output_array_to_shell dec_interactive_args).to_s
     data_plain = dec_interactive(dec_interactive_args + [password])
     judgement =
       [

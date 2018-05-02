@@ -547,14 +547,26 @@ class Rubyment
     shell_dec_output [pw_plain]
   end
 
-  # encrypt data (string), with password (string)
-  # returns [base64_iv, base64_encrypted]
+
+  # encode data into aes-128-cbc cipher protected by a key generated
+  # by #generate_pbkdf2_key, using given +password+, +salt+, +iter+
   #
-  # planned changes:
-  # add metadata information to encrypted
-  # return only one string, having encrypted + metadata (having iv)
-  # add string length to metadata
-  # decipher.key = Digest::SHA256.hexdigest is not the best security.
+  # @param [Array] args, an +Array+ whose elements are expected to be:
+  # +password+:: [String, nil] password to be used to encryption.
+  # +data+:: [String, nil] data to be encoded data
+  # +ending+:: [nil] deprecated
+  # +salt+:: [String, nil] #generate_pbkdf2_key salt argument
+  # +iter+:: [String, nil] #generate_pbkdf2_key iterations argument
+  #
+  # password, data, ending, salt, iter
+  #
+  #   [base64_encrypted, base64_iv,  base64_salt, base64_iter, base64_key]
+  # @return @param [Array] an +Array+ whose elements are expected to be:
+  # +base64_encrypted+:: [String, nil] ciphered data (without metadata) encoded with Base64
+  # +base64_iv+:: [String] initialization vectors encoded with Base64
+  # +base64_salt+:: [String] #generate_pbkdf2_key salt encoded with Base64
+  # +base64_iter+:: [String] #generate_pbkdf2_key iterations encoded with Base64
+  # +base64_key+::  [String] #generate_pbkdf2_key return value
   #
   def enc args=ARGV
     require 'openssl'

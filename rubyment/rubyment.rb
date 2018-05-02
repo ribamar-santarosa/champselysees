@@ -920,7 +920,7 @@ end
     gem_homepage    ||=
       "http://rubygems.org/gems/#{gem_name}"
     gem_license     ||= 'GPL-3.0'
-    gem_validate_class ||= "Rubyment"
+    gem_validate_class ||= self.class.to_s
     gem_validate_class_args ||= {:invoke => ["p", "installed and validated"] }
     gem_validate_class_method ||= "new"
     gem_is_current_file = true # this enables the possibility of building

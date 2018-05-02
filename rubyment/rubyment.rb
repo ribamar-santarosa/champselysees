@@ -832,6 +832,33 @@ class Rubyment
   end
 
 
+  # test for enc and dec_interactive.
+  # good idea is to use this function once with the desired
+  # data, password, and use the stderr output
+  def test__enc_dec_interactive args=ARGV
+    stderr = @memory[:stderr]
+    data, password = args
+    stderr.print "[data]"
+    data = input_multi_line_non_echo [data]
+    stderr.print "[password]"
+    password = input_single_line_non_echo [password]
+    stderr.puts
+    base64_encrypted, base64_iv, base64_salt, base64_iter, base64_key = enc [password, data]
+    # the output is supposed to be safe to store,
+    # so password is not placed in from dec_interactive_args:
+    dec_interactive_args = [base64_iv, base64_encrypted, base64_salt, base64_iter]
+    stderr.puts "# programmatically:"
+    stderr.puts "dec_interactive " + dec_interactive_args.to_s
+    stderr.puts "# shell: "
+    stderr.puts "#{$0} invoke_double p dec_interactive " + (output_array_to_shell dec_interactive_args).to_s
+    data_plain = dec_interactive(dec_interactive_args + [password])
+    judgement =
+      [
+        [data, data_plain, "data"]
+      ].map(&method("expect_equal")).all?
+  end
+
+
   # gem_spec
   # args (Array like the one returned by rubyment_gem_defaults)
   # returns: a gem spec string accordingly to args

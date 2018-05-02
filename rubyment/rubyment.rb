@@ -809,8 +809,14 @@ class Rubyment
 
 
   # test for enc and dec.
-  # good idea is to use this function once with the desired
-  # data, password, and use the stderr output
+  #
+  # @param [Array] args, an +Array+ whose elements are expected to be:
+  # +data+:: [String, nil] data to be encrypted.
+  # If empty or nil, read (without echo) from @memory[:stdin], which defaults to STDIN
+  # +password+:: [String, nil] password to be used to encryption.
+  # If empty or nil, read (without echo) from @memory[:stdin], which defaults to STDIN
+  #
+  # @return [TrueClass, FalseClass] depending on whether test succeeds.
   def test__enc_dec args=ARGV
     stderr = @memory[:stderr]
     data, password = args

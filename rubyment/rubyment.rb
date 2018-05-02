@@ -560,7 +560,6 @@ class Rubyment
   #
   # password, data, ending, salt, iter
   #
-  #   [base64_encrypted, base64_iv,  base64_salt, base64_iter, base64_key]
   # @return @param [Array] an +Array+ whose elements are expected to be:
   # +base64_encrypted+:: [String, nil] ciphered data (without metadata) encoded with Base64
   # +base64_iv+:: [String] initialization vectors encoded with Base64

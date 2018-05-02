@@ -447,7 +447,7 @@ class Rubyment
     require 'base64'
     memory = @memory
     static_end_key = memory[:static_end_key]
-    password, iv, encrypted, ending, base64_salt, base64_iter = args
+    password, base64_iv, encrypted, ending, base64_salt, base64_iter = args
     salt = Base64.decode64 base64_salt
     iter = Base64.decode64 base64_iter
     ending = ending.to_s.split("\0").first || static_end_key
@@ -460,7 +460,7 @@ class Rubyment
     decipher.padding = 0
 
     decipher.key = key || (Digest::SHA256.hexdigest password)
-    decipher.iv = Base64.decode64 iv
+    decipher.iv = Base64.decode64 base64_iv
     plain = decipher.update(Base64.decode64 encrypted) + decipher.final
     # split is not the ideal, if ever ending is duplicated it won't
     # work. also may be innefficient.

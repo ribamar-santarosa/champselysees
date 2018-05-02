@@ -754,8 +754,27 @@ class Rubyment
   # don't output to stdout
   def test__shell_enc_dec args=ARGV
     shell_enc ["my secret",  "", "",  "tijolo22", "", ""]
-    # shell_dec will read from the output file:
     judgement = ( shell_dec ["", "", "tijolo22"] || true) rescue false
+  end
+
+
+  # an alternative interface to dec -- reads password if
+  # nil or empty.
+  #
+  # @param [Array] args Defaults to +ARGV+. Elements:
+  # * +data+ [String, nil] data to be encrypted, If empty or nil, read (without
+  # echo) from @memory[:stdin], which defaults to STDIN
+  # * +password+ [String, nil] password to be used to encryption.
+  # If empty or nil, read (without echo) from @memory[:stdin], which defaults to STDIN
+  #
+  # @return [TrueClass, FalseClass] depending on whether test succeeds.
+  def dec_interactive args=ARGV
+    stderr = @memory[:stderr]
+    iv, encrypted, base64_salt, base64_iter, password  = args
+    stderr.print "[password]"
+    password = (input_single_line_non_echo [password])
+    stderr.puts
+    dec [password, iv, encrypted, nil, base64_salt, base64_iter]
   end
 
 

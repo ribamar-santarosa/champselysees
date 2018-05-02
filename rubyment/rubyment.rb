@@ -852,6 +852,8 @@ class Rubyment
     stderr.puts "dec_interactive " + dec_interactive_args.to_s
     stderr.puts "# shell: "
     stderr.puts "#{$0} invoke_double puts dec_interactive " + (output_array_to_shell dec_interactive_args).to_s
+    stderr.puts "#or shell var:"
+    stderr.puts "my_secret=$(#{$0} invoke_double puts dec_interactive " + (output_array_to_shell dec_interactive_args).to_s + ")\necho $my_secret\nunset mysecret"
     data_plain = dec_interactive(dec_interactive_args + [password])
     judgement =
       [

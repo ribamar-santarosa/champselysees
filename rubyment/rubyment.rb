@@ -558,8 +558,6 @@ class Rubyment
   # +salt+:: [String, nil] #generate_pbkdf2_key salt argument
   # +iter+:: [String, nil] #generate_pbkdf2_key iterations argument
   #
-  # password, data, ending, salt, iter
-  #
   # @return @param [Array] an +Array+ whose elements are expected to be:
   # +base64_encrypted+:: [String, nil] ciphered data (without metadata) encoded with Base64
   # +base64_iv+:: [String] initialization vectors encoded with Base64

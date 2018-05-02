@@ -431,17 +431,17 @@ class Rubyment
   end
 
 
-  # decrypt encrypted (string), having password (string), iv (string),
-  # big_file(bool) is a flag to set padding to 0.
+  # decipher the data encoded by enc
   #
-  # planned changes:
-  # add metadata information to encrypted
-  # decipher.key = Digest::SHA256.hexdigest is not the best security.
-  # encrypted could be called base64_encrypted
-  # iv could be called base64_iv
-  # get only one string, not encrypted and iv (see enc planned changes)
-  # remove dependence on the uniqueness of ending
+  # @param [Array] args, an +Array+ whose elements are expected to be:
+  # +password+:: [String, nil] password to be used to encryption.
+  # +base64_iv+:: [String, nil] initialization vectors encoded with Base64
+  # +base64_encrypted+:: [String, nil] ciphered data (without metadata) encoded with Base64
+  # +ending+:: [nil] deprecated
+  # +base64_salt+:: [String, nil] #generate_pbkdf2_key salt encoded with Base64
+  # +base64_iter+:: [String, nil] #generate_pbkdf2_key iterations encoded with Base64
   #
+  # @return [String] decoded data
   def dec args=ARGV
     require 'openssl'
     require 'base64'

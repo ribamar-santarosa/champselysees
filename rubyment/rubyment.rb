@@ -261,7 +261,7 @@ class Rubyment
   # useful for reading file contents, e.g.
   def input_non_empty_string_or_multiline_prompt args=ARGV
     stderr = @memory[:stderr]
-    stderr.print "multiline[control-D to stop]:"
+    stderr.print "multiline[enter + control-D to stop]:"
     args.shift.to_s.split("\0").first ||  readlines.join
   end
 
@@ -272,7 +272,7 @@ class Rubyment
   # useful for reading file contents, e.g.
   def input_non_empty_filepath_or_contents_or_multiline_prompt args=ARGV
     stderr = @memory[:stderr]
-    stderr.print "multiline[control-D to stop]:"
+    stderr.print "multiline[enter + control-D to stop]:"
     (filepath_or_contents args.shift).to_s.split("\0").first ||  readlines.join
   end
 
@@ -306,7 +306,7 @@ class Rubyment
   def input_multi_line args=ARGV
     stderr = @memory[:stderr]
     stdin  = @memory[:stdin]
-    stderr.print "multiline[control-D to stop]:"
+    stderr.print "multiline[enter + control-D to stop]:"
     args.shift.to_s.split("\0").first || stdin.readlines.join
   end
 
@@ -318,7 +318,7 @@ class Rubyment
     stderr = @memory[:stderr]
     stdin  = @memory[:stdin]
     require "io/console"
-    stderr.print "multiline[control-D to stop]:"
+    stderr.print "multiline[enter + control-D to stop]:"
     args.shift.to_s.split("\0").first || stdin.noecho{ stdin.readlines}.join.chomp
   end
 
@@ -613,7 +613,7 @@ class Rubyment
     require "io/console"
 
     data = ""
-    stderr.print "multi_line_data[ data 1/3, echoing, control-D to stop]:"
+    stderr.print "multi_line_data[ data 1/3, echoing, enter + control-D to stop]:"
     data += args.shift ||  (stdin.readlines.join rescue readlines.join)
     stderr.puts
     stderr.print "data_file [data 2/3]:"

@@ -2054,6 +2054,7 @@ function bm_future_git_remerge {
   branch_a=${branch_source}
   branch_b=${branch_tmp}
   (git checkout -b  $branch_a  ) || (git checkout  $branch_a  )
+  echo "git pull -u origin $(git rev-parse --abbrev-ref HEAD) --tags"
   git pull -u origin $(git rev-parse --abbrev-ref HEAD) --tags #gitpullcurrent#currentpull 
   (git checkout -b  $branch_b  ) || (git checkout  $branch_b  )
   echo "remerge: interactive: will issue a git merge, open a script session for fixing conflicts."

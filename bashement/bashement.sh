@@ -2015,6 +2015,108 @@ function bm_future_time_update {
 }
 
 
+#  requires: $mainstream_branch,
+# $experimental_branch and
+#  $graft_commit (which is normally the divisor
+# commit ~ 1).
+#  $remerge_attempt_serial_number - 
+#  a number that should always increase.
+function bm_future_git_remerge {
+
+  branch_source=${mainstream_branch}
+  branch_object=${experimental_branch}
+
+  branch_tmp=remerge_fork${remerge_attempt_serial_number}-${experimental_branch}
+  branch_original=remerge_original${remerge_attempt_serial_number}-${experimental_branch}
+  echo "remerge: interactive: write down and delete ${branch_tmp} and ${branch_original} when things are clear"
+
+  branch_a=${branch_object}
+  branch_b=${branch_tmp}
+  after_fork_reset_at_head=${graft_commit}
+  after_fork_reset_and_hard="--hard"
+  current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+  echo "remerge: fork branch_a (branch_object=${experimental_branch}) into branch_b (branch_tmp=fork-${experimental_branch})  and reset to ${after_fork_reset_at_head}"
+
+  git checkout -b ${branch_original}
+
+  git checkout ${branch_a} ; git checkout ${branch_b}  ||  git checkout -b ${branch_b} #gitforkaintob
+  [[ "$after_fork_reset_at_head" != "" ]] &&   git reset ${after_fork_reset_and_hard} "${after_fork_reset_at_head}" 
+
+  echo "remerge: good to do a backup at this point -- write it down if things go bad"
+  cb=$(git rev-parse --abbrev-ref HEAD) ; git checkout  -b after-fork-bk-$(date +"%Y.%m.%d_%H.%M.%S")-$cb ; git checkout $cb
+  echo "remerge: press enter when you have written down the backup'ed branch"
+  read
+
+
+  echo "remerge: merge branch_source=mainstream_branch=${branch_source} onto  new branch_tmp=${branch_tmp}:"
+  branch_a=${branch_source}
+  branch_b=${branch_tmp}
+  (git checkout -b  $branch_a  ) || (git checkout  $branch_a  )
+  git pull -u origin $(git rev-parse --abbrev-ref HEAD) --tags #gitpullcurrent#currentpull 
+  (git checkout -b  $branch_b  ) || (git checkout  $branch_b  )
+  echo "remerge: interactive: will issue a git merge, open a script session for fixing conflicts."
+  echo "remerge: note: unfortunately a merge has to be done, althought not perfectly multiflow, "
+  echo "remerge: because somebody might have merged things before --turning some commits "
+  echo "remerge: un-cherry-pick-eable"
+  echo
+  echo
+  echo "remerge: interactive: exit the session when done. if unrecoverable, kill the terminal!"
+  echo git merge $branch_a
+  git merge $branch_a # gitmergefrombranch_aintohere
+  #interactive>< fix conflicts, that should be only of patch not being able to find a hunk; straightforward
+
+  echo
+  echo "remerge: interactive: exit the session when done. if unrecoverable, kill the terminal!"
+  script out.remerge.script.${bm_time}
+
+  echo "remerge: will restore branch_tmp=${branch_tmp},"
+  echo "remerge: which contains the good state, as branch_object=${branch_object} "
+  # restore branch_tmp as branch_object:
+  restoring_branch=${branch_object}
+  backup_branch=${branch_tmp}
+
+  git checkout ${restoring_branch}  ||  git checkout -b ${restoring_branch}
+  cb=$(git rev-parse --abbrev-ref HEAD) ; git checkout  -b before-restore-bk-$(date +"%Y.%m.%d_%H.%M.%S")-$cb ; git checkout $cb
+  git checkout ${backup_branch}  ||  git checkout -b ${backup_branch}
+  deleting_branch=${restoring_branch}
+  git branch -D ${deleting_branch}
+  deleting_branch=
+  git checkout -b ${restoring_branch}
+
+
+  echo "remerge: now, cherry-pick the missed stuff from  ${branch_original}"
+  base_hash_excluding=${graft_commit} 
+  top_hash=${branch_original}
+  #interactive>< : 
+  git log ${base_hash_excluding}..${top_hash} --oneline #things to be cherry-picked
+
+  echo "remerge: interactive: cherry-pick: solve possible conflicts."
+  echo "remerge: interactive: will open an script session. exit when there are no more conflicts"
+  echo git cherry-pick ${base_hash_excluding}..${top_hash}
+  git cherry-pick ${base_hash_excluding}..${top_hash}
+  echo
+  echo "remerge: interactive: will open an script session. exit when there are no more conflicts"
+  script out.cherry-pick.script.${bm_time}
+
+
+  git_diff_options=""
+  git_current_branch="$(git rev-parse --abbrev-ref HEAD)"
+  git_current_origin="origin/${git_current_branch}"
+  branch_a=${git_current_branch}
+  branch_b=${git_current_origin}
+
+
+
+  echo "remerge: interactive: check if things are OK with:"
+  echo "git diff ${git_diff_options} ${branch_b}..${branch_a}"
+  echo "remerge: interactive: if they are you can push force the current branch" 
+  echo "git push -u origin :$(git rev-parse --abbrev-ref HEAD) --tags ; git push  origin $(git rev-parse --abbrev-ref HEAD) --tags" #gitforcepushgitpushforce
+  echo "remerge: interactive: and then checkout the branch where you were before:"
+  echo git checkout $current_branch
+
+}
+
 # end of script
 
 

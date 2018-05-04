@@ -2044,8 +2044,9 @@ function bm_future_git_remerge {
   [[ "$after_fork_reset_at_head" != "" ]] &&   git reset ${after_fork_reset_and_hard} "${after_fork_reset_at_head}" 
 
   echo "remerge: good to do a backup at this point -- write it down if things go bad"
-  cb=$(git rev-parse --abbrev-ref HEAD) ; git checkout  -b after-fork-bk-$(date +"%Y.%m.%d_%H.%M.%S")-$cb ; git checkout $cb
-  echo "remerge: press enter when you have written down the backup'ed branch"
+  branch_to_bk=after-fork-bk-$(date +"%Y.%m.%d_%H.%M.%S")-$cb
+  cb=$(git rev-parse --abbrev-ref HEAD) ; git checkout  -b ${branch_to_bk} ; git checkout $cb
+  echo "remerge: press enter when you have written down the backup'ed branch=${branch_to_bk}: "
   read
 
 

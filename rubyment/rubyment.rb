@@ -981,7 +981,7 @@ end
     gem_description ||= "a gem for keeping Rubyment, a set of ruby helpers"
     gem_authors     ||= ["Ribamar Santarosa"]
     gem_email       ||= 'ribamar@gmail.com'
-    gem_files       ||= ["lib/#{gem_name}.rb"]
+    gem_files       ||= ["lib/#{gem_name}.rb"] # updated below
     gem_homepage    ||=
       "http://rubygems.org/gems/#{gem_name}"
     gem_license     ||= 'GPL-3.0'
@@ -992,6 +992,7 @@ end
     #  a gem for the calling file itself, but be aware that lib/gem_file.rb
     # is supposed to be overriden later.
     gem_bin_generate = "bin/#{gem_name}" # generate a bin file
+    gem_files += [ gem_bin_generate ]
     gem_bin_contents =<<-ENDHEREDOC
 #!/usr/bin/env ruby
 require '#{gem_name}'

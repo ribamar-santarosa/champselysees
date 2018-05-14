@@ -897,7 +897,11 @@ class Rubyment
     gem_license,
     gem_validate_class,
     gem_validate_class_args,
-    gem_validate_class_method = args
+    gem_validate_class_method,
+    gem_is_current_file,
+    gem_bin_generate,
+    gem_bin_contents,
+    gem_bin_executables = args
 
     contents =<<-ENDHEREDOC
 Gem::Specification.new do |s|
@@ -911,6 +915,7 @@ Gem::Specification.new do |s|
   s.files       = #{gem_files.inspect}
   s.homepage    = '#{gem_homepage}'
   s.license     = '#{gem_license}'
+  s.executables += #{gem_bin_executables}
 end
     ENDHEREDOC
     contents

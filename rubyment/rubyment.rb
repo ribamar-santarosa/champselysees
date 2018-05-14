@@ -991,6 +991,13 @@ end
     gem_is_current_file = true # this enables the possibility of building
     #  a gem for the calling file itself, but be aware that lib/gem_file.rb
     # is supposed to be overriden later.
+    gem_bin_generate = "bin/#{gem_name}" # generate a bin file
+    gem_bin_contents =<<-ENDHEREDOC
+#!/usr/bin/env ruby
+require '#{gem_name}'
+#{gem_validate_class}.new({:invoke => ARGV})
+    ENDHEREDOC
+
     [
        gem_name,
        gem_version,
@@ -1009,6 +1016,8 @@ end
        gem_validate_class_args,
        gem_validate_class_method,
        gem_is_current_file,
+       gem_bin_generate,
+       gem_bin_contents,
    ]
   end
 

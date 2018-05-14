@@ -1283,11 +1283,15 @@ require '#{gem_name}'
     gem_defaults = rubyment_gem_defaults args
     gem_name, gem_version = gem_defaults
     gem_files, gem_is_current_file = gem_files_args gem_defaults
+    gem_bin_generate, gem_bin_contents = gem_bin_args gem_defaults
+
     puts gem_build [
       "#{gem_name}.spec",
       gem_spec(gem_defaults),
       gem_is_current_file,
-      gem_name
+      gem_name,
+      gem_bin_generate,
+      gem_bin_contents,
     ]
     already_installed = (
       validate_require gem_validate_args gem_defaults

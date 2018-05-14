@@ -1042,7 +1042,12 @@ require '#{gem_name}'
   # returns:
   # console output of gem build (String)
   def gem_build args=ARGV
-    gem_spec_path, gem_spec_contents, gem_is_current_file, gem_name  = args
+    gem_spec_path,
+    gem_spec_contents,
+    gem_is_current_file,
+    gem_name,
+    gem_bin_generate,
+    gem_bin_contents = args
     require 'fileutils'
 
     # this supposes that  the current file is listed by the
@@ -1052,6 +1057,15 @@ require '#{gem_name}'
       FileUtils.mkdir_p 'lib'
       file_backup "lib/#{gem_name}.rb", "lib/"
       save_file __FILE__, "lib/#{gem_name}.rb"
+    )
+
+    # this supposes that  the current file is listed by the
+    # s.files
+    # field of the specification. it is not currently checked.
+    gem_bin_generate && (
+      FileUtils.mkdir_p File.dirname gem_bin_generate
+      file_backup gem_bin_generate, (File.dirname gem_bin_generate)
+      save_file gem_bin_contents, gem_bin_generate
     )
 
     FileUtils.mkdir_p File.dirname gem_spec_path

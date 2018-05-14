@@ -1191,10 +1191,12 @@ require '#{gem_name}'
     gem_validate_class_method,
     gem_is_current_file,
     gem_bin_generate,
-    gem_bin_contents = args
+    gem_bin_contents,
+    gem_bin_executables = args
     [
         gem_bin_generate,
         gem_bin_contents,
+        gem_bin_executables,
     ]
   end
 

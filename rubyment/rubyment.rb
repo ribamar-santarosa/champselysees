@@ -1064,7 +1064,8 @@ require '#{gem_name}'
     gem_bin_generate && (
       FileUtils.mkdir_p File.dirname gem_bin_generate
       file_backup gem_bin_generate, (File.dirname gem_bin_generate)
-      save_file gem_bin_contents, gem_bin_generate
+      File.write gem_bin_generate, gem_bin_contents
+      (File.chmod 0755, gem_bin_generate)
     )
 
     FileUtils.mkdir_p File.dirname gem_spec_path

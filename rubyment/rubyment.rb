@@ -895,6 +895,18 @@ class Rubyment
   end
 
 
+  # good idea is to use this function once with the desired
+  # file, password, and use the stderr output
+  def test__enc_dec_file_interactive args=ARGV
+    stderr = @memory[:stderr]
+    filename_or_url, password = args
+    stderr.print "[filename_or_url]"
+    filename_or_url = input_multi_line_non_echo [filename_or_url]
+    data =  file_or_url_contents filename_or_url
+    test__enc_dec_interactive [ data ]
+  end
+
+
   # gem_spec
   # args (Array like the one returned by rubyment_gem_defaults)
   # returns: a gem spec string accordingly to args

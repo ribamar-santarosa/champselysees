@@ -236,6 +236,24 @@ class Rubyment
   end
 
 
+  # returns the contents of file.
+  # file can be a url, if 'open-uri' is available.
+  # can throw exceptions
+  def file_or_url_contents file
+    contents = nil
+    stderr = @memory[:stderr]
+    (require 'open-uri') && open_uri = true
+    require 'fileutils'
+    file = file.to_s
+    file_is_filename = true
+    open_uri && (
+      contents = open(file).read
+    ) || (
+      contents = File.read
+    )
+    contents
+  end
+
   # returns the contents of file (or empty, or a default
   # if a second parameter is given).
   # if file is a nonexisting filepath, or by any reason

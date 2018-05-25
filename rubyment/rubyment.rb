@@ -933,6 +933,33 @@ class Rubyment
   end
 
 
+  # basically the reverse of test__enc_dec_file_interactive
+  # planned improvements: still outputs to stdout
+  def test__dec_file_interactive args=ARGV
+    stderr = @memory[:stderr]
+    enc_filename_or_url, out_filename, password = args
+    stderr.print "[enc_filename_or_url]"
+    enc_filename_or_url = input_multi_line_non_echo [enc_filename_or_url]
+    stderr.print "[output_filename_plain_data]"
+    out_filename = input_multi_line_non_echo [out_filename ]
+    stderr.print "[password]"
+    password = input_single_line_non_echo [password]
+    data =  file_or_url_contents enc_filename_or_url
+    require 'json'
+    require 'base64'
+    base64_json_serialized_data = data
+    metadata = JSON.parse Base64.decode64 base64_json_serialized_data
+    base64_iv = metadata["base64_iv"]
+    base64_encrypted = metadata["base64_encrypted"]
+    base64_salt = metadata["base64_salt"]
+    base64_iter = metadata["base64_iter"]
+    base64_key  = metadata["base64_key" ]
+    ending = nil
+    pw_plain = dec [password, base64_iv, base64_encrypted, ending, base64_salt, base64_iter]
+    shell_dec_output [pw_plain]
+  end
+
+
   # gem_spec
   # args (Array like the one returned by rubyment_gem_defaults)
   # returns: a gem spec string accordingly to args

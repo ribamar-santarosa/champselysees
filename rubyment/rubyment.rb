@@ -896,13 +896,13 @@ class Rubyment
   # data, password, and use the stderr output
   def test__enc_dec_interactive args=ARGV
     stderr = @memory[:stderr]
-    data, password, encrypted_base64_filename = args
+    data, password, encrypted_base64_filename, data_non_base64 = args
     stderr.print "[data]"
     data = input_multi_line_non_echo [data]
     stderr.print "[password]"
     password = input_single_line_non_echo [password]
     stderr.puts
-    base64_encrypted, base64_iv, base64_salt, base64_iter, base64_key = enc [password, data]
+    base64_encrypted, base64_iv, base64_salt, base64_iter, base64_key = enc [password, data, nil, nil, nil, data_not_base64 ]
     # the output is supposed to be safe to store,
     # so password is not placed in from dec_interactive_args:
     dec_interactive_args = [base64_iv, base64_encrypted, base64_salt, base64_iter]
@@ -913,7 +913,7 @@ class Rubyment
     stderr.puts "#or shell var:"
     stderr.puts "my_secret=$(#{$0} invoke_double puts dec_interactive " + (output_array_to_shell dec_interactive_args).to_s + ")\necho $my_secret\nunset mysecret"
     encrypted_base64_filename && output_enc_file(dec_interactive_args  + [encrypted_base64_filename])
-    data_plain = dec_interactive(dec_interactive_args + [password])
+    data_plain = dec_interactive(dec_interactive_args + [password, data_not_base64])
     judgement =
       [
         [data, data_plain, "data"]

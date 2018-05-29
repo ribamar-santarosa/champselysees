@@ -589,7 +589,7 @@ class Rubyment
     require 'base64'
     memory = @memory
     static_end_key = memory[:static_end_key]
-    password, data, ending, salt, iter = args
+    password, data, ending, salt, iter, data_not_base64 = args
     ending ||= static_end_key
     key, password, salt, iter = (
       generate_pbkdf2_key [password, salt, iter]
@@ -600,7 +600,8 @@ class Rubyment
 
     cipher.key = key || (Digest::SHA256.hexdigest password)
     iv = cipher.random_iv
-    encrypted = cipher.update(data + ending) + cipher.final
+    base64_data = data_not_base64 && (Base64.encode64 data) || data
+    encrypted = cipher.update(base64_data + ending) + cipher.final
 
     base64_iv = Base64.encode64 iv
     base64_encrypted = Base64.encode64  encrypted

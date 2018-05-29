@@ -803,11 +803,11 @@ class Rubyment
   # @return [TrueClass, FalseClass] depending on whether test succeeds.
   def dec_interactive args=ARGV
     stderr = @memory[:stderr]
-    iv, encrypted, base64_salt, base64_iter, password  = args
+    iv, encrypted, base64_salt, base64_iter, password, data_not_base64  = args
     stderr.print "[password]"
     password = (input_single_line_non_echo [password])
     stderr.puts
-    dec [password, iv, encrypted, nil, base64_salt, base64_iter]
+    dec [password, iv, encrypted, nil, base64_salt, base64_iter, data_not_base64]
   end
 
 

@@ -798,6 +798,7 @@ class Rubyment
   # echo) from @memory[:stdin], which defaults to STDIN
   # * +password+ [String, nil] password to be used to encryption.
   # If empty or nil, read (without echo) from @memory[:stdin], which defaults to STDIN
+  # +data_not_base64+:: [true, false, nil] don't return base64 data -- the same +data_not_base64+ given for enc should be used.
   #
   # @return [TrueClass, FalseClass] depending on whether test succeeds.
   def dec_interactive args=ARGV

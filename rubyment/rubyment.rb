@@ -928,13 +928,13 @@ class Rubyment
   # the args, the enc_out_filename.
   def test__enc_dec_file_interactive args=ARGV
     stderr = @memory[:stderr]
-    filename_or_url, enc_out_filename, password = args
+    filename_or_url, enc_out_filename, password, data_not_base64 = args
     stderr.print "[filename_or_url]"
     filename_or_url = input_multi_line_non_echo [filename_or_url]
     stderr.print "[output_filename_encrypted_data]"
     enc_out_filename = input_multi_line_non_echo [enc_out_filename ]
     data =  file_or_url_contents filename_or_url
-    test__enc_dec_interactive [ data, password, enc_out_filename ]
+    test__enc_dec_interactive [ data, password, enc_out_filename, data_not_base64 ]
   end
 
 

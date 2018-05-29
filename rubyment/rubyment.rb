@@ -896,7 +896,7 @@ class Rubyment
   # data, password, and use the stderr output
   def test__enc_dec_interactive args=ARGV
     stderr = @memory[:stderr]
-    data, password, encrypted_base64_filename, data_non_base64 = args
+    data, password, encrypted_base64_filename, data_not_base64 = args
     stderr.print "[data]"
     data = input_multi_line_non_echo [data]
     stderr.print "[password]"

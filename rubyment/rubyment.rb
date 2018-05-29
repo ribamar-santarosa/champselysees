@@ -458,6 +458,7 @@ class Rubyment
   # +ending+:: [nil] deprecated
   # +base64_salt+:: [String, nil] #generate_pbkdf2_key salt encoded with Base64
   # +base64_iter+:: [String, nil] #generate_pbkdf2_key iterations encoded with Base64
+  # +data_not_base64+:: [true, false, nil] don't return base64 data -- the same +data_not_base64+ given for enc should be used.
   #
   # @return [String] decoded data
   def dec args=ARGV

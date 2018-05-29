@@ -575,6 +575,7 @@ class Rubyment
   # +ending+:: [nil] deprecated
   # +salt+:: [String, nil] #generate_pbkdf2_key salt argument
   # +iter+:: [String, nil] #generate_pbkdf2_key iterations argument
+  # +data_not_base64+:: [true, false, nil] data not yet in base64
   #
   # @return @param [Array] an +Array+ whose elements are expected to be:
   # +base64_encrypted+:: [String, nil] ciphered data (without metadata) encoded with Base64

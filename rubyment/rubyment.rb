@@ -1221,9 +1221,9 @@ class Rubyment
     stderr = @memory[:stderr]
     data, password, encrypted_base64_filename, data_is_base64 = args
     stderr.print "[data]"
-    data = input_multi_line_non_echo [data]
+    data =  binary_input_multi_line_non_echo [data]
     stderr.print "[password]"
-    password = input_single_line_non_echo [password]
+    password = binary_input_single_line_non_echo [password]
     stderr.puts
     base64_encrypted, base64_iv, base64_salt, base64_iter, base64_key = binary_enc [password, data, nil, nil, nil, data_is_base64 ]
     # the output is supposed to be safe to store,

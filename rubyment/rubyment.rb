@@ -1262,6 +1262,23 @@ class Rubyment
   end
 
 
+  # basically the reverse of test__binary_enc_dec_file_interactive
+  # planned improvements: still outputs to stdout
+  def test__binary_dec_file_interactive args=ARGV
+    stderr = @memory[:stderr]
+    stdout = @memory[:stdout]
+    enc_filename_or_url, out_filename, password, data_is_base64 = args
+    stderr.print "[enc_filename_or_url]"
+    enc_filename_or_url = binary_input_multi_line_non_echo [enc_filename_or_url]
+    stderr.print "[output_filename_plain_data]"
+    out_filename = binary_input_multi_line_non_echo [out_filename ]
+    stderr.print "[password]"
+    password = binary_input_single_line_non_echo [password]
+
+    output_dec_file [enc_filename_or_url, out_filename, password, data_is_base64]
+  end
+
+
   # gem_spec
   # args (Array like the one returned by rubyment_gem_defaults)
   # returns: a gem spec string accordingly to args

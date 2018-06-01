@@ -1124,7 +1124,7 @@ class Rubyment
     require 'openssl'
     require 'base64'
     memory = @memory
-    static_end_key = memory[:static_end_key]
+    static_end_key = memory[:static_end_key] + "_binary"
     password, base64_iv, base64_encrypted, ending, base64_salt, base64_iter, data_is_base64 = args
     salt = Base64.decode64 base64_salt
     iter = Base64.decode64 base64_iter

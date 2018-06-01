@@ -391,7 +391,6 @@ class Rubyment
 
   # opens a non-echoing multiline prompt, if arg1 is nil or empty
   # better prepared to work with binary input (which can contain \0)
-  # closed for extensions
   # args:
   # [ arg1 (String or nil)]
   def binary_input_multi_line_non_echo args=ARGV

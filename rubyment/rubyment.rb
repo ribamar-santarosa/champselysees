@@ -397,10 +397,10 @@ class Rubyment
   def binary_input_multi_line_non_echo args=ARGV
     stderr = @memory[:stderr]
     stdin  = @memory[:stdin]
-    static_separator_key = @memory[:static_separator_key]
+    static_separator_key_per_execution = @memory[:static_separator_key_per_execution]
     require "io/console"
     stderr.print "multiline[enter + control-D to stop]:"
-    args.shift.to_s.split(static_separator_key).first || stdin.noecho{ stdin.readlines}.join.chomp
+    args.shift.to_s.split(static_separator_key_per_execution).first || stdin.noecho{ stdin.readlines}.join.chomp
   end
 
 

@@ -1079,6 +1079,19 @@ class Rubyment
   end
 
 
+  # test for binary_enc and binary_dec.
+  # "" and nil are expected to be treated
+  # as the same.
+  def test__binary_enc_dec_nil args=ARGV
+    nil_case = binary_dec [nil, "ltUQIxgRAeUNXPNTTps8FQ==\n", "xyeqxw/TzkyXtOxpDqAl58SNAvXPyNZ89B5JGtwDkcbjo0vObgPsh5FrgZJs\nHPjofsyXnljnTrHpDoQeDVezo9wBZ74NU+TSi/GssX605oE=\n", nil, "TU4o3IKiFWki3rZ3lMchLQ==\n", "MjAwMDA=\n"]
+    empty = binary_dec ["", "ltUQIxgRAeUNXPNTTps8FQ==\n", "xyeqxw/TzkyXtOxpDqAl58SNAvXPyNZ89B5JGtwDkcbjo0vObgPsh5FrgZJs\nHPjofsyXnljnTrHpDoQeDVezo9wBZ74NU+TSi/GssX605oE=\n", "", "TU4o3IKiFWki3rZ3lMchLQ==\n", "MjAwMDA=\n"]
+    judgement =
+      [
+        [nil_case, empty, "empty_nil_equality"]
+      ].map(&method("expect_equal")).all?
+  end
+
+
   # gem_spec
   # args (Array like the one returned by rubyment_gem_defaults)
   # returns: a gem spec string accordingly to args

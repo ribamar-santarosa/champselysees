@@ -139,6 +139,11 @@ class Rubyment
   end
 
 
+  # returns a string having the current backtrace, for debugging.
+  def backtrace
+    Thread.current.backtrace.join("\n")
+  end
+
   # returns a Class object out of class_name (or itself if it is already
   # a class)
   def to_class args=ARGV

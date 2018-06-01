@@ -296,6 +296,8 @@ class Rubyment
 
 
   # opens an echoing prompt, if arg1 is nil or empty
+  # not prepared to work with binary input (which can contain \0)
+  # closed for extensions
   # args:
   # [ arg1 (String or nil)]
   def input_single_line args=ARGV

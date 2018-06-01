@@ -345,6 +345,19 @@ class Rubyment
   end
 
 
+  # opens an echoing prompt, if arg1 is nil or empty
+  # better prepared to work with binary input
+  # args:
+  # [ arg1 (String or nil)]
+  def binary_input_single_line args=ARGV
+    stderr = @memory[:stderr]
+    stdin  = @memory[:stdin]
+    stderr.print "single line:"
+    static_separator_key = @memory[:static_separator_key]
+    args.shift.to_s.split(static_separator_key).first || stdin.gets.chomp
+  end
+
+
   # opens an echoing multiline prompt, if arg1 is nil or empty
   # better prepared to work with binary input
   # args:

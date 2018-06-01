@@ -1092,6 +1092,37 @@ class Rubyment
   end
 
 
+  # test for binary_enc and binary_dec.
+  #
+  # @param [Array] args, an +Array+ whose elements are expected to be:
+  # +data+:: [String, nil] data to be encrypted.
+  # If empty or nil, read (without echo) from @memory[:stdin], which defaults to STDIN
+  # +password+:: [String, nil] password to be used to encryption.
+  # If empty or nil, read (without echo) from @memory[:stdin], which defaults to STDIN
+  #
+  # @return [TrueClass, FalseClass] depending on whether test succeeds.
+  def test__binary_enc_dec args=ARGV
+    stderr = @memory[:stderr]
+    data, password = args
+    stderr.print "[data]"
+    data = input_multi_line_non_echo [data]
+    stderr.print "[password]"
+    password = input_single_line_non_echo [password]
+    base64_encrypted, base64_iv, base64_salt, base64_iter, base64_key = binary_enc [password, data]
+    dec_args = [password, base64_iv, base64_encrypted, nil, base64_salt, base64_iter]
+    stderr.puts "# WARNING: secrets, including password are printed here. Storing them may be a major security incident."
+    stderr.puts "# programmatically:"
+    stderr.puts "binary_dec " + dec_args.to_s
+    stderr.puts "# shell: "
+    stderr.puts "#{$0} invoke_double p binary_dec " + (output_array_to_shell dec_args).to_s
+    data_plain = binary_dec [password, base64_iv, base64_encrypted, nil, base64_salt, base64_iter]
+    judgement =
+      [
+        [data, data_plain, "data"]
+      ].map(&method("expect_equal")).all?
+  end
+
+
   # gem_spec
   # args (Array like the one returned by rubyment_gem_defaults)
   # returns: a gem spec string accordingly to args

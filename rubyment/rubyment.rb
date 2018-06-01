@@ -1083,8 +1083,7 @@ class Rubyment
     require 'openssl'
     require 'base64'
     memory = @memory
-    static_end_key = memory[:static_end_key]
-    static_end_key = memory[:static_separator_key_per_execution]
+    static_end_key = memory[:static_end_key] + "_binary"
     password, data, ending, salt, iter, data_is_base64 = args
     ending ||= static_end_key
     key, password, salt, iter = (
@@ -1129,6 +1128,7 @@ class Rubyment
     password, base64_iv, base64_encrypted, ending, base64_salt, base64_iter, data_is_base64 = args
     salt = Base64.decode64 base64_salt
     iter = Base64.decode64 base64_iter
+    # FIXME: don't split on \0
     ending = ending.to_s.split("\0").first || static_end_key
     key, password, salt, iter =  (
       generate_pbkdf2_key [password, salt, iter]
@@ -1166,7 +1166,7 @@ class Rubyment
     stderr.print "[password]"
     password = (input_single_line_non_echo [password])
     stderr.puts
-    dec [password, iv, encrypted, nil, base64_salt, base64_iter, data_is_base64]
+    binary_dec [password, iv, encrypted, nil, base64_salt, base64_iter, data_is_base64]
   end
 
 

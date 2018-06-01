@@ -1196,9 +1196,9 @@ class Rubyment
     stderr = @memory[:stderr]
     data, password = args
     stderr.print "[data]"
-    data = input_multi_line_non_echo [data]
+    data = binary_input_multi_line_non_echo [data]
     stderr.print "[password]"
-    password = input_single_line_non_echo [password]
+    password = binary_input_single_line_non_echo [password]
     base64_encrypted, base64_iv, base64_salt, base64_iter, base64_key = binary_enc [password, data]
     dec_args = [password, base64_iv, base64_encrypted, nil, base64_salt, base64_iter]
     stderr.puts "# WARNING: secrets, including password are printed here. Storing them may be a major security incident."

@@ -360,6 +360,20 @@ class Rubyment
   end
 
 
+  # opens a non-echoing prompt, if arg1 is nil or empty
+  # better prepared to work with binary input (which can contain \0)
+  # args:
+  # [ arg1 (String or nil)]
+  def binary_input_single_line_non_echo args=ARGV
+    stderr = @memory[:stderr]
+    stdin  = @memory[:stdin]
+    static_separator_key = @memory[:static_separator_key]
+    require "io/console"
+    stderr.print "non echo single line:"
+    args.shift.to_s.split(static_separator_key).first || stdin.noecho{ stdin.gets}.chomp
+  end
+
+
   # opens an echoing multiline prompt, if arg1 is nil or empty
   # better prepared to work with binary input
   # args:

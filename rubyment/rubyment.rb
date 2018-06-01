@@ -944,7 +944,7 @@ class Rubyment
   # planned improvements: still outputs to stdout
   def test__dec_file_interactive args=ARGV
     stderr = @memory[:stderr]
-    enc_filename_or_url, out_filename, password = args
+    enc_filename_or_url, out_filename, password, data_not_base64 = args
     stderr.print "[enc_filename_or_url]"
     enc_filename_or_url = input_multi_line_non_echo [enc_filename_or_url]
     stderr.print "[output_filename_plain_data]"
@@ -962,7 +962,7 @@ class Rubyment
     base64_iter = metadata["base64_iter"]
     base64_key  = metadata["base64_key" ]
     ending = nil
-    pw_plain = dec [password, base64_iv, base64_encrypted, ending, base64_salt, base64_iter]
+    pw_plain = dec [password, base64_iv, base64_encrypted, ending, base64_salt, base64_iter, data_not_base64]
     shell_dec_output [pw_plain]
   end
 

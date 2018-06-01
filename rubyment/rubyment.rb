@@ -1239,7 +1239,8 @@ class Rubyment
     data_plain = binary_dec_interactive(dec_interactive_args + [password, data_is_base64])
     judgement =
       [
-        [data, data_plain, "data"]
+        [data.size, data_plain.size, "data.size"],
+        [data, data_plain, "data"],
       ].map(&method("expect_equal")).all?
   end
 

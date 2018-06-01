@@ -967,6 +967,57 @@ class Rubyment
   end
 
 
+  # encode data into aes-128-cbc cipher protected by a key generated
+  # by #generate_pbkdf2_key, using given +password+, +salt+, +iter+
+  # By default, must work with binary data. Set +data_is_base64+ to
+  # true (or give data already as base64) to achieve the original
+  # behavior of enc(), and avoid one encoding operation on data.
+  #
+  # @param [Array] args, an +Array+ whose elements are expected to be:
+  # +password+:: [String, nil] password to be used to encryption.
+  # +data+:: [String, nil] data to be encoded data
+  # +ending+:: [nil] deprecated
+  # +salt+:: [String, nil] #generate_pbkdf2_key salt argument
+  # +iter+:: [String, nil] #generate_pbkdf2_key iterations argument
+  # +data_is_base64+:: [true, false, nil] data already in base64 
+  # 
+  #
+  # @return @param [Array] an +Array+ whose elements are expected to be:
+  # +base64_encrypted+:: [String, nil] ciphered data (without metadata) encoded with Base64
+  # +base64_iv+:: [String] initialization vectors encoded with Base64
+  # +base64_salt+:: [String] #generate_pbkdf2_key salt encoded with Base64
+  # +base64_iter+:: [String] #generate_pbkdf2_key iterations encoded with Base64
+  # +base64_key+::  [String] #generate_pbkdf2_key return value
+  #
+  def binary_enc args=ARGV
+    require 'openssl'
+    require 'base64'
+    memory = @memory
+    static_end_key = memory[:static_end_key]
+    password, data, ending, salt, iter, data_is_base64 = args
+    ending ||= static_end_key
+    key, password, salt, iter = (
+      generate_pbkdf2_key [password, salt, iter]
+    )|| [nil, password, salt, iter]
+
+    cipher = OpenSSL::Cipher.new('aes-128-cbc')
+    cipher.encrypt
+
+    cipher.key = key || (Digest::SHA256.hexdigest password)
+    iv = cipher.random_iv
+    base64_data = data_is_base64 && (Base64.encode64 data) || data
+    encrypted = cipher.update(base64_data + ending) + cipher.final
+
+    base64_iv = Base64.encode64 iv
+    base64_encrypted = Base64.encode64  encrypted
+    base64_salt = Base64.encode64 salt.to_s
+    base64_iter = Base64.encode64 iter.to_s
+    base64_key = Base64.encode64 key.to_s
+
+    [base64_encrypted, base64_iv,  base64_salt, base64_iter, base64_key]
+  end
+
+
   # gem_spec
   # args (Array like the one returned by rubyment_gem_defaults)
   # returns: a gem spec string accordingly to args

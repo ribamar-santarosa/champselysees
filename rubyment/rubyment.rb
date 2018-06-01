@@ -961,6 +961,28 @@ class Rubyment
   end
 
 
+  # output encrypted data (and data required to
+  # decrypt) into encrypted_base64_filename
+  def output_dec_file args=ARGV
+    stderr = @memory[:stderr]
+    require 'json'
+    require 'base64'
+    enc_filename_or_url, out_filename, password, data_is_base64 = args
+    base64_json_serialized_data = file_or_url_contents enc_filename_or_url
+
+    metadata = JSON.parse Base64.decode64 base64_json_serialized_data
+    base64_iv = metadata["base64_iv"]
+    base64_encrypted = metadata["base64_encrypted"]
+    base64_salt = metadata["base64_salt"]
+    base64_iter = metadata["base64_iter"]
+    base64_key  = metadata["base64_key" ]
+    ending = nil
+    pw_plain = binary_dec [password, base64_iv, base64_encrypted, ending, base64_salt, base64_iter, data_is_base64]
+    File.write out_filename, pw_plain
+    stderr.puts "# File written: \n# #{out_filename}"
+  end
+
+
   # test for enc and dec_interactive.
   # good idea is to use this function once with the desired
   # data, password, and use the stderr output

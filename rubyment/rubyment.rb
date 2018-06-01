@@ -1057,6 +1057,7 @@ class Rubyment
     require 'base64'
     memory = @memory
     static_end_key = memory[:static_end_key]
+    static_end_key = memory[:static_separator_key_per_execution]
     password, data, ending, salt, iter, data_is_base64 = args
     ending ||= static_end_key
     key, password, salt, iter = (

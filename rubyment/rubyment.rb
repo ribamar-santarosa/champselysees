@@ -1058,6 +1058,27 @@ class Rubyment
   end
 
 
+  # an alternative interface to binary_dec -- reads password if
+  # nil or empty.
+  #
+  # @param [Array] args Defaults to +ARGV+. Elements:
+  # * +data+ [String, nil] data to be encrypted, If empty or nil, read (without
+  # echo) from @memory[:stdin], which defaults to STDIN
+  # * +password+ [String, nil] password to be used to encryption.
+  # If empty or nil, read (without echo) from @memory[:stdin], which defaults to STDIN
+  # +data_is_base64+:: [true, false, nil] return base64 data -- the same +data_is_base64+ given for enc should be used.
+  #
+  # @return [TrueClass, FalseClass] depending on whether test succeeds.
+  def binary_dec_interactive args=ARGV
+    stderr = @memory[:stderr]
+    iv, encrypted, base64_salt, base64_iter, password, data_is_base64  = args
+    stderr.print "[password]"
+    password = (input_single_line_non_echo [password])
+    stderr.puts
+    dec [password, iv, encrypted, nil, base64_salt, base64_iter, data_is_base64]
+  end
+
+
   # gem_spec
   # args (Array like the one returned by rubyment_gem_defaults)
   # returns: a gem spec string accordingly to args

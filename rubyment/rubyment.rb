@@ -356,6 +356,21 @@ class Rubyment
   end
 
 
+  # opens a non-echoing multiline prompt, if arg1 is nil or empty
+  # better prepared to work with binary input (which can contain \0)
+  # closed for extensions
+  # args:
+  # [ arg1 (String or nil)]
+  def binary_input_multi_line_non_echo args=ARGV
+    stderr = @memory[:stderr]
+    stdin  = @memory[:stdin]
+    static_separator_key = @memory[:static_separator_key]
+    require "io/console"
+    stderr.print "multiline[enter + control-D to stop]:"
+    args.shift.to_s.split(static_separator_key).first || stdin.noecho{ stdin.readlines}.join.chomp
+  end
+
+
   def input_shift_or_empty_string args=ARGV, default = ''
     args.shift || default
   end

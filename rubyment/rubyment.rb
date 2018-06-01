@@ -570,6 +570,8 @@ class Rubyment
 
   # encode data into aes-128-cbc cipher protected by a key generated
   # by #generate_pbkdf2_key, using given +password+, +salt+, +iter+
+  # By default, may not work with binary data. Set +data_not_base64+ to
+  # true (or give data already as base64) to make it work.
   #
   # @param [Array] args, an +Array+ whose elements are expected to be:
   # +password+:: [String, nil] password to be used to encryption.

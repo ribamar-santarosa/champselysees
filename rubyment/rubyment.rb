@@ -1123,6 +1123,36 @@ class Rubyment
   end
 
 
+  # test for binary_enc and binary_dec_interactive.
+  # good idea is to use this function once with the desired
+  # data, password, and use the stderr output
+  def test__binary_enc_dec_interactive args=ARGV
+    stderr = @memory[:stderr]
+    data, password, encrypted_base64_filename, data_is_base64 = args
+    stderr.print "[data]"
+    data = input_multi_line_non_echo [data]
+    stderr.print "[password]"
+    password = input_single_line_non_echo [password]
+    stderr.puts
+    base64_encrypted, base64_iv, base64_salt, base64_iter, base64_key = binary_enc [password, data, nil, nil, nil, data_is_base64 ]
+    # the output is supposed to be safe to store,
+    # so password is not placed in from binary_dec_interactive_args:
+    dec_interactive_args = [base64_iv, base64_encrypted, base64_salt, base64_iter]
+    stderr.puts "# programmatically:"
+    stderr.puts "dec_interactive " + dec_interactive_args.to_s
+    stderr.puts "# shell: "
+    stderr.puts "#{$0} invoke_double puts binary_dec_interactive " + (output_array_to_shell dec_interactive_args).to_s
+    stderr.puts "#or shell var:"
+    stderr.puts "my_secret=$(#{$0} invoke_double puts binary_dec_interactive " + (output_array_to_shell dec_interactive_args).to_s + ")\necho $my_secret\nunset mysecret"
+    encrypted_base64_filename && output_enc_file(dec_interactive_args  + [encrypted_base64_filename])
+    data_plain = binary_dec_interactive(dec_interactive_args + [password, data_is_base64])
+    judgement =
+      [
+        [data, data_plain, "data"]
+      ].map(&method("expect_equal")).all?
+  end
+
+
   # gem_spec
   # args (Array like the one returned by rubyment_gem_defaults)
   # returns: a gem spec string accordingly to args

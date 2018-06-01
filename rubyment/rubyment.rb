@@ -69,6 +69,7 @@ class Rubyment
       :system_user_is_super => ENV['USER']  == "root", # changed plan: platform indenpend.
       :static_separator_key => "strings_having_this"  +  "_string_not_guaranteed_to_work",
       :static_end_key => "strings_havinng_this_string" + "_also_not_guaranteed_to_work",
+      :static_separator_key_per_execution => "strings_having_this"  +  "_string_not_guaranteed_to_work" + (Proc.new {}).to_s + Time.now.to_s,
     }
     @memory.update memory.to_h
     invoke @memory[:invoke].to_a

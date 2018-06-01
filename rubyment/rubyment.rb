@@ -1018,6 +1018,46 @@ class Rubyment
   end
 
 
+  # decipher the data encoded by binary_enc
+  #
+  # @param [Array] args, an +Array+ whose elements are expected to be:
+  # +password+:: [String, nil] password to be used to encryption.
+  # +base64_iv+:: [String, nil] initialization vectors encoded with Base64
+  # +base64_encrypted+:: [String, nil] ciphered data (without metadata) encoded with Base64
+  # +ending+:: [nil] deprecated
+  # +base64_salt+:: [String, nil] #generate_pbkdf2_key salt encoded with Base64
+  # +base64_iter+:: [String, nil] #generate_pbkdf2_key iterations encoded with Base64
+  # +data_is_base64+:: [true, false, nil] return base64 data -- the same +data_is_base64+ given for enc should be used.
+  #
+  # @return [String] decoded data
+  def binary_dec args=ARGV
+    require 'openssl'
+    require 'base64'
+    memory = @memory
+    static_end_key = memory[:static_end_key]
+    password, base64_iv, base64_encrypted, ending, base64_salt, base64_iter, data_is_base64 = args
+    salt = Base64.decode64 base64_salt
+    iter = Base64.decode64 base64_iter
+    ending = ending.to_s.split("\0").first || static_end_key
+    key, password, salt, iter =  (
+      generate_pbkdf2_key [password, salt, iter]
+    )|| [nil, password, salt, iter]
+
+    decipher = OpenSSL::Cipher.new('aes-128-cbc')
+    decipher.decrypt
+    decipher.padding = 0
+
+    decipher.key = key || (Digest::SHA256.hexdigest password)
+    decipher.iv = Base64.decode64 base64_iv
+    base64_plain = decipher.update(Base64.decode64 base64_encrypted) + decipher.final
+    plain = data_is_base64 && (Base64.decode64 base64_plain) || base64_plain
+    # split is not the ideal, if ever ending is duplicated it won't
+    # work. also may be innefficient.
+    (plain.split ending).first
+
+  end
+
+
   # gem_spec
   # args (Array like the one returned by rubyment_gem_defaults)
   # returns: a gem spec string accordingly to args

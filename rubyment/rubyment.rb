@@ -391,7 +391,7 @@ class Rubyment
     stdin  = @memory[:stdin]
     static_separator_key_per_execution = @memory[:static_separator_key_per_execution]
     stderr.print "multiline[enter + control-D to stop]:"
-    args.shift.to_s.split(static_separator_key_per_execution).first || stdin.readlines.join
+    args.shift.to_s.b.split(static_separator_key_per_execution).first || stdin.readlines.join
   end
 
 

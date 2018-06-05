@@ -364,7 +364,7 @@ class Rubyment
     stdin  = @memory[:stdin]
     stderr.print "single line:"
     static_separator_key_per_execution = @memory[:static_separator_key_per_execution]
-    args.shift.to_s.split(static_separator_key_per_execution).first || stdin.gets.chomp
+    args.shift.to_s.b.split(static_separator_key_per_execution).first || stdin.gets.chomp
   end
 
 

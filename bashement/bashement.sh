@@ -2141,6 +2141,11 @@ function bm_future_git_stash_backup {
 }
 
 
+function bm_future_git_abort_all {
+  git merge --abort ; git am --abort ;  git cherry-pick --abort ; git rebase --abort #gitabort
+
+}
+
 # end of script
 
 

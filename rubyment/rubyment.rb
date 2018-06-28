@@ -119,22 +119,26 @@ class Rubyment
   # throws any exception, it will be treated as contents
   # instead, and the filename will treated as ""
   # file can be a url, if 'open-uri' is available.
+  # extension: before file couldn't be a directory. now it can:
   def file_backup file = __FILE__ , dir = '/tmp/', append = ('-' + Time.now.hash.abs.to_s), prepend='/'
     stderr = @memory[:stderr]
     debug  = @memory[:debug]
     (require 'open-uri') && open_uri = true
     require 'fileutils'
     file_is_filename = true
-    open_uri && (
+    file_is_directory = File.directory?(file)
+    open_uri && (!file_is_directory) && (
       contents = open(file).read rescue  (file_is_filename = false) || file
-    ) || (
+    ) || (!file_is_directory) && (
       contents = File.read file rescue  (file_is_filename = false) || file
     )
     debug && (stderr.puts "location = dir:#{dir} + prepend:#{prepend} + (#{file_is_filename} && #{file} || '' ) + #{append}")
     location = dir + prepend + (file_is_filename && file || '' ) + append
     debug && (stderr.puts "FileUtils.mkdir_p File.dirname #{location}")
     FileUtils.mkdir_p File.dirname location # note "~" doesn't work
-    File.write location, contents
+    file_is_directory && FileUtils.mkdir_p(location) || (
+      File.write location, contents
+    )
     contents
   end
 

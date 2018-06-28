@@ -2133,8 +2133,8 @@ function bm_future_git_stash_backup {
   git add -u ${git_add_extra_opts}
   git commit -m backup
   bm_future_git_backup_current_branch
-  test $push_force  && bm_future_git_push_force_current_branch
-  unset push_force
+  test $backup_push_force && bm_future_git_push_force_current_branch
+  unset backup_push_force
   git reset HEAD~1 
   #be careful with files intended to add, they need to be intended to add again:
   git add --intent-to-add  $intend_to_add_list

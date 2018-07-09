@@ -2464,14 +2464,16 @@ require '#{gem_name}'
    thread = tcp_server_plain [
      8003, # listening_port
      "0",  # ip_addr: all possible
-     "",   # reserved
+     "reserved".to_nil,
      "debug_tcp_server_plain_arg",
      "io_http_OK_response",
      "debug_io_http_OK_response_arg",
-     "reserved_io_http_OK_response_arg",
-     "This is the response payload"
+     "reserved_io_http_OK_response_arg".to_nil,
+     "This is the response payload",
+     "dont_keep_alive".to_nil,
    ]
    thread.join
+   true
   end
 
 

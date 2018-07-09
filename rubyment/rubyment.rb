@@ -2127,6 +2127,44 @@ require '#{gem_name}'
   end
 
 
+  # gets and forwards the input from one IO to a list of IOs
+  # @param [Array] +args+, an +Array+ whose elements are expected to be:
+  # +ios_out+:: [Array] array of +IO+, where data will be written to.
+  # +io_in+:: [IO] any +IO+, like a +Socket+, returned by #TCPServer::accept, where data will be read from.
+  # +method_name_or_method+:: [String, Method] method name or method object
+  # +debug+:: [Object] if evals to false (or empty string), won't print debug information
+  # +happy_with_request+:: [String, nil] if nil, +eol+ is used.
+  #
+  # @return [nil]
+  def io_forward args = ARGV
+
+    ios_out, io_gets_args = array_first_remainder args
+    io_in, debug, happy_with_request, reserved = io_gets_args
+    stderr = @memory[:stderr]
+    debug.nne && (stderr.puts "#{__method__} starting")
+    debug.nne && (stderr.puts args.inspect)
+    input = io_gets io_gets_args
+    debug.nne && (stderr.puts input.inspect)
+    debug.nne && (stderr.puts ios_out.class.inspect)
+    ios_out.map{ |shared_io_out|
+      runoe_threaded(shared_io_out) {|io_out|
+	io_out = shared_io_out
+        io_out.puts input
+        debug.nne && (
+          stderr.puts "#{io_out}: response writen."
+        )
+        io_out.close
+        debug.nne && (
+          stderr.puts "#{io_out}: IO closed."
+        )
+
+      }
+    }
+
+    debug.nne && (stderr.puts "#{__method__} returning")
+    nil
+  end
+
   # gets and puts
   # @param [Array] +args+, an +Array+ whose elements are expected to be:
   # +io+:: [IO] any +IO+, like a +Socket+, returned by #TCPServer::accept

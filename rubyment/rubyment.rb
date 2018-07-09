@@ -143,6 +143,12 @@ class Rubyment
   end
 
 
+  # same interface as file_backup, but append and prepend defaults are empty.
+  def  file_copy file = file, dir = '/tmp/', append = '', prepend=''
+    file_backup file, dir, append, prepend
+  end
+
+
   # returns a string having the current backtrace, for debugging.
   def backtrace
     Thread.current.backtrace.join("\n")

@@ -119,6 +119,12 @@ class Rubyment
   end
 
 
+  # runs a block error free
+  # (if exception happens,
+  # will return an array having
+  # the backtrace (as String) as
+  # the first member and the
+  # the Exception object as the second).
   def runoe *args, &block
     #  runs a block error free
     # (returns or the exception object if exception happens)

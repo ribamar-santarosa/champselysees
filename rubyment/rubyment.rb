@@ -1854,19 +1854,23 @@ require '#{gem_name}'
 
 
   # test file_backup (just like a copy)
-  def test__file_backup
-    file = "testing-" + + Time.now.hash.abs.to_s + ""
-    expected_new_file = "/tmp/" + file
-    file_contents = "contents_of:#{file}"
-    File.write file, file_contents
-    file_backup file = file, dir = '/tmp/', append = '', prepend=''
-    new_file_contents = File.read expected_new_file
+  def test__file_backup args=ARGV
+    dest_dir, filename, append, prepend, file_contents  = args
+    filename ||= "testing-" + Time.now.hash.abs.to_s + ""
+    dest_dir ||= "/tmp/"
+    append ||= ""
+    prepend ||= ""
+    expected_new_filename = dest_dir + filename
+    file_contents ||= "contents_of:#{filename}"
+    File.write filename, file_contents
+    file_backup filename, dest_dir, append, prepend
+    new_file_contents = File.read expected_new_filename
     judgement =
       [
         [file_contents, new_file_contents, "file_contents"]
       ].map(&method("expect_equal")).all?
-    FileUtils.rm file
-    FileUtils.rm expected_new_file
+    FileUtils.rm filename
+    FileUtils.rm expected_new_filename
   end
 
 

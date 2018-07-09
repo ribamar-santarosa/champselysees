@@ -1965,6 +1965,32 @@ require '#{gem_name}'
   end
 
 
+  # returns an HTTP response (1.1 200 OK by default)
+  # @param [Array] +args+, an +Array+ whose elements are expected to be:
+  # +response+:: [String, nil] response payload (default empty)
+  # +content_type+:: [String, nil] mime type of payload (default +text/plain+)
+  # +version+:: [String, nil] http protocol version (+1.1+ by default)
+  # +code+:: [String, nil] response code (+"200 OK"+ by default)
+  # +eol+:: [String, nil]
+  #
+  # @return [String] http_response
+  def http_OK_response args = ARGV
+    payload, content_type, code, version, eol = args
+    payload ||= ""
+    content_type ||= "text/plain"
+    version ||= "1.1"
+    code ||= "200 OK"
+    eol ||= "\r\n"
+    [
+      "HTTP/#{version} #{code}",
+      "Content-Type: #{content_type};" +
+        " charset=#{payload.encoding.name.downcase}",
+      "Content-Length: #{payload.bytesize}",
+      !keep_alive && "Connection: close"
+    ].join eol
+  end
+
+
   # gets and puts
   # @param [Array] +args+, an +Array+ whose elements are expected to be:
   # +method_name_or_method+:: [String, Method] method name or method object

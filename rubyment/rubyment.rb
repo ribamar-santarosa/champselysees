@@ -2097,8 +2097,10 @@ require '#{gem_name}'
 
   # gets and puts
   # @param [Array] +args+, an +Array+ whose elements are expected to be:
+  # +io+:: [IO] any +IO+, like a +Socket+, returned by #TCPServer::accept
   # +method_name_or_method+:: [String, Method] method name or method object
   # +debug+:: [Object] if evals to false (or empty string), won't print debug information
+  # +happy_with_request+:: [String, nil] if nil, +eol+ is used.
   #
   # @return [nil]
   def io_echo args = ARGV

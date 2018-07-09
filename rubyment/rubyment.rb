@@ -2444,6 +2444,7 @@ require '#{gem_name}'
      "__", #replacement -- will replace empty spaces
      ]
    thread.join
+   true
   end
 
   # test for tcp_server_plain (call io_transform)

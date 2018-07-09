@@ -1995,6 +1995,7 @@ require '#{gem_name}'
   # incoming connections (call join on that object for waiting for its
   # completion).
   def tcp_server_plain args = ARGV
+    stderr = @memory[:stderr]
     listening_port,
       ip_addr,
       reserved,
@@ -2003,11 +2004,13 @@ require '#{gem_name}'
       *callback_method_args = args
     require 'socket'
     server = TCPServer.new ip_addr, listening_port
+    debug.nne && (stderr.puts server)
     Thread.start {
     loop {
       Thread.start(server.accept) { |client|
+         debug.nne && (stderr.puts client)
          to_method([callback_method])
-	   .call callback_method_args
+	   .call([client] + callback_method_args)
       }
     }
     }

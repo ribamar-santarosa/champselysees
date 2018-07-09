@@ -20,7 +20,7 @@ class Object
   # one example usage of the neutral element
   # concept.
   #
-  def nne
+  def nne default=nil
     asserting_methods = [
       :empty?,
       :zero?,
@@ -30,7 +30,7 @@ class Object
         self.method(am).call.negate_me
       ) || nil
     }
-    responds_false_to.any? && self || nil
+    responds_false_to.any? && self || default
   end
 
 

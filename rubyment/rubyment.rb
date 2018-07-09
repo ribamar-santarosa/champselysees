@@ -242,6 +242,15 @@ class Rubyment
   end
 
 
+  # returns an enumeration of +method_name+ for each element in
+  # the enumeration +a+
+  # (by default +:keys+). Useful for heterogeneous arrays
+  # (like arrays of Strings, of Hashes, of Arrays and so on
+  def array_map a, method_name = :keys, method_args = nil
+    a.map {|e| e.method(method_name).call  *method_args }
+  end
+
+
   # reads a uri (if 'open-uri' available, otherwise, just do a normal File.read)
   # @param [Array] args, an +Array+ whose elements are expected to be:
   # +uri+:: [String, nil] uri or path of the file

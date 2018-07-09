@@ -1824,6 +1824,16 @@ require '#{gem_name}'
   end
 
 
+  # test file_backup when file is a dir
+  def test__file_backup__when_file_is_dir
+    require 'fileutils'
+    file_is_dir = "testing-" + + Time.now.hash.abs.to_s + "/"
+    FileUtils.mkdir_p file_is_dir
+    file_backup file = file_is_dir, dir = '/tmp/', append = '', prepend=''
+    FileUtils.rmdir file_is_dir
+  end
+
+
 end
 
 (__FILE__ == $0) && Rubyment.new({:invoke => ARGV})

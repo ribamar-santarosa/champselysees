@@ -400,7 +400,7 @@ class Rubyment
     stderr = @memory[:stderr]
     name, object = containerize args
     begin
-      method =  object.method("method").call(name)
+      object.method("method").call(name.to_s)
     rescue NameError => nameError
       # every object (even nil) has :method,
       # and every Method has :call: exception

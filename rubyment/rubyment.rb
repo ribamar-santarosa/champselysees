@@ -1,6 +1,33 @@
 #!/usr/bin/env ruby
 
 
+class Object
+  # returns +self+ if +self+ is not considered
+  # to be the neutral element of its class.
+  # an object is considered to the neutral
+  # element if it answers +true+ to any of
+  # a global +asserting_methods+ list.
+  # this list is by now the following:
+  # [ empty?, :zero? ]
+  # but it will grow as more classes are
+  # known to have different +asserting_methods+.
+  # it returns +nil+ when the element is
+  # considered the neutral element.
+  def nne
+    asserting_methods = [
+      :empty?,
+      :zero?,
+    ]
+    responds_false_to = asserting_methods.map { |am|
+      (self.respond_to? am) && (
+        !self.method(am).call
+      ) || nil
+    }
+    responds_false_to.any? && self || nil
+  end
+end
+
+
 class String
   # checks if string is non neutral element.
   #

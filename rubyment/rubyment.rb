@@ -2485,23 +2485,33 @@ require '#{gem_name}'
 
   # makes an OpenSSL server 
   # @param [splat] +args+, an splat whose elements are expected to be:
-  # +callback_method_args+:: [splat] args to be given to the call_back_method
+  # +listening_port+:: [String, Integer] port to listen
+  # +ip_addr+:: [String, nil] ip (no hostname) to bind the server. 0, nil, false, empty string will bind to all addresses possible.  0.0.0.0 => binds to all ipv4 . ::0 to all ipv4 and ipv6
+  # +admit_plain+:: [Boolean] if +true+, tries to create a normal +TCPServer+, if not possible to create +SSLServer+ (default: +false+, for preventing unadvertnt non-SSL server creation)
+  # +debug+:: [Object] for future use
+  # +priv_pemfile+:: [String] argument to be given to +OpenSSL::SSL::SSLContext.key+ method, after calling +OpenSSL::PKey::RSA.new+ with it. It's the private key file. letsencrypt example: +"/etc/letsencrypt/live/#{domain}/privkey.pem"+
+  # +cert_pem_file+:: [String] argument to be given to +OpenSSL::SSL::SSLContext.cert+ method, after calling +OpenSSL::X509::Certificate+.  It's the "Context certificate" accordingly to its ruby-doc page. letsencrypt example: +"/etc/letsencrypt/live/scatologies.com/fullchain.pem"+
+  # +extra_cert_pem_files+:: [Array] array of strings. Each string will be mapped with +OpenSSL::SSL::SSLContext.new+, and the resulting array is given to +OpenSSL::SSL::SSLContext.extra_chain_cert+. "An Array of extra X509 certificates to be added to the certificate chain" accordingly to its ruby-doc. letsencryptexample: +["/etc/letsencrypt/live/#{domain}/chain.pem"]+
   #
   # @return [OpenSSL::SSL::SSLServer] returns an ssl server, which can be used to accept connections.
   def ssl_make_server *args
     stderr = @memory[:stderr]
-    tcp_server,
+    listening_port,
+      ip_addr,
+      debug,
+      admit_plain,
       priv_pemfile,
       cert_pem_file,
       extra_cert_pem_files,
       debug,
       reserved = args
     debug ||= debug.nne
-    priv_pemfile ||= priv_pemfile.nne "no_priv_pemfile_given"
-    cert_pem_file ||= cert_pem_file.nne "no_cert_pem_file_given"
     extra_cert_pem_files ||= extra_cert_pem_files.nne []
+    admit_plain ||= admit_plain.nne
     debug && (stderr.puts "#{__method__} starting")
     
+    require 'socket'
+    server = TCPServer.new ip_addr, listening_port
     require 'openssl'
     ssl_context = OpenSSL::SSL::SSLContext.new
     ssl_context.extra_chain_cert =

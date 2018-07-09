@@ -1983,6 +1983,7 @@ require '#{gem_name}'
   end
 
 
+  # test for tcp_server_plain
   def test__tcp_server_plain args = ARGV
    thread = tcp_server_plain [8003, "0", "", "", "p", "arg_to_p_1", "arg_to_p_2"]
    thread.join

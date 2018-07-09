@@ -2359,6 +2359,30 @@ require '#{gem_name}'
   end
 
 
+  # test for Object::nne
+  def test__object_nne args = ARGV
+    string_neutral = ""
+    string_non_neutral = "xxx"
+    fixnum_neutral = 0
+    fixnum_non_neutral = 1
+    array_neutral = []
+    array_non_neutral = [1, 2]
+    hash_neutral = {}
+    hash_non_neutral = { 1 => 2 }
+    judgement =
+      [
+        [string_neutral.nne, nil, "string_neutral.nne"],
+        [string_non_neutral.nne, string_non_neutral, "string_non_neutral.nne"],
+        [fixnum_neutral.nne, nil, "fixnum_neutral.nne"],
+        [fixnum_non_neutral.nne, fixnum_non_neutral, "fixnum_non_neutral.nne"],
+        [array_neutral.nne, nil, "array_neutral.nne"],
+        [array_non_neutral.nne, array_non_neutral, "array_non_neutral.nne"],
+        [hash_neutral.nne, nil, "hash_neutral.nne"],
+        [hash_non_neutral.nne, hash_non_neutral, "hash_non_neutral.nne"],
+      ].map(&method("expect_equal")).all?
+  end
+
+
 end
 
 (__FILE__ == $0) && Rubyment.new({:invoke => ARGV})

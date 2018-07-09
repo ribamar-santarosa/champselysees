@@ -2165,6 +2165,7 @@ require '#{gem_name}'
     nil
   end
 
+
   # gets and puts
   # @param [Array] +args+, an +Array+ whose elements are expected to be:
   # +io+:: [IO] any +IO+, like a +Socket+, returned by #TCPServer::accept

@@ -1938,6 +1938,18 @@ require '#{gem_name}'
   end
 
 
+  # returns a method object out of a string or a method object,
+  # in a polymorphic style.
+  # @param [Array] +args+, an +Array+ whose elements are expected to be:
+  # +method_name_or_method+:: [String, Method] method name or method object
+  #
+  # @return [Method] a method
+  def to_method args = ARGV
+    method_name_or_method, reserved = args
+    method_name_or_method.respond_to(:call) && method_name_or_method || method(method_name_or_method)
+  end
+
+
 end
 
 (__FILE__ == $0) && Rubyment.new({:invoke => ARGV})

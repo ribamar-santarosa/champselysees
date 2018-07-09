@@ -24,7 +24,7 @@ class Fixnum
   #
   # @return [Fixnum, nil] self or nil
   def nne
-    !self.empty? && self || nil
+    !self.zero? && self || nil
   end
 end
 

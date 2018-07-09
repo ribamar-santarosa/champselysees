@@ -2431,6 +2431,23 @@ require '#{gem_name}'
   end
 
 
+  # makes an OpenSSL server 
+  # @param [splat] +args+, an splat whose elements are expected to be:
+  # +callback_method_args+:: [splat] args to be given to the call_back_method
+  #
+  # @return [OpenSSL::SSL::SSLServer] returns an ssl server, which can be used to accept connections.
+  def ssl_make_server *args
+    tcp_server,
+      reserved = args
+    ssl_context = OpenSSL::SSL::SSLContext.new
+    ssl_context.extra_chain_cert = extra_cert_pem_files.map {|extra_cert_pem_file| begin  OpenSSL::X509::Certificate.new  extra_cert_pem_file rescue STDERR.print "[#{extra_cert_pem_file}: #{e}]" end }
+    ssl_server = OpenSSL::SSL::SSLServer.new(tcp_server, ssl_context)
+    ssl_context.cert = begin OpenSSL::X509::Certificate.new cert_pem_file rescue STDERR.print "[#{e}]" end
+    ssl_context.key = begin OpenSSL::PKey::RSA.new priv_pemfile rescue STDERR.print "[#{e}]" end
+    ssl_server
+  end
+
+
   # opens an SSL server accepting connections.
   # @param [Array] +args+, an +Array+ whose elements are expected to be:
   # +listening_port+:: [String, Integer] port to listen

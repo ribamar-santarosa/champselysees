@@ -2242,8 +2242,8 @@ require '#{gem_name}'
     input = io_gets io_gets_args
     debug.nne && (stderr.puts input.inspect)
     debug.nne && (stderr.puts ios_out.class.inspect)
-    processing_method = :echo
-    processing_method_args = []
+    processing_method ||= :echo
+    processing_method_args ||= []
     processed_input = to_method(
       [processing_method]).call(
         [input] + processing_method_args

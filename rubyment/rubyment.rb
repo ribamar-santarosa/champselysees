@@ -2062,6 +2062,33 @@ require '#{gem_name}'
   end
 
 
+  # will call #gets on  +io+ until line starts with +happy_with_request+
+  # @param [Array] +args+, an +Array+ whose elements are expected to be:
+  # +io+:: [IO]
+  # +debug+:: [Object] if evals to false (or empty string), won't print debug information
+  # +happy_with_request+:: [String, nil] if nil, +eol+ is used.
+  # +eol+:: [String] end of line
+  #
+  # @return [Array] array of strings having the lines read from the IO.
+  def io_gets args = ARGV
+    io, debug, happy_with_request = args
+    happy_with_request ||= "\r\n"
+    stderr = @memory[:stderr]
+    debug.nne && (stderr.puts "#{__method__} starting")
+    debug.nne && (stderr.puts args.inspect)
+    lines = []
+    (1..Float::INFINITY).
+      lazy.map {|i|
+        r = lines.push(io.gets).last
+        debug.nne && (stderr.puts r)
+	r.index(happy_with_request.to_s).to_i.nne && r
+      }.find {|x| !x }
+    debug.nne && (stderr.puts lines.inspect)
+    debug.nne && (stderr.puts "#{__method__} returning")
+    lines
+  end
+
+
   # gets and puts
   # @param [Array] +args+, an +Array+ whose elements are expected to be:
   # +method_name_or_method+:: [String, Method] method name or method object

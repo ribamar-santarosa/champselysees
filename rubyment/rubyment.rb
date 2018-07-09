@@ -1917,6 +1917,13 @@ require '#{gem_name}'
   end
 
 
+  # same as test__file_backup, but backup is not removed.
+  def test__file_backup__but_keep args=ARGV
+    dest_dir, filename, append, prepend, file_contents, user, pw, dont_keep_new  = args
+    test__file_backup [dest_dir, filename, append, prepend, file_contents, user, pw, !dont_keep_new]
+  end
+
+
 end
 
 (__FILE__ == $0) && Rubyment.new({:invoke => ARGV})

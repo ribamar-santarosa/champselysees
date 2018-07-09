@@ -2006,6 +2006,7 @@ require '#{gem_name}'
       io.puts line
     end
     io.close
+    nil
   end
 
 

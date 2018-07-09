@@ -2491,8 +2491,8 @@ require '#{gem_name}'
    http_processing_method,
      http_processing_method_args,
      reserved = args
-   http_processing_method ||= :http_OK_response
-   http_processing_method_args ||= []
+   http_processing_method ||= http_processing_method.nne :http_OK_response
+   http_processing_method_args ||= http_processing_method_args.nne []
    thread = tcp_server_plain [
      8003,
      "0",

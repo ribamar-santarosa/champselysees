@@ -115,6 +115,34 @@ class Rubyment
   end
 
 
+  # reads a uri (if 'open-uri' available, otherwise, just do a normal File.read)
+  # @param [Array] args, an +Array+ whose elements are expected to be:
+  # +uri+:: [String, nil] uri or path of the file
+  # +username+:: [String] basic http authentication username
+  # +password+:: [String] basic http authentication password
+  # +return_on_rescue+:: [Object] a default to return in the case of exceptions raised
+  #
+  # @return [String, Object] read data (or +return_on_rescue+)
+  def file_read args=ARGV
+    uri, username, password, return_on_rescue = args
+    (require 'open-uri') && open_uri = true
+    file_is_directory = File.directory?(uri)
+    contents = open_uri &&  (
+      begin
+        open(file, :http_basic_authentication => [username, password]).read
+      rescue
+        return_on_rescue
+      end
+    ) || (!open_uri) && (
+      begin
+        File.read file rescue  return_on_rescue
+      rescue
+        return_on_rescue
+      end
+    )
+  end
+
+
   # if file is a nonexisting filepath, or by any reason
   # throws any exception, it will be treated as contents
   # instead, and the filename will treated as ""

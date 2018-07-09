@@ -1923,6 +1923,13 @@ require '#{gem_name}'
   end
 
 
+  # same as test__file_backup__when_file_is_dir, but backup is not removed.
+  def test__file_backup__when_file_is_dir__but_keep args=ARGV
+    dest_dir, filename, append, prepend, dont_keep_new = args
+    test__file_backup__when_file_is_dir [dest_dir, filename, append, prepend, !dont_keep_new]
+  end
+
+
   # same as test__file_backup, but backup is not removed.
   def test__file_backup__but_keep args=ARGV
     dest_dir, filename, append, prepend, file_contents, user, pw, dont_keep_new  = args

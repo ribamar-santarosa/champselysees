@@ -90,7 +90,10 @@ class Rubyment
       rescue => e
         stderr = @memory[:stderr]
         rv = [e.backtrace.join("\n"), e]
-        sterr.puts rv.first
+        stderr.puts "#{__method__} exception backtrace:"
+        stderr.puts rv[0]
+        stderr.puts "#{__method__} exception message:"
+        stderr.puts rv[1]
         rv
       end
     }

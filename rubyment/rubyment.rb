@@ -396,8 +396,10 @@ class Rubyment
   end
 
   # return the last_called function
-  def caller_label
-    caller_labels(2, 1)[0]
+  def caller_label *args
+    default, reserved = *args
+    default ||= 3
+    caller_labels(default, 1)[0]
   end
 
 

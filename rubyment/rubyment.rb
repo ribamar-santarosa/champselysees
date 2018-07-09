@@ -2014,11 +2014,23 @@ require '#{gem_name}'
   def io_echo args = ARGV
     io, debug, reserved = args
     stderr = @memory[:stderr]
-    debug.nne && (stderr.puts args)
-    while line = io.gets
-      debug.nne && (stderr.puts line)
-      io.puts line
-    end
+    debug.nne && (stderr.puts args.inspect)
+    lines = []
+    (1..Float::INFINITY).
+      lazy.map {|i|
+        r = lines.push(io.gets).last
+        debug.nne && (stderr.puts r)
+	r
+      }.find {|x| !x }
+
+    io.puts lines
+    debug.nne && (
+      stderr.puts "#{io}: response writen."
+    )
+    io.close
+    debug.nne && (
+      stderr.puts "#{io}: IO closed."
+    )
     io.close
     nil
   end

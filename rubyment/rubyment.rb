@@ -126,8 +126,6 @@ class Rubyment
   # the first member and the
   # the Exception object as the second).
   def runoe *args, &block
-    #  runs a block error free
-    # (returns or the exception object if exception happens)
     (bloe &block).call *args
   end
 

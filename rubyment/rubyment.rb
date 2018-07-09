@@ -1838,6 +1838,7 @@ require '#{gem_name}'
         [file_is_dir_test, expected_new_dir_test, "File.directory?"]
       ].map(&method("expect_equal")).all?
     FileUtils.rmdir file_is_dir
+    FileUtils.rmdir expected_new_dir
   end
 
 

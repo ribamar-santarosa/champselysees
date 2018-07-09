@@ -2177,18 +2177,7 @@ require '#{gem_name}'
     io, debug, happy_with_request, reserved = args
     stderr = @memory[:stderr]
     debug.nne && (stderr.puts "#{__method__} starting")
-    debug.nne && (stderr.puts args.inspect)
-    io_input = io_gets args
-    debug.nne && (stderr.puts io_input.inspect)
-    io.puts io_input
-    debug.nne && (
-      stderr.puts "#{io}: response writen."
-    )
-    io.close
-    debug.nne && (
-      stderr.puts "#{io}: IO closed."
-    )
-    debug.nne && (stderr.puts "#{__method__} returning")
+    io_forward [[io]] + args
     nil
   end
 

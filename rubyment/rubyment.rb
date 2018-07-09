@@ -277,6 +277,13 @@ class Rubyment
   end
 
 
+  # the same as #array_map (but takes all arguments at once)
+  def array_maps args=ARGV
+    a, method_name, method_args = args
+    array_map a, method_name, method_args
+  end
+
+
   # reads a uri (if 'open-uri' available, otherwise, just do a normal File.read)
   # @param [Array] args, an +Array+ whose elements are expected to be:
   # +uri+:: [String, nil] uri or path of the file

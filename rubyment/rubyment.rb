@@ -2169,13 +2169,14 @@ require '#{gem_name}'
     server = TCPServer.new ip_addr, listening_port
     debug.nne && (stderr.puts server)
     Thread.start {
-    loop {
-      Thread.start(server.accept) { |client|
-        debug.nne && (stderr.puts Thread.current)
-        debug.nne && (stderr.puts client)
-        runoe {
-          to_method([callback_method])
-            .call([client] + callback_method_args)
+      loop {
+        Thread.start(server.accept) { |client|
+          debug.nne && (stderr.puts Thread.current)
+          debug.nne && (stderr.puts client)
+          runoe {
+            to_method([callback_method])
+              .call([client] + callback_method_args)
+          }
         }
       }
     }

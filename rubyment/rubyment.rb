@@ -1828,8 +1828,15 @@ require '#{gem_name}'
   def test__file_backup__when_file_is_dir
     require 'fileutils'
     file_is_dir = "testing-" + + Time.now.hash.abs.to_s + "/"
+    expected_new_dir = "/tmp/" + file_is_dir
     FileUtils.mkdir_p file_is_dir
     file_backup file = file_is_dir, dir = '/tmp/', append = '', prepend=''
+    file_is_dir_test = File.directory? file_is_dir
+    expected_new_dir_test = File.directory? expected_new_dir
+    judgement =
+      [
+        [file_is_dir_test, expected_new_dir_test, "File.directory?"]
+      ].map(&method("expect_equal")).all?
     FileUtils.rmdir file_is_dir
   end
 

@@ -2097,18 +2097,12 @@ require '#{gem_name}'
   # @return [nil]
   def io_echo args = ARGV
     io, debug, happy_with_request, reserved = args
-    happy_with_request ||= "\r\n"
     stderr = @memory[:stderr]
+    debug.nne && (stderr.puts "#{__method__} starting")
     debug.nne && (stderr.puts args.inspect)
-    lines = []
-    (1..Float::INFINITY).
-      lazy.map {|i|
-        r = lines.push(io.gets).last
-        debug.nne && (stderr.puts r)
-	r.index(happy_with_request).to_i.nne && r
-      }.find {|x| !x }
-
-    io.puts lines
+    io_input = io_gets args
+    debug.nne && (stderr.puts io_input.inspect)
+    io.puts io_input
     debug.nne && (
       stderr.puts "#{io}: response writen."
     )
@@ -2116,6 +2110,7 @@ require '#{gem_name}'
       stderr.puts "#{io}: IO closed."
     )
     io.close
+    debug.nne && (stderr.puts "#{__method__} returning")
     nil
   end
 

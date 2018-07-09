@@ -270,10 +270,9 @@ class Rubyment
 
 
   # returns an enumeration of +method_name+ for each element in
-  # the enumeration +a+
-  # (by default +:keys+). Useful for heterogeneous arrays
+  # the enumeration +a+. Useful for heterogeneous arrays
   # (like arrays of Strings, of Hashes, of Arrays and so on
-  def array_map a, method_name = :keys, method_args = nil
+  def array_map a, method_name, method_args = nil
     a.map {|e| e.method(method_name).call  *method_args }
   end
 

@@ -2010,6 +2010,30 @@ require '#{gem_name}'
   end
 
 
+  # writes a response to an IO (e.g.: socket)
+  # @param [Array] +args+, an +Array+ whose elements are expected to be:
+  # +method_name_or_method+:: [String, Method] method name or method object
+  # +debug+:: [Object] if evals to false (or empty string), won't print debug information
+  # +reserved+:: [Object] for future use
+  # +args_for_http_OK_response+:: [splat] args to be forwarded to #http_OK_response (check it for specification)
+  #
+  # @return [nil]
+  def io_http_OK_response args = ARGV
+    io, debug, reserved, *args_for_http_OK_response = args
+    stderr = @memory[:stderr]
+    debug.nne && (stderr.puts args.inspect)
+    response = http_OK_response args_for_http_OK_response
+    debug.nne && (
+      stderr.puts response.inspect
+    )
+    io.puts response
+    debug.nne && (stderr.puts "response writen.")
+    io.close
+    debug.nne && (stderr.puts "IO closed.")
+    nil
+  end
+
+
   # opens a TCP server accepting connections.
   # @param [Array] +args+, an +Array+ whose elements are expected to be:
   # +listening_port+:: [String, Integer] port to listen

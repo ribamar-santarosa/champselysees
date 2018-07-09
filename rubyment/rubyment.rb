@@ -2304,9 +2304,11 @@ require '#{gem_name}'
       :test__transform_call, [
         :array_maps, [
 	  :gsub!, [replace, replacement]
-	], true
+	],
+	"on_object:true",
       ]
     ]
+    debug.nne && (stderr.puts "#{__method__} returning")
     nil
   end
 

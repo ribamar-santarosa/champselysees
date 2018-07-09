@@ -2146,6 +2146,25 @@ require '#{gem_name}'
   end
 
 
+  # calls a function with the processing arg
+  # @param [Array] +args+, an +Array+ whose elements are expected to be:
+  # +processing_arg+:: [Object]
+  # +method+:: [Method, String]
+  # +method_args+:: [Method, String]
+  # +on_object+:: [String, Boolean]
+  #
+  # @return [String] +processing_arg+
+  def test__transform_call args = ARGV
+    processing_arg, method, method_args, on_object = args
+    object_arg = on_object.nne && processing_arg || nil
+    p args
+    to_method(
+      [method, object_arg]).call(
+        [processing_arg] + method_args
+    )
+  end
+
+
   # returns an HTTP response (1.1 200 OK by default)
   # @param [Array] +args+, an +Array+ whose elements are expected to be:
   # +response+:: [String, nil] response payload (default empty)

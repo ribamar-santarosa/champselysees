@@ -2265,6 +2265,8 @@ require '#{gem_name}'
       reserved = args
     stderr = @memory[:stderr]
     debug.nne && (stderr.puts "#{__method__} starting")
+    debug.nne && (stderr.puts "transform_method_name: #{transform_method_name}")
+    debug.nne && (stderr.puts "transform_method_args: #{transform_method_args.inspect}")
     io_forward [[io], io, debug, happy_with_request, reserved,
       :test__transform_call, [
         transform_method_name,

@@ -1831,19 +1831,24 @@ require '#{gem_name}'
 
 
   # test file_backup when file is a dir
-  def test__file_backup__when_file_is_dir
+  def test__file_backup__when_file_is_dir args=ARGV
     require 'fileutils'
-    file_is_dir = "testing-" + + Time.now.hash.abs.to_s + "/"
-    expected_new_dir = "/tmp/" + file_is_dir
-    FileUtils.mkdir_p file_is_dir
-    file_backup file = file_is_dir, dir = '/tmp/', append = '', prepend=''
-    file_is_dir_test = File.directory? file_is_dir
+    dest_dir, filename, append, prepend = args
+    filename ||= "testing-" + Time.now.hash.abs.to_s + ""
+    dest_dir ||= "/tmp/"
+    append ||= ""
+    prepend ||= ""
+    filename  += "/"
+    expected_new_dir = dest_dir + filename
+    FileUtils.mkdir_p filename
+    file_backup filename, dest_dir, append, prepend
+    filename_test = File.directory? filename
     expected_new_dir_test = File.directory? expected_new_dir
     judgement =
       [
-        [file_is_dir_test, expected_new_dir_test, "File.directory?"]
+        [filename_test, expected_new_dir_test, "File.directory?"]
       ].map(&method("expect_equal")).all?
-    FileUtils.rmdir file_is_dir
+    FileUtils.rmdir filename
     FileUtils.rmdir expected_new_dir
   end
 

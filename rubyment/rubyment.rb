@@ -1874,13 +1874,14 @@ require '#{gem_name}'
   # test file_backup when file is a dir
   def test__file_backup__when_file_is_dir args=ARGV
     require 'fileutils'
-    dest_dir, filename, append, prepend = args
+    dest_dir, filename, append, prepend, keep_new = args
     filename ||= "testing-" + Time.now.hash.abs.to_s + ""
     dest_dir ||= "/tmp/"
     append ||= ""
     prepend ||= ""
     filename  += "/"
     expected_new_dir = dest_dir + filename
+    existing_dir = (file_read [filename, nil, nil, nil])
     FileUtils.mkdir_p filename
     file_backup filename, dest_dir, append, prepend
     filename_test = File.directory? filename
@@ -1892,8 +1893,8 @@ require '#{gem_name}'
         [filename_test, expected_new_dir_test, "File.directory?"],
         [original_permissions, new_permissions, "file_permissions"],
       ].map(&method("expect_equal")).all?
-    FileUtils.rmdir filename
-    FileUtils.rmdir expected_new_dir
+    (!existing_dir) && (FileUtils.rmdir filename)
+    (!keep_new) && (FileUtils.rmdir expected_new_dir)
   end
 
 

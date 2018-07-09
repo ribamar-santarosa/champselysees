@@ -2008,9 +2008,9 @@ require '#{gem_name}'
     Thread.start {
     loop {
       Thread.start(server.accept) { |client|
-         debug.nne && (stderr.puts client)
-         to_method([callback_method])
-	   .call([client] + callback_method_args)
+        debug.nne && (stderr.puts client)
+        to_method([callback_method])
+	  .call([client] + callback_method_args)
       }
     }
     }

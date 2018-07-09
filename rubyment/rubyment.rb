@@ -191,6 +191,32 @@ class Rubyment
   end
 
 
+  # creates and runs a +Proc+ out of a block,
+  # where exceptions may be admissible
+  # or not, and to be printed or not.
+  # it is an interface for the run*
+  # methods above
+  # @param [splat] +args+, an splat whose elements are expected to be +blea_args+ and +blocks_args+:
+  # +blea_args+:: [Array] args to be used internally, which are expected to be:
+  # +exception_admitted+:: [Boolean]
+  # +output_exception+:: [Boolean]
+  # +blocks_args+:: [splat] args to be forwarded to the block call
+  # @return the value returned by the block
+  def runea *args, &block
+    debug = "true"
+    debug = false
+    stderr = @memory[:stderr]
+    debug.nne && (stderr.puts "#{__method__} starting")
+    debug.nne && (stderr.puts args.inspect)
+    # (blea{}).call
+    # (blea([["rescue", "output"], [1, 2, 3]]) {}).call
+    # blea(["rescue", "output"], [1, 2, 3], &block).call
+    rv = (blea *args, &block).call
+    debug.nne && (stderr.puts "#{__method__} starting")
+    rv
+  end
+
+
   # invoke first arg with following args
   # used by initialize
   def invoke args=ARGV

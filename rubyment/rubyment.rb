@@ -391,6 +391,16 @@ class Rubyment
     Thread.current.backtrace.join("\n")
   end
 
+  def caller_labels begin_range=1, range_size=1
+     caller_locations(begin_range, range_size).map(&:label)
+  end
+
+  # return the last_called function
+  def caller_label
+    caller_labels(2, 1)[0]
+  end
+
+
   # returns a Class object out of class_name (or itself if it is already
   # a class)
   def to_class args=ARGV

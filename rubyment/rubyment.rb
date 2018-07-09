@@ -203,17 +203,7 @@ class Rubyment
   # +blocks_args+:: [splat] args to be forwarded to the block call
   # @return the value returned by the block
   def runea *args, &block
-    debug = "true"
-    debug = false
-    stderr = @memory[:stderr]
-    debug.nne && (stderr.puts "#{__method__} starting")
-    debug.nne && (stderr.puts args.inspect)
-    # (blea{}).call
-    # (blea([["rescue", "output"], [1, 2, 3]]) {}).call
-    # blea(["rescue", "output"], [1, 2, 3], &block).call
-    rv = (blea *args, &block).call
-    debug.nne && (stderr.puts "#{__method__} starting")
-    rv
+    (blea *args, &block).call
   end
 
 

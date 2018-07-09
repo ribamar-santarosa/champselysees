@@ -147,8 +147,17 @@ class Rubyment
   # throws any exception, it will be treated as contents
   # instead, and the filename will treated as ""
   # file can be a url, if 'open-uri' is available.
-  # extension: before file couldn't be a directory. now it can:
-  def file_backup file = __FILE__ , dir = '/tmp/', append = ('-' + Time.now.hash.abs.to_s), prepend='/'
+  # extension: before file couldn't be a directory. now it can.
+  # planned improvement: use file_read instead
+  # @param [Array] args, an +Array+ whose elements are expected to be:
+  # +file+:: [String] uri or path of the file
+  # +dir+:: [String] dir where to backup file
+  # +append+:: [String] append this string to the end of file
+  # +prepend+:: [String] append this string to the beginning of file
+  # +permissions+:: [Integer, nil] writes the file with this mode  (preserves if nil)
+  # @return [String] file contents
+  def file_backup file = __FILE__ , dir = '/tmp/', append = ('-' + Time.now.hash.abs.to_s), prepend='/', permissions = nil
+  default_permissions = 0755
     stderr = @memory[:stderr]
     debug  = @memory[:debug]
     (require 'open-uri') && open_uri = true
@@ -167,6 +176,8 @@ class Rubyment
     file_is_directory && FileUtils.mkdir_p(location) || (
       File.write location, contents
     )
+    permissions ||= file_permissions_octal file
+    File.chmod permissions, location
     contents
   end
 

@@ -122,6 +122,46 @@ class Rubyment
   end
 
 
+  # creates a +Proc+ out of a block,
+  # where exceptions may be admissible
+  # or not, and to be printed or not.
+  # it is an interface for the bl*
+  # methods above
+  # @param [splat] +args+, an splat whose elements are expected to be +blea_args+ and +blocks_args+:
+  # +blea_args+:: [Array] args to be used internally, which are expected to be:
+  # +exception_admitted+:: [Boolean]
+  # +output_exception+:: [Boolean]
+  # +blocks_args+:: [splat] args to be forwarded to the block call
+  # @return [Proc]
+  def blea *args, &block
+    debug = false
+    stderr = @memory[:stderr]
+    debug.nne && (stderr.puts "#{__method__} starting")
+    # debug.nne && (stderr.puts args.inspect)
+    blea_args, *block_args = args
+    blea_args ||= blea_args.nne []
+    exception_admitted, output_exception = blea_args
+    exception_admitted ||= exception_admitted.nne
+    output_exception ||=  output_exception.nne
+    ble_method = output_exception && :bloe || :blef
+    bl_to_call = exception_admitted && ble_method || :bl
+    debug.nne && (stderr.puts output_exception)
+    debug.nne && (stderr.puts bl_to_call)
+    # debug.nne && (stderr.puts to_method(bl_to_call))
+    # rv = (to_method(bl_to_call).call *block_args, &block)
+    rv = send bl_to_call, *block_args, &block
+    # debug.nne && (stderr.puts "rv.call")
+    # debug.nne && (stderr.puts rv.call)
+    # rv = (to_method(bl_to_call).call &block).call
+    # rv = (to_method(bl_to_call).call &block).call *block_args
+    # rv = (to_method(bl_to_call).call &block).call *block_args
+    # debug.nne && (stderr.puts "rv.inspect")
+    # debug.nne && (stderr.puts rv.inspect)
+    debug.nne && (stderr.puts "#{__method__} finishing")
+    rv
+  end
+
+
   #  runs a block error free
   # (returns nil if exception happens)
   def runef *args, &block

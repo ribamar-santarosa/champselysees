@@ -2374,7 +2374,7 @@ require '#{gem_name}'
      "debug",
      "io_echo",
      "debug_io_echo",
-     nil, #default happy_with_request
+     "default happy_with_request".to_nil,
      " ", #replace
      "__", #replacement -- will replace empty spaces
      ]

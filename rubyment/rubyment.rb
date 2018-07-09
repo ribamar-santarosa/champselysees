@@ -326,6 +326,40 @@ class Rubyment
   end
 
 
+  def files_in_paths paths, reject_dirs=false
+    require 'find'
+    paths = paths.map {|path| Find.find(path).entries  rescue [] }.flatten 1
+    reject_dirs && paths.reject{|path| File.directory? path} || paths
+  end
+
+
+  def files_in_paths_reject_dirs paths
+     files_in_paths paths, true
+  end
+
+
+  def files_call_in_paths paths, method, reject_dirs=false
+    paths =  reject_dirs && (files_in_paths_reject_dirs paths) || paths
+    (files_in_paths paths).map {|path|  method.call path }
+  end
+
+
+  def files_dirnames_in_paths paths, reject_dirs=false
+   # (files_in_paths paths).map {|path|  File.dirname path }
+    files_call_in_paths paths, File.method(:dirname), reject_dirs
+  end
+
+
+  def files_basenames_in_paths paths, reject_dirs=false
+    files_call_in_paths paths, File.method(:basename), reject_dirs
+  end
+
+
+  def filename_replacer
+    [/[^0-9A-Za-z\-\.\/]/,  "_" ]
+  end
+
+
   # returns a string having the current backtrace, for debugging.
   def backtrace
     Thread.current.backtrace.join("\n")

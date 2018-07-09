@@ -2503,7 +2503,6 @@ require '#{gem_name}'
       priv_pemfile,
       cert_pem_file,
       extra_cert_pem_files,
-      debug,
       reserved = args
     debug ||= debug.nne
     extra_cert_pem_files ||= extra_cert_pem_files.nne []

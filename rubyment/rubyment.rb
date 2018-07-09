@@ -1950,6 +1950,39 @@ require '#{gem_name}'
   end
 
 
+
+  # opens a TCP server accepting connections.
+  # @param [Array] +args+, an +Array+ whose elements are expected to be:
+  # +listening_port+:: [String, Integer] port to listen
+  # +ip_addr+:: [String, nil] ip (no hostname) to bind the server. 0, nil, false, empty string will bind to all addresses possible.  0.0.0.0 => binds to all ipv4 . ::0 to all ipv4 and ipv6
+  # +reserved+:: [Object] for future use
+  # +debug+:: [Object] for future use
+  # +callback_method+:: [String, Method] method to call when a client connects. The method must accept a socket as parameter.
+  # +callback_method_args+:: [splat] args to be given to the call_back_method
+  #
+  # @return [Thread] returns a Thread object looping for accepting
+  # incoming connections (call join on that object for waiting for its
+  # completion).
+  def tcp_server_plain args = ARGV
+    listening_port,
+      ip_addr,
+      reserved,
+      debug,
+      callback_method,
+      *callback_method_args = args
+    require 'socket'
+    server = TCPServer.new ip_addr, listening_port
+    Thread.start {
+    loop {
+      Thread.start(server.accept) { |client|
+         to_method([callback_method])
+	   .call callback_method_args
+      }
+    }
+    }
+  end
+
+
 end
 
 (__FILE__ == $0) && Rubyment.new({:invoke => ARGV})

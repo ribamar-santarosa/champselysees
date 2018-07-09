@@ -40,6 +40,12 @@ class Object
   def to_nil
     nil
   end
+
+
+  # returns +!self+
+  def negate_me
+    !self
+  end
 end
 
 

@@ -27,7 +27,7 @@ class Object
     ]
     responds_false_to = asserting_methods.map { |am|
       (self.respond_to? am) && (
-        !self.method(am).call
+        self.method(am).call.negate_me
       ) || nil
     }
     responds_false_to.any? && self || nil

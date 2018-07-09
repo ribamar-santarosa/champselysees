@@ -2267,18 +2267,31 @@ require '#{gem_name}'
   end
 
 
-  # gets and puts
+  # gets an input from +io+ and writes it back to the same +io+
+  # supports an optional +replace+ and +replacement+ parameter
+  # that can be used to make simple changes to the echoing output
   # @param [Array] +args+, an +Array+ whose elements are expected to be:
   # +io+:: [IO] any +IO+, like a +Socket+, returned by #TCPServer::accept
   # +debug+:: [Object] if evals to false (or empty string), won't print debug information
+  # +replace+:: [String]
+  # +replacement+:: [String]
   # +happy_with_request+:: [String, nil] if nil, +eol+ is used.
   #
   # @return [nil]
   def io_echo args = ARGV
-    io, debug, happy_with_request, reserved = args
+    io, debug, happy_with_request, replace, replacement, reserved = args
+    # this is an inefficient replacement:
+    replace ||= " "
+    replacement ||= " "
     stderr = @memory[:stderr]
     debug.nne && (stderr.puts "#{__method__} starting")
-    io_forward [[io]] + args
+    io_forward [[io], io, debug, happy_with_request, reserved,
+      :test__transform_call, [
+        :array_maps, [
+	  :gsub!, [replace, replacement]
+	], true
+      ]
+    ]
     nil
   end
 

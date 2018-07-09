@@ -2202,12 +2202,16 @@ require '#{gem_name}'
   #
   # @return [Array] response with proper headers in an array where each element is a response line
   def http_OK_response args = ARGV
-    payload, content_type, code, version, keep_alive = args
+    payload, content_type, code, version, keep_alive, debug = args
+    stderr = @memory[:stderr]
+    debug.nne && (stderr.puts "#{__method__} starting")
+    debug.nne && (stderr.puts args.inspect)
     payload ||= ""
+    payload  = payload.to_s
     content_type ||= "text/plain"
     version ||= "1.1"
     code ||= "200 OK"
-    [
+    rv = [
       "HTTP/#{version} #{code}",
       "Content-Type: #{content_type};" +
         " charset=#{payload.encoding.name.downcase}",
@@ -2216,6 +2220,8 @@ require '#{gem_name}'
       "",
       "#{payload}"
     ]
+    debug.nne && (stderr.puts "#{__method__} returning")
+    rv
   end
 
 

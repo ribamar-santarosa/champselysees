@@ -144,7 +144,7 @@ class Rubyment
 
 
   # same interface as file_backup, but append and prepend defaults are empty.
-  def  file_copy file = file, dir = '/tmp/', append = '', prepend=''
+  def  file_copy file = __FILE__, dir = '/tmp/', append = '', prepend=''
     file_backup file, dir, append, prepend
   end
 

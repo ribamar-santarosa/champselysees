@@ -51,6 +51,63 @@ class Rubyment
   end
 
 
+  # creates a Proc out of a block
+  def bl *args, &block
+    block ||= lambda {}
+    # Proc.new &block
+    Proc.new { block.call  *args }
+  end
+
+
+  # creates a Proc out of a block,
+  # will capture all exceptions
+  # inside that block and ignore it
+  # returns nil
+  def blef *args, &block
+    # bl exception free
+    block ||= lambda {}
+    bl {
+      begin
+        block.call *args
+      rescue => e
+      end
+    }
+  end
+
+
+  # creates a Proc out of a block,
+  # will capture all exceptions
+  # inside that block and ignore it
+  # will return an array having
+  # the backtrace (as String) as
+  # the first member and the
+  # the exception as the second.
+  def bloe *args, &block
+    block ||= lambda {}
+    bl {
+      begin
+        block.call *args
+      rescue => e
+        [e.backtrace.join("\n"), e]
+      end
+    }
+  end
+
+
+  #  runs a block error free
+  # (returns nil if exception happens)
+  def runef *args, &block
+    (blef &block).call *args
+  end
+
+
+  def runoe *args, &block
+    #  runs a block error free
+    # (returns or the exception object if exception happens)
+    (bloe &block).call *args
+  end
+
+
   # invoke first arg with following args
   # used by initialize
   def invoke args=ARGV

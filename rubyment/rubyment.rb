@@ -2165,7 +2165,7 @@ require '#{gem_name}'
   # @param [Array] +args+, an +Array+ whose elements are expected to be:
   # +processing_arg+:: [Object]
   # +method+:: [Method, String]
-  # +method_args+:: [Method, String]
+  # +method_args+:: [Array] args to be given to the +transform_method_name+
   # +on_object+:: [String, Boolean]
   #
   # @return [String] +processing_arg+

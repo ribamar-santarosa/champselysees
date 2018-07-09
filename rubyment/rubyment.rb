@@ -121,13 +121,15 @@ class Rubyment
   # +username+:: [String] basic http authentication username
   # +password+:: [String] basic http authentication password
   # +return_on_rescue+:: [Object] a default to return in the case of exceptions raised
+  # +return_on_directory_given+:: [Object] a default to return in the case uri is a directory. Defaults to true
   #
   # @return [String, Object] read data (or +return_on_rescue+)
   def file_read args=ARGV
-    uri, username, password, return_on_rescue = args
+    uri, username, password, return_on_rescue, return_on_directory_given = args
     (require 'open-uri') && open_uri = true
     file_is_directory = File.directory?(uri)
-    contents = open_uri &&  (
+    return_on_directory_given ||= true
+    contents = !(file_is_directory) && open_uri &&  (
       begin
         open(uri, :http_basic_authentication => [username, password]).read
       rescue  => e
@@ -139,7 +141,7 @@ class Rubyment
       rescue  => e
         return_on_rescue
       end
-    )
+    ) || (file_is_directory) && (return_on_directory_given)
   end
 
 

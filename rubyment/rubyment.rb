@@ -2332,14 +2332,16 @@ require '#{gem_name}'
     replacement ||= " "
     stderr = @memory[:stderr]
     debug.nne && (stderr.puts "#{__method__} starting")
-    io_forward [[io], io, debug, happy_with_request, reserved,
-      :test__transform_call, [
-        :array_maps, [
-	  :gsub!, [replace, replacement]
-	],
-	"on_object:true",
-      ]
+    io_transform [
+      io,
+      debug,
+      happy_with_request,
+      :array_maps,
+      [
+        :gsub!, [replace, replacement]
+      ],
     ]
+
     debug.nne && (stderr.puts "#{__method__} returning")
     nil
   end

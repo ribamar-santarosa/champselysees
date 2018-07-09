@@ -35,20 +35,6 @@ class Object
 end
 
 
-class String
-  # checks if string is non neutral element.
-  #
-  # data from shell input can't be nil
-  # it will be an "" string. this
-  # function interprets "" as false
-  #
-  # @return [String, nil] self or nil
-  def nne
-    !self.empty? && self || nil
-  end
-end
-
-
 class Fixnum
   # checks if Fixnum is non neutral element.
   #

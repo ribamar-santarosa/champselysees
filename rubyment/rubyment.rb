@@ -107,6 +107,18 @@ class Rubyment
   end
 
 
+  #  runs a block error free, in
+  # a different Thread. the Thread object
+  #  is returned (call .join on it to
+  # wait for its completion)
+  # (the Thread itself returns nil if exception happens)
+  def runef_threaded *args, &block
+    Thread.start(*args) {|*args|
+      runef *args, &block
+    }
+  end
+
+
   def runoe *args, &block
     #  runs a block error free
     # (returns or the exception object if exception happens)

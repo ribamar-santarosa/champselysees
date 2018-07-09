@@ -130,6 +130,22 @@ class Rubyment
   end
 
 
+  # runs a block error free, in
+  # a different Thread. the Thread object
+  # is returned (call .join on it to
+  # wait for its completion)
+  # (if exception happens, the thread
+  # itself will return an array having
+  # the backtrace (as String) as
+  # the first member and the
+  # the Exception object as the second).
+  def runoe_threaded *args, &block
+    Thread.start(*args) {|*args|
+      runoe *args, &block
+    }
+  end
+
+
   # invoke first arg with following args
   # used by initialize
   def invoke args=ARGV

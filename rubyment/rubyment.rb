@@ -2354,7 +2354,6 @@ require '#{gem_name}'
         }
       }
     }
-    }
   end
 
 

@@ -2076,6 +2076,22 @@ require '#{gem_name}'
   end
 
 
+  # test for tcp_server_plain
+  def test__tcp_server_plain__with_io_http_response args = ARGV
+   thread = tcp_server_plain [
+     8003, # listening_port
+     "0",  # ip_addr: all possible
+     "",   # reserved
+     "debug_tcp_server_plain_arg",
+     "io_http_OK_response",
+     "debug_io_http_OK_response_arg",
+     "reserved_io_http_OK_response_arg",
+     "This is the response payload"
+   ]
+   thread.join
+  end
+
+
 end
 
 (__FILE__ == $0) && Rubyment.new({:invoke => ARGV})

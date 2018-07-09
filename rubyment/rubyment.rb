@@ -339,7 +339,7 @@ class Rubyment
   # [ name (String), object (Object) ]
   # returns:
   #  method_object (Method)
-  def to_method args=ARGV
+  def to_object_method args=ARGV
     stderr = @memory[:stderr]
     name, object = containerize args
     begin
@@ -365,7 +365,7 @@ class Rubyment
     stderr = @memory[:stderr]
     method, object, *call_args = containerize args
     object ||= self
-    method = to_method [method, object]
+    method = to_object_method [method, object]
     call_args = call_args && (containerize call_args)
     begin
       call_args && (method.call *call_args) || method.call

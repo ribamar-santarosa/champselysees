@@ -1894,7 +1894,7 @@ require '#{gem_name}'
 
   # test file_backup (just like a copy)
   def test__file_backup args=ARGV
-    dest_dir, filename, append, prepend, file_contents, user, pw  = args
+    dest_dir, filename, append, prepend, file_contents, user, pw, keep_new  = args
     filename ||= "testing-" + Time.now.hash.abs.to_s + ""
     dest_dir ||= "/tmp/"
     append ||= ""
@@ -1913,7 +1913,7 @@ require '#{gem_name}'
         [original_permissions, new_permissions, "file_permissions"],
       ].map(&method("expect_equal")).all?
     (!existing_file) && (FileUtils.rm filename)
-    FileUtils.rm expected_new_filename
+    (!keep_new) && (FileUtils.rm expected_new_filename)
   end
 
 

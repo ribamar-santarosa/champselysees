@@ -2435,6 +2435,24 @@ require '#{gem_name}'
    thread.join
   end
 
+  # test for tcp_server_plain (call io_transform)
+  def test__tcp_server_plain__with_io_transform args = ARGV
+   thread = tcp_server_plain [
+     8003,
+     "0",
+     "",
+     "debug",
+     "io_transform",
+     "debug_io_transform",
+     "default happy_with_request".to_nil,
+     :array_maps,
+     [
+        :gsub!, [" ", "_____"]
+     ]
+   ]
+   thread.join
+   true
+  end
 
   # test for tcp_server_plain
   def test__tcp_server_plain__with_io_http_response args = ARGV

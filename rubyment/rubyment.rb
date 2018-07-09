@@ -2141,7 +2141,6 @@ require '#{gem_name}'
   # @param [Array] +args+, an +Array+ whose elements are expected to be:
   # +ios_out+:: [Array] array of +IO+, where data will be written to.
   # +io_in+:: [IO] any +IO+, like a +Socket+, returned by #TCPServer::accept, where data will be read from.
-  # +method_name_or_method+:: [String, Method] method name or method object
   # +debug+:: [Object] if evals to false (or empty string), won't print debug information
   # +happy_with_request+:: [String, nil] if nil, +eol+ is used.
   #

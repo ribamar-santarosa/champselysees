@@ -2450,13 +2450,32 @@ require '#{gem_name}'
   #
   # @return [OpenSSL::SSL::SSLServer] returns an ssl server, which can be used to accept connections.
   def ssl_make_server *args
+    stderr = @memory[:stderr]
     tcp_server,
+      priv_pemfile,
+      cert_pem_file,
+      extra_cert_pem_files,
+      debug,
       reserved = args
+    debug ||= debug.nne
+    priv_pemfile ||= priv_pemfile.nne "no_priv_pemfile_given"
+    cert_pem_file ||= cert_pem_file.nne "no_cert_pem_file_given"
+    extra_cert_pem_files ||= extra_cert_pem_files.nne []
+    debug && (stderr.puts "#{__method__} starting")
+    
+    require 'openssl'
     ssl_context = OpenSSL::SSL::SSLContext.new
-    ssl_context.extra_chain_cert = extra_cert_pem_files.map {|extra_cert_pem_file| begin  OpenSSL::X509::Certificate.new  extra_cert_pem_file rescue STDERR.print "[#{extra_cert_pem_file}: #{e}]" end }
-    ssl_server = OpenSSL::SSL::SSLServer.new(tcp_server, ssl_context)
-    ssl_context.cert = begin OpenSSL::X509::Certificate.new cert_pem_file rescue STDERR.print "[#{e}]" end
-    ssl_context.key = begin OpenSSL::PKey::RSA.new priv_pemfile rescue STDERR.print "[#{e}]" end
+    ssl_context.extra_chain_cert =
+      extra_cert_pem_files
+        .map(&OpenSSL::X509::Certificate.method(:new))
+    ssl_server = OpenSSL::SSL::SSLServer
+      .new tcp_server, ssl_context
+    ssl_context.cert = OpenSSL::X509::Certificate
+      .new cert_pem_file
+    ssl_context.key = OpenSSL::PKey::RSA
+      .new priv_pemfile
+
+    debug && (stderr.puts "#{__method__} returning")
     ssl_server
   end
 

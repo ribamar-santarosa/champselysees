@@ -2372,6 +2372,7 @@ require '#{gem_name}'
   def io_http_OK_response args = ARGV
     io, debug, reserved, *args_for_http_OK_response = args
     stderr = @memory[:stderr]
+    debug.nne && (stderr.puts "#{__method__} starting")
     debug.nne && (stderr.puts args.inspect)
     response = http_OK_response args_for_http_OK_response
     debug.nne && (
@@ -2381,6 +2382,7 @@ require '#{gem_name}'
     debug.nne && (stderr.puts "response writen.")
     io.close
     debug.nne && (stderr.puts "IO closed.")
+    debug.nne && (stderr.puts "#{__method__} returning")
     nil
   end
 

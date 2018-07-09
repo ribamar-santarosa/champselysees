@@ -2147,18 +2147,30 @@ require '#{gem_name}'
   # @return [nil]
   def io_forward args = ARGV
 
-    ios_out, io_gets_args = array_first_remainder args
-    io_in, debug, happy_with_request, reserved = io_gets_args
+    ios_out,
+      io_in,
+      debug,
+      happy_with_request,
+      reserved,
+      processing_method,
+      processing_method_args = args
+    io_gets_args = [io_in, debug, happy_with_request]
     stderr = @memory[:stderr]
     debug.nne && (stderr.puts "#{__method__} starting")
     debug.nne && (stderr.puts args.inspect)
     input = io_gets io_gets_args
     debug.nne && (stderr.puts input.inspect)
     debug.nne && (stderr.puts ios_out.class.inspect)
+    processing_method = :echo
+    processing_method_args = []
+    processed_input = to_method(
+      [processing_method]).call(
+        [input] + processing_method_args
+    )
     ios_out.map{ |shared_io_out|
       runoe_threaded(shared_io_out) {|io_out|
 	io_out = shared_io_out
-        io_out.puts input
+        io_out.puts processed_input
         debug.nne && (
           stderr.puts "#{io_out}: response writen."
         )

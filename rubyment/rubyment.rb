@@ -2074,6 +2074,16 @@ require '#{gem_name}'
   end
 
 
+  # echoes the processing arg
+  # @param [Array] +args+, an +Array+ whose elements are expected to be:
+  # +processing_arg+:: [String]
+  #
+  # @return [String] +processing_arg+
+  def echo args = ARGV
+    args.first
+  end
+
+
   # returns an HTTP response (1.1 200 OK by default)
   # @param [Array] +args+, an +Array+ whose elements are expected to be:
   # +response+:: [String, nil] response payload (default empty)

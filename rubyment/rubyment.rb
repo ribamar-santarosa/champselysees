@@ -88,7 +88,10 @@ class Rubyment
       begin
         block.call *args
       rescue => e
-        [e.backtrace.join("\n"), e]
+        stderr = @memory[:stderr]
+        rv = [e.backtrace.join("\n"), e]
+        sterr.puts rv.first
+        rv
       end
     }
   end

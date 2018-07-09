@@ -2435,7 +2435,7 @@ require '#{gem_name}'
   def test__tcp_server_plain args = ARGV
    thread = tcp_server_plain [8003,
      "0",
-     "",
+     "reserved".to_nil,
      "debug",
      "io_echo",
      "debug_io_echo",

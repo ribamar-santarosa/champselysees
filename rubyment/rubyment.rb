@@ -2233,6 +2233,38 @@ require '#{gem_name}'
   end
 
 
+  # gets an input from +io+ and writes it back to the same +io+
+  # supports an optional +replace+ and +replacement+ parameter
+  # that can be used to make simple changes to the echoing output
+  # @param [Array] +args+, an +Array+ whose elements are expected to be:
+  # +io+:: [IO] any +IO+, like a +Socket+, returned by #TCPServer::accept
+  # +debug+:: [Object] if evals to false (or empty string), won't print debug information
+  # +transform_method_name+:: [String]
+  # +transform_method_args+:: [Array] args to be given to the ++transform_method_name+
+  # +happy_with_request+:: [String, nil] if nil, +eol+ is used.
+  #
+  # @return [nil]
+  def io_transform args = ARGV
+    io,
+      debug,
+      happy_with_request,
+      transform_method_name,
+      transform_method_args,
+      reserved = args
+    stderr = @memory[:stderr]
+    debug.nne && (stderr.puts "#{__method__} starting")
+    io_forward [[io], io, debug, happy_with_request, reserved,
+      :test__transform_call, [
+        transform_method_name,
+	transform_method_args,
+	"on_object:true",
+      ]
+    ]
+    debug.nne && (stderr.puts "#{__method__} returning")
+    nil
+  end
+
+
   # gets and forwards the input from one IO to a list of IOs
   # @param [Array] +args+, an +Array+ whose elements are expected to be:
   # +ios_out+:: [Array] array of +IO+, where data will be written to.

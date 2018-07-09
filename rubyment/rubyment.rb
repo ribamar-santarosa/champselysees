@@ -2198,23 +2198,24 @@ require '#{gem_name}'
   # +content_type+:: [String, nil] mime type of payload (default +text/plain+)
   # +version+:: [String, nil] http protocol version (+1.1+ by default)
   # +code+:: [String, nil] response code (+"200 OK"+ by default)
-  # +eol+:: [String, nil]
+  # +keep_alive+:: [Boolean] right not unsupported, always close the connection
   #
-  # @return [String] http_response
+  # @return [Array] response with proper headers in an array where each element is a response line
   def http_OK_response args = ARGV
-    payload, content_type, code, version, eol = args
+    payload, content_type, code, version, keep_alive = args
     payload ||= ""
     content_type ||= "text/plain"
     version ||= "1.1"
     code ||= "200 OK"
-    eol ||= "\r\n"
     [
       "HTTP/#{version} #{code}",
       "Content-Type: #{content_type};" +
         " charset=#{payload.encoding.name.downcase}",
       "Content-Length: #{payload.bytesize}",
-      !keep_alive && "Connection: close"
-    ].join eol
+      keep_alive.negate_me && "Connection: close",
+      "",
+      "#{payload}"
+    ]
   end
 
 

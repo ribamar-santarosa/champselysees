@@ -2160,7 +2160,6 @@ require '#{gem_name}'
 
       }
     }
-
     debug.nne && (stderr.puts "#{__method__} returning")
     nil
   end

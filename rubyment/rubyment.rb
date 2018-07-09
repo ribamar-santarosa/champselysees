@@ -32,6 +32,14 @@ class Object
     }
     responds_false_to.any? && self || nil
   end
+
+
+  # returns nil out of an object.
+  # usage examples:
+  # "this_parameter_is_nil".to_nil
+  def to_nil
+    nil
+  end
 end
 
 

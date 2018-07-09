@@ -2204,7 +2204,6 @@ require '#{gem_name}'
 
   # writes a response to an IO (e.g.: socket)
   # @param [Array] +args+, an +Array+ whose elements are expected to be:
-  # +method_name_or_method+:: [String, Method] method name or method object
   # +debug+:: [Object] if evals to false (or empty string), won't print debug information
   # +reserved+:: [Object] for future use
   # +args_for_http_OK_response+:: [splat] args to be forwarded to #http_OK_response (check it for specification)

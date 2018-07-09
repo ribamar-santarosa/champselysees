@@ -2171,6 +2171,7 @@ require '#{gem_name}'
     Thread.start {
     loop {
       Thread.start(server.accept) { |client|
+        debug.nne && (stderr.puts Thread.current)
         debug.nne && (stderr.puts client)
         runoe {
           to_method([callback_method])

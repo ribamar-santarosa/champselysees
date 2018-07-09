@@ -390,11 +390,12 @@ class Rubyment
 
 
   # returns a Method (object.method if object is
-  # given). give self as object to look up
-  # at the current context
-  # args:
-  # [ name (String), object (Object) ]
-  # returns:
+  # given) matching the name. Give +self+ as object
+  # to look up  at the current context
+  # @param [Array] args, whose elements are:
+  # +name+:: [String, nil]
+  # +object+:: [Object]
+  # @returns:
   #  method_object (Method)
   def to_object_method args=ARGV
     stderr = @memory[:stderr]

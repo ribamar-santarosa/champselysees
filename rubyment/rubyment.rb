@@ -242,6 +242,19 @@ class Rubyment
   end
 
 
+  # compares the version of current rubyment with a given version.
+  # so users of rubyment can test if their code will run with
+  # the rubyment installed on the system.
+  # @param [splat] args, a list of object whose elements are expected to be:
+  # +major_version+:: [String]
+  # +minor_version+:: [String]
+  #
+  # @return [Bool] +true+ if rubyment (+self+) version is at least the version give as parameter, +false+ otherwise
+  def version_at_least *args
+    Gem::Version.new(version []) >= Gem::Version.new(version args)
+  end
+
+
   # enables the possibility to inkove a second method with
   # the results of a first one. eg, the results of a method
   #  called file_permissions_octal which returns without output

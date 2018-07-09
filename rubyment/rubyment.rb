@@ -2070,7 +2070,7 @@ require '#{gem_name}'
 
   # will call #gets on  +io+ until line starts with +happy_with_request+
   # @param [Array] +args+, an +Array+ whose elements are expected to be:
-  # +io+:: [IO]
+  # +io+:: [IO] any +IO+, like a +Socket+, returned by #TCPServer::accept
   # +debug+:: [Object] if evals to false (or empty string), won't print debug information
   # +happy_with_request+:: [String, nil] if nil, +eol+ is used.
   # +eol+:: [String] end of line

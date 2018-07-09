@@ -13,6 +13,13 @@ class Object
   # known to have different +asserting_methods+.
   # it returns +nil+ when the element is
   # considered the neutral element.
+  #
+  # data from other languagues, like most
+  # shell input, can't be +nil+ so sometimes
+  # "" has to be interpreted as +nil+. so,
+  # one example usage of the neutral element
+  # concept.
+  #
   def nne
     asserting_methods = [
       :empty?,

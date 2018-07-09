@@ -2012,7 +2012,8 @@ require '#{gem_name}'
   #
   # @return [nil]
   def io_echo args = ARGV
-    io, debug, reserved = args
+    io, debug, happy_with_request, reserved = args
+    happy_with_request ||= "\r\n"
     stderr = @memory[:stderr]
     debug.nne && (stderr.puts args.inspect)
     lines = []
@@ -2020,14 +2021,13 @@ require '#{gem_name}'
       lazy.map {|i|
         r = lines.push(io.gets).last
         debug.nne && (stderr.puts r)
-	r
+	r.index(happy_with_request).to_i.nne && r
       }.find {|x| !x }
 
     io.puts lines
     debug.nne && (
       stderr.puts "#{io}: response writen."
     )
-    io.close
     debug.nne && (
       stderr.puts "#{io}: IO closed."
     )

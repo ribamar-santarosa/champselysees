@@ -1994,8 +1994,9 @@ require '#{gem_name}'
   # gets and puts
   # @param [Array] +args+, an +Array+ whose elements are expected to be:
   # +method_name_or_method+:: [String, Method] method name or method object
+  # +debug+:: [Object] if evals to false (or empty string), won't print debug information
   #
-  # @return [Method] a method
+  # @return [nil]
   def io_echo args = ARGV
     io, debug, reserved = args
     stderr = @memory[:stderr]

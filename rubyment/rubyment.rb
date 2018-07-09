@@ -35,20 +35,6 @@ class Object
 end
 
 
-class Fixnum
-  # checks if Fixnum is non neutral element.
-  #
-  # data from shell input can't be nil
-  # it will be an 0 string. this
-  # function interprets 0 as false
-  #
-  # @return [Fixnum, nil] self or nil
-  def nne
-    !self.zero? && self || nil
-  end
-end
-
-
 # Collection of Ruby functions
 # * output
 # normally outputs to STDERR, with

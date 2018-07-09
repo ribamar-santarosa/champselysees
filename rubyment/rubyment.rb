@@ -1883,9 +1883,12 @@ require '#{gem_name}'
     file_backup filename, dest_dir, append, prepend
     filename_test = File.directory? filename
     expected_new_dir_test = File.directory? expected_new_dir
+    original_permissions = file_permissions_octal filename
+    new_permissions = file_permissions_octal expected_new_dir
     judgement =
       [
-        [filename_test, expected_new_dir_test, "File.directory?"]
+        [filename_test, expected_new_dir_test, "File.directory?"],
+        [original_permissions, new_permissions, "file_permissions"],
       ].map(&method("expect_equal")).all?
     FileUtils.rmdir filename
     FileUtils.rmdir expected_new_dir

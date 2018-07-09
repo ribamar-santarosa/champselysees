@@ -2484,6 +2484,30 @@ require '#{gem_name}'
   end
 
 
+  # test for tcp_server_plain (call #io_transform with
+  # a function that processes an http request and returns
+  # an http_response, by default #http_OK_response)
+  def test__tcp_server_plain__with_http_OK_response args = ARGV
+   http_processing_method,
+     http_processing_method_args,
+     reserved = args
+   http_processing_method ||= :http_OK_response
+   http_processing_method_args ||= []
+   thread = tcp_server_plain [
+     8003,
+     "0",
+     "reserved".to_nil,
+     "debug",
+     "io_transform",
+     "debug_io_transform",
+     "default happy_with_request".to_nil,
+     http_processing_method,
+     http_processing_method_args
+   ]
+   thread.join
+   true
+  end
+
   # test for Object::nne
   def test__object_nne args = ARGV
     string_neutral = ""

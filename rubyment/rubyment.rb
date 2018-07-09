@@ -2109,10 +2109,10 @@ require '#{gem_name}'
     debug.nne && (
       stderr.puts "#{io}: response writen."
     )
+    io.close
     debug.nne && (
       stderr.puts "#{io}: IO closed."
     )
-    io.close
     debug.nne && (stderr.puts "#{__method__} returning")
     nil
   end

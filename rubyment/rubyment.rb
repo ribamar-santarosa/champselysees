@@ -129,14 +129,14 @@ class Rubyment
     file_is_directory = File.directory?(uri)
     contents = open_uri &&  (
       begin
-        open(file, :http_basic_authentication => [username, password]).read
-      rescue
+        open(uri, :http_basic_authentication => [username, password]).read
+      rescue  => e
         return_on_rescue
       end
     ) || (!open_uri) && (
       begin
-        File.read file rescue  return_on_rescue
-      rescue
+        File.read uri
+      rescue  => e
         return_on_rescue
       end
     )

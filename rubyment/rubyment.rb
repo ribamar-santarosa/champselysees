@@ -1965,6 +1965,22 @@ require '#{gem_name}'
   end
 
 
+  # gets and puts
+  # @param [Array] +args+, an +Array+ whose elements are expected to be:
+  # +method_name_or_method+:: [String, Method] method name or method object
+  #
+  # @return [Method] a method
+  def io_echo args = ARGV
+    io, debug, reserved = args
+    stderr = @memory[:stderr]
+    debug.nne && (stderr.puts args)
+    while line = io.gets
+      debug.nne && (stderr.puts line)
+      io.puts line
+    end
+    io.close
+  end
+
 
   # opens a TCP server accepting connections.
   # @param [Array] +args+, an +Array+ whose elements are expected to be:

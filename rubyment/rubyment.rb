@@ -2431,6 +2431,45 @@ require '#{gem_name}'
   end
 
 
+  # opens an SSL server accepting connections.
+  # @param [Array] +args+, an +Array+ whose elements are expected to be:
+  # +listening_port+:: [String, Integer] port to listen
+  # +ip_addr+:: [String, nil] ip (no hostname) to bind the server. 0, nil, false, empty string will bind to all addresses possible.  0.0.0.0 => binds to all ipv4 . ::0 to all ipv4 and ipv6
+  # +admit_plain+:: [Boolean] if +true+, tries to create a normal +TCPServer+, if not possible to create +SSLServer+ (default: +false+, for preventing unadvertnt non-SSL server creation)
+  # +debug+:: [Object] for future use
+  # +callback_method+:: [String, Method] method to call when a client connects. The method must accept a socket as parameter.
+  # +callback_method_args+:: [Array] args to be given to the call_back_method. Note that the type differs from #tcp_server_plain (which takes splat)
+  #
+  # @return [Thread] returns a Thread object looping for accepting
+  # incoming connections (call join on that object for waiting for its
+  # completion).
+  def tcp_ssl_server args = ARGV
+    stderr = @memory[:stderr]
+    listening_port,
+      ip_addr,
+      debug,
+      admit_plain,
+      callback_method,
+      callback_method_args,
+      reserved = args
+    require 'socket'
+    server = TCPServer.new ip_addr, listening_port
+    debug.nne && (stderr.puts server)
+    Thread.start {
+      loop {
+        Thread.start(server.accept) { |client|
+          debug.nne && (stderr.puts Thread.current)
+          debug.nne && (stderr.puts client)
+          runoe {
+            to_method([callback_method])
+              .call([client] + callback_method_args)
+          }
+        }
+      }
+    }
+  end
+
+
   # test for tcp_server_plain
   def test__tcp_server_plain args = ARGV
    thread = tcp_server_plain [8003,

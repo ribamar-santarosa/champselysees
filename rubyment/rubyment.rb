@@ -2529,12 +2529,16 @@ require '#{gem_name}'
   def test__tcp_server_plain__with_http_OK_response args = ARGV
    http_processing_method,
      http_processing_method_args,
+     http_server_port,
+     http_ip_addr,
      reserved = args
    http_processing_method ||= http_processing_method.nne :http_OK_response
    http_processing_method_args ||= http_processing_method_args.nne []
+   http_server_port ||= http_server_port.nne  8003
+   http_ip_addr ||= http_ip_addr.nne "0"
    thread = tcp_server_plain [
-     8003,
-     "0",
+     http_server_port,
+     http_ip_addr,
      "reserved".to_nil,
      "debug",
      "io_transform",

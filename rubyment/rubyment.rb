@@ -2360,7 +2360,16 @@ require '#{gem_name}'
 
   # test for tcp_server_plain
   def test__tcp_server_plain args = ARGV
-   thread = tcp_server_plain [8003, "0", "", "debug", "io_echo", "debug_io_echo"]
+   thread = tcp_server_plain [8003,
+     "0",
+     "",
+     "debug",
+     "io_echo",
+     "debug_io_echo",
+     nil, #default happy_with_request
+     " ", #replace
+     "__", #replacement -- will replace empty spaces
+     ]
    thread.join
   end
 

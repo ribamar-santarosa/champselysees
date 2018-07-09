@@ -2126,8 +2126,13 @@ require '#{gem_name}'
   #
   # @return [Method] a method
   def to_method args = ARGV
-    method_name_or_method, reserved = args
-    method_name_or_method.respond_to?(:call) && method_name_or_method || method(method_name_or_method)
+    method_name_or_method, object, reserved = args
+    (
+      to_object_method [object, method_name_or_method]
+    ) || (
+      method_name_or_method.respond_to?(:call) && method_name_or_method
+    ) ||
+      method(method_name_or_method)
   end
 
 

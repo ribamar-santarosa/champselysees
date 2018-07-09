@@ -2673,6 +2673,60 @@ require '#{gem_name}'
   end
 
 
+  # test for functions that adds syntatic sugar to
+  # exceptions.
+  def test__rune_functions args = ARGV
+    do_rescue = "rescue"
+    do_output = "output"
+    no_rescue = "no rescue"
+    no_output = "no output"
+    actual = {}
+    expectation = {}
+
+    #working case
+    expected_return = [1, 2, 3]
+    test_case = :rescue_and_output_work
+    actual[test_case] = runea([do_rescue, do_output], expected_return ) {|args| puts "test_case=#{test_case}";  p args  }
+    expectation[test_case] = expected_return
+    test_case = :rescue_but_no_output_work
+    actual[test_case] = runea([do_rescue, no_output.to_nil], expected_return ) {|args| puts "test_case=#{test_case}";  p args  }
+    expectation[test_case] = expected_return
+    test_case = :effectless_output_but_no_rescue_work
+    actual[test_case] = runea([no_rescue.to_nil, do_output], expected_return ) {|args| puts "test_case=#{test_case}";  p args  }
+    expectation[test_case] = expected_return
+    test_case = :no_output_and_no_rescue_work
+    actual[test_case] = runea([no_rescue.to_nil, no_output.to_nil], expected_return ) {|args| puts "test_case=#{test_case}";  p args  }
+    expectation[test_case] = expected_return
+
+    # failure cases
+    expected_return = "no_such_method"
+    test_case = :rescue_and_output_fail
+    actual[test_case] = runea([do_rescue, do_output], [1, 2, 3] ) {|args| puts "test_case=#{test_case}";  p args;  args.to_nil.no_such_method  }[1].name.to_s
+    expectation[test_case] = expected_return
+    test_case = :rescue_but_no_output_fail
+    actual[test_case] = runea([do_rescue, no_output.to_nil], [1, 2, 3] ) {|args| puts "test_case=#{test_case}"; p args ; args.to_nil.no_such_method  }.nil? && expected_return
+    expectation[test_case] = expected_return
+    test_case = :effectless_output_but_no_rescue_fail
+    actual[test_case] = begin
+      runea([no_rescue.to_nil, do_output], [1, 2, 3] ) {|args| puts "test_case=#{test_case}"; p args ; args.to_nil.no_such_method  }
+    rescue NoMethodError => noMethodError
+      noMethodError.name.to_s
+    end
+    expectation[test_case] = expected_return
+    test_case = :no_output_and_no_rescue_fail
+    actual[test_case] = begin
+      runea([no_rescue.to_nil, no_output.to_nil], [1, 2, 3] ) {|args| puts "test_case=#{test_case}"; p args ; args.to_nil.no_such_method  }
+    rescue NoMethodError => noMethodError
+      noMethodError.name.to_s
+    end
+    expectation[test_case] = expected_return
+
+    judgement = actual.keys.map {|test_case|
+      [expectation[test_case], actual[test_case] , test_case]
+    }.map(&method("expect_equal")).all?
+  end
+
+
 end
 
 (__FILE__ == $0) && Rubyment.new({:invoke => ARGV})

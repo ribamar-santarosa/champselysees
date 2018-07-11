@@ -2560,6 +2560,10 @@ require '#{gem_name}'
       admit_plain,
       callback_method,
       callback_method_args,
+      priv_pemfile,
+      cert_pem_file,
+      extra_cert_pem_files,
+      output_exception,
       reserved = args
 
     server = ssl_make_server(
@@ -2567,6 +2571,10 @@ require '#{gem_name}'
       ip_addr,
       debug,
       admit_plain,
+      priv_pemfile,
+      cert_pem_file,
+      extra_cert_pem_files,
+      output_exception,
     )
     debug.nne && (stderr.puts server)
     Thread.start {

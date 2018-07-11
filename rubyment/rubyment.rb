@@ -1,6 +1,15 @@
 #!/usr/bin/env ruby
 
 
+class TrueClass
+  # returns +false+ (purpose of simplifying
+  # functional programming)
+  def false?
+    false
+  end
+end
+
+
 class Object
   # returns +self+ if +self+ is not considered
   # to be the neutral element of its class.

@@ -2557,8 +2557,13 @@ require '#{gem_name}'
       callback_method,
       callback_method_args,
       reserved = args
-    require 'socket'
-    server = TCPServer.new ip_addr, listening_port
+
+    server = ssl_make_server(
+      listening_port,
+      ip_addr,
+      debug,
+      admit_plain,
+    )
     debug.nne && (stderr.puts server)
     Thread.start {
       loop {

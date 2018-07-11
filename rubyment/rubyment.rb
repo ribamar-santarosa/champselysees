@@ -2708,6 +2708,54 @@ require '#{gem_name}'
   end
 
 
+  # test for tcp_ssl_server (call #io_transform with
+  # a function that processes an http request and returns
+  # an http_response, by default #http_OK_response)
+  # just like #test__tcp_ssl_server__non_ssl,
+  # calling directly #tcp_ssl_server, but making
+  # mandatory the server to be ssl one.
+  # requires, by default that the certificate and its
+  #  private key are found in the current dir, which
+  #  can be achieved with:
+  #  +openssl req -x509 -nodes -days 365 -newkey rsa:1024 -keyout pkey.pem -out cert.crt+
+  def test__tcp_ssl_server__ssl_self_signed args = ARGV
+   http_processing_method,
+     http_processing_method_args,
+     http_server_port,
+     http_ip_addr,
+     priv_pemfile,
+     cert_pem_file,
+     extra_cert_pem_files,
+     reserved = args
+   http_processing_method ||= http_processing_method.nne :http_OK_response
+   http_processing_method_args ||= http_processing_method_args.nne []
+   http_server_port ||= http_server_port.nne  8003
+   http_ip_addr ||= http_ip_addr.nne "0"
+   priv_pemfile ||=  priv_pemfile.nne "pkey.pem"
+   cert_pem_file ||= cert_pem_file.nne  "cert.crt"
+   extra_cert_pem_files ||=  extra_cert_pem_files.nne 
+   thread =  tcp_ssl_server [
+     http_server_port,
+     http_ip_addr,
+     "debug",
+     "admit non ssl server".negate_me,
+     "io_transform",
+     [
+       "debug_io_transform",
+       "default happy_with_request".to_nil,
+       http_processing_method,
+       http_processing_method_args
+     ],
+     priv_pemfile,
+     cert_pem_file,
+     extra_cert_pem_files,
+     "yes, output exceptions",
+   ]
+   thread.join
+   true
+  end
+
+
   # test for Object::nne
   def test__object_nne args = ARGV
     string_neutral = ""

@@ -2665,6 +2665,40 @@ require '#{gem_name}'
    true
   end
 
+
+  # test for tcp_ssl_server (call #io_transform with
+  # a function that processes an http request and returns
+  # an http_response, by default #http_OK_response)
+  # just like #test__tcp_server_plain__with_http_OK_response
+  # but calling directly #tcp_ssl_server
+  def test__tcp_ssl_server__non_ssl args = ARGV
+   http_processing_method,
+     http_processing_method_args,
+     http_server_port,
+     http_ip_addr,
+     reserved = args
+   http_processing_method ||= http_processing_method.nne :http_OK_response
+   http_processing_method_args ||= http_processing_method_args.nne []
+   http_server_port ||= http_server_port.nne  8003
+   http_ip_addr ||= http_ip_addr.nne "0"
+   thread =  tcp_ssl_server [
+     http_server_port,
+     http_ip_addr,
+     "debug",
+     "admit non ssl server",
+     "io_transform",
+     [
+       "debug_io_transform",
+       "default happy_with_request".to_nil,
+       http_processing_method,
+       http_processing_method_args
+     ],
+   ]
+   thread.join
+   true
+  end
+
+
   # test for Object::nne
   def test__object_nne args = ARGV
     string_neutral = ""

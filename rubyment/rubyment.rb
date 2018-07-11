@@ -17,7 +17,7 @@ class Object
   # element if it answers +true+ to any of
   # a global +asserting_methods+ list.
   # this list is by now the following:
-  # [ empty?, :zero? ]
+  # [ empty?, :zero?, :false? ]
   # but it will grow as more classes are
   # known to have different +asserting_methods+.
   # it returns +nil+ when the element is
@@ -33,6 +33,7 @@ class Object
     asserting_methods = [
       :empty?,
       :zero?,
+      :false?,
     ]
     responds_false_to = asserting_methods.map { |am|
       (self.respond_to? am) && (

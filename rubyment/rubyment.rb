@@ -2519,7 +2519,7 @@ require '#{gem_name}'
     debug && (stderr.puts "#{__method__} starting")
     
     require 'socket'
-    server = TCPServer.new ip_addr, listening_port
+    plain_server = TCPServer.new ip_addr, listening_port
     ssl_server = runea [admit_plain, output_exception] {
       require 'openssl'
       ssl_context = OpenSSL::SSL::SSLContext.new
@@ -2527,7 +2527,7 @@ require '#{gem_name}'
         extra_cert_pem_files
           .map(&OpenSSL::X509::Certificate.method(:new))
       ssl_server = OpenSSL::SSL::SSLServer
-        .new tcp_server, ssl_context
+        .new plain_server, ssl_context
       ssl_context.cert = OpenSSL::X509::Certificate
         .new cert_pem_file
       ssl_context.key = OpenSSL::PKey::RSA
@@ -2536,7 +2536,7 @@ require '#{gem_name}'
     }
 
     debug && (stderr.puts "#{__method__} returning")
-    ssl_server || admit_plain && server
+    ssl_server || admit_plain && plain_server
   end
 
 

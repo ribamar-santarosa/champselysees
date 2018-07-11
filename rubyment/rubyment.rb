@@ -2465,21 +2465,15 @@ require '#{gem_name}'
       debug,
       callback_method,
       *callback_method_args = args
-    require 'socket'
-    server = TCPServer.new ip_addr, listening_port
-    debug.nne && (stderr.puts server)
-    Thread.start {
-      loop {
-        Thread.start(server.accept) { |client|
-          debug.nne && (stderr.puts Thread.current)
-          debug.nne && (stderr.puts client)
-          runoe {
-            to_method([callback_method])
-              .call([client] + callback_method_args)
-          }
-        }
-      }
-    }
+
+    tcp_ssl_server [
+      listening_port,
+      ip_addr,
+      debug,
+      "admit non ssl server",
+      callback_method,
+      callback_method_args
+      ]
   end
 
 

@@ -2492,6 +2492,7 @@ require '#{gem_name}'
   # +priv_pemfile+:: [String] argument to be given to +OpenSSL::SSL::SSLContext.key+ method, after calling +OpenSSL::PKey::RSA.new+ with it. It's the private key file. letsencrypt example: +"/etc/letsencrypt/live/#{domain}/privkey.pem"+
   # +cert_pem_file+:: [String] argument to be given to +OpenSSL::SSL::SSLContext.cert+ method, after calling +OpenSSL::X509::Certificate+.  It's the "Context certificate" accordingly to its ruby-doc page. letsencrypt example: +"/etc/letsencrypt/live/scatologies.com/fullchain.pem"+
   # +extra_cert_pem_files+:: [Array] array of strings. Each string will be mapped with +OpenSSL::SSL::SSLContext.new+, and the resulting array is given to +OpenSSL::SSL::SSLContext.extra_chain_cert+. "An Array of extra X509 certificates to be added to the certificate chain" accordingly to its ruby-doc. letsencryptexample: +["/etc/letsencrypt/live/#{domain}/chain.pem"]+
+  # +output_exception+:: [Bool] output exceptions even if they are admitted?
   #
   # @return [OpenSSL::SSL::SSLServer] returns an ssl server, which can be used to accept connections.
   def ssl_make_server *args
@@ -2503,14 +2504,19 @@ require '#{gem_name}'
       priv_pemfile,
       cert_pem_file,
       extra_cert_pem_files,
+      output_exception,
       reserved = args
     debug ||= debug.nne
     extra_cert_pem_files ||= extra_cert_pem_files.nne []
     admit_plain ||= admit_plain.nne
+    output_exception ||= (
+      output_exception.nne || admit_plain.negate_me
+    )
     debug && (stderr.puts "#{__method__} starting")
     
     require 'socket'
     server = TCPServer.new ip_addr, listening_port
+    ssl_server = runea [admit_plain, output_exception] {
     require 'openssl'
     ssl_context = OpenSSL::SSL::SSLContext.new
     ssl_context.extra_chain_cert =
@@ -2522,9 +2528,11 @@ require '#{gem_name}'
       .new cert_pem_file
     ssl_context.key = OpenSSL::PKey::RSA
       .new priv_pemfile
+    ssl_server
+    }
 
     debug && (stderr.puts "#{__method__} returning")
-    ssl_server
+    ssl_server || admit_plain && server
   end
 
 

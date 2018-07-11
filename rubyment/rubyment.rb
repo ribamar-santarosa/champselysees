@@ -2511,18 +2511,18 @@ require '#{gem_name}'
     require 'socket'
     server = TCPServer.new ip_addr, listening_port
     ssl_server = runea [admit_plain, output_exception] {
-    require 'openssl'
-    ssl_context = OpenSSL::SSL::SSLContext.new
-    ssl_context.extra_chain_cert =
-      extra_cert_pem_files
-        .map(&OpenSSL::X509::Certificate.method(:new))
-    ssl_server = OpenSSL::SSL::SSLServer
-      .new tcp_server, ssl_context
-    ssl_context.cert = OpenSSL::X509::Certificate
-      .new cert_pem_file
-    ssl_context.key = OpenSSL::PKey::RSA
-      .new priv_pemfile
-    ssl_server
+      require 'openssl'
+      ssl_context = OpenSSL::SSL::SSLContext.new
+      ssl_context.extra_chain_cert =
+        extra_cert_pem_files
+          .map(&OpenSSL::X509::Certificate.method(:new))
+      ssl_server = OpenSSL::SSL::SSLServer
+        .new tcp_server, ssl_context
+      ssl_context.cert = OpenSSL::X509::Certificate
+        .new cert_pem_file
+      ssl_context.key = OpenSSL::PKey::RSA
+        .new priv_pemfile
+      ssl_server
     }
 
     debug && (stderr.puts "#{__method__} returning")

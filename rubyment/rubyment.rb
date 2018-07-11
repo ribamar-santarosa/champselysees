@@ -2381,7 +2381,7 @@ require '#{gem_name}'
     ios_out.map{ |shared_io_out|
       runoe_threaded(shared_io_out) {|io_out|
 	io_out = shared_io_out
-        io_out.puts processed_input
+        io_out.print processed_input
         debug.nne && (
           stderr.puts "#{io_out}: response writen."
         )

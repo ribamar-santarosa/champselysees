@@ -2383,7 +2383,7 @@ require '#{gem_name}'
 	io_out = shared_io_out
         io_out.print processed_input
         debug.nne && (
-          stderr.puts "#{io_out}: response writen."
+          stderr.puts "#{io_out}: #{processed_input.size} bytes: response writen."
         )
         io_out.close
         debug.nne && (

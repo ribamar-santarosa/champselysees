@@ -3607,6 +3607,7 @@ n8mFEtUKobsK
   # +operation_plan.reserved_token+:: [Object] operates stack if +true+, otherwise, operate +state+
   # +operation_plan.reservation_type+:: [Object] pushes stack if +true+ into state, otherwise, pops.
   # +operation_plan.token+:: [Object] state operand (element that will be pushed into the current state, when operating +state+)
+  # +operation_plan.bulk+:: [Object] if calling the object +nne+ method returns a +true+ value, will operate as +operation_plan.token+ is a container of tokens instead.
   # +debug+:: [Object] +debug.nne+ will be used to determine whether to output or not debug information.
   # +pd+:: [Array] 
   # @return [Array] returns the operated (or a new, when no operation) +pd+
@@ -3620,6 +3621,7 @@ n8mFEtUKobsK
     pd = pd.nne []
     array_operand,
       array_operands_stack,
+      bulk,
       reserved = pd
 
     operation_plan = operation_plan.nne
@@ -3630,6 +3632,7 @@ n8mFEtUKobsK
 
     array_operands_stack = array_operands_stack.nne []
     array_operand = array_operand.nne []
+    bulk = bulk.nne
 
     reserved_token, reservation_type, token = operation_plan.to_a
     operation_plan && reserved_token && (
@@ -3657,7 +3660,11 @@ n8mFEtUKobsK
       )
     ) || operation_plan && (
         debug && (stderr.puts "case is_no_token: #{token.inspect}")
-        array_operand.push token
+
+        bulk_token_duck_type_method = :map
+        bulk_token_push = bulk && token.respond_to(bulk_token_duck_type_method)
+        bulk_token_push.negate_me && (array_operand.push token)
+        bulk_token_push && (token.map &array_operand.method(:push))
         true
     )
     pd = [array_operand, array_operands_stack]

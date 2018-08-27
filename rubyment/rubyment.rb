@@ -431,6 +431,43 @@ experiment__input_select [[:a, :b, :c], c ]
   end
 
 
+=begin
+enum = (s.scan /http_[^(]*/).uniq.map
+# => #<Enumerator: ...>
+# send_enumerator [ enum, :gsub, ["http_", ""] ]
+# => ["delete", "get", "head", "post", "put"]
+
+
+=end
+  def send_enumerator args=[]
+    enum,
+      method,
+      args_to_method,
+      block_to_method,
+      replace_at_index,
+      reserved = args
+
+    args_to_method = args_to_method.nne []
+
+    calling_tuples = enum.map {|e|
+      method_name = (!method.respond_to? :call) && method || nil
+      method_to_call = (!method_name) && method || (
+        (!replace_at_index) && e.method(:send)
+      ) || method(:send)
+      c_t = args_to_method.dup
+      replace_at_index && (c_t[replace_at_index] = e)
+      method_name && (c_t.unshift method_name)
+      c_t.unshift method_to_call
+      c_t
+    }
+
+    calling_tuples.map {|c_t|
+      method_to_call, *args_to_call = c_t
+      method_to_call.call *args_to_call, &block_to_method
+    }
+  end
+
+
 end
 
 

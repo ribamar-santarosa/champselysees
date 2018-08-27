@@ -2622,10 +2622,10 @@ require '#{gem_name}'
       keep_alive.negate_me && "Connection: close",
       "",
       "#{payload}"
-    ].compact
-    debug.nne && (stderr.puts "#{__method__} will return #{rv}")
+    ].compact.join eol
+    debug.nne && (stderr.puts "#{__method__} will return \"#{rv}\"")
     debug.nne && (stderr.puts "#{__method__} returning")
-    rv.join eol
+    rv
   end
 
 

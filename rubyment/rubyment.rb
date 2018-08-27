@@ -5276,26 +5276,6 @@ n8mFEtUKobsK
   end
 
 
-  # generic function for test__ functions
-  def test__tester args=[]
-    expectation = {}
-    actual = {}
-    test_cases = args
-    test_cases ||= [
-     # [ :id, :expectation, :actual_params ],
-    ]
-    test_cases.each_with_index{ |test_case|
-      test_case_id, test_expectation, actual_params = test_case
-      result = send actual_params[0], actual_params[1]
-      expectation[test_case_id] = test_expectation
-      actual[test_case_id] = result
-    }
-    judgement = actual.keys.map {|test_case|
-      [expectation[test_case], actual[test_case] , test_case]
-    }.map(&method("expect_equal")).all?
-  end
-
-
   # test for #array_unflatten_base_shallow
   def test__array_unflatten_base_shallow args=[]
     test_cases ||= [

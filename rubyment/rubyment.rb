@@ -1821,7 +1821,7 @@ Gem::Specification.new do |s|
   s.files       = #{gem_files.inspect}
   s.homepage    = '#{gem_homepage}'
   s.license     = '#{gem_license}'
-  s.executables += #{gem_bin_executables}
+  s.executables += [#{gem_bin_executables}].flatten
 end
     ENDHEREDOC
     contents

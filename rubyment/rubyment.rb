@@ -2879,13 +2879,16 @@ n8mFEtUKobsK
      priv_pemfile,
      cert_pem_file,
      extra_cert_pem_files,
+     ssl_cert_pkey_chain_method,
      reserved = args
    http_processing_method ||= http_processing_method.nne :http_OK_response
    http_processing_method_args ||= http_processing_method_args.nne []
    http_server_port ||= http_server_port.nne  8003
    http_ip_addr ||= http_ip_addr.nne "0"
-   priv_pemfile  ||=   priv_pemfile.nne ssl_sample_self_signed_cert_encrypted[1]
-   cert_pem_file ||=  cert_pem_file.nne ssl_sample_self_signed_cert_encrypted[0]
+   ssl_cert_pkey_chain_method ||=
+     ssl_cert_pkey_chain_method.nne :ssl_sample_self_signed_cert_encrypted
+   priv_pemfile  ||=   priv_pemfile.nne (send ssl_cert_pkey_chain_method)[1]
+   cert_pem_file ||=  cert_pem_file.nne (send ssl_cert_pkey_chain_method)[0]
    extra_cert_pem_files ||=  extra_cert_pem_files.nne
    thread =  tcp_ssl_server [
      http_server_port,

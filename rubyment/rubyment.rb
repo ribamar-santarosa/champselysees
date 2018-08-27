@@ -2065,7 +2065,8 @@ require '#{gem_name}'
     gem_is_current_file && (
       FileUtils.mkdir_p 'lib'
       file_backup "lib/#{gem_name}.rb", "lib/"
-      # FIX ME: accept true
+      # quick hack for backwards compatibility
+      gem_is_current_file = gem_is_current_file.kind_of?(TrueClass) && __FILE__ || gem_is_current_file
       save_file gem_is_current_file, "lib/#{gem_name}.rb"
     )
 

@@ -52,9 +52,22 @@ class Object
   end
 
 
-  # returns +!self+
-  def negate_me
-    !self
+  # returns +!self+, unless +unless_condition+
+  # is +true+; in such case returns +self+.
+  # e.g: +false.negate_me true+ returns
+  # +false+.
+  # (by default, if no params are given,
+  # just # negates +self+)
+  def negate_me condition=true
+    #   STDERR.puts "negate_me"
+    (condition) && (
+      # STDERR.puts "condition"
+      # STDERR.puts "#{self.inspect}"
+      !self
+    ) || (!condition) && (
+      # STDERR.puts "!condition"
+      self
+    )
   end
 end
 

@@ -2859,6 +2859,14 @@ n8mFEtUKobsK
   end
 
 
+  # #test_enc_dec_interactive__ssl_sample_self_signed_cert
+  # function name out of standard.
+  # this one should be called instead instead
+  def test__enc_dec_interactive__ssl_sample_self_signed_cert *args
+    test_enc_dec_interactive__ssl_sample_self_signed_cert *args
+  end
+
+
   # test for tcp_ssl_server (call #io_transform with
   # a function that processes an http request and returns
   # an http_response, by default #http_OK_response)

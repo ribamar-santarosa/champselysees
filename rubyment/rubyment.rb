@@ -346,6 +346,7 @@ module RubymentExperimentModule
       test_case_id, test_expectation, actual_params = test_case
       actual_params_method_name,
         *actual_params_method_args = actual_params
+      debug && (stderr.puts "will send: #{actual_params_method_name.to_s}(*#{actual_params_method_args.inspect})")
       result = send actual_params_method_name, *actual_params_method_args
       expectation[test_case_id] = test_expectation
       actual[test_case_id] = result

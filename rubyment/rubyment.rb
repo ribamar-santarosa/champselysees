@@ -141,15 +141,17 @@ class Rubyment
   # +blea_args+:: [Array] args to be used internally, which are expected to be:
   # +exception_admitted+:: [Boolean]
   # +output_exception+:: [Boolean] note that this only makes sense if exception is admitted -- otherwise an exception will be normally thrown.
+  # +ret_nil_on_exception+:: [Boolean] enforces that +nil+ will be returned on exception
   # +blocks_args+:: [splat] args to be forwarded to the block call
   # @return [Proc]
   def blea *args, &block
     blea_args, *block_args = args
     blea_args ||= blea_args.nne []
-    exception_admitted, output_exception = blea_args
+    exception_admitted, output_exception, ret_nil_on_exception = blea_args
     exception_admitted ||= exception_admitted.nne
     output_exception ||=  output_exception.nne
-    ble_method = output_exception && :bloe || :blef
+    bloe_method = ret_nil_on_exception && :bloef || :bloe
+    ble_method = output_exception && bloe_method || :blef
     bl_to_call = exception_admitted && ble_method || :bl
     send bl_to_call, *block_args, &block
   end

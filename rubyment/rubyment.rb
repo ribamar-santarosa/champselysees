@@ -780,6 +780,7 @@ trying to get the interface compatible with
       unused__skip_open_uri,
       debug,
       no_rescuing,
+      output_exception,
       reserved = args
 
     debug = debug.nne
@@ -787,6 +788,7 @@ trying to get the interface compatible with
     debug && (stderr.puts "caller=#{caller_label}")
     debug && (stderr.puts "args.each_with_index=#{args.each_with_index.entries.inspect}")
     no_rescuing = no_rescuing.nne
+    output_exception = output_exception.nne no_rescuing
     method = method.nne "get"
     verify_ssl = verify_ssl.nne
     curl_method = "http_#{method.downcase}"
@@ -795,7 +797,7 @@ trying to get the interface compatible with
     block = bled [
       :no_answer.to_nil,
       no_rescuing,
-      no_rescuing,
+      output_exception,
     ] {
         require 'curb'
         c = Curl::Easy.send(curl_method, *curl_args){|c|

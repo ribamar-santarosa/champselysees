@@ -442,6 +442,7 @@ module RubymentModule
           File.read uri
         rescue  => e2
 	  debug && (stderr.puts "exception e2=#{e2.inspect}")
+          must_return_on_rescue = true
           return_on_rescue
         end
       end

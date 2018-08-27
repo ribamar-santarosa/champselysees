@@ -3361,6 +3361,14 @@ n8mFEtUKobsK
   end
 
 
+  def shell_popen2e_command args=[]
+    command,
+      reserved = args
+    require "open3"
+      stdin, stdoutanderr, wait_thr = Open3.popen2e(":;" + command)
+      [ stdoutanderr.entries, stdin, wait_thr, wait_thr.value.success? ]
+    end
+
   # test for functions that adds syntatic sugar to
   # exceptions.
   def test__rune_functions args = ARGV

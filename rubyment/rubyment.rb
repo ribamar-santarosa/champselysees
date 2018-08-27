@@ -2584,6 +2584,7 @@ require '#{gem_name}'
   # +keep_alive+:: [Boolean] right not unsupported, always close the connection
   # +debug+:: [Object] if calling the object +nne+ method returns a +false+ value, won't print debug information
   # +eol+:: [String, nil] string to attach to the end of each line in the response
+  # +location+:: [String, nil]
   #
   # @return [String] response with headers
   def http_response_base args = []
@@ -2594,19 +2595,21 @@ require '#{gem_name}'
       keep_alive,
       debug,
       eol,
+      location,
       reserved = args
     stderr = @memory[:stderr]
     debug.nne && (stderr.puts "#{__method__} starting")
     debug.nne && (stderr.puts args.inspect)
     rv = [
       "HTTP/#{version} #{code}",
-      "Content-Type: #{content_type};" +
+      content_type && "Content-Type: #{content_type};" +
         " charset=#{payload.encoding.name.downcase}",
-      "Content-Length: #{payload.bytesize}",
+      payload && "Content-Length: #{payload.bytesize}",
+      location && "Location: #{location.to_s}",
       keep_alive.negate_me && "Connection: close",
       "",
       "#{payload}"
-    ]
+    ].compact
     debug.nne && (stderr.puts "#{__method__} will return #{rv}")
     debug.nne && (stderr.puts "#{__method__} returning")
     rv.join eol

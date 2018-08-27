@@ -656,7 +656,7 @@ module RubymentTestModule
 
 
 =begin
-
+  test for #experiment__bled
 =end
   def test___experiment__bled args=[]
     bled_method_name,

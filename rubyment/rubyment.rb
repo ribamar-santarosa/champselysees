@@ -140,35 +140,29 @@ module RubymentExperimentModule
   }
   # documentation_end
 =end
-  def experiment__bled *args, &block
+  def experiment__bled args=[], &block
     stderr = @memory[:stderr]
-    bled_args,
-      block_call_args,
-      block_args,
-      reserved = args
     default_on_exception,
       dont_rescue,
       output_backtrace,
       backtrace_max_str_len,
       debug,
-      reserved = bled_args
+      reserved = args
     debug = debug.nne
     debug && (stderr.puts "{#{__method__} starting")
     debug && (stderr.puts "args=#{args.inspect}")
-    debug && (stderr.puts "bled_args=#{bled_args.inspect}")
     block ||= lambda {|*block_args|}
     rv = Proc.new { |*block_args|
       debug && (stderr.puts "{#{__method__} block starting")
       debug && (stderr.puts "block_args=#{block_args.inspect}")
       brv = begin
-        [ (block.call *block_call_args), nil, nil]
+        [ (block.call *block_args), nil, nil]
       rescue => e
         e_info = exception_information_base [
           e,
           backtrace_max_str_len
         ]
-        debug && (stderr.puts "{#{__method__} block #{block.inspect} exception: #{e_info.first}}")
-        debug && (stderr.puts "{#{__method__} block #{block.inspect} backtrace: #{e_info[1]}")
+        (debug || output_backtrace) && (stderr.puts "{#{__method__} block #{block.inspect} backtrace: #{e_info[1]}")
         dont_rescue && (raise e)
         [ default_on_exception, e_info, e ]
       end

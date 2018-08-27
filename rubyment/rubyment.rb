@@ -279,6 +279,85 @@ module RubymentExperimentModule
   end
 
 
+=begin
+  # documentation_begin
+  # short_desc = "tests the function #experiment__tester"
+  @memory[:documentation].push = {
+    :function   => :experiment__tester,
+    :short_desc => short_desc,
+    :description => "",
+    :params     => [
+      {
+        :name             => :args,
+        :description      => "list of parameters",
+        :duck_type        => Array,
+        :default_behavior => [],
+        :params           => [
+          {
+            :name             => :test_cases,
+            :duck_type        => Array,
+            :default_behavior => :[],
+            :description      => "Array having the fields: __test_id__, __test_expected_value__ and __actual_params__. __actual_params__ is an __Array__ having  as first member __method_name__ to be called, and all its remaining args __method_args__ (a __splat__) will be given to __method_name__",
+          },
+          {
+            :name             => :debug,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "prints debug information to the __IO__ specified by __@memory[:stderr]__ (STDERR by default)",
+          },
+          {
+            :name             => :reserved,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "for future use",
+          },
+        ],
+      },
+    ],
+    :return_value     => [
+      {
+        :name             => :args,
+        :description      => "__true__ if tests were successful, __false__ otherwise",
+        :duck_type        => :boolean,
+      },
+    ],
+  }
+  # documentation_end
+=end
+  def experiment__tester args=[]
+    stderr = @memory[:stderr]
+    test_cases,
+      debug,
+      reserved = args
+
+    debug = debug.nne
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "args=#{args.inspect}")
+    test_cases = test_cases.nne [
+     # [ :id, :expectation, :actual_params ],
+     # :actual_params: array with :method_name + :method_args
+    ]
+    expectation = {}
+    actual = {}
+    test_cases.each_with_index{ |test_case|
+      test_case_id, test_expectation, actual_params = test_case
+      actual_params_method_name,
+        actual_params_method_args = actual_params
+      result = send actual_params_method_name, actual_params_method_args
+      expectation[test_case_id] = test_expectation
+      actual[test_case_id] = result
+    }
+    judgement = actual.keys.map {|test_case|
+      [expectation[test_case], actual[test_case] , test_case]
+    }.map(&method("expect_equal")).all?
+
+    rv = judgement
+    debug && (stderr.puts "will return #{rv.inspect}")
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
+  end
+
+
 end
 
 

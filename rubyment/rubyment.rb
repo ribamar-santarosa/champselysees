@@ -3161,7 +3161,7 @@ n8mFEtUKobsK
         cert_pem_file,
         extra_cert_pem_files,
         ssl_cert_pkey_chain_method,
-        debug,
+        debug_tcp_ssl_server_method,
         happy_with_request,
         io_method,
         io_method_debug,

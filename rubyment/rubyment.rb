@@ -648,6 +648,14 @@ module RubymentTestModule
 
 
 =begin
+  test for #bled
+=end
+  def test__bled args=[]
+    test___experiment__bled :bled
+  end
+
+
+=begin
 
 =end
   def test___experiment__bled args=[]

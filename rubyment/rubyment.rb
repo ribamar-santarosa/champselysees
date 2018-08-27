@@ -3769,6 +3769,14 @@ n8mFEtUKobsK
         ],
       ],
 
+      [
+        "base_escape_case", [ :a, "[", :b, "]", :c], [
+           :array_unflatten_base_shallow, [
+             :a, "[[", :b, "]]", :c
+           ]
+        ],
+      ],
+
     ]
     test__tester test_cases
   end

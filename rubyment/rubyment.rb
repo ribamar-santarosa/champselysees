@@ -3678,7 +3678,9 @@ n8mFEtUKobsK
   # behaviour (it will either a - transverse the sub-arrays
   # or b - don't transverse it, leaving it untouched. while
   # the a is the planned effect, initially only a may will
-  # be implemented).
+  # be implemented) (currently this behaviour is easily configurable
+  # by the value +deep+, hardcoded in the function. soon, new
+  # functions will come to clarify and specify the proper behaviours)
   # @param [Array] +args+, the array to be operadated
   # @return [Array] returns the modified, deep, #Array
   def array_unflatten_base_shallow args=[]

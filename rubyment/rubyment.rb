@@ -3146,10 +3146,13 @@ n8mFEtUKobsK
     sleep 2
 
     thread_2 = Thread.new {
+      loop {
       require 'open-uri'
       response = file_read ["https://#{domain}:#{http_server_port}/"]
       stderr.puts  "response{#{response}}response"
-    }.join
+      sleep 2
+      }
+    }
     server_thread.first.join
 
     true

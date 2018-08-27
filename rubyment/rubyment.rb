@@ -1968,7 +1968,7 @@ require '#{gem_name}'
     gem_is_current_file && (
       FileUtils.mkdir_p 'lib'
       file_backup "lib/#{gem_name}.rb", "lib/"
-      save_file __FILE__, "lib/#{gem_name}.rb"
+      save_file gem_is_current_file, "lib/#{gem_name}.rb"
     )
 
     # this supposes that  the current file is listed by the

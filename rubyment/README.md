@@ -47,3 +47,4 @@ Interfaces normally try to give the best interpretation possible and work to the
 
 Each function is documented in a format tought to comply to https://devhints.io/rdoc, but both `yard` and `rdoc` won't generate proper pages at ( https://rawgit.com/ribamar-santarosa/champselysees/master/rubyment/doc/index.html ). It results from that the documentation is better read from the source code. A new standard is being implemented (e.g: check `test__string_repetition`).
 
+However, if a function is called by a function starting `test__`, probably that is the best documentation: `test__` are pre-canned usage examples, used to  (hopefully someday they'll turn into automatic tests).

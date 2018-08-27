@@ -3718,6 +3718,7 @@ n8mFEtUKobsK
   # +shallow+:: [Object] if evals to false (or empty string), will traverse recursively +flatten_array+ and apply the rules, in the case it is not flatten.
   # +reserved_tokens+:: [Array of Arrays]
   # +inverse+:: [Object] if calling the object +nne+ method returns a +false+ value, will operate this function inversely: will take a unflatten array and flatten it, applying the inverse escaping rules.
+  # +debug_pushdown+:: [Object] if evals to false (or empty string), won't print debug information about the call #pushdown_operated
   # @return [Array] returns the modified, deep, #Array
   def array_unflatten_base args=[]
     stderr = @memory[:stderr]
@@ -3726,6 +3727,7 @@ n8mFEtUKobsK
       debug,
       reserved_tokens,
       inverse,
+      debug_pushdown,
       reserved = args
     reserved_tokens = reserved_tokens.nne [
       [ "[", :up],
@@ -3733,6 +3735,7 @@ n8mFEtUKobsK
     ]
     inverse = inverse.nne
     shallow = shallow.nne
+    debug_pushdown = debug_pushdown.nne
     debug = debug.nne
     debug.nne && (stderr.puts "#{__method__} starting")
     debug && (stderr.puts "args=#{args.inspect}")
@@ -3793,7 +3796,7 @@ n8mFEtUKobsK
         operations[-1].to_a
       )
       reserved_token, reservation_type, token = operation
-      pd = pushdown_operate [pd, operation, 1]
+      pd = pushdown_operate [pd, operation, debug_pushdown]
     }
     debug && (stderr.puts "will return #{pd.first}")
     debug && (stderr.puts "#{__method__} returning")

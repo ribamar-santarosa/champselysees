@@ -187,6 +187,8 @@ module RubymentModule
   include RubymentMaintainedModule
   include RubymentDeprecatedModule
   include RubymentUnderDeprecationModule
+  include RubymentTestModule
+
 
   # this class very often needs to split
   # first argument and remaining elements.

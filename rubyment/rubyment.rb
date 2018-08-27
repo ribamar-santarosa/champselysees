@@ -2012,16 +2012,16 @@ require '#{gem_name}'
     gem_spec, user_install, quiet = args
     quiet = quiet.nne
     debug = quiet.negate_me
-    command="gem uninstall -a -e  #{gem_spec}"
+    command="gem uninstall -a -x  #{gem_spec}"
     debug && (stderr.puts "command=#{command}")
     `#{command}`
-    command="gem uninstall -a -e --user-install  #{gem_spec}"
+    command="gem uninstall -a -x --user-install  #{gem_spec}"
     debug && (stderr.puts "command=#{command}")
     `#{command}`
-    command="sudo gem uninstall -a -e  #{gem_spec}"
+    command="sudo gem uninstall -a -x  #{gem_spec}"
     debug && (stderr.puts "command=#{command}")
     `#{command}`
-    command="sudo gem uninstall -a -e --user-install  #{gem_spec}"
+    command="sudo gem uninstall -a -x --user-install  #{gem_spec}"
     debug && (stderr.puts "command=#{command}")
     `#{command}`
 

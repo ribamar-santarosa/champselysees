@@ -407,6 +407,15 @@ experiment__input_select [[:a, :b, :c], c ]
   end
 
 
+  # these shell_ functions can take only flatten arrays (intended for ARGV):
+  def shell_string_split args=[]
+    string,
+      splitter,
+      reserved = args
+    string.split Regexp.new splitter
+  end
+
+
 end
 
 

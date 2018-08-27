@@ -3071,6 +3071,56 @@ n8mFEtUKobsK
   end
 
 
+  # tests test__tcp_ssl_server__io_method and opens
+  # another thread for the client
+  def test__tcp_ssl_server__get_root args = ARGV
+    stderr = @memory[:stderr]
+    tcp_ssl_server_method,
+      http_processing_method,
+      http_processing_method_args,
+      http_server_port,
+      http_ip_addr,
+      priv_pemfile,
+      cert_pem_file,
+      extra_cert_pem_files,
+      ssl_cert_pkey_chain_method,
+      debug,
+      happy_with_request,
+      io_method,
+      io_method_debug,
+      domain,
+      reserved = args
+    tcp_ssl_server_method ||= tcp_ssl_server_method.nne :test__tcp_ssl_server__io_method
+    domain ||= domain.nne "localhost"
+    http_server_port ||= http_server_port.nne 8003
+    server_thread = send tcp_ssl_server_method,
+      [
+        http_processing_method,
+        http_processing_method_args,
+        http_server_port,
+        http_ip_addr,
+        priv_pemfile,
+        cert_pem_file,
+        extra_cert_pem_files,
+        ssl_cert_pkey_chain_method,
+        debug,
+        happy_with_request,
+        io_method,
+        io_method_debug,
+      ]
+    sleep 2
+
+    thread_2 = Thread.new {
+      require 'open-uri'
+      response = file_read ["https://#{domain}:#{http_server_port}/"]
+      stderr.puts  "response{#{response}}response"
+    }.join
+    server_thread.first.join
+
+    true
+  end
+
+
   # test for Object::nne
   def test__object_nne args = ARGV
     string_neutral = ""

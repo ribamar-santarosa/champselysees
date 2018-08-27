@@ -3861,6 +3861,37 @@ n8mFEtUKobsK
   end
 
 
+=begin
+ generalization of #test__file_read__uri_root
+=end
+  def test__file_read__uri args = []
+    stderr = @memory[:stderr]
+    domain,
+      http_server_port,
+      admit_non_ssl,
+      debug,
+      path,
+      reserved = args
+    debug = debug.nne
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "args=#{args.inspect}")
+
+    domain = domain.nne "localhost"
+    path = path.nne ""
+    http_server_port = http_server_port.nne 8003
+    admit_non_ssl = admit_non_ssl.nne true
+    http_file_read_attempt = (
+      file_read ["https://#{domain}:#{http_server_port}/#{path}"]
+    )
+    response = http_file_read_attempt ||
+      admit_non_ssl && (file_read ["http://#{domain}:#{http_server_port}/#{path}"])
+    rv = [response, http_file_read_attempt]
+    debug && (stderr.puts  "#{__method__} will return [response, http_file_read_attempt]=#{rv.inspect}")
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
+  end
+
+
   # tests file_read against a uri.
   # created to test a client for servers
   # created with

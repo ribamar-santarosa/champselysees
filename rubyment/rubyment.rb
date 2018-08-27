@@ -3620,7 +3620,7 @@ n8mFEtUKobsK
   # +operation_plan.reserved_token+:: [Object] operates stack if +true+, otherwise, operate +state+
   # +operation_plan.reservation_type+:: [Object] pushes stack if +true+ into state, otherwise, pops.
   # +operation_plan.token+:: [Object] state operand (element that will be pushed into the current state, when operating +state+)
-  # +operation_plan.bulk+:: [Object] if calling the object +nne+ method returns a +true+ value, will operate as +operation_plan.token+ is a container of tokens instead.
+  # +operation_plan.bulk+:: [Object] if calling the object +nne+ method returns a +true+ value, will operate as +operation_plan.token+ is a container of tokens instead. If the object is an +Array+, it will prepend the first element and append to +pd.operand+ after the bulk insertion is done.
   # +debug+:: [Object] +debug.nne+ will be used to determine whether to output or not debug information.
   # +pd+:: [Array] 
   # @return [Array] returns the operated (or a new, when no operation) +pd+
@@ -3681,6 +3681,8 @@ n8mFEtUKobsK
         bulk_token_push = bulk && token.respond_to?(bulk_token_duck_type_method)
         debug && (stderr.puts "[bulk, bulk_token_duck_type_method, bulk_token_push]=#{[bulk, bulk_token_duck_type_method, bulk_token_push].inspect}")
         bulk_token_push.negate_me && (array_operand.push token)
+        prepend, append, reserved = bulk.to_a
+        bulk_token_push && (token = [prepend, token, append].flatten(1))
         bulk_token_push && (token.map &array_operand.method(:push))
         true
     )

@@ -250,6 +250,9 @@ module RubymentModule
   # another desirable case is to output
   # the exception, but don't return it;
   # not yet possible.
+  # a third desirable case would be  not to
+  # rescue and print the exception, which is
+  # also not yet possible.
   # @param [splat] +args+, an splat whose elements are expected to be +blea_args+ and +blocks_args+:
   # +blea_args+:: [Array] args to be used internally, which are expected to be:
   # +exception_admitted+:: [Boolean]

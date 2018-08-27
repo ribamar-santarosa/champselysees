@@ -760,6 +760,64 @@ send_enumerator [ [ {}, {} ], Proc.new {|x| x.size }, [].to_nil, :whatever, 0]
   end
 
 
+=begin
+trying to get the interface compatible with
+# rest_request_or_open_uri_open
+# ideally, i would need an equivalent for
+# rest_response__request_base
+
+=end
+  def http_request_response__curl args=[]
+    stderr = @memory[:stderr]
+    url,
+      payload,
+      verify_ssl,
+      unimplemented__headers,
+      method,
+      auth_user,
+      password,
+      unimplemented__timeout,
+      unused__skip_open_uri,
+      debug,
+      no_rescuing,
+      reserved = args
+
+    debug = debug.nne
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "caller=#{caller_label}")
+    debug && (stderr.puts "args.each_with_index=#{args.each_with_index.entries.inspect}")
+    no_rescuing = no_rescuing.nne
+    method = method.nne "get"
+    verify_ssl = verify_ssl.nne
+    curl_method = "http_#{method.downcase}"
+    curl_post_data = payload.nne
+    curl_args = [url, curl_post_data].compact
+    block = bled [
+      :no_answer.to_nil,
+      no_rescuing,
+      no_rescuing,
+    ] {
+        require 'curb'
+        c = Curl::Easy.send(curl_method, *curl_args){|c|
+          c.http_auth_types = :basic
+          c.username = auth_user
+          c.password = password
+          c.ssl_verify_host = verify_ssl
+          c.ssl_verify_peer = verify_ssl
+          debug && (stderr.puts "c.ssl_verify_peer=#{c.ssl_verify_peer?}")
+          debug && (stderr.puts "c.ssl_verify_host=#{c.ssl_verify_host?}")
+        }
+        c.perform
+        [ c.body_str, nil, c.http_connect_code]
+    }
+    rv = block.first.call
+
+    debug && (stderr.puts "#{__method__}  will return #{rv.inspect}")
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
+  end
+
+
 end
 
 

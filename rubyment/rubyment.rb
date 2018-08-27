@@ -2102,6 +2102,7 @@ module RubymentModule
   # +timeout+:: [Fixnum, nil] defaults to +nil+
   # +debug+:: [Object] if calling the object +nne+ method returns a +false+ value, won't print debug information
   # +request_method+:: [Method name] if given, won't call open-uri's or 'rest-client' , and will use this method instead. It has to have the same signature as #rest_request_or_open_uri_open. By default is +false+ to respect open-closed principle, but it is advised to be set to http_request_response__curl (which depends on 'curb') -- since, for some kind of responses, as redirects, a full featured http client is needed.
+  # +output_exceptions+:: [bool] output exceptions, for the methods supporting it.
   #
   # @return [String, Object] read data (or +return_on_rescue+)
   def file_read args=ARGV
@@ -2119,8 +2120,10 @@ module RubymentModule
       timeout,
       debug,
       request_method,
+      output_exceptions,
       reserved = args
     debug = debug.nne
+    output_request_method_exceptions = output_request_method_exceptions.nne
     debug && (stderr.puts "{#{__method__} starting")
     debug && (stderr.puts "args=#{args.inspect}")
     request_method = request_method.nne :rest_request_or_open_uri_open
@@ -2142,6 +2145,7 @@ module RubymentModule
             skip_open_uri,
             :debug_request_method.to_nil,
             :no_rescue_i_catch_exceptions,
+            output_exceptions,
           ]).first
         debug && (stderr.puts "url_response=#{url_response.inspect}")
         url_response

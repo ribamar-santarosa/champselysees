@@ -3738,10 +3738,10 @@ n8mFEtUKobsK
           (repetition_test == rtoken) && (
             is_up_token && (
               debug && (stderr.puts "case is_up_token")
-	      [:reserved_token, :up.negate_me(inverse), e, rtoken]
+	      [:reserved_token.negate_me(inverse), :up, e, rtoken]
 	    ) || (
               debug && (stderr.puts "case is_down_token")
-	      [:reserved_token, :up.negate_me(inverse).negate_me, e, rtoken]
+	      [:reserved_token.negate_me(inverse), :up.negate_me, e, rtoken]
 	    )
 	  )
         ) || (
@@ -3750,15 +3750,15 @@ n8mFEtUKobsK
 	  # (and add it to the current array)
           repetition_test && (
             debug && (stderr.puts "case escape")
-	    inverse  && (escaped_e = (e += rtoken)       rescue e)
+	    inverse  && (escaped_e = (e.sub! "", rtoken) rescue e)
 	    !inverse && (escaped_e = (e.sub! rtoken, "") rescue e)
-	    [:reserved_token.negate_me, nil, escaped_e, rtoken]
+	    [:reserved_token.negate_me, nil, escaped_e, rtoken, inverse]
           )
         ) || (
 	  # case C: no repetition. (just add e to
 	  # the current array.)
             debug && (stderr.puts "case just add")
-	    [:reserved_token.negate_me, nil, e, rtoken]
+	    [:reserved_token.negate_me, nil, e, rtoken, inverse]
 	)
       }
       # now operations has |reserved_tokens| operations.

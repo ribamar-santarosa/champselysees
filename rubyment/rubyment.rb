@@ -3053,7 +3053,7 @@ n8mFEtUKobsK
     tcp_ssl_server_args = [
       http_server_port,
       http_ip_addr,
-      "debug",
+      debug,
       "admit non ssl server".negate_me,
       io_method,
       [

@@ -95,6 +95,22 @@ module RubymentMaintainedModule
 end
 
 
+=begin
+  # begin_documentation
+  This module receives only functions that are deprecated.
+  They are still kept in Rubyment, but they won't receive
+  more updates, because there is a different more modern
+  way of achieving the same results.
+  The functions here are also not used by any function in
+  #RubymentMaintainedModule.
+  # end_documentation
+=end
+module RubymentDeprecatedModule
+
+
+end
+
+
 # Collection of Ruby functions
 # * output
 # normally outputs to STDERR, with

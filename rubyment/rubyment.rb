@@ -167,6 +167,8 @@ end
 =end
 module RubymentModule
 
+  include RubymentExperimentModule
+
   # this class very often needs to split
   # first argument and remaining elements.
   # args:

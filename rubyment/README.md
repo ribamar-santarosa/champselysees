@@ -17,3 +17,7 @@ parameter, it may be difficult to give the arguments
 from the command line. Functions starting with `shell_`
 are specially prepared to be called from the command
 line.
+
+
+Yard (not well formatted) documentation at: https://rawgit.com/ribamar-santarosa/champselysees/master/rubyment/doc/index.html
+

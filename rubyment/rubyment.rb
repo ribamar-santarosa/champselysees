@@ -148,8 +148,8 @@ class Rubyment
     blea_args, *block_args = args
     blea_args ||= blea_args.nne []
     exception_admitted, output_exception, ret_nil_on_exception = blea_args
-    exception_admitted ||= exception_admitted.nne
-    output_exception ||=  output_exception.nne
+    exception_admitted = exception_admitted.nne
+    output_exception   =  output_exception.nne
     bloe_method = ret_nil_on_exception && :bloef || :bloe
     ble_method = output_exception && bloe_method || :blef
     bl_to_call = exception_admitted && ble_method || :bl

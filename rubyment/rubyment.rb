@@ -1,6 +1,14 @@
 #!/usr/bin/env ruby
 
 
+=begin
+  # begin_documentation
+  TrueClass will be changed just by including
+  this file or requiring rubyment, which is not the
+  best approach, but kept to respect the open/closed
+  principle, but new functions should be added here.
+  # end_documentation
+=end
 class TrueClass
   # returns +false+ (purpose of simplifying
   # functional programming)

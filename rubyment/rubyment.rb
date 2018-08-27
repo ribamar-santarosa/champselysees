@@ -3681,8 +3681,6 @@ n8mFEtUKobsK
   # be implemented) (currently this behaviour is easily configurable
   # by the value +deep+, hardcoded in the function. soon, new
   # functions will come to clarify and specify the proper behaviours)
-  # @param [Array] +args+
-
   # @param [Array] +args+, an +Array+ whose elements are expected to be:
   # +flatten_array+:: [Array] the array to be operated.
   # +debug+:: [Object] if evals to false (or empty string), won't print debug information

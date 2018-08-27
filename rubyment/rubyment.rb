@@ -81,13 +81,9 @@ class Object
   # (by default, if no params are given,
   # just # negates +self+)
   def negate_me condition=true
-    #   STDERR.puts "negate_me"
     (condition) && (
-      # STDERR.puts "condition"
-      # STDERR.puts "#{self.inspect}"
       !self
     ) || (!condition) && (
-      # STDERR.puts "!condition"
       self
     )
   end

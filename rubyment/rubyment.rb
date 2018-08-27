@@ -3361,6 +3361,15 @@ n8mFEtUKobsK
   end
 
 
+  # runs a command in a shell (requires 'open3')
+  # returns stdout and stderr output mixed
+  # @param [Array] +args+, an +Array+ whose elements are expected to be:
+  # +command+:: [String] command to be executed
+  # @return [Array] returns an  #Array whose elements are:
+  # +stdoutanderr+:: [Array of Strings] mix of stdout and stderr output
+  # +stdin+:: [IO]
+  # +wait_thr+:: [Thread]
+  # +success?+:: [TrueClass, FalseClass]
   def shell_popen2e_command args=[]
     command,
       reserved = args

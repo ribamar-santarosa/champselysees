@@ -4289,7 +4289,32 @@ n8mFEtUKobsK
   end
 
 
-  # test for #string_repetition
+=begin
+
+  # short_desc = "tests the function #string_repetion"
+  @memory[:documentation].push = {
+    :function   => :test__string_repetition,
+    :short_desc => short_desc,
+    :params     => [
+      {
+        :name             => :args,
+        :description      => "list of parameters",
+        :duck_type        => Array,
+        :default_behavior => "interpreted as empty array",
+        :params           => [
+          {
+            :name             => :reserved,
+            :duck_type        => Object,
+            :default_behavior => "interpreted as nil",
+            :description      => "for future use",
+          },
+        ],
+      },
+    ],
+  }
+
+
+=end
   def test__string_repetition args=[]
     expectation = {}
     actual = {}

@@ -3683,6 +3683,7 @@ n8mFEtUKobsK
   # @return [Array] returns the modified, deep, #Array
   def array_unflatten_base_shallow args=[]
     stderr = @memory[:stderr]
+    deep = false
     reserved_tokens = [
       [ "[", :up],
       [ "]", :up.negate_me],
@@ -3696,6 +3697,7 @@ n8mFEtUKobsK
     args.each_with_index {|e, index|
       debug && (stderr.puts "-------------------")
       debug && (stderr.puts "[e, index]=#{[e, index].inspect}")
+      deep && (e = array_unflatten_base_shallow(e) rescue e)
       operations = reserved_tokens.map { |reserved_token|
         debug && (stderr.puts "reserved_token=#{reserved_token.inspect}")
         debug && (stderr.puts "array_operands_stack=#{pd[1].inspect}")

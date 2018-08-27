@@ -2793,6 +2793,63 @@ require '#{gem_name}'
   end
 
 
+  # opens one or more TCP and/or SSL server accepting connections.
+  # @param [Array] +args+, an +Array+ whose elements are expected to be:
+  # +listening_port+:: [String, Integer] port to listen
+  # +ip_addr+:: [String, nil] ip (no hostname) to bind the server. 0, nil, false, empty string will bind to all addresses possible.  0.0.0.0 => binds to all ipv4 . ::0 to all ipv4 and ipv6
+  # +admit_plain+:: [Boolean] if +true+, tries to create a normal +TCPServer+, if not possible to create +SSLServer+ (default: +false+, for preventing unadvertnt non-SSL server creation)
+  # +debug+:: [Object] for future use
+  # +callback_method+:: [String, Method] method to call when a client connects. The method must accept a socket as parameter.
+  # +callback_method_args+:: [Array] args to be given to the call_back_method. Note that the type differs from #tcp_server_plain (which takes splat)
+  #
+  # @return [Array] returns a , an +Array+ whose elements are:
+  # +threads+:: [Array of Thread] returns an Array of Thread object looping for accepting  incoming connections (call join on those object for waiting for its completion).
+  def tcp_ssl_servers args = ARGV
+    stderr = @memory[:stderr]
+    listening_port,
+      ip_addr,
+      debug,
+      admit_plain,
+      callback_method,
+      callback_method_args,
+      priv_pemfile,
+      cert_pem_file,
+      extra_cert_pem_files,
+      output_exception,
+      reserved = args
+
+    server = (ssl_make_servers [
+      listening_port,
+      ip_addr,
+      debug,
+      admit_plain,
+      priv_pemfile,
+      cert_pem_file,
+      extra_cert_pem_files,
+      output_exception,
+    ]).first.first
+    debug.nne && (stderr.puts server)
+    Thread.start {
+      loop {
+        client = runea ["yes, rescue",
+	  "yes, output exception",
+	  "nil on exception"
+	] {
+	  server.accept
+	}
+        Thread.start(client) { |client|
+          debug.nne && (stderr.puts Thread.current)
+          debug.nne && (stderr.puts client)
+          runoe {
+            to_method([callback_method])
+              .call([client] + callback_method_args)
+          }
+        }
+      }
+    }
+  end
+
+
   # opens an SSL server accepting connections.
   # @param [Array] +args+, an +Array+ whose elements are expected to be:
   # +listening_port+:: [String, Integer] port to listen

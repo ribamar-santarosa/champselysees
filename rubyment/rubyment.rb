@@ -3731,8 +3731,7 @@ n8mFEtUKobsK
 	  # (and add it to the current array)
           repetition_test && (
             debug && (stderr.puts "case escape")
-	    escaped_e = (e.sub! rtoken, "") rescue "rtoken{#{rtoken}}:rescued_escaped{#{e}}"
-	    # escaped_e = (e.sub! rtoken, "") rescue e
+	    escaped_e = (e.sub! rtoken, "") rescue e
 	    [:reserved_token.negate_me, nil, escaped_e, rtoken]
           )
         ) || (

@@ -332,6 +332,7 @@ module RubymentExperimentModule
 
     debug = debug.nne
     debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "caller=#{caller_label.inspect}")
     debug && (stderr.puts "args=#{args.inspect}")
     test_cases = test_cases.nne [
      # [ :id, :expectation, :actual_params ],
@@ -339,13 +340,16 @@ module RubymentExperimentModule
     ]
     expectation = {}
     actual = {}
+    debug && (stderr.puts "test_cases.size=#{test_cases.size}")
     test_cases.each_with_index{ |test_case|
+      debug && (stderr.puts "test_case=[test_case_id, test_expectation, actual_params]=#{test_case.inspect}")
       test_case_id, test_expectation, actual_params = test_case
       actual_params_method_name,
         actual_params_method_args = actual_params
       result = send actual_params_method_name, actual_params_method_args
       expectation[test_case_id] = test_expectation
       actual[test_case_id] = result
+      debug && (stderr.puts "[test_expectation.hash, result.hash]=#{[test_expectation.hash, result.hash].inspect}")
     }
     judgement = actual.keys.map {|test_case|
       [expectation[test_case], actual[test_case] , test_case]

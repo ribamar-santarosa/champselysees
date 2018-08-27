@@ -3714,6 +3714,23 @@ n8mFEtUKobsK
   end
 
 
+  # test for #array_unflatten_base_shallow
+  def test__array_unflatten_base_shallow args=[]
+    test_cases ||= [
+     # [ :id, :expectation, :actual_params ],
+     # array_unflatten_base_shallow
+     [ "any test", [ :a, [ :b ], :c], [
+          :array_unflatten_base_shallow, [
+            :a, "[", :b, "]", :c
+           ]
+       ],
+     ],
+
+    ]
+    test__tester test_cases
+  end
+
+
   # test for #string_repetition
   def test__string_repetition args=[]
     expectation = {}

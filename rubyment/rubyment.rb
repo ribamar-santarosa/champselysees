@@ -2347,7 +2347,7 @@ require '#{gem_name}'
       validate_require gem_validate_args gem_defaults
     )
     sleep 1
-    already_installed && (gem_uninstall [gem_name])
+    already_installed && (gem_uninstall_all [gem_name])
     puts gem_list [gem_name]
     p (gem_path [gem_name, gem_version])
     gem_install [(gem_path [gem_name, gem_version])]
@@ -2355,7 +2355,7 @@ require '#{gem_name}'
     v = (
       validate_require gem_validate_args gem_defaults
     )
-    gem_uninstall [gem_name]
+    gem_uninstall_all [gem_name]
     already_installed && (gem_install [gem_name])
     v
   end

@@ -592,8 +592,8 @@ module RubymentMaintainedModule
     debug && (stderr.puts "args=#{args.inspect}")
     block ||= lambda {|*block_args|}
     rv = Proc.new { |*block_args|
-      debug && (stderr.puts "{#{__method__} block starting")
-      debug && (stderr.puts "block_args=#{block_args.inspect}")
+      (debug || output_backtrace) && (stderr.puts "{#{__method__} block starting")
+      (debug || output_backtrace) && (stderr.puts "block_args=#{block_args.inspect}")
       brv = begin
         [ (block.call *block_args), nil, nil]
       rescue => e
@@ -601,12 +601,13 @@ module RubymentMaintainedModule
           e,
           backtrace_max_str_len
         ]
-        (debug || output_backtrace) && (stderr.puts "{#{__method__} block #{block.inspect} backtrace: #{e_info[1]}")
+        (debug || output_backtrace) && (stderr.puts "#{__method__} block: #{block.inspect}\nfull exception info:\n#{e_info[1]}")
+        (debug || output_backtrace) && (stderr.puts "#{__method__} block: dont_rescue=#{dont_rescue}; true means will rethrow")
         dont_rescue && (raise e)
         [ default_on_exception, e_info, e ]
       end
-      debug && (stderr.puts "block #{block.inspect} will return #{brv.inspect}")
-      debug && (stderr.puts "#{__method__} block returning}")
+      (debug || output_backtrace) && (stderr.puts "block #{block.inspect} will return #{brv.inspect}")
+      (debug || output_backtrace)  && (stderr.puts "#{__method__} block returning}")
       brv
     }
     rv = [ rv ]

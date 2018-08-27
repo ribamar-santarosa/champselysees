@@ -2121,7 +2121,23 @@ function bm_future_git_remerge {
 
 
 function bm_future_git_backup_current_branch {
- cb=$(git rev-parse --abbrev-ref HEAD) ; git checkout  -b bk-$(date +"%Y.%m.%d_%H.%M.%S")-$cb ; git checkout $cb 
+  cb=$(git rev-parse --abbrev-ref HEAD)
+  git checkout  -b bk-$(date +"%Y.%m.%d_%H.%M.%S")-$cb
+  git checkout $cb
+}
+
+
+function bm_future_git_backup_push_current_branch {
+  cb=$(git rev-parse --abbrev-ref HEAD)
+  ( git checkout  -b bk-$(date +"%Y.%m.%d_%H.%M.%S")-$cb ) && bm_future_git_push_current_branch
+  git checkout $cb
+}
+
+
+function bm_future_git_backup_push_force_current_branch {
+  cb=$(git rev-parse --abbrev-ref HEAD)
+  ( git checkout  -b bk-$(date +"%Y.%m.%d_%H.%M.%S")-$cb ) && bm_future_git_push_force_current_branch
+  git checkout $cb
 }
 
 
@@ -2133,6 +2149,22 @@ function bm_future_git_stash_backup {
   git add -u ${git_add_extra_opts}
   git commit -m backup
   bm_future_git_backup_current_branch
+  test $backup_push_force && bm_future_git_push_force_current_branch
+  unset backup_push_force
+  git reset HEAD~1 
+  #be careful with files intended to add, they need to be intended to add again:
+  git add --intent-to-add  $intend_to_add_list
+}
+
+
+# expects backup_push_force (and unsets it after usage, for safety)
+# expects git_add_extra_opts (""  or "-p")
+# expects intend_to_add_list (files which are not tracked by git)
+function bm_future_git_stash_backup_push {
+  git add --intent-to-add  $intend_to_add_list
+  git add -u ${git_add_extra_opts}
+  git commit -m backup
+  bm_future_git_backup_push_current_branch
   test $backup_push_force && bm_future_git_push_force_current_branch
   unset backup_push_force
   git reset HEAD~1 

@@ -2629,6 +2629,65 @@ require '#{gem_name}'
   end
 
 
+=begin
+  # short_desc = "tests function to create an http redirect response "
+
+  @memory[:documentation].push = {
+    :function   => :test__http_response__redirect,
+    :short_desc => short_desc,
+    :description => "",
+    :params     => [
+      {
+        :name             => :args,
+        :description      => "list of parameters",
+        :duck_type        => Array,
+        :default_behavior => "interpreted as empty array",
+        :params           => [
+          {
+            :name             => :reserved,
+            :duck_type        => Object,
+            :default_behavior => "interpreted as nil",
+            :description      => "for future use",
+          },
+        ],
+      },
+    ],
+  }
+
+=end
+  def test__http_response__redirect args = []
+    location,
+      code,
+      version,
+      debug,
+      eol,
+      reserved = args
+    stderr = @memory[:stderr]
+    debug = debug.nne
+    debug.nne && (stderr.puts "#{__method__} starting")
+    debug.nne && (stderr.puts args.inspect)
+    payload ||= ""
+    payload  = nil
+    content_type  = nil
+    version ||= "1.1"
+    code ||= "302 Found"
+    eol ||= "\r\n"
+    rv = http_response_base [
+      :payload.to_nil,
+      :content_type.to_nil,
+      code,
+      version,
+      :keep_alive.to_nil,
+      debug,
+      eol,
+      location,
+    ]
+    debug.nne && (stderr.puts "#{__method__} returning")
+    rv
+  end
+
+
+
   # returns an HTTP response (1.1 200 OK by default)
   # @param [Array] +args+, an +Array+ whose elements are expected to be:
   # +response+:: [String, nil] response payload (default empty)

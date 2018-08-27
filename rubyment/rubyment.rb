@@ -2215,6 +2215,7 @@ require '#{gem_name}'
       ].map(&method("expect_equal")).all?
     (!existing_file) && (FileUtils.rm filename)
     (!keep_new) && (FileUtils.rm expected_new_filename)
+    judgement
   end
 
 

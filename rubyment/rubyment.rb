@@ -3104,6 +3104,27 @@ n8mFEtUKobsK
   end
 
 
+  # tests file_read against a uri.
+  # created to test a client for servers
+  # created with
+  # #test__tcp_ssl_server__io_method
+  def test__file_read__uri_root args = ARGV
+    stderr = @memory[:stderr]
+    domain,
+      http_server_port,
+      admit_non_ssl,
+      reserved = args
+    require 'open-uri'
+    domain ||= domain.nne "localhost"
+    http_server_port ||= http_server_port.nne 8003
+    admit_non_ssl ||= admit_non_ssl.nne
+    response = file_read ["https://#{domain}:#{http_server_port}/"] ||
+      admit_non_ssl && (file_read ["http://#{domain}:#{http_server_port}/"])
+    stderr.puts  "response{#{response}}response"
+    response
+  end
+
+
   # tests test__tcp_ssl_server__io_method and opens
   # another thread for the client
   def test__tcp_ssl_server__get_root args = ARGV

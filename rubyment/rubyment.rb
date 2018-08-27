@@ -626,7 +626,7 @@ module RubymentMaintainedModule
 
 =begin
   # documentation_begin
-  # short_desc = "tests the function #bled"
+  # short_desc = "generates a block which may return exceptions instead of raising them."
   @memory[:documentation].push = {
     :function   => :bled,
     :short_desc => short_desc,

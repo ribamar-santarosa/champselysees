@@ -363,6 +363,18 @@ module RubymentExperimentModule
   end
 
 
+=begin
+  write the second argument of the array args into the filepath in the first argument
+=end
+  def file__json args=[]
+    require 'json'
+    file_path,
+      enum,
+      reserved = args
+    File.write file_path,  JSON.pretty_generate({ :root.to_s => enum })
+  end
+
+
 end
 
 

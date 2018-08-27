@@ -2667,12 +2667,9 @@ require '#{gem_name}'
     debug = debug.nne
     debug.nne && (stderr.puts "#{__method__} starting")
     debug.nne && (stderr.puts args.inspect)
-    payload ||= ""
-    payload  = nil
-    content_type  = nil
-    version ||= "1.1"
-    code ||= "302 Found"
-    eol ||= "\r\n"
+    version = version.nne "1.1"
+    code = code.nne "302 Found"
+    eol = eol.nne "\r\n"
     rv = http_response_base [
       :payload.to_nil,
       :content_type.to_nil,

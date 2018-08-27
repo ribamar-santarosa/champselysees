@@ -3563,6 +3563,126 @@ n8mFEtUKobsK
   end
 
 
+  # tests if  +operand_1+ is only
+  # composed by a repetition of +operand_2+
+  # @param [Array] +args+, an +Array+ whose elements are expected to be:
+  # +operand_1+:: [String]
+  # +operand_2+:: [String] 
+  # +min_repetitions+:: [FixNum] minimum of times +operand_2+ is required to appear in +operand_1+ (default: +0+). Note that in +args=["", "X", 0]+, +operand_1=""+ will be returned, because "" is a composition of +0+ times "X". 
+  # @return [String, FalseClass] returns +operand_1+ if it is only
+  # composed by a repetition of +operand_2+, otherwise +false+
+  def string_repetition  args=[]
+    stderr = @memory[:stderr]
+    operand_1,
+    operand_2,
+    min_repetitions,
+      reserved = args
+    debug = debug.nne
+    debug.nne && (stderr.puts "#{__method__} starting")
+    debug && (stderr.puts "args=#{args.inspect}")
+    matches  = operand_1.scan operand_2
+    amout_of_matches = matches.size
+    min_repetitions = min_repetitions.nne 0
+    is_string_repetition = (
+      debug && (stderr.puts '(#{amout_of_matches} >= #{min_repetitions}) && (#{operand_2.size} * #{amout_of_matches} == #{operand_1.size})')
+      debug && (stderr.puts "(#{amout_of_matches} >= #{min_repetitions}) && (#{operand_2.size} * #{amout_of_matches} == #{operand_1.size})")
+      # if operand_2 was matched N times, and the sum
+      # of those N matched sizes is the same
+      (amout_of_matches >= min_repetitions) && (operand_2.size * amout_of_matches == operand_1.size) || false
+    ) && operand_1
+    debug && (stderr.puts "will return #{is_string_repetition}")
+    debug && (stderr.puts "#{__method__} returning")
+    is_string_repetition
+  end
+
+
+  # test for #string_repetition
+  def test__string_repetition args=[]
+    expectation = {}
+    actual = {}
+    test_case = 1
+    operand_1 = "XXX"
+    operand_2 = "X"
+    # expectation and actual inverted.
+    expectation[test_case] = string_repetition [operand_1, operand_2]
+    actual[test_case] = operand_1
+
+    test_case = 2
+    operand_1 = "X"
+    operand_2 = "X"
+    expectation[test_case] = string_repetition [operand_1, operand_2]
+    actual[test_case] = operand_1
+
+    test_case = 3
+    operand_1 = "XyXy"
+    operand_2 = "XyXy"
+    expectation[test_case] = string_repetition [operand_1, operand_2]
+    actual[test_case] = operand_1
+
+    test_case = 4
+    operand_1 = "XyXy"
+    operand_2 = "XXyy"
+    expectation[test_case] = string_repetition [operand_1, operand_2]
+    actual[test_case] = false
+
+    test_case = 6
+    operand_1 = ""
+    operand_2 = ""
+    expectation[test_case] = string_repetition [operand_1, operand_2, 0]
+    actual[test_case] = operand_1
+
+    test_case = 7
+    operand_1 = ""
+    operand_2 = ""
+    expectation[test_case] = string_repetition [operand_1, operand_2, 1]
+    actual[test_case] = operand_1
+
+    test_case = 7
+    operand_1 = ""
+    operand_2 = "X"
+    expectation[test_case] = string_repetition [operand_1, operand_2, 0]
+    # "X"*0 = ""
+    actual[test_case] = operand_1
+
+    test_case = 8
+    operand_1 = ""
+    operand_2 = "X"
+    expectation[test_case] = string_repetition [operand_1, operand_2, 1]
+    # "X"*0 = "", but minimum is set to 1
+    actual[test_case] = false
+
+    test_case = 9
+    operand_1 = "XyXy"
+    operand_2 = "Xy"
+    expectation[test_case] = string_repetition [operand_1, operand_2]
+    actual[test_case] = operand_1
+
+    test_case = 10
+    operand_1 = "XyXy"
+    operand_2 = ""
+    expectation[test_case] = string_repetition [operand_1, operand_2]
+    # clearly "" appears in "XyXy" infinity times, but "XyXy" is no
+    # repetition of ""
+    actual[test_case] = false
+
+    test_case = 11
+    operand_1 = "XyXy"
+    operand_2 = "Xy"
+    expectation[test_case] = string_repetition [operand_1, operand_2]
+    actual[test_case] = operand_1
+
+    test_case = 12
+    operand_1 = "X"
+    operand_2 = "XXX"
+    expectation[test_case] = string_repetition [operand_1, operand_2]
+    actual[test_case] = false
+
+    judgement = actual.keys.map {|test_case|
+      [expectation[test_case], actual[test_case] , test_case]
+    }.map(&method("expect_equal")).all?
+  end
+
+
 end
 
 (__FILE__ == $0) && Rubyment.new({:invoke => ARGV})

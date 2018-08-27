@@ -419,6 +419,7 @@ module RubymentModule
     debug && (stderr.puts "args=#{args.inspect}")
     uri = uri.nne ""
     file_is_directory = File.directory?(uri)
+    must_return_on_rescue = false
     return_on_directory_given ||= true
     contents = !(file_is_directory) && (
       begin
@@ -446,6 +447,7 @@ module RubymentModule
       end
     ) || (file_is_directory) && (return_on_directory_given)
     rv = contents
+    (rv = return_on_rescue) if must_return_on_rescue
     debug && (stderr.puts "will return #{rv.inspect}")
     # if raises exception before it will be unbalanced :
     debug && (stderr.puts "#{__method__} returning}")

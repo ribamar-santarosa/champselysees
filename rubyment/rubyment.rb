@@ -2261,10 +2261,11 @@ require '#{gem_name}'
   # +version+:: [String, nil] http protocol version (+1.1+ by default)
   # +code+:: [String, nil] response code (+"200 OK"+ by default)
   # +keep_alive+:: [Boolean] right not unsupported, always close the connection
+  # +eol+:: [String, nil] response code (+"\r\n"+ by default/on +nil+)
   #
   # @return [Array] response with proper headers in an array where each element is a response line
   def http_OK_response args = ARGV
-    payload, content_type, code, version, keep_alive, debug = args
+    payload, content_type, code, version, keep_alive, debug, eol = args
     stderr = @memory[:stderr]
     debug.nne && (stderr.puts "#{__method__} starting")
     debug.nne && (stderr.puts args.inspect)
@@ -2273,6 +2274,7 @@ require '#{gem_name}'
     content_type ||= "text/plain"
     version ||= "1.1"
     code ||= "200 OK"
+    eol ||= "\r\n"
     rv = [
       "HTTP/#{version} #{code}",
       "Content-Type: #{content_type};" +
@@ -2283,7 +2285,7 @@ require '#{gem_name}'
       "#{payload}"
     ]
     debug.nne && (stderr.puts "#{__method__} returning")
-    rv.join "\r\n"
+    rv.join eol
   end
 
 

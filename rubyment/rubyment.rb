@@ -835,7 +835,16 @@ class Rubyment
 
 
   # makes a rest request.
-  # for now, the parameters must still be hardcoded.
+  # @param [Array] +args+, an +Array+ whose elements are expected to be:
+  # +url+:: [String] 
+  # +payload+:: [String] 
+  # +verify_ssl+:: [Boolean] 
+  # +headers+:: [Hash] +"Authorization"+ key will be added to it if +auth_user+ is given.
+  # +method+:: [HTTP method] one of +:get+, +:method+, +:post+ or +:delete+
+  # +auth_user+:: [String, nil] username for basic authentication method
+  # +password+:: [String, nil] password for basic authentication method. Will prompt without echo if +nil+ and +auth_user+ is not +nil+
+  # +timeout+:: [Fixnum] 
+  # @return [String] the response
   def rest_request args=ARGV
     require 'base64'
     require 'rest-client'

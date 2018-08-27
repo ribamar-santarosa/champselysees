@@ -422,7 +422,7 @@ module RubymentModule
     return_on_directory_given ||= true
     contents = !(file_is_directory) && (
       begin
-        (send :rest_request_or_open_uri_open, [
+        url_response = (send :rest_request_or_open_uri_open, [
             uri,
             payload,
             verify_ssl,
@@ -433,10 +433,14 @@ module RubymentModule
             timeout,
             skip_open_uri,
           ]).first
+	  debug && (stderr.puts "url_response=#{url_response.inspect}")
+	  url_response
       rescue => e1
         begin
+	  debug && (stderr.puts "exception e1=#{e1.inspect}")
           File.read uri
         rescue  => e2
+	  debug && (stderr.puts "exception e2=#{e2.inspect}")
           return_on_rescue
         end
       end

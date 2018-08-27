@@ -421,7 +421,7 @@ module RubymentDeprecatedModule
 end
 
 
-=begin 
+=begin
   # begin_documentation
   Group of functions under deprecation
 
@@ -601,9 +601,9 @@ module RubymentUnderDeprecationRuneFunctionsModule
   end
 
 
-
-
 end
+
+
 
 =begin
   # begin_documentation

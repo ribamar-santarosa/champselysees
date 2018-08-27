@@ -2899,9 +2899,10 @@ n8mFEtUKobsK
    http_ip_addr ||= http_ip_addr.nne "0"
    ssl_cert_pkey_chain_method ||=
      ssl_cert_pkey_chain_method.nne :ssl_sample_self_signed_cert_encrypted
-   priv_pemfile  ||=   priv_pemfile.nne (send ssl_cert_pkey_chain_method)[1]
-   cert_pem_file ||=  cert_pem_file.nne (send ssl_cert_pkey_chain_method)[0]
-   extra_cert_pem_files ||=  extra_cert_pem_files.nne (send ssl_cert_pkey_chain_method)[2]
+   ssl_cert_pkey_chain = send ssl_cert_pkey_chain_method
+   priv_pemfile  ||=   priv_pemfile.nne ssl_cert_pkey_chain[1]
+   cert_pem_file ||=  cert_pem_file.nne ssl_cert_pkey_chain[0]
+   extra_cert_pem_files ||=  extra_cert_pem_files.nne ssl_cert_pkey_chain[2]
    thread =  tcp_ssl_server [
      http_server_port,
      http_ip_addr,

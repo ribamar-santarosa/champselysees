@@ -110,6 +110,63 @@ end
 module RubymentMaintainedModule
 
 
+=begin
+  # documentation_begin
+  # short_desc = "tests the function #string_truncate"
+  @memory[:documentation].push = {
+    :function   => :string_truncate,
+    :short_desc => short_desc,
+    :description => "",
+    :params     => [
+      {
+        :name             => :args,
+        :description      => "list of parameters",
+        :duck_type        => Array,
+        :default_behavior => [],
+        :params           => [
+          {
+            :name             => :max_str_index,
+            :duck_type        => FixNum,
+            :default_behavior => -1,
+            :description      => "index (not size) where to truncate the string (this is the index of the last char)",
+          },
+          {
+            :name             => :reticenses,
+            :duck_type        => String,
+            :default_behavior => "...",
+            :description      => "string to attach to the result when the resulting string is smaller than the original one (ie, has actually been truncated)",
+          },
+        ],
+      },
+    ],
+    :return_value     => 
+      {
+        :name             => :truncated_string,
+        :description      => "truncated string",
+        :duck_type        => String,
+        :default_behavior => :str,
+      },
+    
+  }
+  # documentation_end
+=end
+  def string_truncate args=[]
+    str,
+      max_str_index,
+      reticenses,
+      reserved = args
+    output_max_str_index = @memory[:output_max_str_index]
+    output_max_str_index = output_max_str_index.nne -1
+    max_str_index = max_str_index.nne output_max_str_index
+    max_str_index = max_str_index.to_i
+    reticenses = reticenses.nne "..."
+    sliced_str = str.slice(0..max_str_index)
+    reticenses = (sliced_str.size < str.size ) && reticenses || ""
+    "#{sliced_str}#{reticenses}"
+  end
+
+
+
 end
 
 

@@ -3908,7 +3908,11 @@ n8mFEtUKobsK
       [
         "base_case", [ :a, [ :b ], :c], [
            :array_unflatten_base, [
-             [:a, "[", :b, "]", :c]
+             [:a, "[", :b, "]", :c],
+             :shallow,
+             :debug.negate_me,
+             :reserved_tokens.to_nil,
+             :inverse.negate_me,
            ]
         ],
       ],
@@ -3916,7 +3920,11 @@ n8mFEtUKobsK
       [
         "base_escape_case", [ :a, "[", :b, "]", :c], [
            :array_unflatten_base, [
-             [:a, "[[", :b, "]]", :c]
+             [:a, "[[", :b, "]]", :c],
+             :shallow,
+             :debug.negate_me,
+             :reserved_tokens.to_nil,
+             :inverse.negate_me,
            ]
         ],
       ],
@@ -3924,7 +3932,11 @@ n8mFEtUKobsK
       [
         "base_open_right_case", [ :c], [
            :array_unflatten_base, [
-             [:a, :b, "[", :c]
+             [:a, :b, "[", :c],
+             :shallow,
+             :debug.negate_me,
+             :reserved_tokens.to_nil,
+             :inverse.negate_me,
            ]
         ],
       ],
@@ -3932,7 +3944,11 @@ n8mFEtUKobsK
       [
         "base_open_left_case", [ :b, :c], [
            :array_unflatten_base, [
-             [:a, "]", :b, :c]
+             [:a, "]", :b, :c],
+             :shallow,
+             :debug.negate_me,
+             :reserved_tokens.to_nil,
+             :inverse.negate_me,
            ]
         ],
       ],
@@ -3940,7 +3956,11 @@ n8mFEtUKobsK
       [
         "base_case_double", [ :a, [ [ :b ] ], :c], [
            :array_unflatten_base, [
-             [:a, "[", "[",  :b, "]", "]", :c]
+             [:a, "[", "[",  :b, "]", "]", :c],
+             :shallow,
+             :debug.negate_me,
+             :reserved_tokens.to_nil,
+             :inverse.negate_me,
            ]
         ],
       ],
@@ -3948,7 +3968,11 @@ n8mFEtUKobsK
       [
         "base_case_inverted", [ :c], [
            :array_unflatten_base, [
-             [:a, "]",  :b, "[", :c]
+             [:a, "]",  :b, "[", :c],
+             :shallow,
+             :debug.negate_me,
+             :reserved_tokens.to_nil,
+             :inverse.negate_me,
            ]
         ],
       ],
@@ -3957,7 +3981,11 @@ n8mFEtUKobsK
       [
         "base_nested_case", [ :a, [ [ :b ] ], :c], [
            :array_unflatten_base, [
-             [:a, "[", [ :b ], "]", :c]
+             [:a, "[", [ :b ], "]", :c],
+             :shallow,
+             :debug.negate_me,
+             :reserved_tokens.to_nil,
+             :inverse.negate_me,
            ]
         ],
       ],
@@ -3966,7 +3994,11 @@ n8mFEtUKobsK
       [
         "base_mixed_nested_case_deep", [ :a, [ [ [ :b, ] ] ], :c], [
            :array_unflatten_base, [
-             [:a, "[", [ "[", :b, "]", ], "]", :c]
+             [:a, "[", [ "[", :b, "]", ], "]", :c],
+             :shallow.negate_me,
+             :debug.negate_me,
+             :reserved_tokens.to_nil,
+             :inverse.negate_me,
            ]
         ],
       ],

@@ -2283,7 +2283,7 @@ require '#{gem_name}'
       "#{payload}"
     ]
     debug.nne && (stderr.puts "#{__method__} returning")
-    rv
+    rv.join "\r\n"
   end
 
 

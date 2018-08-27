@@ -3634,7 +3634,6 @@ n8mFEtUKobsK
     pd = pd.nne []
     array_operand,
       array_operands_stack,
-      bulk,
       reserved = pd
 
     operation_plan = operation_plan.nne
@@ -3647,7 +3646,10 @@ n8mFEtUKobsK
     array_operand = array_operand.nne []
     bulk = bulk.nne
 
-    reserved_token, reservation_type, token = operation_plan.to_a
+    reserved_token,
+      reservation_type,
+      token,
+      bulk = operation_plan.to_a
     operation_plan && reserved_token && (
       reservation_type && (
         debug && (stderr.puts "case is_up_token: #{token.inspect}")
@@ -3675,7 +3677,7 @@ n8mFEtUKobsK
         debug && (stderr.puts "case is_no_token: #{token.inspect}")
 
         bulk_token_duck_type_method = :map
-        bulk_token_push = bulk && token.respond_to(bulk_token_duck_type_method)
+        bulk_token_push = bulk && token.respond_to?(bulk_token_duck_type_method)
         bulk_token_push.negate_me && (array_operand.push token)
         bulk_token_push && (token.map &array_operand.method(:push))
         true

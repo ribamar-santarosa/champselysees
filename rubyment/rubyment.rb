@@ -2144,11 +2144,12 @@ require '#{gem_name}'
   def gem_uninstall args=ARGV
     stderr = @memory[:stderr]
     system_user_is_super = @memory[:system_user_is_super]
-    gem_spec, user_install, quiet = args
+    gem_spec, user_install, quiet, all = args
     quiet = quiet.nne
     debug = quiet.negate_me
+    all = all.nne ""
     user_install ||= (!system_user_is_super) && "--user-install" || ""
-    command="gem uninstall -x #{user_install}  #{gem_spec}"
+    command="gem uninstall #{all} -x #{user_install}  #{gem_spec}"
     debug && (stderr.puts "command=#{command}")
     `#{command}`
   end

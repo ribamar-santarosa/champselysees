@@ -3581,7 +3581,7 @@ n8mFEtUKobsK
     debug = debug.nne
     debug.nne && (stderr.puts "#{__method__} starting")
     debug && (stderr.puts "args=#{args.inspect}")
-    matches  = operand_1.to_s.scan operand_2
+    matches  = (operand_1.scan operand_2) rescue []
     amout_of_matches = matches.size
     min_repetitions = min_repetitions.nne 0
     is_string_repetition = (

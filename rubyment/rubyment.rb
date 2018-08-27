@@ -2110,10 +2110,15 @@ require '#{gem_name}'
   # returns:
   # console output of gem install (String)
   def gem_install args=ARGV
+    stderr = @memory[:stderr]
     system_user_is_super = @memory[:system_user_is_super]
-    gem_spec, user_install = args
+    gem_spec, user_install, quiet = args
+    quiet = quiet.nne
+    debug = quiet.negate_me
     user_install ||= (!system_user_is_super) && "--user-install" || ""
-    `gem install #{user_install}  #{gem_spec}`
+    command="gem install #{user_install}  #{gem_spec}"
+    debug && (stderr.puts "command=#{command}")
+    `#{command}`
   end
 
   # gem_push

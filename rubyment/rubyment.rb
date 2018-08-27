@@ -5797,8 +5797,9 @@ n8mFEtUKobsK
 
 
 =begin
-  # documentation_begin
-  # short_desc = "tests the function #string_repetion"
+  # begin_documentation
+  # short_desc = "tests the function #string_repetition"
+
   @memory[:documentation].push = {
     :function    => :test__string_repetition,
     :short_desc  => short_desc,
@@ -5820,7 +5821,7 @@ n8mFEtUKobsK
       },
     ],
   }
-  # documentation_end
+  # end_documentation
 
 
 =end

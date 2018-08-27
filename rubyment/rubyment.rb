@@ -3678,6 +3678,7 @@ n8mFEtUKobsK
 
         bulk_token_duck_type_method = :map
         bulk_token_push = bulk && token.respond_to?(bulk_token_duck_type_method)
+        debug && (stderr.puts "[bulk, bulk_token_duck_type_method, bulk_token_push]=#{[bulk, bulk_token_duck_type_method, bulk_token_push].inspect}")
         bulk_token_push.negate_me && (array_operand.push token)
         bulk_token_push && (token.map &array_operand.method(:push))
         true

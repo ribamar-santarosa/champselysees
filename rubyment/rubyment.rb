@@ -191,6 +191,94 @@ module RubymentExperimentModule
   end
 
 
+=begin
+  # documentation_begin
+  # short_desc = "tests the function #experiment__whether"
+  @memory[:documentation].push = {
+    :function   => :experiment__whether,
+    :short_desc => short_desc,
+    :description => "",
+    :params     => [
+      {
+        :name             => :args,
+        :description      => "list of parameters",
+        :duck_type        => Array,
+        :default_behavior => [],
+        :params           => [
+          {
+            :name             => :condition,
+            :duck_type        => :boolean,
+            :default_behavior => :nil,
+            :description      => "any condition, used to decided which parameter will be run",
+          },
+          {
+            :name             => :run_if_true,
+            :duck_type        => Proc,
+            :default_behavior => :nil,
+            :description      => "block will be called if condition is true",
+          },
+          {
+            :name             => :run_if_false,
+            :duck_type        => Proc,
+            :default_behavior => :nil,
+            :description      => "block will be called if condition is true",
+          },
+          {
+            :name             => :return_dont_run,
+            :duck_type        => Array,
+            :default_behavior => [],
+            :description      => "forces blocks from being called. first element prevents the return_if_true block to be called (so the object return_if_true is returned). the second applies to run_if_false",
+          },
+          {
+            :name             => :debug,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "prints debug information to the __IO__ specified by __@memory[:stderr]__ (STDERR by default)",
+          },
+          {
+            :name             => :reserved,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "for future use",
+          },
+        ],
+      },
+    ],
+    :return_value     => [
+      {
+        :name             => :rv,
+        :description      => "value returned by the block run",
+        :duck_type        => Object,
+        :default_behavior => :nil,
+      },
+    ],
+  }
+  # documentation_end
+=end
+
+  def experiment__whether args=[]
+    stderr = @memory[:stderr]
+    condition,
+      run_if_true,
+      run_if_false,
+      return_dont_run,
+      debug,
+      reserved = args
+    debug = debug.nne
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "args=#{args.inspect}")
+    return_don_run_true  = (containerize return_dont_run)[0]
+    return_don_run_false = (containerize return_dont_run)[1]
+    debug && (stderr.puts "[return_don_run_true, return_don_run_false]=#{[return_don_run_true, return_don_run_false].inspect}")
+    condition && (rv = call_or_itself [run_if_true, return_don_run_true])
+    debug && (stderr.puts "provisory return value: #{rv.inspect}")
+    condition.negate_me && (rv = call_or_itself [run_if_false, return_don_run_false])
+    debug && (stderr.puts "will return #{rv.inspect}")
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
+  end
+
+
 end
 
 

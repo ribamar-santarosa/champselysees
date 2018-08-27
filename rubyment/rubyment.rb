@@ -3172,9 +3172,12 @@ n8mFEtUKobsK
 
     thread_2 = Thread.new {
       loop {
-      require 'open-uri'
-      response = file_read ["https://#{domain}:#{http_server_port}/"]
-      stderr.puts  "response{#{response}}response"
+      response = test__file_read__uri_root [
+        domain,
+        http_server_port,
+        admit_non_ssl,
+        no_debug_client.negate_me,
+      ]
       sleep 2
       }
     }

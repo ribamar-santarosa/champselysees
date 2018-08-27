@@ -421,6 +421,190 @@ module RubymentDeprecatedModule
 end
 
 
+=begin 
+  # begin_documentation
+  Group of functions under deprecation
+
+  to be included by #RubymentUnderDeprecationModule
+  # end_documentation
+=end
+module RubymentUnderDeprecationRuneFunctionsModule
+
+
+  # creates a Proc out of a block
+  def bl *args, &block
+    block ||= lambda {}
+    # Proc.new &block
+    Proc.new { block.call  *args }
+  end
+
+
+  # creates a Proc out of a block,
+  # will capture all exceptions
+  # inside that block and ignore it
+  # returns nil
+  def blef *args, &block
+    # bl exception free
+    block ||= lambda {}
+    bl {
+      begin
+        block.call *args
+      rescue => e
+      end
+    }
+  end
+
+
+  # creates a Proc out of a block,
+  # will capture all exceptions
+  # inside that block and ignore it
+  # will return an array having
+  # the backtrace (as String) as
+  # the first member and the
+  # the exception as the second.
+  def bloe *args, &block
+    block ||= lambda {}
+    bl {
+      begin
+        block.call *args
+      rescue => e
+        stderr = @memory[:stderr]
+        rv = [e.backtrace.join("\n"), e]
+        stderr.puts "#{__method__} exception backtrace:"
+        stderr.puts rv[0]
+        stderr.puts "#{__method__} exception inspection:"
+        stderr.puts rv[1].inspect
+        stderr.puts "#{__method__} exception message:"
+        stderr.puts rv[1]
+        rv
+      end
+    }
+  end
+
+
+  # creates a +Proc+ out of a block,
+  # where exceptions may be admissible
+  # or not, and to be printed or not.
+  # it is an interface for the bl*
+  # methods above
+  # @param [splat] +args+, an splat whose elements are expected to be +blea_args+ and +blocks_args+:
+  # +blea_args+:: [Array] args to be used internally, which are expected to be:
+  # +exception_admitted+:: [Boolean]
+  # +output_exception+:: [Boolean] note that this only makes sense if exception is admitted -- otherwise an exception will be normally thrown.
+  # +ret_nil_on_exception+:: [Boolean] enforces that +nil+ will be returned on exception
+  # +blocks_args+:: [splat] args to be forwarded to the block call
+  # @return [Proc]
+  def blea *args, &block
+    blea_args, *block_args = args
+    blea_args ||= blea_args.nne []
+    exception_admitted, output_exception, ret_nil_on_exception = blea_args
+    exception_admitted = exception_admitted.nne
+    output_exception   =  output_exception.nne
+    bloe_method = ret_nil_on_exception && :bloef || :bloe
+    ble_method = output_exception && bloe_method || :blef
+    bl_to_call = exception_admitted && ble_method || :bl
+    send bl_to_call, *block_args, &block
+  end
+
+
+  # creates a Proc out of a block,
+  # will capture all exceptions
+  # inside that block and ignore it
+  # will return nil
+  def bloef *args, &block
+    block ||= lambda {}
+    bl {
+      begin
+        block.call *args
+      rescue => e
+        stderr = @memory[:stderr]
+        rv = [e.backtrace.join("\n"), e]
+        stderr.puts "#{__method__} exception backtrace:"
+        stderr.puts rv[0]
+        stderr.puts "#{__method__} exception inspection:"
+        stderr.puts rv[1].inspect
+        stderr.puts "#{__method__} exception message:"
+        stderr.puts rv[1]
+      end
+    }
+  end
+
+
+  #  runs a block error free
+  # (returns nil if exception happens)
+  def runef *args, &block
+    (blef &block).call *args
+  end
+
+
+  #  runs a block error free, in
+  # a different Thread. the Thread object
+  #  is returned (call .join on it to
+  # wait for its completion)
+  # (the Thread itself returns nil if exception happens)
+  def runef_threaded *args, &block
+    Thread.start(*args) {|*args|
+      runef *args, &block
+    }
+  end
+
+
+  # runs a block error free
+  # (if exception happens,
+  # will return an array having
+  # the backtrace (as String) as
+  # the first member and the
+  # the Exception object as the second).
+  def runoe *args, &block
+    (bloe &block).call *args
+  end
+
+
+  # runs a block error free, in
+  # a different Thread. the Thread object
+  # is returned (call .join on it to
+  # wait for its completion)
+  # (if exception happens, the thread
+  # itself will return an array having
+  # the backtrace (as String) as
+  # the first member and the
+  # the Exception object as the second).
+  def runoe_threaded *args, &block
+    Thread.start(*args) {|*args|
+      runoe *args, &block
+    }
+  end
+
+
+  # creates and runs a +Proc+ out of a block,
+  # where exceptions may be admissible
+  # or not, and to be printed or not.
+  # it is an interface for the run*
+  # methods above
+  # in this right moment it is not
+  # yet possible to return the exception
+  # without printing (planned improvement)
+  # another desirable case is to output
+  # the exception, but don't return it;
+  # not yet possible.
+  # a third desirable case would be  not to
+  # rescue and print the exception, which is
+  # also not yet possible.
+  # @param [splat] +args+, an splat whose elements are expected to be +blea_args+ and +blocks_args+:
+  # +blea_args+:: [Array] args to be used internally, which are expected to be:
+  # +exception_admitted+:: [Boolean]
+  # +output_exception+:: [Boolean]
+  # +blocks_args+:: [splat] args to be forwarded to the block call
+  # @return the value returned by the block
+  def runea *args, &block
+    (blea *args, &block).call
+  end
+
+
+
+
+end
+
 =begin
   # begin_documentation
   This module receives only functions that are deprecated.

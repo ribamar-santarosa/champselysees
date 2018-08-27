@@ -3914,6 +3914,12 @@ n8mFEtUKobsK
     expectation[test_case] = string_repetition [operand_1, operand_2]
     actual[test_case] = false
 
+    test_case = 14
+    operand_1 = "[:b]"
+    operand_2 = "]"
+    expectation[test_case] = string_repetition [operand_1, operand_2]
+    actual[test_case] = false
+
     judgement = actual.keys.map {|test_case|
       [expectation[test_case], actual[test_case] , test_case]
     }.map(&method("expect_equal")).all?

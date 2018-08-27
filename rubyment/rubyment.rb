@@ -445,8 +445,14 @@ enum = (s.scan /http_[^(]*/).uniq.map
       args_to_method,
       block_to_method,
       replace_at_index,
+      debug,
       reserved = args
 
+    stderr = @memory[:stderr]
+    debug = debug.nne
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "caller=#{caller_label}")
+    debug && (stderr.puts "args=#{args.inspect}")
     args_to_method = args_to_method.nne []
 
     calling_tuples = enum.map {|e|
@@ -458,13 +464,19 @@ enum = (s.scan /http_[^(]*/).uniq.map
       replace_at_index && (c_t[replace_at_index] = e)
       method_name && (c_t.unshift method_name)
       c_t.unshift method_to_call
+      debug && (stderr.puts "[e, method_to_call, method_name, replace_at_index]=#{[e, method_name, method_to_call, replace_at_index]}")
+
       c_t
     }
+    debug && (stderr.puts "calling_tuples=#{calling_tuples}")
 
-    calling_tuples.map {|c_t|
+    rv = calling_tuples.map {|c_t|
       method_to_call, *args_to_call = c_t
       method_to_call.call *args_to_call, &block_to_method
     }
+    debug && (stderr.puts "will return #{rv.inspect}")
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
   end
 
 

@@ -3645,13 +3645,13 @@ n8mFEtUKobsK
 
     array_operands_stack = array_operands_stack.nne []
     array_operand = array_operand.nne []
-    bulk = bulk.nne
 
     reserved_token,
       reservation_type,
       token,
       reserved_token_symbol,
       bulk = operation_plan.to_a
+    bulk = bulk.nne
     debug && (stderr.puts "reserved_token=#{reserved_token.inspect}")
     debug && (stderr.puts "reservation_type=#{reservation_type.inspect}")
     debug && (stderr.puts "token=#{token.inspect}")

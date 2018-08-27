@@ -3744,7 +3744,7 @@ n8mFEtUKobsK
     shallow = shallow.nne
     debug_pushdown = debug_pushdown.nne
     debug = debug.nne
-    debug.nne && (stderr.puts "#{__method__} starting")
+    debug.nne && (stderr.puts "{#{__method__} starting")
     debug && (stderr.puts "args=#{args.inspect}")
     pd = pushdown_operate
     flatten_array.each_with_index {|e, index|
@@ -3754,7 +3754,7 @@ n8mFEtUKobsK
         debug && (stderr.puts "e.hash=#{e.hash}")
         args_recursion = args.clone
         args_recursion[0] = e
-        e = (send __method__, args_recursion) rescue e
+        e = (send __method__, args_recursion) rescue ( debug && (stderr.puts "#{__method__} finished with exception }" ) ; e)
         debug && (stderr.puts "e.hash=#{e.hash}")
       )
       operations = reserved_tokens.map { |reserved_token|
@@ -3807,7 +3807,7 @@ n8mFEtUKobsK
       pd = pushdown_operate [pd, operation, debug_pushdown]
     }
     debug && (stderr.puts "will return #{pd.first}")
-    debug && (stderr.puts "#{__method__} returning")
+    debug && (stderr.puts "#{__method__} returning}")
     pd.first
   end
 

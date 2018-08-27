@@ -911,7 +911,14 @@ module RubymentModule
       auth_user && (input_single_line_non_echo [password])
     ].join ":"
     auth_user && (headers["Authorization"] = "Basic #{base64_auth}")
-    request_execution = RestClient::Request.execute(:method => method, :url => url, :payload => payload, :headers => headers, :verify_ssl => verify_ssl, :timeout => timeout)
+    request_execution = RestClient::Request.execute(
+      :method => method,
+      :url => url,
+      :payload => payload,
+      :headers => headers,
+      :verify_ssl => verify_ssl,
+      :timeout => timeout
+    )
     [ request_execution.to_s ]
   end
 

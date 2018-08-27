@@ -2493,6 +2493,44 @@ require '#{gem_name}'
   end
 
 
+  # returns an HTTP response
+  # @param [Array] +args+, an +Array+ whose elements are expected to be:
+  # +response+:: [String, nil] response payload
+  # +content_type+:: [String, nil] mime type of payload
+  # +version+:: [String, nil] http protocol version
+  # +code+:: [String, nil] response code
+  # +keep_alive+:: [Boolean] right not unsupported, always close the connection
+  # +debug+:: [Object] if calling the object +nne+ method returns a +false+ value, won't print debug information
+  # +eol+:: [String, nil] string to attach to the end of each line in the response
+  #
+  # @return [String] response with headers
+  def http_response_base args = []
+    payload,
+      content_type,
+      code,
+      version,
+      keep_alive,
+      debug,
+      eol,
+      reserved = args
+    stderr = @memory[:stderr]
+    debug.nne && (stderr.puts "#{__method__} starting")
+    debug.nne && (stderr.puts args.inspect)
+    rv = [
+      "HTTP/#{version} #{code}",
+      "Content-Type: #{content_type};" +
+        " charset=#{payload.encoding.name.downcase}",
+      "Content-Length: #{payload.bytesize}",
+      keep_alive.negate_me && "Connection: close",
+      "",
+      "#{payload}"
+    ]
+    debug.nne && (stderr.puts "#{__method__} will return #{rv}")
+    debug.nne && (stderr.puts "#{__method__} returning")
+    rv.join eol
+  end
+
+
   # returns an HTTP response (1.1 200 OK by default)
   # @param [Array] +args+, an +Array+ whose elements are expected to be:
   # +response+:: [String, nil] response payload (default empty)

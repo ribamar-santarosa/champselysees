@@ -313,6 +313,14 @@ end
 module RubymentTestModule
 
 
+  def test_cases_template args=[]
+    test_cases ||= [
+      # [ :id, :expectation, :actual_params ],
+      # actual_params can be an array with method_name + args to that method.
+    ]
+  end
+
+
 end
 
 

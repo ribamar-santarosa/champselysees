@@ -2034,6 +2034,8 @@ module RubymentModule
             password,
             timeout,
             skip_open_uri,
+            :debug_request_method.to_nil,
+            :no_rescue_i_catch_exceptions,
           ]).first
         debug && (stderr.puts "url_response=#{url_response.inspect}")
         url_response

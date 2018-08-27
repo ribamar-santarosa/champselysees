@@ -401,6 +401,58 @@ module RubymentTestModule
   end
 
 
+=begin
+
+=end
+  def test___experiment__bled args=[]
+    bled_method_name,
+     reserved = args
+    bled_method_name = bled_method_name.nne :experiment__bled
+    p0 =  send bled_method_name
+    y0 = p0.first.call 2, 3
+    p1 = send bled_method_name, [] {|x| x}
+    y1 = p1.first.call 2, 3
+    y1_2 = p1.first.call
+    p2 =  send bled_method_name, [
+      :default,
+      :no_rescue.negate_me,
+      :yes_output.negate_me,
+    ] {|x| y}
+    y2 = p2.first.call 2, 3
+    p3 =  send bled_method_name, [
+      :default,
+      :no_rescue,
+      :yes_output.negate_me,
+    ] {|x| y}
+    y3 = begin
+      p3.first.call 2, 3
+    rescue => e
+      e_info = exception_information_base [e]
+      [:default, e_info, e]
+    end
+
+    judgement =
+      [
+        [y0[0], nil, "no params: return value"],
+        [y0[1].to_a, [], "no params: e_info"],
+        [y0[2], nil, "no params: no exception"],
+
+        [y1[0], 2, "{|x| x}: return value"],
+        [y1[1].to_a, [], "{|x| x}: e_info"],
+        [y1[2], nil, "{|x| x}: no exception"],
+
+        [y1_2[0], nil, "{|x| x}: return value"],
+        [y1_2[1].to_a, [], "{|x| x}: e_info"],
+        [y1_2[2], nil, "{|x| x}: no exception"],
+
+        [y2[0], :default, "default on exception"],
+        [y3[0], y2[0], "exceptions must be the same"],
+        [y3[2].to_s, y2[2].to_s, "exceptions must be the same"],
+      ].map(&method("expect_equal")).all?
+
+  end
+
+
 end
 
 

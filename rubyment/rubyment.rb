@@ -168,6 +168,7 @@ end
 module RubymentModule
 
   include RubymentExperimentModule
+  include RubymentMaintainedModule
 
   # this class very often needs to split
   # first argument and remaining elements.

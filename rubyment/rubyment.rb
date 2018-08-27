@@ -1187,7 +1187,9 @@ module RubymentMaintainedModule
       (debug || output_backtrace) && (stderr.puts "block_args=#{block_args.inspect}")
       (debug || output_backtrace) && (stderr.puts "block_args.size=#{block_args.size}")
       brv = begin
-        [ (block.call *block_args), nil, nil]
+        local_rv = [ (block.call *block_args), nil, nil]
+        (debug || output_backtrace) && (stderr.puts "#{__method__} block: survived exception and returned #{local_rv.inspect}")
+        local_rv
       rescue => e
         e_info = exception_info_base [
           e,

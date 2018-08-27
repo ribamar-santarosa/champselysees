@@ -2046,12 +2046,17 @@ require '#{gem_name}'
   # returns:
   # console output of gem build (String)
   def gem_build args=ARGV
+    stderr = @memory[:stderr]
     gem_spec_path,
     gem_spec_contents,
     gem_is_current_file,
     gem_name,
     gem_bin_generate,
-    gem_bin_contents = args
+    gem_bin_contents,
+      quiet,
+      reserved = args
+    quiet = quiet.nne
+    debug = quiet.negate_me
     require 'fileutils'
 
     # this supposes that  the current file is listed by the
@@ -2076,7 +2081,9 @@ require '#{gem_name}'
 
     FileUtils.mkdir_p File.dirname gem_spec_path
     File.write gem_spec_path, gem_spec_contents || (File.read gem_spec_path)
-    `gem build #{gem_spec_path}`
+    command="gem build #{gem_spec_path}"
+    debug && (stderr.puts "command=#{command}")
+    `#{command}`
   end
 
 

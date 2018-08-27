@@ -38,6 +38,10 @@ If an interface throws exceptions, it bubbled from an inner call. That's conside
 
 This principle is general and  it's applied in the case of any failure, like a bug.  If a function is called `validate_something`, it has to validate it properly,  and it will be changed until it is properly validate something. Usage of unintended bugs as feature is not covered. Changes will be made only as the last resource, still.
 
+#### input is not validated
+
+Interfaces normally try to give the best interpretation possible and work to the most range of possibilities for input. But input is not validated -- it's assumed that, whatever input is given, the user really meant it.
+
 #### documentation
 
 Each function is documented in a format tought to comply to https://devhints.io/rdoc, but both `yard` and `rdoc` won't generate proper pages at ( https://rawgit.com/ribamar-santarosa/champselysees/master/rubyment/doc/index.html ). It results from that the documentation is better read from the source code. A new standard is being implemented (e.g: check `test__string_repetition`).

@@ -3114,11 +3114,12 @@ n8mFEtUKobsK
       http_server_port,
       admit_non_ssl,
       reserved = args
-    require 'open-uri'
-    domain ||= domain.nne "localhost"
-    http_server_port ||= http_server_port.nne 8003
-    admit_non_ssl ||= admit_non_ssl.nne
-    response = file_read ["https://#{domain}:#{http_server_port}/"] ||
+    domain = domain.nne "localhost"
+    http_server_port = http_server_port.nne 8003
+    admit_non_ssl = admit_non_ssl.nne true
+    stderr.puts admit_non_ssl.inspect
+    stderr.puts (admit_non_ssl && (file_read ["http://#{domain}:#{http_server_port}/"])).inspect
+    response = (file_read ["https://#{domain}:#{http_server_port}/"]) ||
       admit_non_ssl && (file_read ["http://#{domain}:#{http_server_port}/"])
     stderr.puts  "response{#{response}}response"
     response

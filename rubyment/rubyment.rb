@@ -507,7 +507,7 @@ module RubymentMaintainedModule
 
 =begin 
   # documentation_begin
-  # short_desc = "tests the function #exception_info_base"
+  # short_desc = "extracts information about an exception and return them structurally in an array."
   @memory[:documentation].push = {
     :function   => :exception_info_base,
     :short_desc => short_desc,

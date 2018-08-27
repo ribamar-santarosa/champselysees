@@ -3773,10 +3773,10 @@ n8mFEtUKobsK
 	    inverse  && (e = (e.sub! "", rtoken) rescue e)
             is_up_token && (
               debug && (stderr.puts "case is_up_token")
-	      [:reserved_token.negate_me(inverse), :up, e, rtoken]
+	      [:reserved_token.negate_me(inverse), :up, e, rtoken, false ]
 	    ) || (
               debug && (stderr.puts "case is_down_token")
-	      [:reserved_token.negate_me(inverse), :up.negate_me, e, rtoken]
+	      [:reserved_token.negate_me(inverse), :up.negate_me, e, rtoken, false ]
 	    )
 	  )
         ) || (

@@ -2644,6 +2644,42 @@ require '#{gem_name}'
         :default_behavior => "interpreted as empty array",
         :params           => [
           {
+            :name             => :request,
+            :duck_type        => String,
+            :default_behavior => :nil
+            :description      => "ignored, will redirect whatever request is made. nil is used.",
+          },
+          {
+            :name             => :location,
+            :duck_type        => String,
+            :default_behavior => "",
+            :description      => "Location: field value (the url to redirect to)",
+          },
+          {
+            :name             => :code,
+            :duck_type        => String,
+            :default_behavior => "302 Found",
+            :description      => "Error code. Note that there are many redirect codes specified by the HTTP protocol.",
+          },
+          {
+            :name             => :version,
+            :duck_type        => String,
+            :default_behavior => "1.1",
+            :description      => "HTTP protocol version",
+          },
+          {
+            :name             => :debug,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "prints debug information to the __IO__ specified by __@memory[:stderr]__ (STDERR by default)",
+          },
+          {
+            :name             => :eol,
+            :duck_type        => Object,
+            :default_behavior => "\r\n",
+            :description      => "separator to join each line of the response",
+          },
+          {
             :name             => :reserved,
             :duck_type        => Object,
             :default_behavior => "interpreted as nil",

@@ -5702,25 +5702,6 @@ n8mFEtUKobsK
   end
 
 
-  # experimental stuff coming. usage example:
-  # ./rubyment.rb  invoke_double p test__shell_send_array__main  "tinga" "" sub in EN 
-  # ["tENga"]
-  def test__shell_send_array__main args=[]
-    p args
-    object_to_send,
-      reserved,
-      method_to_send,
-      *args_to_send = args
-    object_to_send = object_to_send.nne
-    method_to_send = method_to_send.nne :main
-    object_to_send && (
-      object_to_send.send method_to_send, *args_to_send
-    ) || (!object_to_send) && (
-      send method_to_send, args_to_send
-    )
-  end
-
-
   # test for Object::nne
   def test__object_nne args = ARGV
     string_neutral = ""

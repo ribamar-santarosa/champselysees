@@ -155,6 +155,29 @@ class Rubyment
   end
 
 
+  # creates a Proc out of a block,
+  # will capture all exceptions
+  # inside that block and ignore it
+  # will return nil
+  def bloef *args, &block
+    block ||= lambda {}
+    bl {
+      begin
+        block.call *args
+      rescue => e
+        stderr = @memory[:stderr]
+        rv = [e.backtrace.join("\n"), e]
+        stderr.puts "#{__method__} exception backtrace:"
+        stderr.puts rv[0]
+        stderr.puts "#{__method__} exception inspection:"
+        stderr.puts rv[1].inspect
+        stderr.puts "#{__method__} exception message:"
+        stderr.puts rv[1]
+      end
+    }
+  end
+
+
   #  runs a block error free
   # (returns nil if exception happens)
   def runef *args, &block

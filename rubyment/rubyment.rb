@@ -862,6 +862,48 @@ class Rubyment
   end
 
 
+  # test #rest_request
+  # for now, the parameters must still be hardcoded.
+  def test__rest_request args=ARGV
+    require 'json'
+    stderr = @memory[:stderr]
+
+    atlasian_account="my_atlasian_account"
+    jira_host = "https://mydomain.atlassian.net/"
+    issue = "JIRAISSUE-6517"
+    url = "#{jira_host}/rest/api/2/issue/#{issue}/comment"
+
+    json =<<-ENDHEREDOC
+    {
+        "body" : "my comment"
+    }
+    ENDHEREDOC
+    payload = "#{json}"
+
+    auth_user = nil
+    password = nil
+    method = :get
+    method = :post
+    timeout = 2000
+    verify_ssl = false
+    payload = "#{json}"
+    headers = ""
+    request_execution = send :rest_request, [
+      url,
+      payload,
+      verify_ssl,
+      headers,
+      method,
+      auth_user,
+      password,
+      timeout,
+    ]
+    parsed_json = JSON.parse request_execution.to_s
+    stderr.puts parsed_json
+    [parsed_json]
+  end
+
+
   # generates (by default) a 128 bit key for a Cipher (e.g. AES)
   # args:
   # [ password, salt, iter, key_len ]

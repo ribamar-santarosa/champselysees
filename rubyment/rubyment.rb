@@ -2538,6 +2538,7 @@ require '#{gem_name}'
   # +version+:: [String, nil] http protocol version (+1.1+ by default)
   # +code+:: [String, nil] response code (+"200 OK"+ by default)
   # +keep_alive+:: [Boolean] right not unsupported, always close the connection
+  # +debug+:: [Object] if calling the object +nne+ method returns a +false+ value, won't print debug information
   # +eol+:: [String, nil] response code (+"\r\n"+ by default/on +nil+)
   #
   # @return [Array] response with proper headers in an array where each element is a response line

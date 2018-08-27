@@ -883,6 +883,7 @@ module RubymentModule
   # +auth_user+:: [String, nil] username for basic authentication method
   # +password+:: [String, nil] password for basic authentication method. Will prompt without echo if +nil+ and +auth_user+ is not +nil+
   # +timeout+:: [Fixnum] 
+  # +debug+:: [Object] if calling the object +nne+ method returns a +false+ value, won't print debug information
   # @return [Array] returns an +Array+ whose elements are :
   # +response+:: [String] 
   # +response+:: [Object] as returned by +RestClient::Request.execute+. Note that this is a dangerous object for printing, be aware.
@@ -902,7 +903,12 @@ module RubymentModule
       auth_user,
       password,
       timeout,
+      debug,
       reserved = args
+
+    debug = debug.nne
+    debug.nne && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "args=#{args.inspect}")
 
     auth_user = auth_user.nne
     password  = password.nne
@@ -929,6 +935,8 @@ module RubymentModule
       http_response_object,
       http_response_object.code,
     ]
+    debug && (stderr.puts "will return #{rv.map(&:to_s)}")
+    debug && (stderr.puts "#{__method__} returning}")
     rv
   end
 

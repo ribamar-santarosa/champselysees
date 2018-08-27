@@ -19,5 +19,7 @@ are specially prepared to be called from the command
 line.
 
 
-Yard (not well formatted) documentation at: https://rawgit.com/ribamar-santarosa/champselysees/master/rubyment/doc/index.html
+#### documentation
+
+Each function is documented in a format tought to comply to https://devhints.io/rdoc, but both `yard` and `rdoc` won't generate proper pages at ( https://rawgit.com/ribamar-santarosa/champselysees/master/rubyment/doc/index.html ). It results from that the documentation is better read from the source code.
 

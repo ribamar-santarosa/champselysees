@@ -2656,7 +2656,8 @@ require '#{gem_name}'
 
 =end
   def test__http_response__redirect args = []
-    location,
+    request,
+      location,
       code,
       version,
       debug,

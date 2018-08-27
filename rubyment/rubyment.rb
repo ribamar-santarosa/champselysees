@@ -446,7 +446,7 @@ module RubymentModule
       end
     ) || (file_is_directory) && (return_on_directory_given)
     rv = contents
-    debug && (stderr.puts "will return #{rv}")
+    debug && (stderr.puts "will return #{rv.inspect}")
     # if raises exception before it will be unbalanced :
     debug && (stderr.puts "#{__method__} returning}")
     rv

@@ -2159,8 +2159,15 @@ require '#{gem_name}'
   # returns:
   # console output of gem install (String)
   def gem_list args=ARGV
-    gem_spec, future_arg = args
-    `gem list | grep #{gem_spec}`
+    stderr = @memory[:stderr]
+    gem_spec,
+      quiet,
+      reserved = args
+    quiet = quiet.nne
+    debug = quiet.negate_me
+    command="gem list | grep #{gem_spec}"
+    debug && (stderr.puts "command=#{command}")
+    `#{command}`
   end
 
   # validate_require

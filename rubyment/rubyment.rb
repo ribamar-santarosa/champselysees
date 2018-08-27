@@ -437,6 +437,24 @@ enum = (s.scan /http_[^(]*/).uniq.map
 # send_enumerator [ enum, :gsub, ["http_", ""] ]
 # => ["delete", "get", "head", "post", "put"]
 
+send_enumerator [ ["tinga_http_tinga", "http_catepa"], :gsub, ["http_", ""] ]
+#  => ["tinga_tinga", "catepa"]
+
+send_enumerator [ [ [1, 2, 3] ], :map, [], Proc.new {|x| x + 1 } ]  
+#  => [[2, 3, 4]]
+
+send_enumerator [ [ {}, {} ], :containerize, [], nil, 0]
+# => [[{}], [{}]]
+
+
+#bug:
+send_enumerator [ [ {}, {} ], :method.to_nil, :args.to_nil, Proc.new {}  ]
+# ArgumentError: no method name given
+
+# no bug, just not intuitive usage: 
+
+send_enumerator [ [ {}, {} ], Proc.new {|x| x.size }, [].to_nil, :whatever, 0]
+# => [0, 0]
 
 =end
   def send_enumerator args=[]

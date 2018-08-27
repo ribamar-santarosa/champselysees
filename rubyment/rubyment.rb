@@ -345,8 +345,8 @@ module RubymentExperimentModule
       debug && (stderr.puts "test_case=[test_case_id, test_expectation, actual_params]=#{test_case.inspect}")
       test_case_id, test_expectation, actual_params = test_case
       actual_params_method_name,
-        actual_params_method_args = actual_params
-      result = send actual_params_method_name, actual_params_method_args
+        *actual_params_method_args = actual_params
+      result = send actual_params_method_name, *actual_params_method_args
       expectation[test_case_id] = test_expectation
       actual[test_case_id] = result
       debug && (stderr.puts "[test_expectation.hash, result.hash]=#{[test_expectation.hash, result.hash].inspect}")

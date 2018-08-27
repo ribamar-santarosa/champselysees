@@ -382,12 +382,20 @@ class Rubyment
   def file_read args=ARGV
     uri, username, password, return_on_rescue, return_on_directory_given = args
     uri = uri.nne ""
-    require 'open-uri'
     file_is_directory = File.directory?(uri)
     return_on_directory_given ||= true
     contents = !(file_is_directory) && (
       begin
-        open(uri, :http_basic_authentication => [username, password]).read
+        (send :rest_request_or_open_uri_open, [
+            uri,
+            :payload.to_nil,
+            :verify_ssl.to_nil,
+            :headers.to_nil,
+            :method.to_nil,
+            username,
+            password,
+            :timeout.to_nil,
+          ]).first
       rescue => e1
         begin
           File.read uri

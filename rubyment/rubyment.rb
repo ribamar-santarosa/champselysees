@@ -375,6 +375,136 @@ end
 module RubymentMaintainedModule
 
 
+=begin
+  # documentation_begin
+  # short_desc = "extracts information about a block and return them structurally in an array."
+  @memory[:documentation].push = {
+    :function   => :block_info_base,
+    :short_desc => short_desc,
+    :description => "",
+    :params     => [
+      {
+        :name             => :args,
+        :description      => "list of parameters",
+        :duck_type        => Array,
+        :default_behavior => [],
+        :params           => [
+          {
+            :name             => :block,
+            :duck_type        => Exception,
+            :default_behavior => nil,
+            :description      => "block to extract info from",
+          },
+          {
+            :name             => :max_str_index,
+            :duck_type        => FixNum,
+            :default_behavior => -1,
+            :description      => "limit the full string output to this last index",
+          },
+          {
+            :name             => :reserved,
+            :duck_type        => Object,
+            :default_behavior => nil,
+            :description      => "reserved for future use",
+          },
+        ],
+      },
+    ],
+    :return_value     => [
+      {
+        :name             => :short,
+        :duck_type        => String,
+        :default_behavior => "",
+        :description      => "a brief about the block; normally a block inspection",
+      },
+      {
+        :name             => :full,
+        :duck_type        => String,
+        :default_behavior => "",
+        :description      => "all the information about the block",
+      },
+      {
+        :name             => :inspection,
+        :duck_type        => String,
+        :default_behavior => "",
+        :description      => "the  block inspection",
+      },
+      {
+        :name             => :source_location,
+        :duck_type        => Object,
+        :duck_type        => [:_a, Array, :strings],
+        :description      => the block location",
+      },
+      {
+        :name             => :source,
+        :duck_type        => String,
+        :default_behavior => "",
+        :description      => "the block source code",
+      },
+      {
+        :name             => :class_,
+        :duck_type        => String,
+        :default_behavior => "",
+        :description      => "the  block class",
+      },
+      {
+        :name             => :comment,
+        :duck_type        => String,
+        :default_behavior => "",
+        :description      => "the  block comment",
+      },
+      {
+        :name             => :reserved,
+        :duck_type        => Object,
+        :default_behavior => nil,
+        :description      => "reserved for future use",
+      },
+    ],
+  }
+  # documentation_end
+=end
+  def block_info_base args=[]
+    block,
+      max_str_index,
+      reserved = args
+    inspection = block.inspect
+    class_ = block.class
+    comment = block.comment rescue [nil, "doesn't respond to :comment"]
+    source = block.source rescue [nil, "doesn't respond to :source"]
+    source_location = block.source_location rescue [nil, "doesn't respond to :source_location"]
+    parameters = block.parameters.inspect rescue [nil, "doesn't respond to :parameters"]
+    short = inspection
+    full = (
+      [
+        "inspection{",
+        inspection,
+        "}",
+        "class{",
+        class_,
+        "}",
+        "source_location{",
+        source_location,
+        "}",
+        "source{",
+        source,
+        "}",
+        "comment{",
+        comment,
+        "}",
+        "parameters{",
+        parameters,
+        "}",
+      ]
+    ).join "\n"
+
+    full = string_truncate [
+      full,
+      max_str_index,
+    ]
+    [short, full, inspection, source_location, source, class_, comment]
+  end
+
+
 =begin 
   # documentation_begin
   # short_desc = "tests the function #exception_info_base"

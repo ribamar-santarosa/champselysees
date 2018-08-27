@@ -66,7 +66,7 @@ end
 # STDOUT, just qualified output:
 # only if the function is expected
 # to output something
-class Rubyment
+module RubymentModule
 
   # this class very often needs to split
   # first argument and remaining elements.
@@ -3683,6 +3683,12 @@ n8mFEtUKobsK
   end
 
 
+
+end
+
+
+class Rubyment
+   include RubymentModule
 end
 
 (__FILE__ == $0) && Rubyment.new({:invoke => ARGV})

@@ -3596,6 +3596,104 @@ n8mFEtUKobsK
   end
 
 
+  # takes a flatten array and makes it deeper, starting a new array
+  # everytime it finds the string +"["+. +"]"+ stops the array (and
+  # return to the upper one). To reserve the possibility of
+  # representing "[" or "]", everytime a string contains only those
+  # chars, repeteaded any number of times, starting from 2, one of
+  # them will be removed. So +"[["+ will be left as +"["+ and
+  # +"]]]"+ will be left as +"]]"+.
+  # if the provided array is not flatten, it has an undefined
+  # behaviour (it will either a - transverse the sub-arrays
+  # or b - don't transverse it, leaving it untouched. while
+  # the a is the planned effect, initially only a may will
+  # be implemented).
+  # @param [Array] +args+, the array to be operadated
+  # @return [Array] returns the modified, deep, #Array
+  def array_unflatten_base_shallow args=[]
+    stderr = @memory[:stderr]
+    reserved_tokens = [
+      [ "[", :up],
+      [ "]", :up.negate_me],
+    ]
+    # debug = 1
+    debug = debug.nne
+    debug.nne && (stderr.puts "#{__method__} starting")
+    debug && (stderr.puts "args=#{args.inspect}")
+    rv = []
+    array_operand = []
+    array_operands_stack = []
+    args.each_with_index {|e, index|
+      debug && (stderr.puts "-------------------")
+      debug && (stderr.puts "[e, index]=#{[e, index].inspect}")
+      operations = reserved_tokens.map { |reserved_token|
+        debug && (stderr.puts "reserved_token=#{reserved_token.inspect}")
+        debug && (stderr.puts "array_operands_stack=#{array_operands_stack.inspect}")
+        debug && (stderr.puts "array_operand=#{array_operand.inspect}")
+        rtoken, is_up_token = reserved_token
+
+        repetition_test = string_repetition [e, rtoken, 1]
+        (
+	  # case A: e is exactly the reserved token.
+	  # start or finish an array
+	  # note: if rtoken is false, it will succeed this
+	  # test.
+          (repetition_test == rtoken) && (
+            is_up_token && (
+              debug && (stderr.puts "case is_up_token")
+	      [:reserved_token, :up, e, rtoken]
+	    ) || (
+              debug && (stderr.puts "case is_down_token")
+	      [:reserved_token, :up.negate_me, e, rtoken]
+	    )
+	  )
+        ) || (
+	  # case B: is a a repetition with at least 2
+	  # occurrences of the reserved token. remove one.
+	  # (and add it to the current array)
+          repetition_test && (
+            debug && (stderr.puts "case escape")
+	    escaped_e = e.sub rtoken, ""
+	    [:reserved_token.negate_me, nil, escaped_e, rtoken]
+          )
+        ) || (
+	  # case C: no repetition. (just add e to
+	  # the current array.)
+            debug && (stderr.puts "case just add")
+	    [:reserved_token.negate_me, nil, e, rtoken]
+	)
+      }
+      # now operations has |reserved_tokens| operations.
+      # but only one will be applied: either the first
+      # one which is a reserved token (:first), or the
+      # last operation, in case of no reserved tokens.
+      operation = operations.lazy.find(&:first) || (
+        operations[-1].to_a
+      )
+      reserved_token, reservation_type, token = operation
+      reserved_token && (
+        reservation_type && (
+          debug && (stderr.puts "case is_up_token: #{token.inspect}")
+          array_operands_stack.push array_operand
+          array_operand = Array.new
+	  true
+	) || (
+          debug && (stderr.puts "case is_down_token: #{token.inspect}")
+          array_operand = array_operands_stack.pop.push array_operand
+	  true
+	)
+      ) || (
+          debug && (stderr.puts "case is_no_token: #{token.inspect}")
+          array_operand.push e
+	  true
+      )
+    }
+    debug && (stderr.puts "will return #{array_operand}")
+    debug && (stderr.puts "#{__method__} returning")
+    array_operand
+  end
+
+
   # test for #string_repetition
   def test__string_repetition args=[]
     expectation = {}

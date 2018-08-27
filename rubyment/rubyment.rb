@@ -2004,6 +2004,42 @@ require '#{gem_name}'
   end
 
 
+  # forces the uninstallation of a gem in all the ways we can
+  # mostly for internal tests that needs to ensure a gem wasn't
+  # installed before a test.
+  def test__gem_uninstall_extreme_force args=ARGV
+    stderr = @memory[:stderr]
+    gem_spec, user_install, quiet = args
+    quiet = quiet.nne
+    debug = quiet.negate_me
+    command="gem uninstall -a -e  #{gem_spec}"
+    debug && (stderr.puts "command=#{command}")
+    `#{command}`
+    command="gem uninstall -a -e --user-install  #{gem_spec}"
+    debug && (stderr.puts "command=#{command}")
+    `#{command}`
+    command="sudo gem uninstall -a -e  #{gem_spec}"
+    debug && (stderr.puts "command=#{command}")
+    `#{command}`
+    command="sudo gem uninstall -a -e --user-install  #{gem_spec}"
+    debug && (stderr.puts "command=#{command}")
+    `#{command}`
+
+    command="gem uninstall -x  #{gem_spec}"
+    debug && (stderr.puts "command=#{command}")
+    `#{command}`
+    command="gem uninstall -x --user-install  #{gem_spec}"
+    debug && (stderr.puts "command=#{command}")
+    `#{command}`
+    command="sudo gem uninstall -x  #{gem_spec}"
+    debug && (stderr.puts "command=#{command}")
+    `#{command}`
+    command="sudo gem uninstall -x --user-install  #{gem_spec}"
+    debug && (stderr.puts "command=#{command}")
+    `#{command}`
+    []
+  end
+
   # gem_build
   # args:
   # [gem_spec_path (String), gem_spec_contents (String), gem_is_current_file, gem_name]

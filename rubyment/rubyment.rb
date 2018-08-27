@@ -2681,6 +2681,7 @@ require '#{gem_name}'
   # +cert_pem_file+:: [String] argument to be given to +OpenSSL::SSL::SSLContext.cert+ method, after calling +OpenSSL::X509::Certificate+.  It's the "Context certificate" accordingly to its ruby-doc page. letsencrypt example: +"/etc/letsencrypt/live/#{domain}/fullchain.pem"+ (now it's accepted to pass the file contents instead, both must work).
   # +extra_cert_pem_files+:: [Array] array of strings. Each string will be mapped with +OpenSSL::SSL::SSLContext.new+, and the resulting array is given to +OpenSSL::SSL::SSLContext.extra_chain_cert+. "An Array of extra X509 certificates to be added to the certificate chain" accordingly to its ruby-doc. letsencryptexample: +["/etc/letsencrypt/live/#{domain}/chain.pem"]+ (now it's accepted to pass the file contents instead, both must work).
   # +output_exception+:: [Bool] output exceptions even if they are admitted?
+  # +plain_server+:: [TCPServer] if given, ignores +listening_port+ and +ip_addr+, does not create a +TCPServer+ and just creates an +SSLServer+ out of this one.
   #
   # @return [OpenSSL::SSL::SSLServer] returns an ssl server, which can be used to accept connections.
   def ssl_make_server *args
@@ -2693,6 +2694,7 @@ require '#{gem_name}'
       cert_pem_file,
       extra_cert_pem_files,
       output_exception,
+      plain_server,
       reserved = args
     debug = debug.nne
     extra_cert_pem_files = extra_cert_pem_files.nne []
@@ -2715,7 +2717,7 @@ require '#{gem_name}'
     priv_pemfile  = file_read [priv_pemfile, nil, nil, priv_pemfile]
     
     require 'socket'
-    plain_server = TCPServer.new ip_addr, listening_port
+    plain_server ||= TCPServer.new ip_addr, listening_port
     ssl_server = runea [admit_plain, output_exception, "nil on exception"] {
       require 'openssl'
       ssl_context = OpenSSL::SSL::SSLContext.new

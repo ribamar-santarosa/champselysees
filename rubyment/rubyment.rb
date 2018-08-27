@@ -2792,6 +2792,8 @@ n8mFEtUKobsK
   #  private key are found in the current dir, which
   #  can be achieved with:
   #  +openssl req -x509 -nodes -days 365 -newkey rsa:1024 -keyout pkey.pem -out cert.crt+
+  # but if the files don't exist, they will be created
+  # with a sample self signed certificate.
   def test__tcp_ssl_server__ssl_self_signed args = ARGV
    http_processing_method,
      http_processing_method_args,

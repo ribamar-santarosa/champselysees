@@ -129,6 +129,23 @@ module RubymentUnderDeprecationModule
 end
 
 
+#
+=begin
+  # begin_documentation
+  This module receives functions that are supposed to test
+  other functions.
+  Eventually, these functions may be run automatically.
+  They must return false if it fails.
+  Eventually a timeouting standard will be set for function
+  doing IO.
+  # end_documentation
+=end
+module RubymentTestModule
+
+
+end
+
+
 =begin
   # begin_documentation
   This module receives all the Rubyment functions.

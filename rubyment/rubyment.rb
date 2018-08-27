@@ -2136,6 +2136,21 @@ require '#{gem_name}'
     `#{command}`
   end
 
+
+  # uninstall all versions of a specific gem
+  # @param [Array] +args+, an +Array+ whose elements are expected to be:
+  # +gem_spect+:: [String] 
+  # +user_install+:: [Object]
+  # +quiet+:: [Object] if calling the object +nne+ method returns a +false+ value, will print debug information
+  # @return [String] console output of gem uninstall
+  def gem_uninstall_all args=[]
+    stderr = @memory[:stderr]
+    gem_spec, user_install, quiet, all = args
+    all = "-a"
+    gem_uninstall [gem_spec, user_install, quiet, all]
+  end
+
+
   # gem_uninstall
   # args:
   # [gem_spec (String)]

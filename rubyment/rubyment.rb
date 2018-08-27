@@ -5332,7 +5332,8 @@ n8mFEtUKobsK
             :name             => :http_processing_method_args,
             :duck_type        => Array,
             :default_behavior => [],
-            :description      => "arguments for the method that returns an http request string (used by the first server)",
+            :description      => "arguments for the method that returns an http request string (used by the first server). http_processing_method is fully controlled throught these arguments -- internally, io_forward will only prepend an argument having the request this list.
+            ",
           },
           {
             :name             => :http_server_port,
@@ -5461,6 +5462,8 @@ n8mFEtUKobsK
     debug = debug.nne
     debug.nne && (stderr.puts "{#{__method__} starting")
     debug && (stderr.puts "args=#{args.inspect}")
+    # http_OK_response is completely controlled by here -- io_forward
+    # will only prepend an argument having the request to it.
     http_processing_method = http_processing_method.nne :http_OK_response
     http_processing_method_args = http_processing_method_args.nne []
     http_server_port = http_server_port.nne  8003

@@ -3172,13 +3172,13 @@ n8mFEtUKobsK
 
     thread_2 = Thread.new {
       loop {
-      response = test__file_read__uri_root [
-        domain,
-        http_server_port,
-        admit_non_ssl,
-        no_debug_client.negate_me,
-      ]
-      sleep 2
+        response = test__file_read__uri_root [
+          domain,
+          http_server_port,
+          admit_non_ssl,
+          no_debug_client.negate_me,
+        ]
+        sleep 2
       }
     }
     server_thread.first.join

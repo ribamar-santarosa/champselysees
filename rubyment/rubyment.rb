@@ -3800,7 +3800,7 @@ n8mFEtUKobsK
       [
         "base_open_left_case", [ :b, :c], [
            :array_unflatten_base_shallow, [
-             :a, "]", :b, :c, :base_open_left_case
+             :a, "]", :b, :c
            ]
         ],
       ],

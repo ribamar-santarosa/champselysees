@@ -3805,6 +3805,15 @@ n8mFEtUKobsK
         ],
       ],
 
+      [
+        "base_case_double", [ :a, [ [ :b ] ], :c], [
+           :array_unflatten_base_shallow, [
+             :a, "[", "[",  :b, "]", "]", :c
+           ]
+        ],
+      ],
+
+
     ]
     test__tester test_cases
   end

@@ -1899,7 +1899,7 @@ end
     gem_validate_class ||= self.class.to_s
     gem_validate_class_args ||= {:invoke => ["p", "installed and validated"] }
     gem_validate_class_method ||= "new"
-    gem_is_current_file = true # this enables the possibility of building
+    gem_is_current_file = __FILE__ # this enables the possibility of building
     #  a gem for the calling file itself, but be aware that lib/gem_file.rb
     # is supposed to be overriden later.
     gem_bin_generate = "bin/#{gem_name}" # generate a bin file

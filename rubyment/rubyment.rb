@@ -2703,6 +2703,7 @@ require '#{gem_name}'
     debug = debug.nne
     debug.nne && (stderr.puts "#{__method__} starting")
     debug.nne && (stderr.puts args.inspect)
+    location = location.nne ""
     version = version.nne "1.1"
     code = code.nne "302 Found"
     eol = eol.nne "\r\n"

@@ -344,7 +344,7 @@ class Rubyment
 
   # reads a uri (if 'open-uri' available, otherwise, just do a normal File.read)
   # @param [Array] args, an +Array+ whose elements are expected to be:
-  # +uri+:: [String, nil] uri or path of the file
+  # +uri+:: [String, nil] uri or path of the file (empty string is assumed in the case of +nil+ given)
   # +username+:: [String] basic http authentication username
   # +password+:: [String] basic http authentication password
   # +return_on_rescue+:: [Object] a default to return in the case of exceptions raised

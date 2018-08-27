@@ -388,14 +388,12 @@ class Rubyment
     contents = !(file_is_directory) && (
       begin
         open(uri, :http_basic_authentication => [username, password]).read
-      rescue Errno::ENOENT  => e1
+      rescue => e1
         begin
           File.read uri
         rescue  => e2
           return_on_rescue
         end
-      rescue => e3
-        return_on_rescue
       end
     ) || (file_is_directory) && (return_on_directory_given)
   end

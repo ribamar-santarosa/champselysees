@@ -2722,7 +2722,6 @@ require '#{gem_name}'
       require 'openssl'
       ssl_context = OpenSSL::SSL::SSLContext.new
       ssl_context.extra_chain_cert =
-	# TODO: extra_cert_pem_files could also accept strings instead
         extra_cert_pem_files
           .map(&OpenSSL::X509::Certificate.method(:new))
       ssl_context.cert = OpenSSL::X509::Certificate

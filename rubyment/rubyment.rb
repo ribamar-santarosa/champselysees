@@ -863,11 +863,12 @@ class Rubyment
 
     auth_user = auth_user.nne
     password  = password.nne
+    headers   = headers.nne({})
     base64_auth = Base64.encode64 [
       auth_user,
       auth_user && (input_single_line_non_echo [password])
     ].join ":"
-    headers = {"Authorization" => "Basic #{base64_auth}" }
+    auth_user && (headers["Authorization"] = "Basic #{base64_auth}")
     request_execution = RestClient::Request.execute(:method => method, :url => url, :payload => payload, :headers => headers, :verify_ssl => verify_ssl, :timeout => timeout)
     request_execution.to_s
   end

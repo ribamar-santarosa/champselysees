@@ -3035,6 +3035,7 @@ n8mFEtUKobsK
       happy_with_request,
       io_method,
       io_method_debug,
+      admit_non_ssl,
       reserved = args
     http_processing_method ||= http_processing_method.nne :http_OK_response
     http_processing_method_args ||= http_processing_method_args.nne []
@@ -3050,11 +3051,12 @@ n8mFEtUKobsK
     io_method ||=  io_method.nne "io_transform"
     io_method_debug ||=  io_method_debug.nne debug
     happy_with_request ||= happy_with_request.nne
+    admit_non_ssl ||= admit_non_ssl.nne
     tcp_ssl_server_args = [
       http_server_port,
       http_ip_addr,
       debug,
-      "admit non ssl server".negate_me,
+      admit_non_ssl,
       io_method,
       [
         io_method_debug,

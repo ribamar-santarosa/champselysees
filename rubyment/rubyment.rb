@@ -380,7 +380,12 @@ class Rubyment
   #
   # @return [String, Object] read data (or +return_on_rescue+)
   def file_read args=ARGV
-    uri, username, password, return_on_rescue, return_on_directory_given = args
+    uri,
+      username,
+      password,
+      return_on_rescue,
+      return_on_directory_given,
+      reserved = args
     uri = uri.nne ""
     file_is_directory = File.directory?(uri)
     return_on_directory_given ||= true

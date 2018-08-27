@@ -2120,6 +2120,19 @@ require '#{gem_name}'
     `#{command}`
   end
 
+  # gem_install_force_from_remote
+  def gem_install_remote args=[]
+    stderr = @memory[:stderr]
+    system_user_is_super = @memory[:system_user_is_super]
+    gem_spec, user_install, quiet = args
+    quiet = quiet.nne
+    debug = quiet.negate_me
+    user_install ||= (!system_user_is_super) && "--user-install" || ""
+    command="gem install -r #{user_install}  #{gem_spec}"
+    debug && (stderr.puts "command=#{command}")
+    `#{command}`
+  end
+
   # gem_push
   # args:
   # [gem_spec (String)]

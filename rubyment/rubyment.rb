@@ -2579,8 +2579,10 @@ require '#{gem_name}'
       ssl_server
     }
 
+    rv = ssl_server || admit_plain && plain_server
+    debug && (stderr.puts "will return #{rv}")
     debug && (stderr.puts "#{__method__} returning")
-    ssl_server || admit_plain && plain_server
+    rv
   end
 
 

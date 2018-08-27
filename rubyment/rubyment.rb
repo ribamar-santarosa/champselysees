@@ -468,6 +468,41 @@ enum = (s.scan /http_[^(]*/).uniq.map
   end
 
 
+=begin
+  given a duck type table, return the entries having
+  methods that o responds to in their first entry.
+
+  by default, uses a table useful to determine
+  method_name for the call:
+  o.map.method_name {|a, b| }
+  if o is an Array, it should be each_with_entries:
+  experiment__duck_type__hash_array [ []  ]
+  => [[:product, :each_with_key, :itself]]
+
+  if o is a Hash, it should be (another) map.
+  experiment__duck_type__hash_array [ {}  ]
+  => [[:keys, :map, :reversed]]
+
+  note that "reversed" means that the order must
+  be |b,a| instead
+
+=end
+  def experiment__duck_type__hash_array args=[]
+    o,
+      duck_type_table,
+      reserved = args
+    duck_type_table = duck_type_table.nne [
+      [ :product, :each_with_index, :itself,   :to_a  ],
+      [ :keys,    :map,             :reverse,  :to_h  ],
+    ]
+    rv = duck_type_table.select { |e|
+      responding_method, *r = e
+      o.respond_to? responding_method
+    }
+    rv
+  end
+
+
 end
 
 

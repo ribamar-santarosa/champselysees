@@ -145,6 +145,27 @@ module RubymentTestModule
 end
 
 
+=begin 
+  # begin_documentation
+  This module receives functions that change other
+  Ruby classes, by adding or changing their classes.
+
+  The purpose is normally achieve a more functional
+  approach to some classes.
+
+  Some classes will be changed just by including
+  this file or requiring rubyment, which is not the
+  best approach, but kept to respect the open/closed
+  principle, but new functions should be added here.
+  # end_documentation
+=end
+module RubymentClassInjectorModule
+
+
+end
+
+
+
 =begin
   # begin_documentation
   This module receives all the Rubyment functions.

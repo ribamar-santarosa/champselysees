@@ -3682,6 +3682,13 @@ n8mFEtUKobsK
   # by the value +deep+, hardcoded in the function. soon, new
   # functions will come to clarify and specify the proper behaviours)
   # @param [Array] +args+
+
+  # @param [Array] +args+, an +Array+ whose elements are expected to be:
+  # +flatten_array+:: [Array] the array to be operated.
+  # +debug+:: [Object] if evals to false (or empty string), won't print debug information
+  # +shallow+:: [Object] if evals to false (or empty string), will traverse recursively +flatten_array+ and apply the rules, in the case it is not flatten.
+  # +reserved_tokens+:: [Array of Arrays]
+
   # @return [Array] returns the modified, deep, #Array
   def array_unflatten_base args=[]
     stderr = @memory[:stderr]

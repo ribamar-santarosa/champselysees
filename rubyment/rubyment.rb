@@ -2553,17 +2553,17 @@ require '#{gem_name}'
     version ||= "1.1"
     code ||= "200 OK"
     eol ||= "\r\n"
-    rv = [
-      "HTTP/#{version} #{code}",
-      "Content-Type: #{content_type};" +
-        " charset=#{payload.encoding.name.downcase}",
-      "Content-Length: #{payload.bytesize}",
-      keep_alive.negate_me && "Connection: close",
-      "",
-      "#{payload}"
+    rv = http_response_base [
+      payload,
+      content_type,
+      code,
+      version,
+      keep_alive,
+      debug,
+      eol,
     ]
     debug.nne && (stderr.puts "#{__method__} returning")
-    rv.join eol
+    rv
   end
 
 

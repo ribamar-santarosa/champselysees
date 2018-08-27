@@ -1689,6 +1689,29 @@ module RubymentUnderDeprecationModule
   include RubymentUnderDeprecationRuneFunctionsModule
 
 
+  # experimental stuff coming. usage example:
+  # ./rubyment.rb  invoke_double p test__shell_send_array__main  "tinga" "" sub in EN 
+  # ["tENga"]
+  #  will be deprecated by send_array_base
+  # ./rubyment.rb  invoke_double p experiment__send_array_base 300 "bytes"
+  # [[51, 48, 48], nil, nil]
+  # only works with strings by now
+  def test__shell_send_array__main args=[]
+    p args
+    object_to_send,
+      reserved,
+      method_to_send,
+      *args_to_send = args
+    object_to_send = object_to_send.nne
+    method_to_send = method_to_send.nne :main
+    object_to_send && (
+      object_to_send.send method_to_send, *args_to_send
+    ) || (!object_to_send) && (
+      send method_to_send, args_to_send
+    )
+  end
+
+
 end
 
 

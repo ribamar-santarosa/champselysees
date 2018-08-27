@@ -377,6 +377,7 @@ class Rubyment
   # +password+:: [String] basic http authentication password
   # +return_on_rescue+:: [Object] a default to return in the case of exceptions raised
   # +return_on_directory_given+:: [Object] a default to return in the case uri is a directory. Defaults to true
+  # +skip_open_uri+:: [Boolean] don't bother trying to use 'open-uri' (but still tries to open an uri with 'rest-client')
   #
   # @return [String, Object] read data (or +return_on_rescue+)
   def file_read args=ARGV
@@ -385,6 +386,7 @@ class Rubyment
       password,
       return_on_rescue,
       return_on_directory_given,
+      skip_open_uri,
       reserved = args
     uri = uri.nne ""
     file_is_directory = File.directory?(uri)
@@ -400,6 +402,7 @@ class Rubyment
             username,
             password,
             :timeout.to_nil,
+            skip_open_uri,
           ]).first
       rescue => e1
         begin

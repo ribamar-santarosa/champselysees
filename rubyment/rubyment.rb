@@ -369,6 +369,31 @@ class Rubyment
   end
 
 
+  # reads the contents of a file. if the file
+  # doesn't exist, writes to the file.
+  # note: the file may get overwritten with the
+  # same contents in some situations (not if
+  # +contents+ is +nil+).
+  # @param [splat] +args+::, an splat whose elements are expected to be:
+  # +filepath+:: [String] uri (if +'open-uri'+ installed) or local path to a file
+  # +username+:: [String] basic http authentication username
+  # +password+:: [String] basic http authentication password
+  # @return [String] file contents at the end of the process.
+  def file_read_or_write *args
+    filepath, contents, username, password = args
+    existing_file = file_read [
+      filepath,
+      username,
+      password,
+      "return on rescue".to_nil,
+      "return on dir".to_nil,
+    ]
+    file_contents ||=  existing_file || contents
+    contents && (File.write filepath, file_contents)
+    file_contents
+  end
+
+
   # if file is a nonexisting filepath, or by any reason
   # throws any exception, it will be treated as contents
   # instead, and the filename will treated as ""

@@ -434,15 +434,15 @@ module RubymentModule
             timeout,
             skip_open_uri,
           ]).first
-	  debug && (stderr.puts "url_response=#{url_response.inspect}")
-	  url_response
+        debug && (stderr.puts "url_response=#{url_response.inspect}")
+        url_response
       rescue => e1
         begin
-	  debug && (stderr.puts "exception e1=#{e1.inspect}")
+          debug && (stderr.puts "exception e1=#{e1.inspect}")
           File.read uri
         rescue  => e2
-	  debug && (stderr.puts "exception e2=#{e2.inspect}")
-	  debug && (stderr.puts "return_on_rescue=#{return_on_rescue.inspect}")
+          debug && (stderr.puts "exception e2=#{e2.inspect}")
+          debug && (stderr.puts "return_on_rescue=#{return_on_rescue.inspect}")
           must_return_on_rescue = true
           return_on_rescue
         end

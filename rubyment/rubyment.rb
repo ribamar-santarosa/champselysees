@@ -884,8 +884,10 @@ module RubymentModule
   # +password+:: [String, nil] password for basic authentication method. Will prompt without echo if +nil+ and +auth_user+ is not +nil+
   # +timeout+:: [Fixnum] 
   # @return [Array] returns an +Array+ whose elements are :
-  # +request_execution+:: [String] 
-  # +request_execution+:: [Object] as returned by +RestClient::Request.execute+
+  # +response+:: [String] 
+  # +response+:: [Object] as returned by +RestClient::Request.execute+. Note that this is a dangerous object for printing, be aware.
+  # +http_response_object+:: [Net::HTTPResponse] 
+  # +http_response_object.code+:: [String] 
   def rest_response__request_base args=ARGV
     require 'base64'
     require 'rest-client'
@@ -911,15 +913,23 @@ module RubymentModule
       auth_user && (input_single_line_non_echo [password])
     ].join ":"
     auth_user && (headers["Authorization"] = "Basic #{base64_auth}")
-    request_execution = RestClient::Request.execute(
+    response,
+      request,
+      http_response_object = RestClient::Request.execute(
       :method => method,
       :url => url,
       :payload => payload,
       :headers => headers,
       :verify_ssl => verify_ssl,
       :timeout => timeout
-    )
-    [ request_execution.to_s ]
+    ) {|*args| args}
+    rv = [
+      response.to_s,
+      request,
+      http_response_object,
+      http_response_object.code,
+    ]
+    rv
   end
 
 

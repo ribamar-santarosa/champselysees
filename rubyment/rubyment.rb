@@ -98,6 +98,92 @@ end
 module RubymentExperimentModule
 
 
+=begin
+  # documentation_begin
+  # short_desc = "tests the function #experiment__bled"
+  @memory[:documentation].push = {
+    :function   => :experiment__bled,
+    :short_desc => short_desc,
+    :description => "",
+    :params     => [
+      {
+        :name             => :args,
+        :description      => "list of parameters (splat)",
+        :duck_type        => splat,
+        :default_behavior => [],
+        :params           => [
+          {
+            :name             => :reserved,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "for future use",
+          },
+        ],
+      },
+    ],
+    :return_value     => [
+      {
+        :name             => :args,
+        :description      => "list of parameters",
+        :duck_type        => Array,
+        :default_behavior => [],
+        :params           => [
+          {
+            :name             => :reserved,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "for future use",
+          },
+        ],
+      },
+    ],
+  }
+  # documentation_end
+=end
+  def experiment__bled *args, &block
+    stderr = @memory[:stderr]
+    bled_args,
+      block_call_args,
+      block_args,
+      reserved = args
+    default_on_exception,
+      dont_rescue,
+      output_backtrace,
+      backtrace_max_str_len,
+      debug,
+      reserved = bled_args
+    debug = debug.nne
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "args=#{args.inspect}")
+    debug && (stderr.puts "bled_args=#{bled_args.inspect}")
+    block ||= lambda {|*block_args|}
+    rv = Proc.new { |*block_args|
+      debug && (stderr.puts "{#{__method__} block starting")
+      debug && (stderr.puts "block_args=#{block_args.inspect}")
+      brv = begin
+        [ (block.call *block_call_args), nil, nil]
+      rescue => e
+        e_info = exception_information_base [
+          e,
+          backtrace_max_str_len
+        ]
+        debug && (stderr.puts "{#{__method__} block #{block.inspect} exception: #{e_info.first}}")
+        debug && (stderr.puts "{#{__method__} block #{block.inspect} backtrace: #{e_info[1]}")
+        dont_rescue && (raise e)
+        [ default_on_exception, e_info, e ]
+      end
+      debug && (stderr.puts "block #{block.inspect} will return #{brv.inspect}")
+      debug && (stderr.puts "#{__method__} block returning}")
+      brv
+    }
+    rv = [ rv ]
+    debug && (stderr.puts "will return #{rv.inspect}")
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
+  end
+
+
+
 end
 
 

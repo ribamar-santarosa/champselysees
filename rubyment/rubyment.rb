@@ -761,7 +761,7 @@ module RubymentMaintainedModule
 
 =begin
   # documentation_begin
-  # short_desc = "tests the function #string_truncate"
+  # short_desc = "truncates a string"
   @memory[:documentation].push = {
     :function   => :string_truncate,
     :short_desc => short_desc,

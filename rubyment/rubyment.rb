@@ -3785,62 +3785,17 @@ n8mFEtUKobsK
     debug = debug.nne
     debug.nne && (stderr.puts "#{__method__} starting")
     debug && (stderr.puts "args=#{args.inspect}")
-    rv = []
-    pd = pushdown_operate
-    args.each_with_index {|e, index|
-      debug && (stderr.puts "-------------------")
-      debug && (stderr.puts "[e, index]=#{[e, index].inspect}")
-      deep && (e = array_unflatten_base_shallow(e) rescue e)
-      operations = reserved_tokens.map { |reserved_token|
-        debug && (stderr.puts "reserved_token=#{reserved_token.inspect}")
-        debug && (stderr.puts "array_operands_stack=#{pd[1].inspect}")
-        debug && (stderr.puts "array_operand=#{pd.first.inspect}")
-        rtoken, is_up_token = reserved_token
 
-        repetition_test = string_repetition [e, rtoken, 1]
-        (
-	  # case A: e is exactly the reserved token.
-	  # start or finish an array
-	  # note: if rtoken is false, it will succeed this
-	  # test.
-          (repetition_test == rtoken) && (
-            is_up_token && (
-              debug && (stderr.puts "case is_up_token")
-	      [:reserved_token, :up, e, rtoken]
-	    ) || (
-              debug && (stderr.puts "case is_down_token")
-	      [:reserved_token, :up.negate_me, e, rtoken]
-	    )
-	  )
-        ) || (
-	  # case B: is a a repetition with at least 2
-	  # occurrences of the reserved token. remove one.
-	  # (and add it to the current array)
-          repetition_test && (
-            debug && (stderr.puts "case escape")
-	    escaped_e = e.sub! rtoken, ""
-	    [:reserved_token.negate_me, nil, escaped_e, rtoken]
-          )
-        ) || (
-	  # case C: no repetition. (just add e to
-	  # the current array.)
-            debug && (stderr.puts "case just add")
-	    [:reserved_token.negate_me, nil, e, rtoken]
-	)
-      }
-      # now operations has |reserved_tokens| operations.
-      # but only one will be applied: either the first
-      # one which is a reserved token (:first), or the
-      # last operation, in case of no reserved tokens.
-      operation = operations.lazy.find(&:first) || (
-        operations[-1].to_a
-      )
-      reserved_token, reservation_type, token = operation
-      pd = pushdown_operate [pd, operation]
-    }
-    debug && (stderr.puts "will return #{pd.first}")
+    rv = array_unflatten_base [
+      args,
+      deep.negate_me,
+      debug,
+      reserved_tokens,
+    ]
+
+    debug && (stderr.puts "will return #{rv}")
     debug && (stderr.puts "#{__method__} returning")
-    pd.first
+    rv
   end
 
 

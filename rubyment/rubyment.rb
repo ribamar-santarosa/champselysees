@@ -3895,6 +3895,95 @@ n8mFEtUKobsK
   end
 
 
+  # test for #array_unflatten_base
+  def test__array_unflatten_base args=[]
+    test_cases ||= [
+      # [ :id, :expectation, :actual_params ],
+      [
+        "base_case", [ :a, [ :b ], :c], [
+           :array_unflatten_base, [
+             [:a, "[", :b, "]", :c]
+           ]
+        ],
+      ],
+
+      [
+        "base_escape_case", [ :a, "[", :b, "]", :c], [
+           :array_unflatten_base, [
+             [:a, "[[", :b, "]]", :c]
+           ]
+        ],
+      ],
+
+      [
+        "base_open_right_case", [ :c], [
+           :array_unflatten_base, [
+             [:a, :b, "[", :c]
+           ]
+        ],
+      ],
+
+      [
+        "base_open_left_case", [ :b, :c], [
+           :array_unflatten_base, [
+             [:a, "]", :b, :c]
+           ]
+        ],
+      ],
+
+      [
+        "base_case_double", [ :a, [ [ :b ] ], :c], [
+           :array_unflatten_base, [
+             [:a, "[", "[",  :b, "]", "]", :c]
+           ]
+        ],
+      ],
+
+      [
+        "base_case_inverted", [ :c], [
+           :array_unflatten_base, [
+             [:a, "]",  :b, "[", :c]
+           ]
+        ],
+      ],
+
+
+      [
+        "base_nested_case", [ :a, [ [ :b ] ], :c], [
+           :array_unflatten_base, [
+             [:a, "[", [ :b ], "]", :c]
+           ]
+        ],
+      ],
+
+
+      [
+        "base_mixed_nested_case_deep", [ :a, [ [ [ :b, ] ] ], :c], [
+           :array_unflatten_base, [
+             [:a, "[", [ "[", :b, "]", ], "]", :c]
+           ]
+        ],
+      ],
+
+
+      [
+        "base_mixed_nested_case_shallow", [ :a, [ [ "[", :b, "]",  ] ], :c], [
+           :array_unflatten_base, [
+             [ :a, "[", [ "[", :b, "]", ], "]", :c ],
+             :shallow,
+             :debug.negate_me,
+             :reserved_tokens.to_nil,
+             :inverse.negate_me,
+           ]
+        ],
+      ],
+
+
+    ]
+    test__tester test_cases
+  end
+
+
   # test for #string_repetition
   def test__string_repetition args=[]
     expectation = {}

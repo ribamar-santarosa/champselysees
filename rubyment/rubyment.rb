@@ -928,32 +928,7 @@ module RubymentModule
   # +timeout+:: [Fixnum] 
   # @return [String] the response
   def rest_request args=ARGV
-    require 'base64'
-    require 'rest-client'
-
-    stderr = @memory[:stderr]
-    time   = @memory[:time]
-    url,
-      payload,
-      verify_ssl,
-      headers,
-      method,
-      auth_user,
-      password,
-      timeout,
-      reserved = args
-
-    auth_user = auth_user.nne
-    password  = password.nne
-    method    = method.nne :get
-    headers   = headers.nne({})
-    base64_auth = Base64.encode64 [
-      auth_user,
-      auth_user && (input_single_line_non_echo [password])
-    ].join ":"
-    auth_user && (headers["Authorization"] = "Basic #{base64_auth}")
-    request_execution = RestClient::Request.execute(:method => method, :url => url, :payload => payload, :headers => headers, :verify_ssl => verify_ssl, :timeout => timeout)
-    request_execution.to_s
+    (rest_response__request_base args).first
   end
 
 

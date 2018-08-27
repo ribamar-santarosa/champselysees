@@ -370,7 +370,7 @@ class Rubyment
   end
 
 
-  # reads a uri (if 'open-uri' available, otherwise, just do a normal File.read)
+  # reads a uri (if 'rest-client' or 'open-uri' available and they don't throw any exception, otherwise, just do a normal File.read)
   # @param [Array] args, an +Array+ whose elements are expected to be:
   # +uri+:: [String, nil] uri or path of the file (empty string is assumed in the case of +nil+ given)
   # +username+:: [String] basic http authentication username

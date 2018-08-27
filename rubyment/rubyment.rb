@@ -3777,6 +3777,14 @@ n8mFEtUKobsK
         ],
       ],
 
+      [
+        "base_open_right_case", [ :c], [
+           :array_unflatten_base_shallow, [
+             :a, :b, "[", :c
+           ]
+        ],
+      ],
+
     ]
     test__tester test_cases
   end

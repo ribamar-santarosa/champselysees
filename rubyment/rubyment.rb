@@ -2844,6 +2844,10 @@ n8mFEtUKobsK
 
 
   # test for ssl_sample_self_signed_cert_encrypted
+  # note: function name out of standard. kept for
+  # open-closed commitment.
+  # call #test__enc_dec_interactive__ssl_sample_self_signed_cert
+  # instead
   def test_enc_dec_interactive__ssl_sample_self_signed_cert args=ARGV
     expectation = {
       :self_signed_certificate => ssl_sample_self_signed_cert[0],

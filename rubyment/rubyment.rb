@@ -804,6 +804,7 @@ trying to get the interface compatible with
           c.password = password
           c.ssl_verify_host = verify_ssl
           c.ssl_verify_peer = verify_ssl
+          c.follow_location = true
           debug && (stderr.puts "c.ssl_verify_peer=#{c.ssl_verify_peer?}")
           debug && (stderr.puts "c.ssl_verify_host=#{c.ssl_verify_host?}")
         }

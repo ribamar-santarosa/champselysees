@@ -394,6 +394,8 @@ class Rubyment
         rescue  => e2
           return_on_rescue
         end
+      rescue => e3
+        return_on_rescue
       end
     ) || (file_is_directory) && (return_on_directory_given)
   end

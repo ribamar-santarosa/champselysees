@@ -241,6 +241,133 @@ end
 module RubymentMaintainedModule
 
 
+=begin 
+  # documentation_begin
+  # short_desc = "tests the function #bled"
+  @memory[:documentation].push = {
+    :function   => :bled,
+    :short_desc => short_desc,
+    :description => "",
+    :params     => [
+      {
+        :name             => :args,
+        :description      => "list of parameters (splat)",
+        :duck_type        => splat,
+        :default_behavior => [],
+        :params           => [
+          {
+            :name             => :default_on_exception,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "if an exception happens, this value will be returned in the first element of the return value",
+          },
+          {
+            :name             => :dont_rescue,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "do not rescue exceptions",
+          },
+          {
+            :name             => :output_backtrace,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "output when an exception happens",
+          },
+          {
+            :name             => :backtrace_max_str_len,
+            :duck_type        => FixNum,
+            :default_behavior => :nil,
+            :description      => "backtrace outputs can be long, use this to limit it",
+          },
+          {
+            :name             => :debug,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "prints debug information to the __IO__ specified by __@memory[:stderr]__ (STDERR by default)",
+          },
+          {
+            :name             => :reserved,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "for future use",
+          },
+        ],
+      },
+    ],
+    :return_value     => [
+      {
+        :name             => :args,
+        :description      => "list of parameters",
+        :duck_type        => Array,
+        :default_behavior => [],
+        :params           => [
+          {
+            :name             => :actual_block_return,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "the actual return value of the block call",
+          },
+          {
+            :name             => :exception_info,
+            :duck_type        => Array,
+            :default_behavior => [],
+            :description      => "exception info if an exception happened, as returned by :exception_information_base",
+          },
+          {
+            :name             => :exception,
+            :duck_type        => Exception,
+            :default_behavior => :nil,
+            :description      => "the exception that happened, if any",
+          },
+          {
+            :name             => :reserved,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "for future use",
+          },
+        ],
+      },
+    ],
+  }
+  # documentation_end
+=end
+  def bled args=[], &block
+    stderr = @memory[:stderr]
+    default_on_exception,
+      dont_rescue,
+      output_backtrace,
+      backtrace_max_str_len,
+      debug,
+      reserved = args
+    debug = debug.nne
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "args=#{args.inspect}")
+    block ||= lambda {|*block_args|}
+    rv = Proc.new { |*block_args|
+      debug && (stderr.puts "{#{__method__} block starting")
+      debug && (stderr.puts "block_args=#{block_args.inspect}")
+      brv = begin
+        [ (block.call *block_args), nil, nil]
+      rescue => e
+        e_info = exception_information_base [
+          e,
+          backtrace_max_str_len
+        ]
+        (debug || output_backtrace) && (stderr.puts "{#{__method__} block #{block.inspect} backtrace: #{e_info[1]}")
+        dont_rescue && (raise e)
+        [ default_on_exception, e_info, e ]
+      end
+      debug && (stderr.puts "block #{block.inspect} will return #{brv.inspect}")
+      debug && (stderr.puts "#{__method__} block returning}")
+      brv
+    }
+    rv = [ rv ]
+    debug && (stderr.puts "will return #{rv.inspect}")
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
+  end
+
+
 =begin
   # documentation_begin
   # short_desc = "tests the function #exception_information_base"

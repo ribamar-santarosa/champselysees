@@ -36,7 +36,8 @@ The same is valid for return values (not that they're not necessarily an Array, 
 
 If an interface throws exceptions, it bubbled from an inner call. That's considered a bug or an undefined case case. Clients are not supposed to catch them -- the case is supposed to be undefined. Clients have 3 options: 1) ensure they use only the working uses cases 2) or consider the interface as not available or 3) rescue exceptions under their own risk (ie, maintenance should be required in the future).
 
-This principle is general and  it's applied in the case of any failure, like a bug.  If a function is called `validate_something`, it has to validate it properly,  and it will be changed until it is properly validate something. Usage of unintended bugs as feature is not covered. Changes will be made only as the last resource, still.
+This principle is general and  it's applied in the case of any failure, like a bug.  If a function is called `validate_something`, it has to validate it properly,  and it will be changed until it is properly validate something. Usage of unintended bugs as feature is not covered. Changes will be made only as the last resource, still. And their fixing commits will be tagged with "change" (some cases, like treating an exception, the commit may be considered an improvement/extesion, and won't be tagged as change).
+
 
 #### input is not validated
 

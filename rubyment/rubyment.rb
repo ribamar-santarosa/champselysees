@@ -3761,10 +3761,11 @@ n8mFEtUKobsK
   def test__array_unflatten_base_shallow args=[]
     test_cases ||= [
      # [ :id, :expectation, :actual_params ],
-     [ "any test", [ :a, [ :b ], :c], [
+     [
+       "base_case", [ :a, [ :b ], :c], [
           :array_unflatten_base_shallow, [
             :a, "[", :b, "]", :c
-           ]
+          ]
        ],
      ],
 

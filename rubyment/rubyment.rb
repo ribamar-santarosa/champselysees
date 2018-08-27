@@ -140,7 +140,7 @@ class Rubyment
   # @param [splat] +args+, an splat whose elements are expected to be +blea_args+ and +blocks_args+:
   # +blea_args+:: [Array] args to be used internally, which are expected to be:
   # +exception_admitted+:: [Boolean]
-  # +output_exception+:: [Boolean]
+  # +output_exception+:: [Boolean] note that this only makes sense if exception is admitted -- otherwise an exception will be normally thrown.
   # +blocks_args+:: [splat] args to be forwarded to the block call
   # @return [Proc]
   def blea *args, &block

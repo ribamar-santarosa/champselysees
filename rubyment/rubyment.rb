@@ -3717,7 +3717,7 @@ n8mFEtUKobsK
   # +debug+:: [Object] if evals to false (or empty string), won't print debug information
   # +shallow+:: [Object] if evals to false (or empty string), will traverse recursively +flatten_array+ and apply the rules, in the case it is not flatten.
   # +reserved_tokens+:: [Array of Arrays]
-  # +inverse+:: [Object] if calling the object +nne+ method returns a +false+ value, will operate this function inversely: will take a unflatten array and flatten it, applying the inverse escaping rules.
+  # +inverse+:: [Object] if calling the object +nne+ method returns a +false+ value, will operate this function inversely: will take a unflatten array and flatten it, applying the inverse escaping rules (note that any object responding to +:map+ will be considered an array in +flatten_array+).
   # +debug_pushdown+:: [Object] if evals to false (or empty string), won't print debug information about the call #pushdown_operated
 # +inversion_envelope+::  [Array, nil], if +nil+, the first colum of +reserved_tokens+ will be used. if an +Array+ whose elements are expected to be:
   # +inversion_envelope.prepend+::  [Object] when an inversion occurrs, this element will be prepended when a new object responding to +:map+, like +Array+ is found.
@@ -3770,6 +3770,7 @@ n8mFEtUKobsK
 	  # note: if rtoken is false, it will succeed this
 	  # test.
           (repetition_test == rtoken) && (
+	    inverse  && (e = (e.sub! "", rtoken) rescue e)
             is_up_token && (
               debug && (stderr.puts "case is_up_token")
 	      [:reserved_token.negate_me(inverse), :up, e, rtoken]
@@ -3784,15 +3785,15 @@ n8mFEtUKobsK
 	  # (and add it to the current array)
           repetition_test && (
             debug && (stderr.puts "case escape")
-	    inverse  && (escaped_e = (e.sub! "", rtoken) rescue e)
+	    # room for improvement: and if array had sub! ?
 	    !inverse && (escaped_e = (e.sub! rtoken, "") rescue e)
-	    [:reserved_token.negate_me, nil, escaped_e, rtoken, inverse]
+	    [:reserved_token.negate_me, nil, escaped_e, rtoken, false ]
           )
         ) || (
 	  # case C: no repetition. (just add e to
 	  # the current array.)
             debug && (stderr.puts "case just add")
-	    [:reserved_token.negate_me, nil, e, rtoken, inverse]
+	    [:reserved_token.negate_me, nil, e, rtoken, inverse && inversion_envelope ]
 	)
       }
       # now operations has |reserved_tokens| operations.

@@ -2591,7 +2591,7 @@ require '#{gem_name}'
     
     require 'socket'
     plain_server = TCPServer.new ip_addr, listening_port
-    ssl_server = runea [admit_plain, output_exception] {
+    ssl_server = runea [admit_plain, output_exception, "nil on exception"] {
       require 'openssl'
       ssl_context = OpenSSL::SSL::SSLContext.new
       ssl_context.extra_chain_cert =

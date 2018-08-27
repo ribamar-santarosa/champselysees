@@ -109,6 +109,87 @@ module RubymentExperimentModule
   end
 
 
+=begin
+
+  # documentation_begin
+  # short_desc = "tests the function #call_or_itself"
+  @memory[:documentation].push = {
+    :function   => :call_or_itself,
+    :short_desc => short_desc,
+    :description => "calls the method #call of an object, or return the object itself",
+    :params     => [
+      {
+        :name             => :args,
+        :description      => "list of parameters",
+        :duck_type        => Array,
+        :default_behavior => [],
+        :params           => [
+          {
+            :name             => :object,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "object to be called, if responds to #call, or to return itself",
+          },
+          {
+            :name             => :return_dont_call,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "forces an object to return itself even when it reponds to #call",
+          },
+          {
+            :name             => :debug,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "prints debug information to the __IO__ specified by __@memory[:stderr]__ (STDERR by default)",
+          },
+          {
+            :name             => :reserved,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "for future use",
+          },
+        ],
+      },
+    ],
+    :return_value     => [
+      {
+        :name             => :args,
+        :description      => "list of parameters",
+        :duck_type        => Array,
+        :default_behavior => [],
+        :params           => [
+          {
+            :name             => :reserved,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "for future use",
+          },
+        ],
+      },
+    ],
+  }
+  # documentation_end
+
+=end
+  def call_or_itself args=[]
+    stderr = @memory[:stderr]
+    object,
+      return_dont_call,
+      debug,
+      reserved = args
+    debug = debug.nne
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "args=#{args.inspect}")
+    will_call = (object.respond_to? :call) && return_dont_call.negate_me
+    debug && (stderr.puts "will_call=#{will_call.inspect}")
+    will_call && (rv = object.call)
+    debug && (stderr.puts "provisory return value: #{rv.inspect}")
+    will_call.negate_me && (rv = object)
+    debug && (stderr.puts "will return #{rv.inspect}")
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
+  end
+
 
 end
 

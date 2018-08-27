@@ -788,7 +788,7 @@ trying to get the interface compatible with
     debug && (stderr.puts "caller=#{caller_label}")
     debug && (stderr.puts "args.each_with_index=#{args.each_with_index.entries.inspect}")
     no_rescuing = no_rescuing.nne
-    output_exception = output_exception.nne no_rescuing
+    output_exception = output_exception.nne
     method = method.nne "get"
     verify_ssl = verify_ssl.nne
     curl_method = "http_#{method.downcase}"

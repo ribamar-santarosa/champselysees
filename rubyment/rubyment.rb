@@ -1068,7 +1068,7 @@ module RubymentTestModule
     y3 = begin
       p3.first.call 2, 3
     rescue => e
-      e_info = exception_information_base [e]
+      e_info = exception_info_base [e]
       [:default, e_info, e]
     end
 

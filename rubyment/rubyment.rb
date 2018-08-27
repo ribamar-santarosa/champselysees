@@ -378,6 +378,11 @@ class Rubyment
   # +return_on_rescue+:: [Object] a default to return in the case of exceptions raised
   # +return_on_directory_given+:: [Object] a default to return in the case uri is a directory. Defaults to true
   # +skip_open_uri+:: [Boolean] don't bother trying to use 'open-uri' (but still tries to open an uri with 'rest-client')
+  # +payload+:: [String] 
+  # +verify_ssl+:: [Boolean] 
+  # +headers+:: [Hash] +"Authorization"+ key will be added to it if +username+ is given.
+  # +method+:: [HTTP method] one of +:get+, +:method+, +:post+ or +:delete+
+  # +timeout+:: [Fixnum] 
   #
   # @return [String, Object] read data (or +return_on_rescue+)
   def file_read args=ARGV
@@ -387,6 +392,11 @@ class Rubyment
       return_on_rescue,
       return_on_directory_given,
       skip_open_uri,
+      payload,
+      verify_ssl,
+      headers,
+      method,
+      timeout,
       reserved = args
     uri = uri.nne ""
     file_is_directory = File.directory?(uri)
@@ -395,13 +405,13 @@ class Rubyment
       begin
         (send :rest_request_or_open_uri_open, [
             uri,
-            :payload.to_nil,
-            :verify_ssl.to_nil,
-            :headers.to_nil,
-            :method.to_nil,
+            payload,
+            verify_ssl,
+            headers,
+            method,
             username,
             password,
-            :timeout.to_nil,
+            timeout,
             skip_open_uri,
           ]).first
       rescue => e1

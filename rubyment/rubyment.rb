@@ -2804,6 +2804,45 @@ n8mFEtUKobsK
   end
 
 
+  # has the same functionality as
+  # #ssl_sample_self_signed_cert.
+  # this one is left as an example on how
+  # safely place a certificate/private key
+  # pair inside this code, instead of leaving
+  # it in plain or somewhere in your filesystem.
+  # @param [splat] +args+::, an splat whose elements are expected to be:
+  # +reserved+:: [splat] reserved for future use
+  # @return [Array] where the first element is a certificate (suitable to be the contents of +cert_pem_file+  in #ssl_make_server) and the second a private key (suitable to be the contents of +priv_pemfile+ in #ssl_make_server)
+  def ssl_sample_self_signed_cert_encrypted *args
+    password = "onlyNSAknows"
+    # generated with:
+    # test__enc_dec_interactive [
+    #   ssl_sample_self_signed_cert[0],
+    #   password,
+    # ]:
+     self_signed_certificate = dec_interactive [
+      "owdfr76MvIhPb05PLsPiTw==\n",
+      "R1QSJSUmfXVB4ET2r5C2MN3MZC75V9Pi7nWl8+lTZ363IJOYK4/DJkKL0Y58\nMo8fp1mvoq0fjhCSdHqld6IMWxFXW3kzXGyuVScfbRbvYV83AAhmq+HTscUE\nYJLsfnUqTzGKN/AB/Kr1x3kIsZsb9oNSQMk3dFHV89AM9Z1d30ZMgtW8mn/c\nTHmxsLaFgKvg8bT9t+ERBr85bmJuphkDBlAc4hP2KS/xTFeKB1QL/lJ/oF9j\ncUmb5uWdmZ0REzLyYu9F1MfHv0lwENi+oJYW50lo7DUTYHnyKxYRo+rlUsDF\n0nyS4wcPQVxvY1vDrC34pFdMtcXLQTzzbAiyJx73fT7WfY40MNNKRZfz/zlG\nl/d4ILNlW43/fVnOwg4yZ1tGT1PovrDs1c8Mxu7zm0QCT7+Dp+nN0zes5K8A\n2aYIsR7Nvm+3OeKrRf2JXHv8J/10NEcPfuYocmitlzrr6yM3+4xMXM94Zt/7\n4+vONht+xOhOxUmJufC4HNOmqszX1480dL96qfhc9zXlvxpbD4DGkgU0AR17\nt1C6XNqI0jQxxDMQa0jn0HsX5C9dmtqunLIz8ZkgfSNJbsOtVYVS11YuXk+k\nbEdVimP6DT1x0KZ+UxpxOFJcuvtM6eBe3aMWRjlIf/xjobJ2GP9OlDq1hPJe\n+zz1lhUxobFZiqSIrVbYz8u6ZuvVSEa8NfQJ+GpE1poExzBAsM5RjSMWK0Yr\nLnasLNQwJkYoDlmZBNOX30pCaZPmLl9xLaJphIeHOcmNL0e209hST4H5s1oZ\np/k+sk/jgqtc6jVBeMVwSEDHLl4F4hiNHqeqW72bim7XlkbVjaZ8Q66hUCK/\nKBlJ9YH4QCm3zN4ZQtoTOwu7G8+GeO46ahShzE9+6uoj8DCN31zcbDA5sKgJ\nc6SkA1KG83cDq2rP9zKAMn8V1O/NMnV/09gqPiowl/60CVuepkpNmVehhBVi\noamQ5r1g2l/PaUr7hmwygLBjnMHYD2eu5M0gMLYtZxCQSiXTxryp8Xd7vBzs\n0oWO2km/RjVedhxIBMGxcL2O17lWvumcr8AQYOuuiciPqNj0p/KxDYUHvIqx\nW3vPHknUzug5gSwfYZF7t5HCAc8dyRyC/b5M7Mvl9OsWdRPpcv25Dr+x/i/r\nrRMyvBLd8cujRh532fuyDZVL8NwPqwkKoBSU/+hkSOfW6WEdwYWp8xHDFmrQ\nD/YTNSSVPhGNSxR4I/niEksgH43zp5MdowcVuVsIxQBI/ExGcloRJ3hVa1I=\n",
+      "IxDTD59cryQjCnFpYQTudw==\n",
+      "MjAwMDA=\n",
+      password,
+    ]
+    # generated with:
+    # test__enc_dec_interactive [
+    #   ssl_sample_self_signed_cert[1],
+    #   "onlyNSAknows",
+    # ]
+    private_key = dec_interactive [
+      "mxoZrTsIelpVmTAdSMQJaw==\n",
+      "ebsMBtAoESJAOrmffbRsNdjv3FUqyTetrKlw6WGCNLre8uChpt38ZRmi1XAr\nab2PxiNyz7OJ8PWwCnd/TjIOhvid3Zt7LbqUpR2ixRmVf/mEFoWrdwdXnOMz\nzQErlSok1dY2cAvGqBihP26yC9N4IGJU5Jrt4wivahnnvWZoC1gvsEZVPC+Q\nxLF69gu8fn4gUgFvzpjuhgcCXk6QyhW916pZxJrtwBRMEQWu9dGEcRqSPqNt\nLfw6cXyGHDNV1320Je2BRjzMrhIfiwkv88oWEjnHcbOzboxhGdvYG8oYNMgQ\nf9qouABXlQyOEnBIFfl2lKoJaizERs1ShsdNCAcyZZPgNdxWNawdcF3AawYh\nqlX+uOlxCsWQLV3AaSDPy9mDthF3IuMLLe/BlY3gkGLCvD4szZIsQhk6047+\n9euOuJxxu8X3r8TZDHQK9esm5O6YeNFIlGko6PXA2OwcdUWO9Umwr7Lu8Mgk\n/yldW0G/6dMZ6qKSSSLTvEnzZChz91GabcntxT2TrOR2b1zHJhfOUUxcHxWe\nkuqZZ6GmGFIPju22cCsstXDZ0Q1J19VnGBsrySR0AHDxS3sLgeihf8SjP1bn\n3B1nRR+1gHyKPthKiuzibJj+j6xcIgYBynyaNIeT0Wfcf7WXyBTZ+Idd7Z+R\nkiy9jnZPqCIEE5aebuVvAUXksPE2OvEgsCIiLSEylXXrHEdcEnfra7wvo0qb\n1G/vRNlOIYJiOsKLOqcg6KZVJ+QHHYPrir33g4N02Q64WEw4/eIzR5o4MV9c\n7tho/VLQBE1T3z8HPlhe8XOXvVIDJ/cDVJhTre6KbKBsA+Ow47Z1uNXAchAO\n2bwl1sN1iH+SNBsEjRiXpjbrk95I/H66+LZoz85kRBcoQIhfXU97qbskBUwX\nK//3HdYluo/xx5QSVNqQUzybQnRdNV7gy6xNIgpot9ZtPB2K00HulWW1dnRQ\nBMCWb5h3eUob826icleZ/bEFfcfY8FjNTh9zhyWra3wJOTGS4zhmnlfhBRFZ\njRUcKGX/zgfIrCKXum+2m7Cku3bez+mKpEMRWIBPweGzjq3DSdtY+qlKOgeV\nBxOOh0QoMw1kzRfqF0D0Nqn785lvcXjH28v1efHf6SgFrOXjFNl0ihXXxhMG\nivsoIGIblspGIddR6wbarq1L8xMBTCAorNo0OrWPYACz4ek2CmQUuLhwiNx/\nWsFmaElfdtNL/WM06D5zehAYnCfg02zVr4bIgrHkFaq+jsI+u7/3GhtAmnAC\nkUT9CQvGNXwki3jIHOJQL1X8vLA2T25lg9I7wU4EXA==\n",
+      "IBBcvvM2/h7bW+tBcBbXeQ==\n",
+      "MjAwMDA=\n",
+      password,
+      ]
+    [self_signed_certificate, private_key]
+  end
+
+
   # tests #file_read_or_write and #file_read
   # specially its +return_on_rescue+ parameter.
   # attention that files given by parameter

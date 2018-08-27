@@ -2554,12 +2554,12 @@ require '#{gem_name}'
         extra_cert_pem_files
           .map(&File.method(:read))
           .map(&OpenSSL::X509::Certificate.method(:new))
-      ssl_server = OpenSSL::SSL::SSLServer
-        .new plain_server, ssl_context
       ssl_context.cert = OpenSSL::X509::Certificate
         .new File.read cert_pem_file
       ssl_context.key = OpenSSL::PKey::RSA
         .new File.read priv_pemfile
+      ssl_server = OpenSSL::SSL::SSLServer
+        .new plain_server, ssl_context
       ssl_server
     }
 

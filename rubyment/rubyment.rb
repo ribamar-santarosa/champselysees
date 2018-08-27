@@ -421,6 +421,11 @@ experiment__input_select [[:a, :b, :c], c ]
   end
 
 
+  def shell_array_deepen a
+    [ a ]
+  end
+
+
 end
 
 

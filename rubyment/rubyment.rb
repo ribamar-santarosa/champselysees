@@ -2915,11 +2915,8 @@ n8mFEtUKobsK
    http_processing_method_args ||= http_processing_method_args.nne []
    http_server_port ||= http_server_port.nne  8003
    http_ip_addr ||= http_ip_addr.nne "0"
-   priv_pemfile ||=  priv_pemfile.nne "pkey.pem"
-   cert_pem_file ||= cert_pem_file.nne  "cert.crt"
-   cert_contents, pkey_contents = ssl_sample_self_signed_cert
-   file_read_or_write cert_pem_file, cert_contents
-   file_read_or_write priv_pemfile, pkey_contents
+   priv_pemfile  ||=   priv_pemfile.nne ssl_sample_self_signed_cert[1]
+   cert_pem_file ||=  cert_pem_file.nne ssl_sample_self_signed_cert[0]
    extra_cert_pem_files ||=  extra_cert_pem_files.nne 
    thread =  tcp_ssl_server [
      http_server_port,

@@ -5519,11 +5519,13 @@ n8mFEtUKobsK
     admit_non_ssl = admit_non_ssl.nne true
     http_file_read_attempt = (
       debug && (stderr.puts "file_read \"https://#{domain}:#{http_server_port}/#{path}\"")
-      file_read ["https://#{domain}:#{http_server_port}/#{path}"]
+      file_read ["https://#{domain}:#{http_server_port}/#{path}", nil, nil, nil, nil, :skip_open_uri, nil, nil, nil, nil, nil, nil, :http_request_response__curl]
     )
     debug && (stderr.puts "#{admit_non_ssl.inspect} && file_read \"http://#{domain}:#{http_server_port}/#{path}\"")
     response = http_file_read_attempt ||
-      admit_non_ssl && (file_read ["http://#{domain}:#{http_server_port}/#{path}"])
+      admit_non_ssl && (
+        file_read ["http://#{domain}:#{http_server_port}/#{path}", nil, nil, nil, nil, :skip_open_uri, nil, nil, nil, nil, nil, nil, :http_request_response__curl]
+      )
     rv = [response, http_file_read_attempt]
     debug && (stderr.puts  "#{__method__} will return [response, http_file_read_attempt]=#{rv.inspect}")
     debug && (stderr.puts "#{__method__} returning}")

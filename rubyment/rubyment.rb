@@ -204,6 +204,7 @@ end
 =end
 module RubymentModule
 
+  include RubymentClassInjectorModule
   include RubymentExperimentModule
   include RubymentMaintainedModule
   include RubymentDeprecatedModule

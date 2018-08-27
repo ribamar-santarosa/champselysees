@@ -597,7 +597,7 @@ module RubymentMaintainedModule
       brv = begin
         [ (block.call *block_args), nil, nil]
       rescue => e
-        e_info = exception_information_base [
+        e_info = exception_info_base [
           e,
           backtrace_max_str_len
         ]

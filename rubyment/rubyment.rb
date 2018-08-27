@@ -377,12 +377,12 @@ class Rubyment
   # +password+:: [String] basic http authentication password
   # +return_on_rescue+:: [Object] a default to return in the case of exceptions raised
   # +return_on_directory_given+:: [Object] a default to return in the case uri is a directory. Defaults to true
-  # +skip_open_uri+:: [Boolean] don't bother trying to use 'open-uri' (but still tries to open an uri with 'rest-client')
+  # +skip_open_uri+:: [Boolean] don't bother trying to use 'open-uri' (but still tries to open an uri with 'rest-client'). Defaults to +false+ for open-closed principle respect, but advised to be set to +true+
   # +payload+:: [String] 
-  # +verify_ssl+:: [Boolean] 
-  # +headers+:: [Hash] +"Authorization"+ key will be added to it if +username+ is given.
-  # +method+:: [HTTP method] one of +:get+, +:method+, +:post+ or +:delete+
-  # +timeout+:: [Fixnum] 
+  # +verify_ssl+:: [Boolean] defaults to +false+
+  # +headers+:: [Hash] +"Authorization"+ key will be added to it if +auth_user+ is given. Defaults to +{}+
+  # +method+:: [HTTP method] one of +:get+, +:method+, +:post+ or +:delete+. defaults to +:get+
+  # +timeout+:: [Fixnum, nil] defaults to +nil+
   #
   # @return [String, Object] read data (or +return_on_rescue+)
   def file_read args=ARGV

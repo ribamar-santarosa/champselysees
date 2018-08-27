@@ -72,6 +72,17 @@ class Object
 end
 
 
+=begin
+  # begin_documentation
+  This module receives functions that are being worked on.
+  # end_documentation
+=end
+module RubymentExperimentModule
+
+
+end
+
+
 # Collection of Ruby functions
 # * output
 # normally outputs to STDERR, with

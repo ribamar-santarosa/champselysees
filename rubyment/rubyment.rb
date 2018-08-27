@@ -4290,12 +4290,13 @@ n8mFEtUKobsK
 
 
 =begin
-
+  # documentation_begin
   # short_desc = "tests the function #string_repetion"
   @memory[:documentation].push = {
-    :function   => :test__string_repetition,
-    :short_desc => short_desc,
-    :params     => [
+    :function    => :test__string_repetition,
+    :short_desc  => short_desc,
+    :description => "",
+    :params      => [
       {
         :name             => :args,
         :description      => "list of parameters",
@@ -4312,6 +4313,7 @@ n8mFEtUKobsK
       },
     ],
   }
+  # documentation_end
 
 
 =end

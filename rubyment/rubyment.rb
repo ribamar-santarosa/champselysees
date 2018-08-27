@@ -2041,10 +2041,12 @@ module RubymentModule
         url_response
       rescue => e1
         begin
-          debug && (stderr.puts "exception e1=#{e1.inspect}")
+          e_info = exception_info_base [e1]
+          debug && (stderr.puts "exception e1=#{e_info[1]} ")
           File.read uri
         rescue  => e2
-          debug && (stderr.puts "exception e2=#{e2.inspect}")
+          e_info = exception_info_base [e2]
+          debug && (stderr.puts "exception e2=#{e_info[2]}")
           debug && (stderr.puts "return_on_rescue=#{return_on_rescue.inspect}")
           must_return_on_rescue = true
           return_on_rescue

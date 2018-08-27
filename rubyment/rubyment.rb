@@ -241,7 +241,7 @@ end
 module RubymentMaintainedModule
 
 
-=begin 
+=begin
   # documentation_begin
   # short_desc = "tests the function #bled"
   @memory[:documentation].push = {

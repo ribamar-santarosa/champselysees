@@ -2785,6 +2785,53 @@ n8mFEtUKobsK
   end
 
 
+  # tests #file_read_or_write and #file_read
+  # specially its +return_on_rescue+ parameter.
+  # attention that files given by parameter
+  # will be mercilessly overwritten.
+  # writes the contents returned by 
+  # #ssl_sample_self_signed_cert
+  # to 2 files. then reads then.
+  # after it tries to give the contents of
+  # those files instead of the filenames.
+  # the idea behind is that, no matter if
+  # contents or filename were given, it
+  # should always return the contents of
+  # the file.
+  def test__file_read__return_on_rescue args=ARGV
+    priv_pemfile, cert_pem_file = args
+    priv_pemfile  ||=  priv_pemfile.nne "/tmp/pkey.pem"
+    cert_pem_file ||= cert_pem_file.nne "/tmp/cert.crt"
+    runef { 
+     File.delete priv_pemfile
+     File.delete cert_pem_file
+    }
+    cert_contents, pkey_contents = ssl_sample_self_signed_cert
+    # asserting that file_read_or_write is correct
+    read_or_write_cert_contents = file_read_or_write cert_pem_file, cert_contents
+    read_or_write_pkey_contents = file_read_or_write priv_pemfile,  pkey_contents
+    file_dot_read_cert_contents = File.read cert_pem_file
+    file_dot_read_pkey_contents = File.read priv_pemfile
+    # files exist case (will return the contents of 1st parameter filename):
+    existing_cert_contents = file_read [cert_pem_file, nil, nil, cert_pem_file]
+    existing_pkey_contents = file_read [priv_pemfile,  nil, nil, priv_pemfile ]
+    # files don't exist case (will return the 4th parameter):
+    rescue_cert_contents = file_read [cert_contents, nil, nil, cert_contents]
+    rescue_pkey_contents = file_read [pkey_contents, nil, nil, pkey_contents]
+    judgement =
+      [
+        [read_or_write_cert_contents, cert_contents, "read_or_write_cert_contents"],
+        [read_or_write_pkey_contents, pkey_contents, "read_or_write_pkey_contents"],
+        [file_dot_read_cert_contents, cert_contents, "file_dot_read_cert_contents"],
+        [file_dot_read_pkey_contents, pkey_contents, "file_dot_read_pkey_contents"],
+        [existing_cert_contents, cert_contents, "existing_cert_contents"],
+        [existing_pkey_contents, pkey_contents, "existing_pkey_contents"],
+        [rescue_cert_contents,   cert_contents, "rescue_cert_contents"],
+        [rescue_pkey_contents,   pkey_contents, "rescue_pkey_contents"],
+      ].map(&method("expect_equal")).all?
+  end
+
+
   # test for tcp_ssl_server (call #io_transform with
   # a function that processes an http request and returns
   # an http_response, by default #http_OK_response)

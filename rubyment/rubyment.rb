@@ -2971,8 +2971,8 @@ n8mFEtUKobsK
   # the file.
   def test__file_read__return_on_rescue args=ARGV
     priv_pemfile, cert_pem_file = args
-    priv_pemfile  ||=  priv_pemfile.nne "/tmp/pkey.pem"
-    cert_pem_file ||= cert_pem_file.nne "/tmp/cert.crt"
+    priv_pemfile  =  priv_pemfile.nne "/tmp/pkey.pem"
+    cert_pem_file = cert_pem_file.nne "/tmp/cert.crt"
     runef { 
      File.delete priv_pemfile
      File.delete cert_pem_file

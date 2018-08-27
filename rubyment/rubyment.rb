@@ -110,7 +110,7 @@ end
 module RubymentMaintainedModule
 
 
-=begin 
+=begin
   # documentation_begin
   # short_desc = "tests the function #exception_information_base"
   @memory[:documentation].push = {

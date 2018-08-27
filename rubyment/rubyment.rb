@@ -375,6 +375,22 @@ module RubymentExperimentModule
   end
 
 
+=begin
+  inverse of #file__json
+=end
+  def load__file_json args=[]
+    require 'json'
+    file_path,
+      reserved = args
+    file_contents = File.read file_path
+    puts "file_contents size=#{file_contents.size}"
+    loaded = JSON.parse file_contents
+    puts "loaded size=#{loaded.size}"
+    puts "loaded=#{loaded.inspect}"
+    loaded[:root.to_s]
+  end
+
+
 end
 
 

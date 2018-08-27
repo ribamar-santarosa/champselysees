@@ -2127,8 +2127,13 @@ require '#{gem_name}'
   # returns:
   # console output of gem push (String)
   def gem_push args=ARGV
-    gem_spec, future_arg = args
-    `gem push #{gem_spec}`
+    stderr = @memory[:stderr]
+    gem_spec, future_arg, quiet = args
+    quiet = quiet.nne
+    debug = quiet.negate_me
+    command="gem push #{gem_spec}"
+    debug && (stderr.puts "command=#{command}")
+    `#{command}`
   end
 
   # gem_uninstall

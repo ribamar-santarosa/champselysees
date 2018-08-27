@@ -3092,6 +3092,7 @@ n8mFEtUKobsK
       io_method,
       io_method_debug,
       domain,
+      admit_non_ssl,
       reserved = args
     tcp_ssl_server_method ||= tcp_ssl_server_method.nne :test__tcp_ssl_server__io_method
     domain ||= domain.nne "localhost"
@@ -3110,6 +3111,7 @@ n8mFEtUKobsK
         happy_with_request,
         io_method,
         io_method_debug,
+        admit_non_ssl,
       ]
     sleep 2
 

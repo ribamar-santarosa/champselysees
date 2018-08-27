@@ -2671,6 +2671,81 @@ require '#{gem_name}'
   end
 
 
+  # makes one or more OpenSSL server
+  # @param [Array] +args+, an +Array+ whose elements are expected to be:
+  # +listening_port+:: [String, Integer] port to listen
+  # +ip_addr+:: [String, nil] ip (no hostname) to bind the server. 0, nil, false, empty string will bind to all addresses possible.  0.0.0.0 => binds to all ipv4 . ::0 to all ipv4 and ipv6
+  # +admit_plain+:: [Boolean] if +true+, tries to create a normal +TCPServer+, if not possible to create +SSLServer+ (default: +false+, for preventing unadvertnt non-SSL server creation)
+  # +debug+:: [Object] for future use
+  # +priv_pemfile+:: [String] argument to be given to +OpenSSL::SSL::SSLContext.key+ method, after calling +OpenSSL::PKey::RSA.new+ with it. It's the private key file. letsencrypt example: +"/etc/letsencrypt/live/#{domain}/privkey.pem"+ (now it's accepted to pass the file contents instead, both must work).
+  # +cert_pem_file+:: [String] argument to be given to +OpenSSL::SSL::SSLContext.cert+ method, after calling +OpenSSL::X509::Certificate+.  It's the "Context certificate" accordingly to its ruby-doc page. letsencrypt example: +"/etc/letsencrypt/live/#{domain}/fullchain.pem"+ (now it's accepted to pass the file contents instead, both must work).
+  # +extra_cert_pem_files+:: [Array] array of strings. Each string will be mapped with +OpenSSL::SSL::SSLContext.new+, and the resulting array is given to +OpenSSL::SSL::SSLContext.extra_chain_cert+. "An Array of extra X509 certificates to be added to the certificate chain" accordingly to its ruby-doc. letsencryptexample: +["/etc/letsencrypt/live/#{domain}/chain.pem"]+ (now it's accepted to pass the file contents instead, both must work).
+  # +output_exception+:: [Bool] output exceptions even if they are admitted?
+  # +plain_servers+:: [TCPServer, Array of TCPServer] if given, ignores +listening_port+ and +ip_addr+, does not create a +TCPServer+ and just creates an +SSLServer+ out of this one. If an +Array+ of +TCPServer+ is provided instead, it will create one +SSLServer+ to each of those +TCPServer+.
+  #
+  # @return [Array] returns an  #Array whose elements are:
+  # +servers+:: [Array of OpenSSL::SSL::SSLServer or of TCPServer] depending on +admit_plain+ and in the success of the creation of +SSLServers+.
+  def ssl_make_servers args=ARGV
+    stderr = @memory[:stderr]
+    listening_port,
+      ip_addr,
+      debug,
+      admit_plain,
+      priv_pemfile,
+      cert_pem_file,
+      extra_cert_pem_files,
+      output_exception,
+      plain_servers,
+      reserved = args
+    debug = debug.nne
+    extra_cert_pem_files = extra_cert_pem_files.nne []
+    admit_plain = admit_plain.nne
+    output_exception = (
+      output_exception.nne || admit_plain.negate_me
+    )
+    debug && (stderr.puts "#{__method__} starting")
+    # openssl functions want contents, not filenames:
+    extra_cert_pem_files =  extra_cert_pem_files
+      .map! { |extra_cert_pem_file|
+        file_read [
+	  extra_cert_pem_file,
+	  nil,
+	  nil,
+	  extra_cert_pem_file
+	]
+      }
+    cert_pem_file = file_read [cert_pem_file, nil, nil, cert_pem_file]
+    priv_pemfile  = file_read [priv_pemfile, nil, nil, priv_pemfile]
+    require 'socket'
+    plain_servers ||= TCPServer.new ip_addr, listening_port
+    plain_servers = containerize plain_servers
+
+    servers = plain_servers.map { |plain_server|
+      ssl_server = runea [
+        admit_plain,
+	output_exception,
+	"nil on exception"] {
+          require 'openssl'
+          ssl_context = OpenSSL::SSL::SSLContext.new
+          ssl_context.extra_chain_cert =
+            extra_cert_pem_files
+              .map(&OpenSSL::X509::Certificate.method(:new))
+          ssl_context.cert = OpenSSL::X509::Certificate
+            .new cert_pem_file
+          ssl_context.key = OpenSSL::PKey::RSA
+            .new priv_pemfile
+          ssl_server = OpenSSL::SSL::SSLServer
+            .new plain_server, ssl_context
+          ssl_server
+      }
+      server = ssl_server || admit_plain && plain_server
+    }
+    debug && (stderr.puts "will return #{[servers]}")
+    debug && (stderr.puts "#{__method__} returning")
+    [servers]
+  end
+
+
   # makes an OpenSSL server 
   # @param [splat] +args+, an splat whose elements are expected to be:
   # +listening_port+:: [String, Integer] port to listen

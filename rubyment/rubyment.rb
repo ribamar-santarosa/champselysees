@@ -2569,10 +2569,10 @@ require '#{gem_name}'
       extra_cert_pem_files,
       output_exception,
       reserved = args
-    debug ||= debug.nne
-    extra_cert_pem_files ||= extra_cert_pem_files.nne []
-    admit_plain ||= admit_plain.nne
-    output_exception ||= (
+    debug = debug.nne
+    extra_cert_pem_files = extra_cert_pem_files.nne []
+    admit_plain = admit_plain.nne
+    output_exception = (
       output_exception.nne || admit_plain.negate_me
     )
     debug && (stderr.puts "#{__method__} starting")

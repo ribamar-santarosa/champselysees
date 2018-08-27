@@ -3684,7 +3684,7 @@ n8mFEtUKobsK
 	)
       ) || (
           debug && (stderr.puts "case is_no_token: #{token.inspect}")
-          array_operand.push e
+          array_operand.push token
 	  true
       )
     }

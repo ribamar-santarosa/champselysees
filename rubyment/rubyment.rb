@@ -129,13 +129,42 @@ module RubymentUnderDeprecationModule
 end
 
 
-# Collection of Ruby functions
-# * output
-# normally outputs to STDERR, with
-# no mercy
-# STDOUT, just qualified output:
-# only if the function is expected
-# to output something
+=begin
+  # begin_documentation
+  This module receives all the Rubyment functions.
+
+  Rubyment functions are helper functions to achieve general
+  repetitive programming tasks, including:
+  - Encryption of files or user input with default proper parameters
+  - HTTP/HTTPS server ready-to-go
+  - gem package generation and submission.
+  - tree parsing.
+
+
+  Rubyment functions must respect the open/closed principle
+  (which ensures also "backwards compatibility").
+
+  Rubyment functions rely on a common bus called @memory[:stderr],
+  per process. Any global (or statics, or singleton, or whatever
+  you call it) must be stored there. Any function has complete
+  read-write access to it.
+
+  Rubyment functions normally output debug information to
+  @memory[:stderr] this output
+  is subject to change (ie, not supposed to be parsed, or the
+  parsing may stop working after the function receives maintenance).
+  There is a @memory[;debug] which is no longer much used, nowadays
+  functions are mostly getting a debug parameter to enable locally.
+
+  Output to @memory[:stdout] should be treated as trustworthy, and
+  respect scripts that might parse it. However, if that output comes
+  from a third party command, that output can't be guaranteed
+  (but surely effort will be taken to ensure it won't break consumers).
+
+  README.md contains more standards adopted by Rubyment.
+
+  # end_documentation
+=end
 module RubymentModule
 
   # this class very often needs to split

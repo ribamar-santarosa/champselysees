@@ -2747,6 +2747,9 @@ require '#{gem_name}'
 
 
   # makes an OpenSSL server 
+  # just an interface to the more powerful
+  # recommended #ssl_make_servers
+  # (kept for respecting open-closed principle)
   # @param [splat] +args+, an splat whose elements are expected to be:
   # +listening_port+:: [String, Integer] port to listen
   # +ip_addr+:: [String, nil] ip (no hostname) to bind the server. 0, nil, false, empty string will bind to all addresses possible.  0.0.0.0 => binds to all ipv4 . ::0 to all ipv4 and ipv6
@@ -2772,43 +2775,18 @@ require '#{gem_name}'
       plain_server,
       reserved = args
     debug = debug.nne
-    extra_cert_pem_files = extra_cert_pem_files.nne []
-    admit_plain = admit_plain.nne
-    output_exception = (
-      output_exception.nne || admit_plain.negate_me
-    )
     debug && (stderr.puts "#{__method__} starting")
-    # openssl functions want contents, not filenames:
-    extra_cert_pem_files =  extra_cert_pem_files
-      .map! { |extra_cert_pem_file|
-        file_read [
-	  extra_cert_pem_file,
-	  nil,
-	  nil,
-	  extra_cert_pem_file
-	]
-      }
-    cert_pem_file = file_read [cert_pem_file, nil, nil, cert_pem_file]
-    priv_pemfile  = file_read [priv_pemfile, nil, nil, priv_pemfile]
-    
-    require 'socket'
-    plain_server ||= TCPServer.new ip_addr, listening_port
-    ssl_server = runea [admit_plain, output_exception, "nil on exception"] {
-      require 'openssl'
-      ssl_context = OpenSSL::SSL::SSLContext.new
-      ssl_context.extra_chain_cert =
-        extra_cert_pem_files
-          .map(&OpenSSL::X509::Certificate.method(:new))
-      ssl_context.cert = OpenSSL::X509::Certificate
-        .new cert_pem_file
-      ssl_context.key = OpenSSL::PKey::RSA
-        .new priv_pemfile
-      ssl_server = OpenSSL::SSL::SSLServer
-        .new plain_server, ssl_context
-      ssl_server
-    }
-
-    rv = ssl_server || admit_plain && plain_server
+    rv = (ssl_make_servers [
+      listening_port,
+      ip_addr,
+      debug,
+      admit_plain,
+      priv_pemfile,
+      cert_pem_file,
+      extra_cert_pem_files,
+      output_exception,
+      plain_server,
+    ]).first.first
     debug && (stderr.puts "will return #{rv}")
     debug && (stderr.puts "#{__method__} returning")
     rv

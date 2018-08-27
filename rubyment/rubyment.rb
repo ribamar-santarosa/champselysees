@@ -873,6 +873,49 @@ module RubymentModule
   end
 
 
+  # makes a rest request
+  # @param [Array] +args+, an +Array+ whose elements are expected to be:
+  # +url+:: [String] 
+  # +payload+:: [String] 
+  # +verify_ssl+:: [Boolean] 
+  # +headers+:: [Hash] +"Authorization"+ key will be added to it if +auth_user+ is given.
+  # +method+:: [HTTP method] one of +:get+, +:method+, +:post+ or +:delete+
+  # +auth_user+:: [String, nil] username for basic authentication method
+  # +password+:: [String, nil] password for basic authentication method. Will prompt without echo if +nil+ and +auth_user+ is not +nil+
+  # +timeout+:: [Fixnum] 
+  # @return [Array] returns an +Array+ whose elements are :
+  # +request_execution+:: [String] 
+  # +request_execution+:: [Object] as returned by +RestClient::Request.execute+
+  def rest_response__request_base args=ARGV
+    require 'base64'
+    require 'rest-client'
+
+    stderr = @memory[:stderr]
+    time   = @memory[:time]
+    url,
+      payload,
+      verify_ssl,
+      headers,
+      method,
+      auth_user,
+      password,
+      timeout,
+      reserved = args
+
+    auth_user = auth_user.nne
+    password  = password.nne
+    method    = method.nne :get
+    headers   = headers.nne({})
+    base64_auth = Base64.encode64 [
+      auth_user,
+      auth_user && (input_single_line_non_echo [password])
+    ].join ":"
+    auth_user && (headers["Authorization"] = "Basic #{base64_auth}")
+    request_execution = RestClient::Request.execute(:method => method, :url => url, :payload => payload, :headers => headers, :verify_ssl => verify_ssl, :timeout => timeout)
+    [ request_execution.to_s ]
+  end
+
+
   # makes a rest request.
   # @param [Array] +args+, an +Array+ whose elements are expected to be:
   # +url+:: [String] 

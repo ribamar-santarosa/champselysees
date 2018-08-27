@@ -3725,6 +3725,7 @@ n8mFEtUKobsK
     http_processing_method = http_processing_method.nne :http_OK_response
     http_processing_method_args = http_processing_method_args.nne []
     http_server_port = http_server_port.nne  8003
+    redirect_location_host = http_ip_addr.nne "localhost"
     http_ip_addr = http_ip_addr.nne "0"
     ssl_cert_pkey_chain_method =
       ssl_cert_pkey_chain_method.nne :ssl_sample_self_signed_cert_encrypted
@@ -3738,7 +3739,6 @@ n8mFEtUKobsK
     happy_with_request = happy_with_request.nne
     admit_non_ssl = admit_non_ssl.nne
     plain_http_processing_method =  plain_http_processing_method.nne :test__http_response__redirect
-    redirect_location_host = http_ip_addr.to_i.nne "localhost"
     plain_http_processing_method_args =  plain_http_processing_method_args.nne [
       "https://#{redirect_location_host}:#{http_server_port}/#redirect"
     ]

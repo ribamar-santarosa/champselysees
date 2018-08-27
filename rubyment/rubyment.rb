@@ -654,7 +654,7 @@ module RubymentMaintainedModule
             :name             => :output_backtrace,
             :duck_type        => Object,
             :default_behavior => :nil,
-            :description      => "output when an exception happens",
+            :description      => "debug the block execution (misleading name)",
           },
           {
             :name             => :backtrace_max_str_len,

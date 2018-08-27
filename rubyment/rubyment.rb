@@ -910,12 +910,12 @@ class Rubyment
   # @param [Array] +args+, an +Array+ whose elements are expected to be:
   # +url+:: [String] 
   # +payload+:: [String] 
-  # +verify_ssl+:: [Boolean] 
-  # +headers+:: [Hash] +"Authorization"+ key will be added to it if +auth_user+ is given.
-  # +method+:: [HTTP method] one of +:get+, +:method+, +:post+ or +:delete+
+  # +verify_ssl+:: [Boolean] defaults to +false+
+  # +headers+:: [Hash] +"Authorization"+ key will be added to it if +auth_user+ is given. Defaults to +{}+
+  # +method+:: [HTTP method] one of +:get+, +:method+, +:post+ or +:delete+. defaults to +:get+
   # +auth_user+:: [String, nil] username for basic authentication method
   # +password+:: [String, nil] password for basic authentication method. Will prompt without echo if +nil+ and +auth_user+ is not +nil+
-  # +timeout+:: [Fixnum] 
+  # +timeout+:: [Fixnum, nil] defaults to +nil+
   # +skip_open_uri+:: [Boolean] don't bother trying with #open
   # @return [Array] the response
   def rest_request_or_open_uri_open args=ARGV

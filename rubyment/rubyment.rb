@@ -370,6 +370,125 @@ end
 module RubymentMaintainedModule
 
 
+=begin 
+  # documentation_begin
+  # short_desc = "tests the function #exception_info_base"
+  @memory[:documentation].push = {
+    :function   => :exception_info_base,
+    :short_desc => short_desc,
+    :description => "",
+    :params     => [
+      {
+        :name             => :args,
+        :description      => "list of parameters",
+        :duck_type        => Array,
+        :default_behavior => [],
+        :params           => [
+          {
+            :name             => :exception,
+            :duck_type        => Exception,
+            :default_behavior => nil,
+            :description      => "exception to extract info from",
+          },
+          {
+            :name             => :max_str_index,
+            :duck_type        => FixNum,
+            :default_behavior => -1,
+            :description      => "limit the full string output to this last index",
+          },
+          {
+            :name             => :reserved,
+            :duck_type        => Object,
+            :default_behavior => nil,
+            :description      => "reserved for future use",
+          },
+        ],
+      },
+    ],
+    :return_value     => [
+      {
+        :name             => :short,
+        :duck_type        => String,
+        :default_behavior => "",
+        :description      => "a brief about the exception; normally an exception message",
+      },
+      {
+        :name             => :full,
+        :duck_type        => String,
+        :default_behavior => "",
+        :description      => "all the information about the exception; normally an exception message, backtrace, class and inspection",
+      },
+      {
+        :name             => :inspection,
+        :duck_type        => String,
+        :default_behavior => "",
+        :description      => "the  exception inspection",
+      },
+      {
+        :name             => :backtrace,
+        :duck_type        => Object,
+        :duck_type        => [:_a, Array, :strings],
+        :description      => the exception bactrace",
+      },
+      {
+        :name             => :message,
+        :duck_type        => String,
+        :default_behavior => "",
+        :description      => "the  exception message",
+      },
+      {
+        :name             => :class_,
+        :duck_type        => String,
+        :default_behavior => "",
+        :description      => "the  exception class",
+      },
+      {
+        :name             => :reserved,
+        :duck_type        => Object,
+        :default_behavior => nil,
+        :description      => "reserved for future use",
+      },
+    ],
+  }
+  # documentation_end
+=end
+  def exception_info_base args=[]
+    exception,
+      max_str_index,
+      reserved = args
+    inspection = exception.inspect
+    backtrace = exception.backtrace
+    class_ = exception.class
+    message = exception.message,
+    short = message
+    full = (
+      [
+        "message{",
+        message,
+        "}",
+        "backtrace{",
+      ] +
+      backtrace.to_a +
+      [
+        "}",
+        "class{",
+        class_,
+        "}",
+        "}",
+        "inspection{",
+        inspection,
+        "}",
+      ]
+    ).join "\n"
+
+    full = string_truncate [
+      full,
+      max_str_index,
+    ]
+    [short, full, inspection, backtrace, message, class_]
+  end
+
+
 =begin
   # documentation_begin
   # short_desc = "tests the function #bled"

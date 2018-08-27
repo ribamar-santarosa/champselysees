@@ -875,6 +875,65 @@ class Rubyment
   end
 
 
+  # calls #rest_request (which depends on +'rest-client'+ gem)
+  # in the case it throws an exception, tries to call
+  # +'open-uri'+'s #open.
+  # note that not the arguments below refer to the #rest_request
+  # for #open, only  +auth_user+ and +password+ will be
+  # forwarded, as they come to this function.
+  # @param [Array] +args+, an +Array+ whose elements are expected to be:
+  # +url+:: [String] 
+  # +payload+:: [String] 
+  # +verify_ssl+:: [Boolean] 
+  # +headers+:: [Hash] +"Authorization"+ key will be added to it if +auth_user+ is given.
+  # +method+:: [HTTP method] one of +:get+, +:method+, +:post+ or +:delete+
+  # +auth_user+:: [String, nil] username for basic authentication method
+  # +password+:: [String, nil] password for basic authentication method. Will prompt without echo if +nil+ and +auth_user+ is not +nil+
+  # +timeout+:: [Fixnum] 
+  # +skip_open_uri+:: [Boolean] don't bother trying with #open
+  # @return [Array] the response
+  def rest_request_or_open_uri_open args=ARGV
+    url,
+      payload,
+      verify_ssl,
+      headers,
+      method,
+      auth_user,
+      password,
+      timeout,
+      skip_open_uri,
+      reserved = args
+    skip_open_uri = skip_open_uri.nne
+
+    response = runea ["yes, rescue",
+      "output exception".negate_me,
+      "nil on exception"
+    ] {
+      send :rest_request, [
+        url,
+        payload,
+        verify_ssl,
+        headers,
+        method,
+        auth_user,
+        password,
+        timeout,
+      ]
+    }
+    response ||= runea ["yes, rescue".negate_me,
+      "output exception".negate_me,
+      "nil on exception"
+    ] {
+      !skip_open_uri && send(
+        :open,
+        url,
+        :http_basic_authentication => [auth_user, password],
+      ).read
+    }
+    [response]
+  end
+
+
   # test #rest_request
   # for now, the parameters must still be hardcoded.
   def test__rest_request args=ARGV

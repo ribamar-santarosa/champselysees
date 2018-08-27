@@ -116,6 +116,36 @@ module RubymentExperimentModule
         :default_behavior => [],
         :params           => [
           {
+            :name             => :default_on_exception,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "if an exception happens, this value will be returned in the first element of the return value",
+          },
+          {
+            :name             => :dont_rescue,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "do not rescue exceptions",
+          },
+          {
+            :name             => :output_backtrace,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "output when an exception happens",
+          },
+          {
+            :name             => :backtrace_max_str_len,
+            :duck_type        => FixNum,
+            :default_behavior => :nil,
+            :description      => "backtrace outputs can be long, use this to limit it",
+          },
+          {
+            :name             => :debug,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "prints debug information to the __IO__ specified by __@memory[:stderr]__ (STDERR by default)",
+          },
+          {
             :name             => :reserved,
             :duck_type        => Object,
             :default_behavior => :nil,
@@ -131,6 +161,24 @@ module RubymentExperimentModule
         :duck_type        => Array,
         :default_behavior => [],
         :params           => [
+          {
+            :name             => :actual_block_return,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "the actual return value of the block call",
+          },
+          {
+            :name             => :exception_info,
+            :duck_type        => Array,
+            :default_behavior => [],
+            :description      => "exception info if an exception happened, as returned by :exception_information_base",
+          },
+          {
+            :name             => :exception,
+            :duck_type        => Exception,
+            :default_behavior => :nil,
+            :description      => "the exception that happened, if any",
+          },
           {
             :name             => :reserved,
             :duck_type        => Object,

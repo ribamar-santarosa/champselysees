@@ -484,7 +484,7 @@ module RubymentModule
       File.write location, contents
     )
     permissions ||= file_permissions_octal file
-    File.chmod permissions, location
+    permissions && ( File.chmod permissions, location )
     contents
   end
 

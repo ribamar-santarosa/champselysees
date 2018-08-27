@@ -209,6 +209,9 @@ class Rubyment
   # in this right moment it is not
   # yet possible to return the exception
   # without printing (planned improvement)
+  # another desirable case is to output
+  # the exception, but don't return it;
+  # not yet possible.
   # @param [splat] +args+, an splat whose elements are expected to be +blea_args+ and +blocks_args+:
   # +blea_args+:: [Array] args to be used internally, which are expected to be:
   # +exception_admitted+:: [Boolean]

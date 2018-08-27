@@ -2523,9 +2523,9 @@ require '#{gem_name}'
   # +ip_addr+:: [String, nil] ip (no hostname) to bind the server. 0, nil, false, empty string will bind to all addresses possible.  0.0.0.0 => binds to all ipv4 . ::0 to all ipv4 and ipv6
   # +admit_plain+:: [Boolean] if +true+, tries to create a normal +TCPServer+, if not possible to create +SSLServer+ (default: +false+, for preventing unadvertnt non-SSL server creation)
   # +debug+:: [Object] for future use
-  # +priv_pemfile+:: [String] argument to be given to +OpenSSL::SSL::SSLContext.key+ method, after calling +OpenSSL::PKey::RSA.new+ with it. It's the private key file. letsencrypt example: +"/etc/letsencrypt/live/#{domain}/privkey.pem"+
-  # +cert_pem_file+:: [String] argument to be given to +OpenSSL::SSL::SSLContext.cert+ method, after calling +OpenSSL::X509::Certificate+.  It's the "Context certificate" accordingly to its ruby-doc page. letsencrypt example: +"/etc/letsencrypt/live/scatologies.com/fullchain.pem"+
-  # +extra_cert_pem_files+:: [Array] array of strings. Each string will be mapped with +OpenSSL::SSL::SSLContext.new+, and the resulting array is given to +OpenSSL::SSL::SSLContext.extra_chain_cert+. "An Array of extra X509 certificates to be added to the certificate chain" accordingly to its ruby-doc. letsencryptexample: +["/etc/letsencrypt/live/#{domain}/chain.pem"]+
+  # +priv_pemfile+:: [String] argument to be given to +OpenSSL::SSL::SSLContext.key+ method, after calling +OpenSSL::PKey::RSA.new+ with it. It's the private key file. letsencrypt example: +"/etc/letsencrypt/live/#{domain}/privkey.pem"+ (now it's accepted to pass the file contents instead, both must work).
+  # +cert_pem_file+:: [String] argument to be given to +OpenSSL::SSL::SSLContext.cert+ method, after calling +OpenSSL::X509::Certificate+.  It's the "Context certificate" accordingly to its ruby-doc page. letsencrypt example: +"/etc/letsencrypt/live/scatologies.com/fullchain.pem"+ (now it's accepted to pass the file contents instead, both must work).
+  # +extra_cert_pem_files+:: [Array] array of strings. Each string will be mapped with +OpenSSL::SSL::SSLContext.new+, and the resulting array is given to +OpenSSL::SSL::SSLContext.extra_chain_cert+. "An Array of extra X509 certificates to be added to the certificate chain" accordingly to its ruby-doc. letsencryptexample: +["/etc/letsencrypt/live/#{domain}/chain.pem"]+ (now it's accepted to pass the file contents instead, both must work).
   # +output_exception+:: [Bool] output exceptions even if they are admitted?
   #
   # @return [OpenSSL::SSL::SSLServer] returns an ssl server, which can be used to accept connections.
@@ -2547,6 +2547,18 @@ require '#{gem_name}'
       output_exception.nne || admit_plain.negate_me
     )
     debug && (stderr.puts "#{__method__} starting")
+    # openssl functions want contents, not filenames:
+    extra_cert_pem_files =  extra_cert_pem_files
+      .map! { |extra_cert_pem_file|
+        file_read [
+	  extra_cert_pem_file,
+	  nil,
+	  nil,
+	  extra_cert_pem_file
+	]
+      }
+    cert_pem_file = file_read [cert_pem_file, nil, nil, cert_pem_file]
+    priv_pemfile  = file_read [priv_pemfile, nil, nil, priv_pemfile]
     
     require 'socket'
     plain_server = TCPServer.new ip_addr, listening_port
@@ -2554,13 +2566,13 @@ require '#{gem_name}'
       require 'openssl'
       ssl_context = OpenSSL::SSL::SSLContext.new
       ssl_context.extra_chain_cert =
+	# TODO: extra_cert_pem_files could also accept strings instead
         extra_cert_pem_files
-          .map(&File.method(:read))
           .map(&OpenSSL::X509::Certificate.method(:new))
       ssl_context.cert = OpenSSL::X509::Certificate
-        .new File.read cert_pem_file
+        .new cert_pem_file
       ssl_context.key = OpenSSL::PKey::RSA
-        .new File.read priv_pemfile
+        .new priv_pemfile
       ssl_server = OpenSSL::SSL::SSLServer
         .new plain_server, ssl_context
       ssl_server

@@ -1017,8 +1017,8 @@ module RubymentModule
     skip_open_uri = skip_open_uri.nne
 
     response = runea ["yes, rescue".negate_me,
-      "output exception".negate_me,
-      "nil on exception"
+      "already not rescuing, forget about output".to_nil,
+      "already not rescuing, forget about return control".to_nil,
     ] {
       !skip_open_uri && send(
         :open,

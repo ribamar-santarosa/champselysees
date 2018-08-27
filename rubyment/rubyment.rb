@@ -3640,7 +3640,19 @@ n8mFEtUKobsK
         true
       ) || (
         debug && (stderr.puts "case is_down_token: #{token.inspect}")
-        array_operand = array_operands_stack.pop.push array_operand
+        # this approach:
+        #  array_operand = array_operands_stack.pop.push array_operand
+        # won't accept pops when the stack is empty.
+        # this approach:
+        #  array_operand = array_operands_stack.pop.to_a.push array_operand
+        # will work as a "push" was added to the beginning
+        # another approach (not coded here) would be stop accept
+        # pushes to *array_operand* (at least when a new
+        # stack push/token up is done). To keep simplicity,
+        # the reset approach is done (past is forgotten),
+        # but the other options are left for the case of a
+        # future option implementation
+        array_operand = (array_operands_stack.pop.push array_operand) rescue []
         true
       )
     ) || operation_plan && (

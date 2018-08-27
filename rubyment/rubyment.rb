@@ -2203,8 +2203,7 @@ require '#{gem_name}'
     prepend ||= ""
     expected_new_filename = dest_dir + filename
     existing_file = (file_read [filename, nil, user, pw])
-    file_contents ||=  existing_file || "contents_of:#{filename}"
-    File.write filename, file_contents
+    file_contents = file_read_or_write filename, "contents_of:#{filename}", user, pw
     file_backup filename, dest_dir, append, prepend
     new_file_contents = File.read expected_new_filename
     original_permissions = file_permissions_octal filename

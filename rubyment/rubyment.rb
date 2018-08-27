@@ -3639,8 +3639,9 @@ n8mFEtUKobsK
     operation_plan = operation_plan.nne
 
     debug = debug.nne
-    debug.nne && (stderr.puts "#{__method__} starting")
+    debug.nne && (stderr.puts "{#{__method__} starting")
     debug && (stderr.puts "args=#{args.inspect}")
+    debug && (stderr.puts "operation_plan=#{operation_plan.inspect}")
 
     array_operands_stack = array_operands_stack.nne []
     array_operand = array_operand.nne []
@@ -3651,6 +3652,10 @@ n8mFEtUKobsK
       token,
       reserved_token_symbol,
       bulk = operation_plan.to_a
+    debug && (stderr.puts "reserved_token=#{reserved_token.inspect}")
+    debug && (stderr.puts "reservation_type=#{reservation_type.inspect}")
+    debug && (stderr.puts "token=#{token.inspect}")
+    debug && (stderr.puts "bulk=#{bulk.inspect}")
     operation_plan && reserved_token && (
       reservation_type && (
         debug && (stderr.puts "case is_up_token: #{token.inspect}")
@@ -3688,7 +3693,7 @@ n8mFEtUKobsK
     )
     pd = [array_operand, array_operands_stack]
     debug && (stderr.puts "will return #{pd.inspect}")
-    debug && (stderr.puts "#{__method__} returning")
+    debug && (stderr.puts "#{__method__} returning}")
     pd
   end
 

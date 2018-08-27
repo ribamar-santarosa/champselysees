@@ -3719,6 +3719,9 @@ n8mFEtUKobsK
   # +reserved_tokens+:: [Array of Arrays]
   # +inverse+:: [Object] if calling the object +nne+ method returns a +false+ value, will operate this function inversely: will take a unflatten array and flatten it, applying the inverse escaping rules.
   # +debug_pushdown+:: [Object] if evals to false (or empty string), won't print debug information about the call #pushdown_operated
+# +inversion_envelope+::  [Array, nil], if +nil+, the first colum of +reserved_tokens+ will be used. if an +Array+ whose elements are expected to be:
+  # +inversion_envelope.prepend+::  [Object] when an inversion occurrs, this element will be prepended when a new object responding to +:map+, like +Array+ is found.
+  # +inversion_envelope.append+::  [Object] when an inversion occurrs, this element will be prepended when a new object responding to +:map+, like +Array+ is found.
   # @return [Array] returns the modified, deep, #Array
   def array_unflatten_base args=[]
     stderr = @memory[:stderr]
@@ -3728,11 +3731,15 @@ n8mFEtUKobsK
       reserved_tokens,
       inverse,
       debug_pushdown,
+      inversion_envelope,
       reserved = args
     reserved_tokens = reserved_tokens.nne [
       [ "[", :up],
       [ "]", :up.negate_me],
     ]
+    inversion_envelope = inversion_envelope.nne(
+      reserved_tokens.transpose.first
+    )
     inverse = inverse.nne
     shallow = shallow.nne
     debug_pushdown = debug_pushdown.nne

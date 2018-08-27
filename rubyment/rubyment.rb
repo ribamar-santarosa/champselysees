@@ -3147,10 +3147,12 @@ n8mFEtUKobsK
       io_method_debug,
       domain,
       admit_non_ssl,
+      no_debug_client,
       reserved = args
     tcp_ssl_server_method ||= tcp_ssl_server_method.nne :test__tcp_ssl_server__io_method
     domain ||= domain.nne "localhost"
     http_server_port ||= http_server_port.nne 8003
+    no_debug_client = no_debug_client.nne
     server_thread = send tcp_ssl_server_method,
       [
         http_processing_method,

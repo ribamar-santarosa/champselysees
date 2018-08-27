@@ -620,6 +620,9 @@ end
 module RubymentUnderDeprecationModule
 
 
+  include RubymentUnderDeprecationRuneFunctionsModule
+
+
 end
 
 

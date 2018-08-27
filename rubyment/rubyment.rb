@@ -2843,6 +2843,22 @@ n8mFEtUKobsK
   end
 
 
+  # test for ssl_sample_self_signed_cert_encrypted
+  def test_enc_dec_interactive__ssl_sample_self_signed_cert args=ARGV
+    expectation = {
+      :self_signed_certificate => ssl_sample_self_signed_cert[0],
+      :private_key => ssl_sample_self_signed_cert[1],
+    }
+    actual = {
+      :self_signed_certificate => ssl_sample_self_signed_cert_encrypted[0],
+      :private_key => ssl_sample_self_signed_cert_encrypted[1],
+    }
+    judgement = actual.keys.map {|test_case|
+      [expectation[test_case], actual[test_case] , test_case]
+    }.map(&method("expect_equal")).all?
+  end
+
+
   # tests #file_read_or_write and #file_read
   # specially its +return_on_rescue+ parameter.
   # attention that files given by parameter

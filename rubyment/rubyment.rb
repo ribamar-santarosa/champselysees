@@ -788,6 +788,45 @@ module RubymentTestModule
   end
 
 
+=begin
+  test for #call_or_itself
+=end
+  def test__call_or_itself args=[]
+    method_to_test,
+      reserved = args
+    method_to_test = method_to_test.nne :call_or_itself
+    method_to_send = :array_first_remainder
+    args_to_send = [:arg_to_send_1, :arg_to_send_2, :arg_to_send_3]
+    args_to_bled = []
+
+    send_block = bled(args_to_bled) {
+      self.send method_to_send, args_to_send
+    }.first
+
+    default_block = bled(args_to_bled) {
+      args_to_send
+    }.first
+
+    a1 = (send method_to_test, [send_block, :return_dont_call.negate_me]).first
+    e1 = [:arg_to_send_1, [:arg_to_send_2, :arg_to_send_3]]
+    a2 = (send method_to_test, [default_block, :return_dont_call.negate_me]).first
+    e2 = [:arg_to_send_1, :arg_to_send_2, :arg_to_send_3]
+
+    a3 = send method_to_test, [send_block, :return_dont_call ]
+    e3 = send_block
+    a4 = send method_to_test, [default_block, :return_dont_call ]
+    e4 = default_block
+
+    judgement =
+      [
+        [e1, a1, "#{method_to_test}[send_block, :return_dont_call.negate_me]"],
+        [e2, a2, "#{method_to_test}[default_block, :return_dont_call.negate_me]"],
+        [e3, a3, "#{method_to_test}[send_block, :return_dont_call]"],
+        [e4, a4, "#{method_to_test}[default_block, :return_dont_call]"],
+      ].map(&method("expect_equal")).all?
+  end
+
+
 end
 
 

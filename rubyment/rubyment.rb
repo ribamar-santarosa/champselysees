@@ -3649,6 +3649,7 @@ n8mFEtUKobsK
     reserved_token,
       reservation_type,
       token,
+      reserved_token_symbol,
       bulk = operation_plan.to_a
     operation_plan && reserved_token && (
       reservation_type && (

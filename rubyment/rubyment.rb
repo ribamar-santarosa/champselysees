@@ -3008,6 +3008,69 @@ n8mFEtUKobsK
   end
 
 
+  # test for tcp_ssl_server (calling an +io_method+,
+  # by default #io_transform, with
+  # a function that processes an http request and returns
+  # an http_response, by default #http_OK_response)
+  # just like #test__tcp_ssl_server__non_ssl,
+  # calling directly #tcp_ssl_server, but making
+  # mandatory the server to be ssl one.
+  # requires, by default that the certificate and its
+  #  private key are found in the current dir, which
+  #  can be achieved with:
+  #  +openssl req -x509 -nodes -days 365 -newkey rsa:1024 -keyout pkey.pem -out cert.crt+
+  # but if the files don't exist, they will be created
+  # with a sample self signed certificate.
+  def test__tcp_ssl_server__io_method args = ARGV
+    http_processing_method,
+      http_processing_method_args,
+      http_server_port,
+      http_ip_addr,
+      priv_pemfile,
+      cert_pem_file,
+      extra_cert_pem_files,
+      ssl_cert_pkey_chain_method,
+      debug,
+      happy_with_request,
+      io_method,
+      io_method_debug,
+      reserved = args
+    http_processing_method ||= http_processing_method.nne :http_OK_response
+    http_processing_method_args ||= http_processing_method_args.nne []
+    http_server_port ||= http_server_port.nne  8003
+    http_ip_addr ||= http_ip_addr.nne "0"
+    ssl_cert_pkey_chain_method ||=
+      ssl_cert_pkey_chain_method.nne :ssl_sample_self_signed_cert_encrypted
+    ssl_cert_pkey_chain = send ssl_cert_pkey_chain_method
+    priv_pemfile  ||=   priv_pemfile.nne ssl_cert_pkey_chain[1]
+    cert_pem_file ||=  cert_pem_file.nne ssl_cert_pkey_chain[0]
+    extra_cert_pem_files ||=  extra_cert_pem_files.nne ssl_cert_pkey_chain[2]
+    debug ||=  debug.nne "yes, debug"
+    io_method ||=  io_method.nne "io_transform"
+    io_method_debug ||=  io_method_debug.nne debug
+    happy_with_request ||= happy_with_request.nne
+    tcp_ssl_server_args = [
+      http_server_port,
+      http_ip_addr,
+      "debug",
+      "admit non ssl server".negate_me,
+      io_method,
+      [
+        io_method_debug,
+        happy_with_request,
+        http_processing_method,
+        http_processing_method_args
+      ],
+      priv_pemfile,
+      cert_pem_file,
+      extra_cert_pem_files,
+      "yes, output exceptions",
+    ]
+    thread =  tcp_ssl_server tcp_ssl_server_args
+    [ thread ] + tcp_ssl_server_args
+  end
+
+
   # test for Object::nne
   def test__object_nne args = ARGV
     string_neutral = ""

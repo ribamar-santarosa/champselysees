@@ -74,6 +74,46 @@ to give the arguments from the command line. Functions starting with
 <code>shell_</code> are specially prepared to be called from the command
 line.</p>
 
+<h3 id="label-standards">standards</h3>
+
+<p>There is an effort to preserve the open-closed principle. It means that an
+interface call should never require maintenance for not to stop working.</p>
+
+<p>But interfaces can be extended. Then, how to ensure that an extension is
+not actually changing its agreements? That&#39;s not a simple question, and
+eventually there may be failures.</p>
+
+<h4 id="label-parameters+are+always+an+ordered+list+of+parameters">parameters are always an ordered list of parameters</h4>
+
+<p>Some functions will take a splat (a list of arguments separated by comma,
+but not between square brackets), others will take explicitly an Array – by
+default, sometimes <code>ARGV</code>, an old pattern that won&#39;t be used
+for new functions, and sometimes <code>[]</code> (ideally). The agreement
+is that some parameters may be added always to the end of that list. If a
+parameter is added, and given as <code>nil</code>, it should always
+correspond to the previous version of the interface.</p>
+
+<h4 id="label-return+value+are+always+ordered+list+of+parameters">return value are always ordered list of parameters</h4>
+
+<p>The same is valid for return values (not that they&#39;re not necessarily
+an Array, in which case the return value is stated closed, can&#39;t be
+extended)</p>
+
+<h4 id="label-non+working+cases-3A+e.g-3A+interfaces+never+raise+exceptions">non working cases: e.g: interfaces never raise exceptions</h4>
+
+<p>If an interface throws exceptions, it bubbled from an inner call.
+That&#39;s considered a bug or an undefined case case. Clients are not
+supposed to catch them – the case is supposed to be undefined. Clients have
+3 options: 1) ensure they use only the working uses cases 2) or consider
+the interface as not available or 3) rescue exceptions under their own risk
+(ie, maintenance should be required in the future).</p>
+
+<p>This principle is general and it&#39;s applied in the case of any failure,
+like a bug. If a function is called <code>validate_something</code>, it has
+to validate it properly, and it will be changed until it is properly
+validate something. Usage of unintended bugs as feature is not covered.
+Changes will be made only as the last resource, still.</p>
+
 <h4 id="label-documentation">documentation</h4>
 
 <p>Each function is documented in a format tought to comply to <a
@@ -82,11 +122,12 @@ href="https://devhints.io/rdoc">devhints.io/rdoc</a>, but both
 ( <a
 href="https://rawgit.com/ribamar-santarosa/champselysees/master/rubyment/doc/index.html">rawgit.com/ribamar-santarosa/champselysees/master/rubyment/doc/index.html</a>
 ). It results from that the documentation is better read from the source
-code.</p>
+code. A new standard is being implemented (e.g: check
+<code>test__string_repetition</code>).</p>
 </div></div>
 
       <div id="footer">
-  Generated on Tue Jul 24 12:03:51 2018 by
+  Generated on Wed Jul 25 10:55:07 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.15 (ruby-2.3.1).
 </div>

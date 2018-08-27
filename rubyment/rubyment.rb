@@ -129,7 +129,6 @@ module RubymentUnderDeprecationModule
 end
 
 
-#
 =begin
   # begin_documentation
   This module receives functions that are supposed to test

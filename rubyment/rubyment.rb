@@ -3881,8 +3881,10 @@ n8mFEtUKobsK
     http_server_port = http_server_port.nne 8003
     admit_non_ssl = admit_non_ssl.nne true
     http_file_read_attempt = (
+      debug && (stderr.puts "file_read \"https://#{domain}:#{http_server_port}/#{path}\"")
       file_read ["https://#{domain}:#{http_server_port}/#{path}"]
     )
+    debug && (stderr.puts "#{admit_non_ssl.inspect} && file_read \"http://#{domain}:#{http_server_port}/#{path}\"")
     response = http_file_read_attempt ||
       admit_non_ssl && (file_read ["http://#{domain}:#{http_server_port}/#{path}"])
     rv = [response, http_file_read_attempt]

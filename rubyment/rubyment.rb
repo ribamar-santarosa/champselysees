@@ -112,11 +112,11 @@ module RubymentExperimentModule
 =begin
 
   # documentation_begin
-  # short_desc = "tests the function #call_or_itself"
+  # short_desc => "calls the method #call of an object, or return the object itself",
   @memory[:documentation].push = {
     :function   => :call_or_itself,
     :short_desc => short_desc,
-    :description => "calls the method #call of an object, or return the object itself",
+    :description => "",
     :params     => [
       {
         :name             => :args,

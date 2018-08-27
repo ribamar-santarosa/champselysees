@@ -80,6 +80,9 @@ class Object
   # +false+.
   # (by default, if no params are given,
   # just # negates +self+)
+  # experiment
+  # [1, 2, nil, 3, nil, 4].select &:negate_me
+  # to find the nil elements in an array
   def negate_me condition=true
     (condition) && (
       !self

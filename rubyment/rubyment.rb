@@ -2738,6 +2738,13 @@ require '#{gem_name}'
   end
 
 
+  # generates a hash string based on current time
+  # @return [String] +Time.now.hash.abs.to_s+
+  def time_now_hash *args
+    Time.now.hash.abs.to_s
+  end
+
+
   # returns a sample self signed certificate-private key pair
   # that once was created with the command (no password, no
   # expire date):

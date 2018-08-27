@@ -206,6 +206,9 @@ class Rubyment
   # or not, and to be printed or not.
   # it is an interface for the run*
   # methods above
+  # in this right moment it is not
+  # yet possible to return the exception
+  # without printing (planned improvement)
   # @param [splat] +args+, an splat whose elements are expected to be +blea_args+ and +blocks_args+:
   # +blea_args+:: [Array] args to be used internally, which are expected to be:
   # +exception_admitted+:: [Boolean]

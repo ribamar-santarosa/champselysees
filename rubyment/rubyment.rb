@@ -503,6 +503,147 @@ enum = (s.scan /http_[^(]*/).uniq.map
   end
 
 
+=begin
+  for each leaf of a (which normally is an Array or Hash),
+  calls block_to_send_to_leaf giving the leaf as arg,
+  (or return the leaf in the case block_to_send_to_leaf is nil).
+  modifies tuples and deep_keys so it contains the results, the
+  deep_keys and the tuples at each step.
+
+  direct_cycle_placeholder => object to place when a directed cycled
+  (ie, the object is already present in its stack) is found. defaults
+  to :direct_cycle_placeholder. undirect cycle: same thing, but searches
+  in the visited_nodes.
+
+  Don't use nil, 0, "" as cycleplace holders, use a value v which
+  returns itself if called v.nne; it means that the default
+  should be used
+
+  BFS: only problem: this uniq should work on object ID
+ x[1][:tuples].transpose[2].transpose.flatten.uniq
+ => [{:a=>{:b=>:c}, :d=>{:e=>nil}}, {:b=>:c}, {:e=>nil}]
+
+
+=end
+  def experiment__recursive_array__visitor args=[]
+    graph_object,
+      block_to_send_to_leaf,
+      deep_keys,
+      duck_type_detector,
+      debug,
+      duck_type_table,
+      tuples,
+      stack,
+      visited_nodes,
+      direct_cycle_placeholder,
+      undirect_cycle_placeholder,
+      undirected_graph,
+      reserved = args
+    recursion_args = args.dup
+
+    stderr = @memory[:stderr]
+    debug = debug.nne
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "caller=#{caller_label}")
+    debug && (stderr.puts "args.each_with_index=#{args.each_with_index.entries.inspect}")
+    undirect_cycle_placeholder = undirect_cycle_placeholder.nne ":undirect_cycle_placeholder"
+    direct_cycle_placeholder = direct_cycle_placeholder.nne ":direct_cycle_placeholder"
+    # structures one per node: nne
+    deep_keys  = deep_keys.nne []
+    stack = stack.nne []
+    # structures shared by all nodes: just ensure exists
+    tuples ||= []
+    visited_nodes ||= []
+
+    # old_debug = debug
+    # debug = (graph_object.keys.index :b) rescue old_debug
+    debug && (stderr.puts "=#{}")
+    debug && (stderr.puts "graph_object.object_id=#{graph_object.object_id}")
+    object_id_method_name = :object_id_method_name
+
+
+    # cycles detection section
+    undirected_cycle = undirected_graph && (
+      visited_nodes.map(&:object_id).index graph_object.object_id
+    )
+    debug && undirected_graph && (stderr.puts "visited_nodes_with_oid=#{visited_nodes.map{|y| [y, y.object_id] }}")
+    debug && (stderr.puts "undirected_cycle=#{undirected_cycle.inspect}")
+
+    directed_cycle = stack.map(&:object_id).index graph_object.object_id
+    debug && (stderr.puts "stack_with_oid=#{stack.map{|y| [y, y.object_id] }}")
+    debug && (stderr.puts "directed_cycle=#{directed_cycle.inspect}")
+
+    cycle_placeholder = (
+      directed_cycle   &&   direct_cycle_placeholder ||
+      undirected_cycle && undirect_cycle_placeholder
+    )
+    cycle_placeholder && (a = cycle_placeholder)
+    cycle_placeholder.negate_me && (a = graph_object)
+
+    # debug = old_debug
+    visited_nodes.push a
+    stack.push a
+
+    # detecting the type of object. depending if Hash or Array,
+    # methods to call are different.
+    duck_type_detector = duck_type_detector.nne :map
+    duck_type_def = experiment__duck_type__hash_array(
+      [
+        a,
+        duck_type_table
+      ])
+    iterating_method = duck_type_def.transpose[1].to_a.first
+    final_method     = duck_type_def.transpose[2].to_a.first
+    revert_method    = duck_type_def.transpose[3].to_a.first
+    leaf = nil
+    result = (a.respond_to? duck_type_detector) && a.send(iterating_method).map {|a, b|
+        e, i = *([a, b].send(final_method))
+        debug && (stderr.puts "e, i=#{[e, i]}")
+        recursion_args[0] = e
+        deep_keys.push i
+        recursion_args[2] = deep_keys.dup
+        recursion_args[6] = tuples
+        recursion_args[7] = stack.dup
+        recursion_args[8] = visited_nodes
+        recursion_args[9] = directed_cycle
+        recursion_args[10] = undirected_cycle
+        debug && (stderr.puts "recursion_args.each_with_index=#{recursion_args.each_with_index.entries.inspect}")
+        child_result = send __method__, recursion_args
+        deep_keys.pop
+        [i, child_result]
+      } || (
+        block_to_send_to_leaf && (leaf = block_to_send_to_leaf. call a)
+        !block_to_send_to_leaf && (leaf = a)
+        tuples.push  [
+          deep_keys,
+          leaf,
+          stack,
+          [:cycle_to_stack_index, directed_cycle],
+          [:cycle_to_visited_nodes_index, undirected_cycle],
+        ]
+        leaf
+      )
+
+     # rebuilding the graph object after visits
+     rebuilt_object  = (nil.send revert_method) rescue result
+     (result.respond_to? duck_type_detector) && (
+        result.map {|i, e|
+          rebuilt_object[i] = e[:result]
+          # rebuilt_object[i]  = (e[:result] rescue e)
+        }
+    )
+    rv = {
+      :visited_nodes => visited_nodes,
+      :tuples => tuples,
+      :result => rebuilt_object,
+    }
+    # stack.pop
+    debug && (stderr.puts "will return #{rv.inspect}")
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
+  end
+
+
 end
 
 

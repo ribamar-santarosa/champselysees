@@ -863,6 +863,7 @@ class Rubyment
 
     auth_user = auth_user.nne
     password  = password.nne
+    method    = method.nne :get
     headers   = headers.nne({})
     base64_auth = Base64.encode64 [
       auth_user,

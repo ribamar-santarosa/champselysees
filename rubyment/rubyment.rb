@@ -3596,6 +3596,64 @@ n8mFEtUKobsK
   end
 
 
+  # operates and/or returns a structure similar to an pushdown automaton.
+  # @param [Array] +args+, an +Array+ whose elements are expected to be:
+  # +pd+:: [Array] an +Array+ whose elements are :
+  # +pd.operand+:: [Array] current state
+  # +pd.stack+:: [Array] state stack
+  # +operation_plan+:: [Array, Object] +false+ object is interpreted as no operation (only creates a pd). Otherwise, it is an +Array+ whose elements are :
+  #     reserved_token, reservation_type, token = operation_plan.to_a
+  # +operation_plan.reserved_token+:: [Object] operates stack if +true+, otherwise, operate +state+
+  # +operation_plan.reservation_type+:: [Object] pushes stack if +true+ into state, otherwise, pops.
+  # +operation_plan.token+:: [Object] state operand (element that will be pushed into the current state, when operating +state+)
+  # +debug+:: [Object] +debug.nne+ will be used to determine whether to output or not debug information.
+  # +pd+:: [Array] 
+  # @return [Array] returns the operated (or a new, when no operation) +pd+
+  def pushdown_operate args=[]
+    stderr = @memory[:stderr]
+    pd,
+      operation_plan,
+      debug,
+      reserved = args
+
+    pd = pd.nne []
+    array_operand,
+      array_operands_stack,
+      reserved = pd
+
+    operation_plan = operation_plan.nne
+
+    debug = debug.nne
+    debug.nne && (stderr.puts "#{__method__} starting")
+    debug && (stderr.puts "args=#{args.inspect}")
+
+    array_operands_stack = array_operands_stack.nne []
+    array_operand = array_operand.nne []
+
+    reserved_token, reservation_type, token = operation_plan.to_a
+    operation_plan && reserved_token && (
+      reservation_type && (
+        debug && (stderr.puts "case is_up_token: #{token.inspect}")
+        array_operands_stack.push array_operand
+        array_operand = Array.new
+        true
+      ) || (
+        debug && (stderr.puts "case is_down_token: #{token.inspect}")
+        array_operand = array_operands_stack.pop.push array_operand
+        true
+      )
+    ) || operation_plan && (
+        debug && (stderr.puts "case is_no_token: #{token.inspect}")
+        array_operand.push token
+        true
+    )
+    pd = [array_operand, array_operands_stack]
+    debug && (stderr.puts "will return #{pd.inspect}")
+    debug && (stderr.puts "#{__method__} returning")
+    pd
+  end
+
+
   # takes a flatten array and makes it deeper, starting a new array
   # everytime it finds the string +"["+. +"]"+ stops the array (and
   # return to the upper one). To reserve the possibility of

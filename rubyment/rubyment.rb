@@ -396,9 +396,11 @@ module RubymentModule
   # +headers+:: [Hash] +"Authorization"+ key will be added to it if +auth_user+ is given. Defaults to +{}+
   # +method+:: [HTTP method] one of +:get+, +:method+, +:post+ or +:delete+. defaults to +:get+
   # +timeout+:: [Fixnum, nil] defaults to +nil+
+  # +debug+:: [Object] if calling the object +nne+ method returns a +false+ value, won't print debug information
   #
   # @return [String, Object] read data (or +return_on_rescue+)
   def file_read args=ARGV
+    stderr = @memory[:stderr]
     uri,
       username,
       password,
@@ -410,7 +412,11 @@ module RubymentModule
       headers,
       method,
       timeout,
+      debug,
       reserved = args
+    debug = debug.nne
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "args=#{args.inspect}")
     uri = uri.nne ""
     file_is_directory = File.directory?(uri)
     return_on_directory_given ||= true
@@ -435,6 +441,11 @@ module RubymentModule
         end
       end
     ) || (file_is_directory) && (return_on_directory_given)
+    rv = contents
+    debug && (stderr.puts "will return #{rv}")
+    # if raises exception before it will be unbalanced :
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
   end
 
 

@@ -988,6 +988,7 @@ module RubymentModule
   # +password+:: [String, nil] password for basic authentication method. Will prompt without echo if +nil+ and +auth_user+ is not +nil+
   # +timeout+:: [Fixnum, nil] defaults to +nil+
   # +skip_open_uri+:: [Boolean] don't bother trying with #open
+    # +debug+:: [Object] if calling the object +nne+ method returns a +false+ value, won't print debug information
   # @return [Array] the response
   def rest_request_or_open_uri_open args=ARGV
     url,
@@ -999,7 +1000,12 @@ module RubymentModule
       password,
       timeout,
       skip_open_uri,
+      debug,
       reserved = args
+
+    debug = debug.nne
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "args=#{args.inspect}")
     skip_open_uri = skip_open_uri.nne
 
     response = runea ["yes, rescue",
@@ -1027,7 +1033,11 @@ module RubymentModule
         :http_basic_authentication => [auth_user, password],
       ).read
     }
-    [response]
+    rv = [response]
+    debug && (stderr.puts "will return #{rv.inspect}")
+    # if raises exception before it will be unbalanced :
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
   end
 
 

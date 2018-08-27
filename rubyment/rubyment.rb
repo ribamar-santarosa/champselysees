@@ -416,6 +416,11 @@ experiment__input_select [[:a, :b, :c], c ]
   end
 
 
+  def shell_array_first a
+    a.first
+  end
+
+
 end
 
 

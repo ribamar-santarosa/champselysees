@@ -4550,8 +4550,8 @@ require '#{gem_name}'
     io_forward [[io], io, debug, happy_with_request, reserved,
       :test__transform_call, [
         transform_method_name,
-	transform_method_args,
-	"on_object:true",
+        transform_method_args,
+        "on_object:true",
       ]
     ]
     debug.nne && (stderr.puts "#{__method__} returning")

@@ -2980,31 +2980,17 @@ n8mFEtUKobsK
      cert_pem_file,
      extra_cert_pem_files,
      reserved = args
-   http_processing_method ||= http_processing_method.nne :http_OK_response
-   http_processing_method_args ||= http_processing_method_args.nne []
-   http_server_port ||= http_server_port.nne  8003
-   http_ip_addr ||= http_ip_addr.nne "0"
-   priv_pemfile  ||=   priv_pemfile.nne ssl_sample_self_signed_cert[1]
-   cert_pem_file ||=  cert_pem_file.nne ssl_sample_self_signed_cert[0]
-   extra_cert_pem_files ||=  extra_cert_pem_files.nne 
-   thread =  tcp_ssl_server [
+   ssl_cert_pkey_chain_method = :ssl_sample_self_signed_cert_encrypted
+   test__tcp_ssl_server__io_transform [
+   http_processing_method,
+     http_processing_method_args,
      http_server_port,
      http_ip_addr,
-     "debug",
-     "admit non ssl server".negate_me,
-     "io_transform",
-     [
-       "debug_io_transform",
-       "default happy_with_request".to_nil,
-       http_processing_method,
-       http_processing_method_args
-     ],
      priv_pemfile,
      cert_pem_file,
      extra_cert_pem_files,
-     "yes, output exceptions",
+     ssl_cert_pkey_chain_method,
    ]
-   thread.join
    true
   end
 

@@ -3143,7 +3143,6 @@ n8mFEtUKobsK
         io_method_debug,
         admit_non_ssl,
       ]
-    sleep 2
 
     thread_2 = Thread.new {
       loop {

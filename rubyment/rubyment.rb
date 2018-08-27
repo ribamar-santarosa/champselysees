@@ -3534,6 +3534,233 @@ n8mFEtUKobsK
   end
 
 
+=begin
+  # short_desc = "this functions creates an https (or http server) and a second http server, which always redirect to the first server."
+
+  @memory[:documentation].push = {
+    :function   => :experiment__web_http_https_server,
+    :short_desc => short_desc,
+    :description => "",
+    :params     => [
+      {
+        :name             => :args,
+        :description      => "list of parameters",
+        :duck_type        => Array,
+        :default_behavior => "interpreted as empty array",
+        :params           => [
+          {
+            :name             => :http_processing_method,
+            :duck_type        => [:_a, String, :method_name],
+            :default_behavior => :http_OK_response
+            :description      => "method name of the method that returns an http request string (used by the first server)",
+          },
+          {
+            :name             => :http_processing_method_args,
+            :duck_type        => Array,
+            :default_behavior => [],
+            :description      => "arguments for the method that returns an http request string (used by the first server)",
+          },
+          {
+            :name             => :http_server_port,
+            :duck_type        => FixNum,
+            :default_behavior => 8003,
+            :description      => " server port (used by the first server)",
+          },
+          {
+            :name             => :http_ip_addr,
+            :duck_type        => String,
+            :default_behavior => "0",
+            :description      => "ip address (used by the first server)",
+          },
+          {
+            :name             => :priv_pemfile,
+            :duck_type        => String,
+            :default_behavior => ssl_cert_pkey_chain_method[1],
+            :description      => "argument to be given to __OpenSSL::SSL::SSLContext.key__ method, after calling __OpenSSL::PKey::RSA.new__ with it. It's the private key file. letsencrypt example: __'/etc/letsencrypt/live/#{domain}/privkey.pem'__ (now it's accepted to pass the file contents instead, both must work).",
+          },
+          {
+            :name             => :cert_pem_file,
+            :duck_type        => String,
+            :default_behavior => ssl_cert_pkey_chain_method[0],
+            :description      => "argument to be given to __OpenSSL::SSL::SSLContext.cert__ method, after calling __OpenSSL::X509::Certificate__.  It's the 'Context certificate' accordingly to its ruby-doc page. letsencrypt example: __'/etc/letsencrypt/live/#{domain}/fullchain.pem'__ (now it's accepted to pass the file contents instead, both must work).",
+          },
+          {
+            :name             => :extra_cert_pem_files,
+            :duck_type        => Object,
+            :duck_type        => [:_a, Array, :strings],
+            :default_behavior => ssl_cert_pkey_chain_method[2],
+            :description      => "Each string will be mapped with __OpenSSL::SSL::SSLContext.new__, and the resulting array is given to __OpenSSL::SSL::SSLContext.extra_chain_cert__. 'An Array of extra X509 certificates to be added to the certificate chain' accordingly to its ruby-doc. letsencrypt example: __['/etc/letsencrypt/live/#{domain}/chain.pem']__ (now it's accepted to pass the file contents instead, both must work)."
+          },
+          {
+            :name             => :ssl_cert_pkey_chain_method,
+            :duck_type        => [:_a, String, :method_name],
+            :default_behavior => :ssl_sample_self_signed_cert_encrypted,
+            :description      => "method name of the method that returns the certificates (used by the first server)",
+          },
+          {
+            :name             => :debug,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "prints debug information to the __IO__ specified by __@memory[:stderr]__ (STDERR by default)",
+          },
+          {
+            :name             => :happy_with_request,
+            :duck_type        => String,
+            :default_behavior => nil,
+            :description      => "A socket never ends returning data. This variable sets an end to a socket -- after such string is found the socket may be closed. As of this writing, underlying functions will use \r\n if nil is found; this function trusts :io_method to do its best.",
+          },
+          {
+            :name             => :io_method,
+            :duck_type        => [:_a, String, :method_name],
+            :default_behavior => :io_transform,
+            :description      => "method name of the method that reads a socket and forwards the call to a processing method  (used both by the first and the redirecting server)",
+          },
+          {
+            :name             => :io_method_debug,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "debug option to the :io_method",
+          },
+          {
+            :name             => :admit_non_ssl,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "if anything fails with the creation of an ssl server, will try to create a plain one (used by the first server)",
+          },
+          {
+            :name             => :plain_http_processing_method,
+            :duck_type        => [:_a, String, :method_name],
+            :default_behavior => :http_OK_response
+            :description      => "method name of the method that returns an http request string (used by the redirecting server)",
+          },
+          {
+            :name             => :plain_http_processing_method_args,
+            :duck_type        => Array,
+            :default_behavior => [],
+            :description      => "arguments for the method that returns an http request string (used by the redirecting server)",
+          },
+          {
+            :name             => :plain_http_server_port,
+            :duck_type        => FixNum,
+            :default_behavior => 8003,
+            :description      => " server port (used by the redirecting server)",
+          },
+          {
+            :name             => :plain_http_ip_addr,
+            :duck_type        => String,
+            :default_behavior => "0",
+            :description      => "ip address (used by the redirect server)",
+          },
+          {
+            :name             => :reserved,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "for future use",
+          },
+        ],
+      },
+    ],
+  }
+=end
+
+  def experiment__web_http_https_server args = ARGV
+    stderr = @memory[:stderr]
+    http_processing_method,
+      http_processing_method_args,
+      http_server_port,
+      http_ip_addr,
+      priv_pemfile,
+      cert_pem_file,
+      extra_cert_pem_files,
+      ssl_cert_pkey_chain_method,
+      debug,
+      happy_with_request,
+      io_method,
+      io_method_debug,
+      admit_non_ssl,
+      plain_http_processing_method,
+      plain_http_processing_method_args,
+      plain_http_server_port,
+      plain_http_ip_addr,
+      reserved = args
+
+    debug = debug.nne
+    debug.nne && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "args=#{args.inspect}")
+    http_processing_method = http_processing_method.nne :http_OK_response
+    http_processing_method_args = http_processing_method_args.nne []
+    http_server_port = http_server_port.nne  8003
+    http_ip_addr = http_ip_addr.nne "0"
+    ssl_cert_pkey_chain_method =
+      ssl_cert_pkey_chain_method.nne :ssl_sample_self_signed_cert_encrypted
+    ssl_cert_pkey_chain = send ssl_cert_pkey_chain_method
+    priv_pemfile  =   priv_pemfile.nne ssl_cert_pkey_chain[1]
+    cert_pem_file =  cert_pem_file.nne ssl_cert_pkey_chain[0]
+    extra_cert_pemiles =  extra_cert_pem_files.nne ssl_cert_pkey_chain[2]
+    debug =  debug.nne "yes, debug"
+    io_method =  io_method.nne "io_transform"
+    io_method_debug =  io_method_debug.nne debug
+    happy_with_request = happy_with_request.nne
+    admit_non_ssl = admit_non_ssl.nne
+    plain_http_processing_method =  plain_http_processing_method.nne :test__http_response__redirect
+    redirect_location_host = http_ip_addr.to_i.nne "localhost"
+    plain_http_processing_method_args =  plain_http_processing_method_args.nne [
+      "https://#{redirect_location_host}:#{http_server_port}/#redirect"
+    ]
+    plain_http_server_port =  plain_http_server_port.nne 8004
+    plain_http_ip_addr = plain_http_ip_addr.nne "0"
+
+    tcp_ssl_server_args = [
+      http_server_port,
+      http_ip_addr,
+      debug,
+      admit_non_ssl,
+      io_method,
+      [
+        io_method_debug,
+        happy_with_request,
+        http_processing_method,
+        http_processing_method_args
+      ],
+      priv_pemfile,
+      cert_pem_file,
+      extra_cert_pem_files,
+      "yes, output exceptions",
+    ]
+    tcp_ssl_server_thread   =  send :tcp_ssl_server, tcp_ssl_server_args
+    tcp_plain_server_args = [
+      plain_http_server_port,
+      plain_http_ip_addr,
+      debug,
+      :admit_non_ssl,
+      io_method,
+      [
+        io_method_debug,
+        happy_with_request,
+        plain_http_processing_method,
+        plain_http_processing_method_args,
+      ],
+      :priv_pemfile.to_nil,
+      :cert_pem_file.to_nil,
+      :extra_cert_pem_files.to_nil,
+      "yes, output exceptions",
+    ]
+    tcp_plain_server_thread =  send :tcp_ssl_server, tcp_plain_server_args
+
+    rv = [
+      tcp_ssl_server_thread,
+      tcp_ssl_server_args,
+      :tcp_ssl_server_reserved.to_nil,
+      tcp_plain_server_thread,
+      tcp_plain_server_args,
+      :tcp_ssl_server_reserved.to_nil,
+    ]
+    debug && (stderr.puts "will return #{rv}")
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
+  end
+
+
   # test for tcp_ssl_server (calling an +io_method+,
   # by default #io_transform, with
   # a function that processes an http request and returns

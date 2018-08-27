@@ -3705,7 +3705,6 @@ n8mFEtUKobsK
     debug = debug.nne
     debug.nne && (stderr.puts "#{__method__} starting")
     debug && (stderr.puts "args=#{args.inspect}")
-    rv = []
     pd = pushdown_operate
     flatten_array.each_with_index {|e, index|
       debug && (stderr.puts "-------------------")

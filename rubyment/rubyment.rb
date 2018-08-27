@@ -3897,27 +3897,7 @@ n8mFEtUKobsK
   # created with
   # #test__tcp_ssl_server__io_method
   def test__file_read__uri_root args = ARGV
-    stderr = @memory[:stderr]
-    domain,
-      http_server_port,
-      admit_non_ssl,
-      debug,
-      reserved = args
-    debug = debug.nne
-    debug && (stderr.puts "{#{__method__} starting")
-    debug && (stderr.puts "args=#{args.inspect}")
-
-    domain = domain.nne "localhost"
-    http_server_port = http_server_port.nne 8003
-    admit_non_ssl = admit_non_ssl.nne true
-    http_file_read_attempt = (
-      file_read ["https://#{domain}:#{http_server_port}/"]
-    )
-    response = http_file_read_attempt ||
-      admit_non_ssl && (file_read ["http://#{domain}:#{http_server_port}/"])
-    debug && (stderr.puts  "returning response{#{response}}response")
-    debug && (stderr.puts "#{__method__} returning}")
-    response
+    test__file_read__uri args
   end
 
 

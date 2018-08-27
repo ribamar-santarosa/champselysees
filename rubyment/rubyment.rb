@@ -3710,7 +3710,13 @@ n8mFEtUKobsK
     flatten_array.each_with_index {|e, index|
       debug && (stderr.puts "-------------------")
       debug && (stderr.puts "[e, index]=#{[e, index].inspect}")
-      shallow.negate_me && (e = (send __method__, e) rescue e)
+      shallow.negate_me && (
+        debug && (stderr.puts "e.hash=#{e.hash}")
+        args_recursion = args.clone
+        args_recursion[0] = e
+        e = (send __method__, args_recursion) rescue e
+        debug && (stderr.puts "e.hash=#{e.hash}")
+      )
       operations = reserved_tokens.map { |reserved_token|
         debug && (stderr.puts "reserved_token=#{reserved_token.inspect}")
         debug && (stderr.puts "array_operands_stack=#{pd[1].inspect}")

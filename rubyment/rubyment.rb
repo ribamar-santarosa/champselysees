@@ -2710,6 +2710,53 @@ require '#{gem_name}'
   end
 
 
+  # returns a sample self signed certificate-private key pair
+  # that once was created with the command (no password, no
+  # expire date):
+  # + openssl req -x509 -nodes -newkey rsa:1024 -keyout pkey.pem -out cert.crt+
+  # @param [splat] +args+::, an splat whose elements are expected to be:
+  # +reserved+:: [splat] reserved for future use
+  # @return [Array] where the first element is a certificate (suitable to be the contents of +cert_pem_file+  in #ssl_make_server) and the second a private key (suitable to be the contents of +priv_pemfile+ in #ssl_make_server)
+  def ssl_sample_self_signed_cert *args
+    self_signed_certificate = <<-ENDHEREDOC
+-----BEGIN CERTIFICATE-----
+MIICWDCCAcGgAwIBAgIJAPa0EXsH2MwsMA0GCSqGSIb3DQEBCwUAMEUxCzAJBgNV
+BAYTAkFVMRMwEQYDVQQIDApTb21lLVN0YXRlMSEwHwYDVQQKDBhJbnRlcm5ldCBX
+aWRnaXRzIFB0eSBMdGQwHhcNMTgwNjI3MDkzMTEyWhcNMTgwNzI3MDkzMTEyWjBF
+MQswCQYDVQQGEwJBVTETMBEGA1UECAwKU29tZS1TdGF0ZTEhMB8GA1UECgwYSW50
+ZXJuZXQgV2lkZ2l0cyBQdHkgTHRkMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKB
+gQCplOo6dvbM1650qMYLQ8tRycYlHEZH95kUR5E5EEA8yqgimBtx6InpGQi/PejK
+tk+IXbDrxinXMXqjZxAhCjd7+frSUFwUTZ669PuRaptlkjV1KojXBW5kRERAgYId
+H7z7QRuK/gWHqTt9zl3WpW2spfWjHY+cnkYdZIWqDBOggwIDAQABo1AwTjAdBgNV
+HQ4EFgQUAIq0u116/WmTFQ8HC7/XrKl6wB8wHwYDVR0jBBgwFoAUAIq0u116/WmT
+FQ8HC7/XrKl6wB8wDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQsFAAOBgQBgA9ID
+JcreAgjYLxiaAd7fCfLQ1/RYM8YdP9R4Lzg2cu0dCjXoLZqzAEwUg424rPOvf0Pj
+wnZ3DFJkg1CoN2fH3yLXQ75mhfM7PJXeWoWLTS2wIG/+VIVI+nKJU0RPOM87Mdlq
++b6TI5LsGxlJhaxTmzPtkHZLIRdW6iCJTwP+5Q==
+-----END CERTIFICATE-----
+   ENDHEREDOC
+   private_key = <<-ENDHEREDOC
+-----BEGIN PRIVATE KEY-----
+MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAKmU6jp29szXrnSo
+xgtDy1HJxiUcRkf3mRRHkTkQQDzKqCKYG3HoiekZCL896Mq2T4hdsOvGKdcxeqNn
+ECEKN3v5+tJQXBRNnrr0+5Fqm2WSNXUqiNcFbmRERECBgh0fvPtBG4r+BYepO33O
+Xdalbayl9aMdj5yeRh1khaoME6CDAgMBAAECgYB+Z80spU6UJFUbCk8NSIx+u6ui
+L/BHZs1Ja4tZgL6RUfKATuduQgrCoPF/NBOZPsoL+OKO7Nh1WqFyubkxF5+A6BlI
+BRe/E4K3cChBWyR5ZQyldYUNVV1HBrAhpurW/OX7FInPGo0I5TkR/CJt6xZPgK1n
+4lNXFV29gz/LPTJN4QJBANxnUn2xbtBH0xaTX4iIGEH2keLaUftg0b29Ou/MIPn3
++z7Ln9K6eknf/OGXAvBP2cnWkTGXAOBmB95s9XDrORMCQQDE+FcWTlSKFywFaxhp
+nVkDOL+k7Vpn/rKvqKB3JQOrPkovPSo/CHsUVe/r2NEsdJt1SKOs0/xzNe7wSXBa
+1tjRAkAHVbTsE+yRJ+LBfJQQUh8kitUeDI/v4q/4NYTxmAR87SDCXTprY+NP9BFR
+XJovbyjbS7W3RcQ0s5CNeWjNojZbAkA5u3SDJDhhNUOA3xALvMPfTt3VMICkJKIp
+HGrUITQ/GAXUbMAaM5knr7yfyzAcMJ10NfNLb+L5veAn686TwY9RAkArqoX6cWrd
+GflH+FhUggqgVrr9XaXkpPUxcpNqAQH/3Yl5pt9jV2VE7eD3chijMGzGJrMUsqFG
+n8mFEtUKobsK
+-----END PRIVATE KEY-----
+   ENDHEREDOC
+   [self_signed_certificate, private_key]
+  end
+
+
   # test for tcp_ssl_server (call #io_transform with
   # a function that processes an http request and returns
   # an http_response, by default #http_OK_response)

@@ -3679,8 +3679,7 @@ n8mFEtUKobsK
     debug.nne && (stderr.puts "#{__method__} starting")
     debug && (stderr.puts "args=#{args.inspect}")
     rv = []
-    array_operand = []
-    array_operands_stack = []
+    pd = pushdown_operate
     args.each_with_index {|e, index|
       debug && (stderr.puts "-------------------")
       debug && (stderr.puts "[e, index]=#{[e, index].inspect}")
@@ -3729,26 +3728,11 @@ n8mFEtUKobsK
         operations[-1].to_a
       )
       reserved_token, reservation_type, token = operation
-      reserved_token && (
-        reservation_type && (
-          debug && (stderr.puts "case is_up_token: #{token.inspect}")
-          array_operands_stack.push array_operand
-          array_operand = Array.new
-	  true
-	) || (
-          debug && (stderr.puts "case is_down_token: #{token.inspect}")
-          array_operand = array_operands_stack.pop.push array_operand
-	  true
-	)
-      ) || (
-          debug && (stderr.puts "case is_no_token: #{token.inspect}")
-          array_operand.push token
-	  true
-      )
+      pd = pushdown_operate [pd, operation]
     }
     debug && (stderr.puts "will return #{array_operand}")
     debug && (stderr.puts "#{__method__} returning")
-    array_operand
+    pd.first
   end
 
 

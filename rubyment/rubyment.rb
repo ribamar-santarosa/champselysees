@@ -819,6 +819,84 @@ trying to get the interface compatible with
   end
 
 
+=begin
+   tests #experiment__web_http_https_server, creating two
+   servers, one ssl and another plain, redirecting to
+   the ssl one. then, opens a client thread with a client
+   connecting to the root document of the plain server
+   (and in the end being served by the root document of
+   the ssl server).
+   note that this function, with default values will run
+   forever. client_loop_times must be set (to at least 1)
+=end
+  def test__experiment__web_http_https_server args = ARGV
+    stderr = @memory[:stderr]
+    tcp_ssl_server_method,
+      http_processing_method,
+      http_processing_method_args,
+      http_server_port,
+      http_ip_addr,
+      priv_pemfile,
+      cert_pem_file,
+      extra_cert_pem_files,
+      ssl_cert_pkey_chain_method,
+      debug_tcp_ssl_server_method,
+      happy_with_request,
+      io_method,
+      io_method_debug,
+      domain,
+      admit_non_ssl,
+      plain_http_processing_method,
+      plain_http_processing_method_args,
+      plain_http_server_port,
+      plain_http_ip_addr,
+      no_debug_client,
+      client_loop_times,
+      reserved = args
+    tcp_ssl_server_method = tcp_ssl_server_method.nne :experiment__web_http_https_server
+    domain = domain.nne "localhost"
+    http_server_port = http_server_port.nne 8003
+    plain_http_server_port = plain_http_server_port.nne 8004
+    no_debug_client = no_debug_client.nne
+    client_loop_times = client_loop_times.nne Float::INFINITY
+    servers = send tcp_ssl_server_method,
+      [
+        http_processing_method,
+        http_processing_method_args,
+        http_server_port,
+        http_ip_addr,
+        priv_pemfile,
+        cert_pem_file,
+        extra_cert_pem_files,
+        ssl_cert_pkey_chain_method,
+        debug_tcp_ssl_server_method,
+        happy_with_request,
+        io_method,
+        io_method_debug,
+        admit_non_ssl,
+        plain_http_processing_method,
+        plain_http_processing_method_args,
+        plain_http_server_port,
+        plain_http_ip_addr,
+      ]
+
+    thread_client = Thread.new {
+      (1..client_loop_times).map { |i|
+        response = test__file_read__uri_root [
+          domain,
+          plain_http_server_port,
+          admit_non_ssl,
+          no_debug_client.negate_me,
+        ]
+        sleep 2
+      }
+    }
+    thread_client.join
+
+    true
+  end
+
+
 end
 
 

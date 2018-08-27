@@ -644,6 +644,92 @@ enum = (s.scan /http_[^(]*/).uniq.map
   end
 
 
+  def test__experiment__recursive_array__visitor args=[]
+    method_to_test = :experiment__recursive_array__visitor
+    direct_cycle_h = {
+      :a => {
+         :b => [ :c ],
+       },
+      :d => {
+        :e => nil,
+      },
+    }
+    direct_cycle_h[:a][:f] = direct_cycle_h[:a]
+    undirect_cycle_h = {
+      :a => {
+         :b => [ :c ],
+       },
+      :d => {
+        :e => nil,
+      },
+    }
+    undirect_cycle_h[:d][:g] = undirect_cycle_h[:a]
+    [
+      (send method_to_test, [
+        [ 1, [ 2, 3, [ 4 ] ] ],
+        lambda {|x| "a{#{x}}a" },
+        :deep_keys.to_nil,
+        :duck_type_d.to_nil,
+        :debug_please.negate_me,
+      ]),
+
+      (send method_to_test, [
+        {
+          :a => {
+             :b => :c,
+           },
+          :d => {
+            :e => nil,
+          },
+        },
+        lambda {|x| "h{#{x}}h" },
+        :deep_keys.to_nil,
+        :duck_type_d.to_nil,
+        :debug_please.negate_me,
+      ]),
+
+      (send method_to_test, [
+        direct_cycle_h,
+        lambda {|x| "dch{#{x}}dch" },
+        :deep_keys.to_nil,
+        :duck_type_d.to_nil,
+        :debug_please.negate_me,
+      ]),
+
+      (send method_to_test, [
+        undirect_cycle_h,
+        lambda {|x| "uch{#{x}}uch" },
+        :deep_keys.to_nil,
+        :duck_type_d.to_nil,
+        :debug_please.negate_me,
+        :duck_type_table.to_nil,
+        :tuples.to_nil,
+        :stack.to_nil,
+        :visited_nodes.to_nil,
+        :direct_cycle_placeholder.to_nil,
+        :undirect_cycle_placeholder.to_nil,
+        :undirect_graph,
+      ]),
+
+      (send method_to_test, [
+        undirect_cycle_h,
+        lambda {|x| "not_uch{#{x}}not_uch" },
+        :deep_keys.to_nil,
+        :duck_type_d.to_nil,
+        :debug_please.negate_me,
+        :duck_type_table.to_nil,
+        :tuples.to_nil,
+        :stack.to_nil,
+        :visited_nodes.to_nil,
+        :direct_cycle_placeholder.to_nil,
+        :undirect_cycle_placeholder.to_nil,
+        :undirect_graph.negate_me,
+      ]),
+
+    ]
+  end
+
+
 end
 
 

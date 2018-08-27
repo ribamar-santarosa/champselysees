@@ -1011,7 +1011,17 @@ module RubymentModule
     debug && (stderr.puts "args=#{args.inspect}")
     skip_open_uri = skip_open_uri.nne
 
-    response = runea ["yes, rescue",
+    response = runea ["yes, rescue".negate_me,
+      "output exception".negate_me,
+      "nil on exception"
+    ] {
+      !skip_open_uri && send(
+        :open,
+        url,
+        :http_basic_authentication => [auth_user, password],
+      ).read
+    }
+    response ||= runea ["yes, rescue",
       "output exception".negate_me,
       "nil on exception"
     ] {
@@ -1025,16 +1035,6 @@ module RubymentModule
         password,
         timeout,
       ]
-    }
-    response ||= runea ["yes, rescue".negate_me,
-      "output exception".negate_me,
-      "nil on exception"
-    ] {
-      !skip_open_uri && send(
-        :open,
-        url,
-        :http_basic_authentication => [auth_user, password],
-      ).read
     }
     rv = [response]
     debug && (stderr.puts "will return #{rv.inspect}")

@@ -3581,7 +3581,7 @@ n8mFEtUKobsK
         :name             => :args,
         :description      => "list of parameters",
         :duck_type        => Array,
-        :default_behavior => "interpreted as empty array",
+        :default_behavior => [],
         :params           => [
           {
             :name             => :http_processing_method,

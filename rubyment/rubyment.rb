@@ -3686,7 +3686,7 @@ n8mFEtUKobsK
   # +debug+:: [Object] if evals to false (or empty string), won't print debug information
   # +shallow+:: [Object] if evals to false (or empty string), will traverse recursively +flatten_array+ and apply the rules, in the case it is not flatten.
   # +reserved_tokens+:: [Array of Arrays]
-
+  # +inverse+:: [Object] if calling the object +nne+ method returns a +false+ value, will operate this function inversely: will take a unflatten array and flatten it, applying the inverse escaping rules.
   # @return [Array] returns the modified, deep, #Array
   def array_unflatten_base args=[]
     stderr = @memory[:stderr]
@@ -3694,11 +3694,13 @@ n8mFEtUKobsK
       shallow,
       debug,
       reserved_tokens,
+      inverse,
       reserved = args
     reserved_tokens = reserved_tokens.nne [
       [ "[", :up],
       [ "]", :up.negate_me],
     ]
+    inverse = inverse.nne
     shallow = shallow.nne
     debug = debug.nne
     debug.nne && (stderr.puts "#{__method__} starting")
@@ -3724,10 +3726,10 @@ n8mFEtUKobsK
           (repetition_test == rtoken) && (
             is_up_token && (
               debug && (stderr.puts "case is_up_token")
-	      [:reserved_token, :up, e, rtoken]
+	      [:reserved_token, :up.negate_me(inverse), e, rtoken]
 	    ) || (
               debug && (stderr.puts "case is_down_token")
-	      [:reserved_token, :up.negate_me, e, rtoken]
+	      [:reserved_token, :up.negate_me(inverse).negate_me, e, rtoken]
 	    )
 	  )
         ) || (
@@ -3736,7 +3738,8 @@ n8mFEtUKobsK
 	  # (and add it to the current array)
           repetition_test && (
             debug && (stderr.puts "case escape")
-	    escaped_e = (e.sub! rtoken, "") rescue e
+	    inverse  && (escaped_e = (e += rtoken)       rescue e)
+	    !inverse && (escaped_e = (e.sub! rtoken, "") rescue e)
 	    [:reserved_token.negate_me, nil, escaped_e, rtoken]
           )
         ) || (

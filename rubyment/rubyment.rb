@@ -4125,6 +4125,18 @@ n8mFEtUKobsK
         ],
       ],
 
+      [
+        "base_escape_case_inverse", [ :a, "[[", :b, "]]", :c], [
+           :array_unflatten_base, [
+             [:a, "[", :b, "]", :c],
+             :shallow.negate_me,
+             :debug.negate_me,
+             :reserved_tokens.to_nil,
+             :inverse,
+           ]
+        ],
+      ],
+
 
     ]
     test__tester test_cases

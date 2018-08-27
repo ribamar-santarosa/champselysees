@@ -83,6 +83,18 @@ module RubymentExperimentModule
 end
 
 
+=begin
+  # begin_documentation
+  This module receives only functions that are maintained.
+  Ie, the non-deprecated or not under deprecation functions.
+  # end_documentation
+=end
+module RubymentMaintainedModule
+
+
+end
+
+
 # Collection of Ruby functions
 # * output
 # normally outputs to STDERR, with

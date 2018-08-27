@@ -3686,8 +3686,8 @@ n8mFEtUKobsK
       debug && (stderr.puts "[e, index]=#{[e, index].inspect}")
       operations = reserved_tokens.map { |reserved_token|
         debug && (stderr.puts "reserved_token=#{reserved_token.inspect}")
-        debug && (stderr.puts "array_operands_stack=#{array_operands_stack.inspect}")
-        debug && (stderr.puts "array_operand=#{array_operand.inspect}")
+        debug && (stderr.puts "array_operands_stack=#{pd[1].inspect}")
+        debug && (stderr.puts "array_operand=#{pd.first.inspect}")
         rtoken, is_up_token = reserved_token
 
         repetition_test = string_repetition [e, rtoken, 1]
@@ -3711,7 +3711,7 @@ n8mFEtUKobsK
 	  # (and add it to the current array)
           repetition_test && (
             debug && (stderr.puts "case escape")
-	    escaped_e = e.sub rtoken, ""
+	    escaped_e = e.sub! rtoken, ""
 	    [:reserved_token.negate_me, nil, escaped_e, rtoken]
           )
         ) || (
@@ -3731,7 +3731,7 @@ n8mFEtUKobsK
       reserved_token, reservation_type, token = operation
       pd = pushdown_operate [pd, operation]
     }
-    debug && (stderr.puts "will return #{array_operand}")
+    debug && (stderr.puts "will return #{pd.first}")
     debug && (stderr.puts "#{__method__} returning")
     pd.first
   end

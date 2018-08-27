@@ -391,6 +391,22 @@ module RubymentExperimentModule
   end
 
 
+=begin
+c = :c
+experiment__input_select [[:a, :b, :c], c ]
+=end
+  def experiment__input_select args=[]
+    alternatives,
+      default,
+      reserved = args
+    stderr = @memory[:stderr]
+    caption = alternatives.each_with_index.map {|a, i| "#{i} - #{a.inspect}"}.join("\n")
+    stderr.puts "[alternatives: #{caption}][default: #{default.inspect}]"
+    alternative = input_single_line
+    selection = alternative.nne && alternatives[alternative.to_i] || default
+  end
+
+
 end
 
 

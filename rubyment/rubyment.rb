@@ -2759,10 +2759,10 @@ require '#{gem_name}'
      http_server_port,
      http_ip_addr,
      reserved = args
-   http_processing_method ||= http_processing_method.nne :http_OK_response
-   http_processing_method_args ||= http_processing_method_args.nne []
-   http_server_port ||= http_server_port.nne  8003
-   http_ip_addr ||= http_ip_addr.nne "0"
+   http_processing_method = http_processing_method.nne :http_OK_response
+   http_processing_method_args = http_processing_method_args.nne []
+   http_server_port = http_server_port.nne  8003
+   http_ip_addr = http_ip_addr.nne "0"
    thread =  tcp_ssl_server [
      http_server_port,
      http_ip_addr,

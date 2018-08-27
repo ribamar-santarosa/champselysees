@@ -2819,7 +2819,7 @@ require '#{gem_name}'
       output_exception,
       reserved = args
 
-    server = ssl_make_server(
+    server = (ssl_make_servers [
       listening_port,
       ip_addr,
       debug,
@@ -2828,7 +2828,7 @@ require '#{gem_name}'
       cert_pem_file,
       extra_cert_pem_files,
       output_exception,
-    )
+    ]).first.first
     debug.nne && (stderr.puts server)
     Thread.start {
       loop {

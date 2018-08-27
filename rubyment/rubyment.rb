@@ -915,6 +915,50 @@ module RubymentTestModule
   end
 
 
+=begin
+  test for #experiment__whether
+=end
+  def test__experiment__whether args=[]
+    method_to_test,
+      reserved = args
+    method_to_test = method_to_test.nne :experiment__whether
+
+    method_to_send = :array_first_remainder
+    args_to_send = [:arg_to_send_1, :arg_to_send_2, :arg_to_send_3]
+    args_to_bled = []
+
+    send_block = bled(args_to_bled) {
+      self.send method_to_send, args_to_send
+    }.first
+
+    default_block = bled(args_to_bled) {
+      args_to_send
+    }.first
+
+    t1 = "two blocks, condition true"
+    a1 = send method_to_test, [
+      method_to_send,
+      send_block,
+      default_block,
+    ]
+    e1 = [[:arg_to_send_1, [:arg_to_send_2, :arg_to_send_3]], nil, nil]
+
+    t2 = "two blocks, condition false"
+    a2 = send method_to_test, [
+      method_to_send.to_nil,
+      send_block,
+      default_block,
+    ]
+    e2 = [[ :arg_to_send_1, :arg_to_send_2, :arg_to_send_3], nil, nil]
+
+    judgement =
+      [
+        [e1, a1, "#{t1}"],
+        [e2, a2, "#{t2}"],
+      ].map(&method("expect_equal")).all?
+  end
+
+
 end
 
 

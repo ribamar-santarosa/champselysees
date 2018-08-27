@@ -426,6 +426,11 @@ experiment__input_select [[:a, :b, :c], c ]
   end
 
 
+  def get_self args=[]
+    self
+  end
+
+
 end
 
 

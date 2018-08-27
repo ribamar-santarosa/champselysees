@@ -991,6 +991,7 @@ module RubymentModule
     # +debug+:: [Object] if calling the object +nne+ method returns a +false+ value, won't print debug information
   # @return [Array] the response
   def rest_request_or_open_uri_open args=ARGV
+    stderr = @memory[:stderr]
     url,
       payload,
       verify_ssl,

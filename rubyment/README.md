@@ -40,5 +40,5 @@ This principle is general and  it's applied in the case of any failure, like a b
 
 #### documentation
 
-Each function is documented in a format tought to comply to https://devhints.io/rdoc, but both `yard` and `rdoc` won't generate proper pages at ( https://rawgit.com/ribamar-santarosa/champselysees/master/rubyment/doc/index.html ). It results from that the documentation is better read from the source code.
+Each function is documented in a format tought to comply to https://devhints.io/rdoc, but both `yard` and `rdoc` won't generate proper pages at ( https://rawgit.com/ribamar-santarosa/champselysees/master/rubyment/doc/index.html ). It results from that the documentation is better read from the source code. A new standard is being implemented (e.g: check `test__string_repetition`).
 

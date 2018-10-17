@@ -4555,7 +4555,7 @@ require '#{gem_name}'
       lazy.map {|i|
         r = lines.push(io.gets).last
         debug.nne && (stderr.puts r)
-	r.index(happy_with_request.to_s).to_i.nne && r
+        r.index(happy_with_request.to_s).to_i.nne && r
       }.find {|x| !x }
     debug.nne && (stderr.puts lines.inspect)
     debug.nne && (stderr.puts "#{__method__} returning")

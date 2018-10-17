@@ -2374,8 +2374,17 @@ module RubymentModule
   #  method_object (Method)
   def to_object_method args=ARGV
     stderr = @memory[:stderr]
-    name, object = containerize args
-    begin
+    name,
+      object,
+      debug,
+      reserved = containerize args
+
+    debug = debug.nne
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "caller=#{caller_label}")
+    debug && (stderr.puts "args=#{args.inspect}")
+    debug && (stderr.puts "args.each_with_index=#{args.each_with_index.entries.inspect}")
+    rv = begin
       object.method("method").call(name.to_s)
     rescue NameError => nameError
       # every object (even nil) has :method,
@@ -2384,6 +2393,9 @@ module RubymentModule
       stderr.puts nameError
       nil
     end
+    debug && (stderr.puts "will return #{rv.inspect}")
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
   end
 
   # calls object.method call_args

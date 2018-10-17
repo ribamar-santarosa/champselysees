@@ -4771,7 +4771,7 @@ require '#{gem_name}'
       output_exception.nne || admit_plain.negate_me
     )
     debug && (stderr.puts "#{__method__} starting{")
-    debug && (stderr.puts "#{__method__} output_exception=#{output_exception}")
+    debug && (stderr.puts "args.each_with_index=#{args.each_with_index.entries.inspect}")
     # openssl functions want contents, not filenames:
     extra_cert_pem_files =  extra_cert_pem_files
       .map! { |extra_cert_pem_file|

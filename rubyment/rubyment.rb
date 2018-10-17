@@ -922,13 +922,20 @@ trying to get the interface compatible with
     debug && (stderr.puts "caller=#{caller_label}")
     debug && (stderr.puts "args.each_with_index=#{args.each_with_index.entries.inspect}")
     object_arg = on_object.nne && processing_arg || nil
-    rv = to_method(
-      [method, object_arg]).call(
-        [processing_arg] + method_args
-    )
-    debug && (stderr.puts "will return #{rv.inspect}")
+    to_method_block = bled [
+      nil,
+      :no_rescue.negate_me,
+      :output.negate_me,
+    ] {
+      to_method(
+        [method, object_arg]).call(
+          [processing_arg] + method_args
+      )
+    }
+    rv =  to_method_block.first.call
+    debug && (stderr.puts "will return first of: #{rv.inspect}")
     debug && (stderr.puts "#{__method__} returning}")
-    rv
+    rv.first
   end
 
 

@@ -914,7 +914,8 @@ trying to get the interface compatible with
       method,
       method_args,
       on_object,
-      debug = args
+      debug,
+      reserved = args
     stderr = @memory[:stderr]
     debug = debug.nne
     debug && (stderr.puts "{#{__method__} starting")

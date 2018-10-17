@@ -4614,6 +4614,7 @@ require '#{gem_name}'
   # +transform_method_args+:: [Array] args to be given to the ++transform_method_name+
   # +happy_with_request+:: [String, nil] if nil, +eol+ is used.
   # +io_forward_debug+:: [boolean] will forward this argument to io_forward
+  # +transform_call_debug+:: [boolean] will forward this argument to  transform_call
   #
   # @return [nil]
   def io_transform args = ARGV
@@ -4623,6 +4624,7 @@ require '#{gem_name}'
       transform_method_name,
       transform_method_args,
       io_forward_debug,
+      transform_call_debug,
       reserved = args
     stderr = @memory[:stderr]
     debug.nne && (stderr.puts "#{__method__} starting{")
@@ -4633,7 +4635,8 @@ require '#{gem_name}'
         transform_method_name,
         transform_method_args,
         "on_object:true",
-      ]
+        transform_call_debug,
+      ],
     ]
     debug.nne && (stderr.puts "#{__method__} returning}")
     nil

@@ -4363,12 +4363,14 @@ require '#{gem_name}'
   # @param [Array] +args+, an +Array+ whose elements are expected to be:
   # +method_name_or_method+:: [String, Method] method name or method object
   # +debug+::
+  # +to_object_method_debug+:: debug to_object_method call
   #
   # @return [Method] a method
   def to_method args = ARGV
     method_name_or_method,
       object,
       debug,
+      to_object_method_debug,
       reserved = args
 
     stderr = @memory[:stderr]
@@ -4381,7 +4383,7 @@ require '#{gem_name}'
       :output.negate_me,
     ] {
       (
-        to_object_method [object, method_name_or_method, :to_object_method_debug.to_nil ]
+        to_object_method [object, method_name_or_method, to_object_method_debug ]
       ) || (
         method_name_or_method.respond_to?(:call) && method_name_or_method
       ) ||

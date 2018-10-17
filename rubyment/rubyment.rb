@@ -4362,16 +4362,35 @@ require '#{gem_name}'
   # in a polymorphic style.
   # @param [Array] +args+, an +Array+ whose elements are expected to be:
   # +method_name_or_method+:: [String, Method] method name or method object
+  # +debug+::
   #
   # @return [Method] a method
   def to_method args = ARGV
-    method_name_or_method, object, reserved = args
-    (
-      to_object_method [object, method_name_or_method]
-    ) || (
-      method_name_or_method.respond_to?(:call) && method_name_or_method
-    ) ||
-      method(method_name_or_method)
+    method_name_or_method,
+      object,
+      debug,
+      reserved = args
+
+    stderr = @memory[:stderr]
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "caller=#{caller_label}")
+    debug && (stderr.puts "args.each_with_index=#{args.each_with_index.entries.inspect}")
+    to_method_block = bled [
+      nil,
+      :no_rescue.negate_me,
+      :output.negate_me,
+    ] {
+      (
+        to_object_method [object, method_name_or_method, :to_object_method_debug.to_nil ]
+      ) || (
+        method_name_or_method.respond_to?(:call) && method_name_or_method
+      ) ||
+        method(method_name_or_method)
+    }
+    rv = to_method_block.first.call
+    debug && (stderr.puts "will return first of: #{rv.inspect}")
+    debug && (stderr.puts "#{__method__} returning}")
+    rv.first
   end
 
 

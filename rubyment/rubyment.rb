@@ -4770,7 +4770,8 @@ require '#{gem_name}'
     output_exception = (
       output_exception.nne || admit_plain.negate_me
     )
-    debug && (stderr.puts "#{__method__} starting")
+    debug && (stderr.puts "#{__method__} starting{")
+    debug && (stderr.puts "#{__method__} output_exception=#{output_exception}")
     # openssl functions want contents, not filenames:
     extra_cert_pem_files =  extra_cert_pem_files
       .map! { |extra_cert_pem_file|
@@ -4808,7 +4809,7 @@ require '#{gem_name}'
       server = ssl_server || admit_plain && plain_server
     }
     debug && (stderr.puts "will return #{[servers]}")
-    debug && (stderr.puts "#{__method__} returning")
+    debug && (stderr.puts "#{__method__} returning}")
     [servers]
   end
 

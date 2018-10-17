@@ -2390,7 +2390,7 @@ module RubymentModule
       # every object (even nil) has :method,
       # and every Method has :call: exception
       # is thrown in call
-      stderr.puts nameError
+      debug && (stderr.puts nameError)
       nil
     end
     debug && (stderr.puts "will return #{rv.inspect}")

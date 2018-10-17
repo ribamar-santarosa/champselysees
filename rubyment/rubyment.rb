@@ -4775,11 +4775,11 @@ require '#{gem_name}'
     extra_cert_pem_files =  extra_cert_pem_files
       .map! { |extra_cert_pem_file|
         file_read [
-	  extra_cert_pem_file,
-	  nil,
-	  nil,
-	  extra_cert_pem_file
-	]
+          extra_cert_pem_file,
+          nil,
+          nil,
+          extra_cert_pem_file
+        ]
       }
     cert_pem_file = file_read [cert_pem_file, nil, nil, cert_pem_file]
     priv_pemfile  = file_read [priv_pemfile, nil, nil, priv_pemfile]

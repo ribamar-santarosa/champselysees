@@ -5025,7 +5025,7 @@ require '#{gem_name}'
       extra_cert_pem_files,
       output_exception,
     ]).first.first
-    debug_client = debug_client.nne
+    debug_client = debug_client.nne || debug
     debug && (stderr.puts "server=#{server}")
     rv = Thread.start {
       loop {

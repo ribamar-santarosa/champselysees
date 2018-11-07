@@ -97,6 +97,20 @@ end
 
 =begin
   # begin_documentation
+  This module offers function to interface with certain
+  internal structures. Ie, these functions are supposed
+  to be useless unless running Rubyment.
+
+  # end_documentation
+=end
+module InternalRubymentModule
+
+
+end
+
+
+=begin
+  # begin_documentation
   Object will be changed just by including
   this file or requiring rubyment, which is not the
   best approach, but kept to respect the open/closed

@@ -4760,7 +4760,7 @@ require '#{gem_name}'
     ).call(
         [input] + processing_method_args
     )
-    ios_out.map{ |shared_io_out|
+    threads = ios_out.map{ |shared_io_out|
       runoe_threaded(shared_io_out) {|io_out|
         io_out = shared_io_out
         io_out.print processed_input
@@ -4775,6 +4775,11 @@ require '#{gem_name}'
           stderr.puts "#{io_out}: IO closed."
         )
 
+      }
+    }
+    threads.map { |thread|
+      runoe_threaded() {
+        thread.join
       }
     }
     debug.nne && (stderr.puts "#{__method__} returning}")

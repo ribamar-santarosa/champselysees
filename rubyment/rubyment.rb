@@ -5570,6 +5570,7 @@ n8mFEtUKobsK
       reserved = args
 
     debug = debug.nne
+    output_exceptions = output_exceptions.nne
     debug.nne && (stderr.puts "{#{__method__} starting")
     debug && (stderr.puts "args=#{args.inspect}")
     # http_OK_response is completely controlled by here -- io_forward

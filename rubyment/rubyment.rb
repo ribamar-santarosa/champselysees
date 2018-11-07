@@ -4425,6 +4425,7 @@ require '#{gem_name}'
   # +method_name_or_method+:: [String, Method] method name or method object
   # +debug+::
   # +to_object_method_debug+:: debug to_object_method call
+  # +output_exceptions+::
   #
   # @return [Method] a method
   def to_method args = ARGV
@@ -4432,6 +4433,7 @@ require '#{gem_name}'
       object,
       debug,
       to_object_method_debug,
+      output_exceptions,
       reserved = args
 
     stderr = @memory[:stderr]
@@ -4441,7 +4443,7 @@ require '#{gem_name}'
     to_method_block = bled [
       nil,
       :no_rescue.negate_me,
-      :output.negate_me,
+      output_exceptions,
     ] {
       (
         to_object_method [object, method_name_or_method, to_object_method_debug ]

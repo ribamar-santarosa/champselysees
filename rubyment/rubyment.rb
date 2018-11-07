@@ -4693,7 +4693,7 @@ require '#{gem_name}'
     )
     ios_out.map{ |shared_io_out|
       runoe_threaded(shared_io_out) {|io_out|
-	io_out = shared_io_out
+        io_out = shared_io_out
         io_out.print processed_input
         debug && (
           stderr.puts "#{io_out}: processed_input.class=#{processed_input.class}"

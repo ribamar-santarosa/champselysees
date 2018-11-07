@@ -907,6 +907,7 @@ trying to get the interface compatible with
   +method_args+:: [Array] args to be given to the +transform_method_name+
   +on_object+:: [String, Boolean]
   +debug+:: [Boolean]
+  +output_exceptions+:: [Boolean]
   
   @return [String] +processing_arg+
 =end
@@ -916,6 +917,7 @@ trying to get the interface compatible with
       method_args,
       on_object,
       debug,
+      output_exceptions,
       reserved = args
     stderr = @memory[:stderr]
     debug = debug.nne
@@ -926,7 +928,7 @@ trying to get the interface compatible with
     to_method_block = bled [
       nil,
       :no_rescue.negate_me,
-      :output.negate_me,
+      output_exceptions,
     ] {
       to_method(
         [method, object_arg]).call(

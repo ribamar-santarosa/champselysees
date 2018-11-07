@@ -114,6 +114,14 @@ module InternalRubymentModule
   end
 
 
+=begin
+  updates the current @memory with a new hash m
+=end
+  def rubyment_memory__shallow_update m
+    @memory.update m
+  end
+
+
 end
 
 

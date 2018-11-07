@@ -107,9 +107,14 @@ end
   to this module, which will only be used to modify
   the Object class if the RubymentModule is included.
 
+
   # end_documentation
 =end
 module ModifierForClassObjectModule
+
+  def __note arg
+    self
+  end
 
 
 end

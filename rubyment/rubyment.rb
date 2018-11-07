@@ -1092,6 +1092,146 @@ trying to get the interface compatible with
   end
 
 
+=begin
+  # documentation_begin
+  # short_desc = "this improves experiment__tester by encapsulating the bled block building, calls experiment__tester too "
+  @memory[:documentation].push = {
+    :function   => :experiment__tester_with_bled,
+    :short_desc => short_desc,
+    :description => "",
+    :params     => [
+      {
+        :name             => :args,
+        :description      => "list of parameters",
+        :duck_type        => Array,
+        :default_behavior => [],
+        :params           => [
+          {
+            :name             => :test_cases_method_args,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "for future use",
+          },
+          {
+            :name             => :test_cases_array,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "for future use",
+          },
+          {
+            :name             => :debug,
+            :duck_type        => :boolean,
+            :default_behavior => :nil,
+            :description      => "prints debug information to the __IO__ specified by __@memory[:stderr]__ (STDERR by default)",
+          },
+          {
+            :name             => :debug_experiment__tester,
+            :duck_type        => :boolean,
+            :default_behavior => :nil,
+            :forwarded        => [
+              { :to => :experiment__tester, :as => :debug }
+            ],
+          },
+          {
+            :name             => :output_exceptions,
+            :duck_type        => :boolean,
+            :default_behavior => :nil,
+            :description      => "exceptions are normally properly handled by inner functions, but setting this to true can be helpful to debug some cases",
+          },
+          {
+            :name             => :to_method_debug,
+            :duck_type        => :boolean,
+            :default_behavior => :nil,
+            :forwarded        => [
+              { :to => :to_method , :as => :to_method_debug }
+            ],
+          },
+          {
+            :name             => :to_object_method_debug,
+            :duck_type        => :boolean,
+            :default_behavior => :nil,
+            :forwarded        => [
+              { :to => :to_method , :as => :to_object_method_debug }
+            ],
+          },
+          {
+            :name             => :reserved,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "for future use",
+          },
+        ],
+      },
+    ],
+    :return_value     => [
+      {
+        :name             => :args,
+        :description      => "list of parameters",
+        :duck_type        => Array,
+        :default_behavior => [],
+        :params           => [
+          {
+            :name             => :reserved,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "for future use",
+          },
+        ],
+      },
+    ],
+  }
+  # documentation_end
+=end
+  def experiment__tester_with_bled args=[]
+    stderr = @memory[:stderr]
+    test_cases_method,
+      test_cases_method_args,
+      test_cases_array,
+      debug,
+      debug_experiment__tester,
+      output_exceptions,
+      to_method_debug,
+      to_object_method_debug,
+      no_rescue,
+      reserved = args
+    debug = debug.nne
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "caller=#{caller_label}")
+    debug && (stderr.puts "args=#{args.inspect}")
+    test_cases_array = test_cases_array.nne []
+    test_cases_method_args = test_cases_method_args.nne []
+    test_cases_from_method = (to_method [
+      test_cases_method,
+      to_method_debug,
+      to_object_method_debug,
+      no_rescue,
+    ]).call *test_cases_method_args
+    debug && (stderr.puts "test_cases_array.size=#{test_cases_array.size}")
+    debug && (stderr.puts "test_cases_from_method.size=#{test_cases_from_method.size}")
+    test_cases = test_cases_from_method.to_a + test_cases_array.to_a
+    debug && (stderr.puts "test_cases.size=#{test_cases.size}")
+    experiment__tester_block = bled [
+      nil,
+      no_rescue,
+      output_exceptions,
+    ] {
+        experiment__tester [
+        test_cases,
+        debug_experiment__tester,
+      ]
+    }
+    debug && (stderr.puts "experiment__tester_block=#{experiment__tester_block.inspect}")
+    rv = experiment__tester_block.first.call
+    debug && (stderr.puts "will return first of #{rv.inspect}")
+    !rv.first && (stderr.puts "{#{__method__}: failed with arguments=#{args.inspect}}")
+    rv[1] && (stderr.puts "{#{__method__} exception caught:")
+    rv[1] && (stderr.puts :exception_output.__is(rv[1][1]))
+    rv[1] && (stderr.puts "#{__method__} exception caught}")
+    debug && (stderr.puts "#{__method__} returning}")
+    rv.first
+  end
+
+
 end
 
 

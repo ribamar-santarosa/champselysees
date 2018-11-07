@@ -4426,6 +4426,7 @@ require '#{gem_name}'
   # +debug+::
   # +to_object_method_debug+:: debug to_object_method call
   # +output_exceptions+::
+  # +no_rescue+::
   #
   # @return [Method] a method
   def to_method args = ARGV
@@ -4434,6 +4435,7 @@ require '#{gem_name}'
       debug,
       to_object_method_debug,
       output_exceptions,
+      no_rescue,
       reserved = args
 
     stderr = @memory[:stderr]
@@ -4442,7 +4444,7 @@ require '#{gem_name}'
     debug && (stderr.puts "args.each_with_index=#{args.each_with_index.entries.inspect}")
     to_method_block = bled [
       nil,
-      :no_rescue.negate_me,
+      no_rescue,
       output_exceptions,
     ] {
       (

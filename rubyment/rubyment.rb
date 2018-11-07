@@ -2143,6 +2143,16 @@ module RubymentTestModule
   end
 
 
+  def test_cases__template args=[]
+    # current best example: test_cases__send_enumerator
+    # testing_method = :send_enumerator
+    test_cases ||= [
+      # [ :id, :expectation, :actual_params ],
+      # actual_params can be an array with method_name + [args] to that method.
+    ]
+  end
+
+
 end
 
 

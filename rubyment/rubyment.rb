@@ -5530,6 +5530,12 @@ n8mFEtUKobsK
             :description      => "ip address (used by the redirect server)",
           },
           {
+            :name             => :output_exceptions,
+            :duck_type        => :boolean,
+            :default_behavior => :nil,
+            :description      => "exceptions are normally properly handled by inner functions, but setting this to true can be helpful to debug some cases",
+          },
+          {
             :name             => :reserved,
             :duck_type        => Object,
             :default_behavior => :nil,
@@ -5560,6 +5566,7 @@ n8mFEtUKobsK
       plain_http_processing_method_args,
       plain_http_server_port,
       plain_http_ip_addr,
+      output_exceptions,
       reserved = args
 
     debug = debug.nne
@@ -5605,7 +5612,7 @@ n8mFEtUKobsK
       priv_pemfile,
       cert_pem_file,
       extra_cert_pem_files,
-      "yes, output exceptions",
+      output_exceptions,
     ]
     tcp_ssl_server_thread   =  send :tcp_ssl_server, tcp_ssl_server_args
     tcp_plain_server_args = [
@@ -5623,7 +5630,7 @@ n8mFEtUKobsK
       :priv_pemfile.to_nil,
       :cert_pem_file.to_nil,
       :extra_cert_pem_files.to_nil,
-      "yes, output exceptions",
+      output_exceptions,
     ]
     tcp_plain_server_thread =  send :tcp_ssl_server, tcp_plain_server_args
 

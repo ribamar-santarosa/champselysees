@@ -5011,6 +5011,10 @@ require '#{gem_name}'
       debug_client,
       reserved = args
 
+    debug = debug.nne
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "caller=#{caller_label}")
+    debug && (stderr.puts "args.each_with_index=#{args.each_with_index.entries.inspect}")
     server = (ssl_make_servers [
       listening_port,
       ip_addr,
@@ -5022,8 +5026,8 @@ require '#{gem_name}'
       output_exception,
     ]).first.first
     debug_client = debug_client.nne
-    debug.nne && (stderr.puts server)
-    Thread.start {
+    debug && (stderr.puts "server=#{server}")
+    rv = Thread.start {
       loop {
         client = runea [
           "yes, rescue",
@@ -5052,6 +5056,9 @@ require '#{gem_name}'
         }
       }
     }
+    debug && (stderr.puts "will return #{rv.inspect}")
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
   end
 
 

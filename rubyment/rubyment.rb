@@ -522,6 +522,7 @@ send_enumerator [ [ {}, {} ], Proc.new {|x| x.size }, [].to_nil, :whatever, 0]
       block_to_method,
       replace_at_index,
       debug,
+      no_output_exceptions,
       reserved = args
 
     stderr = @memory[:stderr]
@@ -530,6 +531,7 @@ send_enumerator [ [ {}, {} ], Proc.new {|x| x.size }, [].to_nil, :whatever, 0]
     debug && (stderr.puts "caller=#{caller_label}")
     debug && (stderr.puts "args=#{args.inspect}")
     args_to_method = args_to_method.nne []
+    no_output_exceptions = no_output_exceptions.nne
 
     calling_tuples = enum.map {|e|
       method_name = (!method.respond_to? :call) && method || nil
@@ -547,8 +549,15 @@ send_enumerator [ [ {}, {} ], Proc.new {|x| x.size }, [].to_nil, :whatever, 0]
     debug && (stderr.puts "calling_tuples=#{calling_tuples}")
 
     rv = calling_tuples.map {|c_t|
-      method_to_call, *args_to_call = c_t
-      method_to_call.call *args_to_call, &block_to_method
+      block = bled [
+        :nil,
+        :no_rescue,
+        no_output_exceptions,
+      ] {
+        method_to_call, *args_to_call = c_t
+        method_to_call.call *args_to_call, &block_to_method
+      }
+      block.first.call.first
     }
     debug && (stderr.puts "will return #{rv.inspect}")
     debug && (stderr.puts "#{__method__} returning}")

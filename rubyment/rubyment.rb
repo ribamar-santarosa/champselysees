@@ -23,7 +23,7 @@ end
   Object will be changed just by including
   this file or requiring rubyment, which is not the
   best approach, but kept to respect the open/closed
-  principle, but new functions should be added here.
+  principle, but new functions should NOT be added here.
 
   only a bunch of methods, is, however, added:
   . negate_me

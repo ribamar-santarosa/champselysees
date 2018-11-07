@@ -112,6 +112,12 @@ end
 =end
 module ModifierForClassObjectModule
 
+
+  def array__is *args
+    args
+  end
+
+
   def __note arg
     self
   end

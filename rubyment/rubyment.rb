@@ -113,6 +113,11 @@ end
 module ModifierForClassObjectModule
 
 
+  def __is object
+    object
+  end
+
+
   def array__is *args
     args
   end

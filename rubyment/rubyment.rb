@@ -4695,7 +4695,10 @@ require '#{gem_name}'
       runoe_threaded(shared_io_out) {|io_out|
 	io_out = shared_io_out
         io_out.print processed_input
-        debug.nne && (
+        debug && (
+          stderr.puts "#{io_out}: processed_input.class=#{processed_input.class}"
+        )
+        debug && processed_input && (
           stderr.puts "#{io_out}: #{processed_input.size} bytes: response writen."
         )
         io_out.close

@@ -5008,6 +5008,7 @@ require '#{gem_name}'
       cert_pem_file,
       extra_cert_pem_files,
       output_exception,
+      debug_client,
       reserved = args
 
     server = (ssl_make_servers [
@@ -5020,6 +5021,7 @@ require '#{gem_name}'
       extra_cert_pem_files,
       output_exception,
     ]).first.first
+    debug_client = debug_client.nne
     debug.nne && (stderr.puts server)
     Thread.start {
       loop {
@@ -5031,12 +5033,16 @@ require '#{gem_name}'
           server.accept
         }
         Thread.start(client) { |client|
+          debug_client && (stderr.puts "{client #{client} starting")
+          debug_client && (stderr.puts Thread.current)
           debug.nne && (stderr.puts Thread.current)
           debug.nne && (stderr.puts client)
           runoe {
             to_method([callback_method])
               .call([client] + callback_method_args)
           }
+          debug_client && (stderr.puts "client will return #{rv}")
+          debug_client && (stderr.puts "client #{client} finishing}")
         }
       }
     }

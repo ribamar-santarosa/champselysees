@@ -2523,6 +2523,39 @@ trying to get the interface compatible with
   end
 
 
+=begin
+
+  To generate and execute a code like this:
+
+    arrays.map { |a|
+      a.index element
+    }
+
+    just give as a code_pattern:
+
+    [
+      arrays,
+      "map",
+      "index",
+      element,
+    ]
+
+=end
+  def pattern_exec__mapping_an_object code_pattern
+
+    iterating_object,         # arrays
+      yielding_method_name,   # "map"
+      mapping_method_name,    # "index"
+      args_to_mapping_method, # element
+      reserved = code_pattern
+
+    iterating_object.send(yielding_method_name) { |a|
+      a.send mapping_method_name, *args_to_mapping_method
+    }
+
+  end
+
+
 end # of RubymentExperimentModule
 
 

@@ -3418,6 +3418,8 @@ end
   - graph visitor.
   - some advanced patterns, like reloading the implementation of
   this module from a file without stopping the process.
+  - some function to redesign part of Ruby API arguably misdesigned,
+  like #arrays__zip
 
 
   Rubyment functions must respect the open/closed principle

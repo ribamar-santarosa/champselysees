@@ -386,13 +386,17 @@ module RubymentArraysModule
   array__at [ [ :a, :b, :c], [ nil, :b ], [:a] ], 2
   # => [:c, nil, nil]
 
+  # slices can be given in an array:
+  array__at [ [ :a, :b, :c], [ nil, :b ], [:a] ], [1..2]
+  # => [[:b, :c], [:b], []]
+
 =end
   def array__at arrays, position
 
     pattern_exec__mapping_an_object [
       arrays,
       "map",
-      "at",
+      "slice",
       position,
     ]
 

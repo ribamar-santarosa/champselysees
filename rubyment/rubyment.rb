@@ -105,6 +105,20 @@ end
 module RubymentRubyCodeGenerationModule
 
 
+=begin
+if you use vim or a similar  editor, you can use such a function as:
+:read !./rubyment.rb invoke_double puts code_ruby_comment_multiline_empty
+=end
+  def code_ruby_comment_multiline_empty
+    code =<<-ENDHEREDOC
+=begin
+=end
+    ENDHEREDOC
+    [code]
+
+  end
+
+
 end
 
 

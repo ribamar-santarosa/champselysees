@@ -432,6 +432,9 @@ end
 module RubymentModifierForClassObjectModule
 
 
+  include ModifierForClassObjectModule
+
+
 end
 
 

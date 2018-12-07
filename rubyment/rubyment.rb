@@ -518,6 +518,31 @@ module RubymentInternalModule
   end
 
 
+=begin
+  ensure the top level keys of m, @memory if not given,
+  are all symbols
+  returns a copy of m, @memory if not given, where
+  all the keys are ensured to be symbols.
+
+  When a ruby hash is stored as a JSON file, the symbol
+  keys will be restored as strings. When that JSON file
+  is reloaded, those strings will be loaded as strings.
+  Therefore the resulting hash is not the same as the
+  original. There may be other issues with keys having
+  other types than strings and symbols, and deep keys
+  can also be lost with that transformation. This function
+  just takes cares of the issues created by the Rubyment
+  memory implementation itself.
+
+=end
+  def rubyment_memory__symbol_keys_shallow m = nil
+    update_memory = m.nne.negate_me
+    m = m.nne @memory
+    m = m.map { |k, v|  [k.to_sym, v] }.to_h
+    update_memory && (@memory = m) || m
+  end
+
+
 end # of InternalRubymentModule
 
 

@@ -4955,6 +4955,14 @@ module RubymentModule
     gem_bin_contents,
     gem_bin_executables = args
 
+    debug = @memory[:debug]
+    stderr = @memory[:stderr]
+    debug = debug.nne
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "caller=#{caller_label}")
+    debug && (stderr.puts "args=#{args.inspect}")
+    debug && (stderr.puts "args.each_with_index=#{args.each_with_index.entries.inspect}")
+
     contents =<<-ENDHEREDOC
 Gem::Specification.new do |s|
   s.name        = '#{gem_name}'
@@ -4968,9 +4976,14 @@ Gem::Specification.new do |s|
   s.homepage    = '#{gem_homepage}'
   s.license     = '#{gem_license}'
   s.executables += [#{gem_bin_executables}].flatten
+  #{gem_dependencies_str}
 end
     ENDHEREDOC
-    contents
+    rv = contents
+    debug && (stderr.puts "#{__method__} will return #{rv.inspect}")
+    # if raises exception before it will be unbalanced :
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
   end
 
 

@@ -435,6 +435,20 @@ module RubymentInternalModule
   include InternalRubymentModule
 
 
+=begin
+  merges the current @memory with m
+  (so @memory will contain the resulting merged
+  hash).
+  The merge is shallow, ie, only top-level
+  keys are merged.
+  If the same key is present in both objects,
+  the one in m will prevail.
+=end
+  def rubyment_memory__merge_shallow m
+    @memory.merge!  m
+  end
+
+
 end # of InternalRubymentModule
 
 

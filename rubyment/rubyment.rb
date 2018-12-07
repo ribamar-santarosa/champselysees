@@ -1818,6 +1818,15 @@ trying to get the interface compatible with
   end
 
 
+=begin
+  will call puts on the stderr
+=end
+  def stderr_puts *args
+    stderr = rubyment_memory__get_key :stderr
+    stderr.puts *args
+  end
+
+
 end
 
 

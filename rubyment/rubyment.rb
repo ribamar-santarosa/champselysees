@@ -3673,11 +3673,16 @@ module RubymentModule
   #
   def object_method_args_call args=ARGV
     stderr = @memory[:stderr]
+    debug = @memory[:debug]
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "caller=#{caller_label}")
+    debug && (stderr.puts "args=#{args.inspect}")
+    debug && (stderr.puts "args.each_with_index=#{args.each_with_index.entries.inspect}")
     method, object, *call_args = containerize args
     object ||= self
     method = to_object_method [method, object]
     call_args = call_args && (containerize call_args)
-    begin
+    rv = begin
       call_args && (method.call *call_args) || method.call
     rescue NameError => nameError
       # every object (even nil) has :method,
@@ -3686,6 +3691,10 @@ module RubymentModule
       stderr.puts nameError
       nil
     end
+    debug && (stderr.puts "#{__method__} will return #{rv.inspect}")
+    # if raises exception before it will be unbalanced :
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
   end
 
 

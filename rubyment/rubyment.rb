@@ -1567,6 +1567,49 @@ trying to get the interface compatible with
   end
 
 
+=begin
+  returns an array having all the valid values for elements
+  of methods_to_call parameter of #experiment__http_request_parse
+=end
+  def callable_methods__http_request_parse args=[]
+    methods_to_call = methods_to_call.nne [
+      :path_info,
+      :request_uri,
+      :content_length,
+      :body,
+      :request_method,
+      :ssl?,
+      :path,
+      :host,
+      :attributes,
+      :accept,
+      :port,
+      :query,
+      :user,
+      :addr,
+      :header,
+      :body,
+      :request_method,
+      :content_type,
+      :keep_alive,
+      :cookies,
+      :http_version,
+      :accept_charset,
+      :query_string,
+      :script_name,
+      :server_name,
+      :accept_encoding,
+      :accept_language,
+      :peeraddr,
+      :raw_header,
+      :continue,
+      :remote_ip,
+      :keep_alive?,
+      :fixup,
+    ]
+  end
+
+
 end
 
 

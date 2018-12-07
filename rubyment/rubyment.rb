@@ -4953,7 +4953,9 @@ module RubymentModule
     gem_is_current_file,
     gem_bin_generate,
     gem_bin_contents,
-    gem_bin_executables = args
+    gem_bin_executables,
+    gem_dependencies,
+    reserved = args
 
     debug = @memory[:debug]
     stderr = @memory[:stderr]
@@ -4962,6 +4964,13 @@ module RubymentModule
     debug && (stderr.puts "caller=#{caller_label}")
     debug && (stderr.puts "args=#{args.inspect}")
     debug && (stderr.puts "args.each_with_index=#{args.each_with_index.entries.inspect}")
+
+    gem_dependencies  = gem_dependencies.nne []
+    gem_dependencies_str = gem_dependencies.map{ |d|
+      "s.add_dependency *#{d.to_s}"
+    }.join "\n  "
+    debug && (stderr.puts "gem_dependencies=#{gem_dependencies}")
+    debug && (stderr.puts "gem_dependencies_str=#{gem_dependencies_str.inspect}")
 
     contents =<<-ENDHEREDOC
 Gem::Specification.new do |s|

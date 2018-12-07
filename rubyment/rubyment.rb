@@ -2360,6 +2360,32 @@ trying to get the interface compatible with
   end
 
 
+=begin
+  inverse of #file__json
+=end
+  def load__file_json_quiet args=[]
+    require 'json'
+    file_path,
+    debug,
+      reserved = args
+    debug = debug.nne
+    stderr = @memory[:stderr]
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "caller=#{caller_label}")
+    debug && (stderr.puts "args=#{args.inspect}")
+    file_contents = File.read file_path
+    debug && (stderr.puts "file_contents size=#{file_contents.size}")
+    loaded = JSON.parse file_contents
+    debug && (stderr.puts "loaded size=#{loaded.size}")
+    debug && (stderr.puts "loaded=#{loaded.inspect}")
+    rv = loaded[:root.to_s]
+    # if raises exception before it will be unbalanced :
+    debug && (stderr.puts "#{__method__} will return #{rv.inspect}")
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
+  end
+
+
 end # of RubymentExperimentModule
 
 

@@ -119,6 +119,29 @@ if you use vim or a similar  editor, you can use such a function as:
   end
 
 
+=begin
+if you use vim or a similar  editor, you can use such a function as:
+:read !./rubyment.rb invoke_double puts code_ruby_module_newmodule_empty
+=end
+  def code_ruby_module_newmodule_empty
+    code =<<-ENDHEREDOC
+=begin
+  # begin_documentation
+
+  # end_documentation
+=end
+module NewModule
+
+
+end
+
+
+    ENDHEREDOC
+    [code]
+
+  end
+
+
 end
 
 

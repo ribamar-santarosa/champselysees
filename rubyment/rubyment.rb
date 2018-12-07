@@ -142,7 +142,7 @@ end # of NewModule
   end
 
 
-end
+end # of RubymentRubyCodeGenerationModule
 
 
 =begin 

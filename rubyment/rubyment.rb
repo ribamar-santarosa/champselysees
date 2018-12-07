@@ -3631,6 +3631,12 @@ module RubymentModule
       :static_separator_key_per_execution => "strings_having_this"  +  "_string_not_guaranteed_to_work" + (Proc.new {}).to_s + Time.now.to_s,
       :threads => [Thread.current],
       :memory_json_file_default => "memory.rubyment.json",
+      :closure_keys => [
+        :stdin,
+        :stderr,
+        :stdout,
+        :threads,
+      ],
     }
     @memory.update memory.to_h
     invoke @memory[:invoke].to_a

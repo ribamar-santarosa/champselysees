@@ -478,6 +478,26 @@ module RubymentInternalModule
   end
 
 
+=begin
+  returns a m, or copy of @memory if not given,
+  without the keys listed in closure_keys, or m[:closure_keys],
+  if not given (still, m["closure_keys"] if m[:closure_keys]
+  is empty).
+=end
+  def rubyment_memory__without_closure_keys m=nil, closure_keys=nil
+    m = m.nne @memory.dup
+    closure_keys = closure_keys.nne(
+      m[:closure_keys]
+    ).nne(
+      m["closure_keys"]
+    )
+    closure_keys.each {|closure_key|
+      m.delete closure_key
+    }
+    m
+  end
+
+
 end # of InternalRubymentModule
 
 

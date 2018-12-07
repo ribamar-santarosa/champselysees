@@ -95,6 +95,19 @@ class Object
 end
 
 
+=begin
+  # begin_documentation
+
+  this module provides functions to generate html code.
+
+  # end_documentation
+=end
+module RubymentHTMLModule
+
+
+end
+
+
 =begin 
   # begin_documentation
    This module offers functions to manipulate

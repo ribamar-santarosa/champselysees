@@ -339,10 +339,10 @@ end
   internal structures. Ie, these functions are supposed
   to be useless unless running Rubyment.
 
-  The module InternalRubymentModule should have been
-  called RubymentInternalModule instead, to preserve
-  the naming standards. This module, while a full fix
-  is not in place, will receive the new functions, and
+  The module InternalRubymentModule
+  should have been called RubymentInternalModule instead,
+  to preserve the naming standards. RubymentInternalModule
+  will receive the new functions, and
   InternalRubymentModule must be closed for extensions.
 
   # end_documentation

@@ -276,6 +276,44 @@ end
 module RubymentArraysModule
 
 
+=begin
+  zip will finish with the dimension of
+  the first array. It may sound like a feature,
+  I guess it is that way because it was the easiest
+  thing to implement. This one does the harder thing:
+  zip arrays: the generated array will have the
+  longest needed dimension.
+
+  The transpose method of Array suffers from the
+  same problem (indeed a bigger one, because it will
+  completely refuse to tranpose arrays with different
+  dimensions, while it could fill them with nil for us),
+  and, again, this function is the solution.
+
+  returns an #arrays__ definition, which is an array of array
+  having a transposition of arrays, which can be interpreted
+  as a zip of those arrays.
+
+  examples:
+
+  # this case is the same as [1, 2, 3].zip [4, 5]
+  arrays__zip [1, 2, 3], [4, 5]
+  # => [[1, 4], [2, 5], [3, nil]]
+
+  # this case is not the same as [1, 2].zip [3, 4, 5]
+  arrays__zip [1, 2], [3, 4, 5]
+  # => [[1, 3], [2, 4], [nil, 5]]
+
+
+=end
+  def arrays__zip *arrays
+    dimension = arrays.map(&:size).max - 1
+    (0..dimension).map { |i|
+      arrays.map { |a| a[i] }
+    }
+  end
+
+
 end # of RubymentArraysModule
 
 

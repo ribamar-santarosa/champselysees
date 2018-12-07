@@ -5438,6 +5438,7 @@ require '#{gem_name}'
         gem_validate_class,
         gem_validate_class_args,
         gem_validate_class_method,
+        gem_is_current_file,
     ]
   end
 

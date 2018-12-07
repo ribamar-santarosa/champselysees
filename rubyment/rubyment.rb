@@ -5502,6 +5502,12 @@ require '#{gem_name}'
       :all.to_nil,
       gem_version,
     ]
+    v
+    rv = v
+    debug && (stderr.puts "#{__method__} will return #{rv.inspect}")
+    # if raises exception before it will be unbalanced :
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
   end
 
 
@@ -5530,11 +5536,6 @@ require '#{gem_name}'
     gem_uninstall ["rubyment"]
     already_installed && (gem_install ["rubyment"])
     v
-    rv = v
-    debug && (stderr.puts "#{__method__} will return #{rv.inspect}")
-    # if raises exception before it will be unbalanced :
-    debug && (stderr.puts "#{__method__} returning}")
-    rv
   end
 
 

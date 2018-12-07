@@ -5246,12 +5246,13 @@ require '#{gem_name}'
   # +user_install+:: [Object]
   # +quiet+:: [Object] if calling the object +nne+ method returns a +false+ value, will print debug information
   # +ignored+:: [Object] ignored parameter
+  # +gem_version+:: [Object]
   # @return [String] console output of gem uninstall
   def gem_uninstall_all args=[]
     stderr = @memory[:stderr]
-    gem_spec, user_install, quiet, all = args
+    gem_spec, user_install, quiet, all, gem_version = args
     all = "-a"
-    gem_uninstall [gem_spec, user_install, quiet, all]
+    gem_uninstall [gem_spec, user_install, quiet, all, gem_version]
   end
 
 

@@ -547,6 +547,35 @@ module RubymentInternalModule
   end
 
 
+=begin
+  merge
+  @memory with the hash loaded from filepath, or
+  @memory[:memory_json_file_default] if not given
+  (still @memory["memory_json_file_default"] if nil).
+
+  The merge is shallow, ie, only top-level
+  keys are merged.
+  If the same key is present in both objects,
+  the one in m will prevail.
+=end
+  def rubyment_memory__merge_shallow_with_json_file filepath=nil, debug=nil
+    filepath = filepath.nne(
+      @memory[:memory_json_file_default]
+    ).nne(
+      @memory["memory_json_file_default"]
+    )
+    m = load__file_json_quiet [
+      filepath,
+      debug,
+    ]
+    rubyment_memory__merge_shallow(
+      rubyment_memory__without_closure_keys(
+        rubyment_memory__symbol_keys_shallow m
+      )
+    )
+  end
+
+
 end # of InternalRubymentModule
 
 

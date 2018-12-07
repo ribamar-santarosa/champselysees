@@ -3271,6 +3271,13 @@ module RubymentModule
     Thread.current.backtrace.join("\n")
   end
 
+
+  # returns a string having the current backtrace, for debugging.
+  def backtrace__reversed
+    Thread.current.backtrace.reverse.join("\n")
+  end
+
+
   def caller_labels begin_range=1, range_size=1
      caller_locations(begin_range, range_size).map(&:label)
   end

@@ -5077,6 +5077,10 @@ require '#{gem_name}'
 #{gem_validate_class}.new({:invoke => ARGV})
     ENDHEREDOC
     gem_executables = [ gem_bin_generate && "#{gem_name}" ]
+    gem_dependencies = [
+      #  use the format, for gems with semantic versioning
+      # ["gems", "~> 0"],
+    ]
 
     [
        gem_name,
@@ -5099,6 +5103,7 @@ require '#{gem_name}'
        gem_bin_generate,
        gem_bin_contents,
        gem_executables,
+       gem_dependencies,
    ]
   end
 

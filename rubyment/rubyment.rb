@@ -1850,6 +1850,18 @@ trying to get the interface compatible with
   end
 
 
+=begin
+  force arguments to be given to method
+  as an array
+
+=end
+  def invoke_as_array *args
+    method_to_invoke,
+    *args_to_method = args
+    send method_to_invoke, args_to_method
+  end
+
+
 end
 
 

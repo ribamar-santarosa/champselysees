@@ -5033,7 +5033,7 @@ end
     gem_ext ||= ".gem"
     gem_hifen ||= "-"
     gem_ext ||= "date"
-    gem_date ||= "2018-04-23"
+    gem_date ||=  Time.now.strftime("%Y-%m-%d")
     gem_summary     ||= "a set of ruby helpers"
     gem_description ||= "a gem for keeping Rubyment, a set of ruby helpers"
     gem_authors     ||= ["Ribamar Santarosa"]

@@ -498,6 +498,26 @@ module RubymentInternalModule
   end
 
 
+=begin
+  dumps the contents of m, or @memory if not given,
+  into filepath, or m[:memory_json_file_default]
+  if not given (still m["memory_json_file_default"]
+  if nil).
+=end
+  def rubyment_memory__to_json_file filepath=nil, m=nil
+    m = m.nne @memory
+    filepath = filepath.nne(
+      m[:memory_json_file_default]
+    ).nne(
+      m["memory_json_file_default"]
+    )
+    file__json [
+      filepath,
+      m,
+    ]
+  end
+
+
 end # of InternalRubymentModule
 
 

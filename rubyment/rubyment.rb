@@ -177,6 +177,20 @@ module InternalRubymentModule
   end
 
 
+=begin
+  load __FILE__ -- so a threaded invocation,
+  like the functions running a tcp server,
+  can call this function and reload without
+  having to restart the process.
+
+=end
+  def autoreload wtime=1
+    rubyment_memory__set_key :file_reloading, true
+    load rubyment_memory__get_key :filepath
+    rubyment_memory__set_key :file_reloading, false
+  end
+
+
 end
 
 

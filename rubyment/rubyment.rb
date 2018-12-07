@@ -314,6 +314,25 @@ module RubymentArraysModule
   end
 
 
+=begin
+
+  merge a list of arrays (like applying || on
+  each column of the matrix that arrays forms).
+
+  examples:
+  array__merge_shallow [1, false ], [false, 2, 3]
+  # => [1, 2, 3]
+
+=end
+  def array__merge_shallow *arrays
+
+    arrays__zip(*arrays).map { |a|
+      a.reduce "nne"
+    }
+
+  end
+
+
 end # of RubymentArraysModule
 
 

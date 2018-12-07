@@ -332,6 +332,9 @@ module InternalRubymentModule
 
 =end
   def autoreload wtime=1
+    (
+      sleep wtime
+    ) while rubyment_memory__get_key :file_reloading
     rubyment_memory__set_key :file_reloading, true
     load rubyment_memory__get_key :filepath
     rubyment_memory__set_key :file_reloading, false

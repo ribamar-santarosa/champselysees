@@ -825,6 +825,7 @@ module RubymentExperimentModule
     file_path,
       enum,
       reserved = args
+    FileUtils.mkdir_p File.dirname file_path
     File.write file_path,  JSON.pretty_generate({ :root.to_s => enum })
   end
 

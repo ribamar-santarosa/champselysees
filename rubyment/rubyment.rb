@@ -2860,7 +2860,8 @@ module RubymentTestModule
 
 
   def test_cases__template args=[]
-    # current best example: test_cases__send_enumerator
+    # current best example: test_cases__send_enumerator, but it
+    # still doesn't use the tester_with_bled.
     # testing_method = :send_enumerator
     test_cases ||= [
       # [ :id, :expectation, :actual_params ],

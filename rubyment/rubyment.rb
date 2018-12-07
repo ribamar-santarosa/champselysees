@@ -133,7 +133,7 @@ if you use vim or a similar  editor, you can use such a function as:
 module NewModule
 
 
-end
+end # of NewModule
 
 
     ENDHEREDOC

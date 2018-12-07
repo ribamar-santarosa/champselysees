@@ -3338,10 +3338,21 @@ module RubymentModule
     memory = @memory
     major_version = memory[:major_version]
     basic_version = memory[:basic_version]
-    major, minor = args
+    major, minor, debug = args
+    stderr = @memory[:stderr]
+    debug = debug.nne
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "caller=#{caller_label}")
+    debug && (stderr.puts "args=#{args.inspect}")
+    debug && (stderr.puts "args.each_with_index=#{args.each_with_index.entries.inspect}")
+    debug && (stderr.puts "major_version=#{major_version}")
+    debug && (stderr.puts "basic_version=#{basic_version}")
     major ||= major_version
     minor ||= basic_version
-    "#{major}.#{minor}"
+    rv = "#{major}.#{minor}"
+    debug && (stderr.puts "#{__method__} will return #{rv.inspect}")
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
   end
 
 

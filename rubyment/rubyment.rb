@@ -2263,6 +2263,18 @@ module RubymentDeprecatedModule
   end
 
 
+  def test__file_read___http_request_response__curl args=[]
+    # these tests depend on internet connection, so it may be difficult
+    # to automate them.
+    url_1 = "https://www.google.com/"
+    url_1 = "http://www.google.com/"
+    url_1 = "https://localhost:8003/"
+    url_1 = "https://localhost:8003/"
+    url_1 = "http://localhost:8004/tinga"
+    p file_read [url_1, nil, nil, nil, nil, :skip_open_uri, :payload.to_nil, false, nil, nil, nil, nil, :http_request_response__curl]
+  end
+
+
 end
 
 

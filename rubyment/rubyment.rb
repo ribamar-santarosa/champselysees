@@ -142,6 +142,19 @@ end # of NewModule
   end
 
 
+=begin
+if you use vim or a similar  editor, you can use such a function as:
+:read !./rubyment.rb invoke_double puts code_rubyment_debug_puts
+=end
+  def code_rubyment_debug_puts
+    code =<<-ENDHEREDOC
+    debug && (stderr.puts "=\#{}")
+    ENDHEREDOC
+    [code]
+
+  end
+
+
 end # of RubymentRubyCodeGenerationModule
 
 

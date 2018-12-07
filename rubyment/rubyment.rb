@@ -1948,6 +1948,159 @@ trying to get the interface compatible with
   end
 
 
+=begin
+  # short_desc = "creates an http response, after executing the GET "
+
+  @memory[:documentation].push = {
+    :function   => :experiment__http_response_invoke_clone,
+    :short_desc => short_desc,
+    :description => "",
+    :params     => [
+      {
+        :name             => :args,
+        :description      => "list of parameters",
+        :duck_type        => Array,
+        :default_behavior => "interpreted as empty array",
+        :params           => [
+          {
+            :name             => :request,
+            :duck_type        => String,
+            :default_behavior => :nil
+            :description      => "ignored, will redirect whatever request is made. nil is used.",
+          },
+          {
+            :name             => :location,
+            :duck_type        => String,
+            :default_behavior => "",
+            :description      => "Location: field value (the url to redirect to)",
+          },
+          {
+            :name             => :code,
+            :duck_type        => String,
+            :default_behavior => "200 OK",
+            :description      => "Request code",
+          },
+          {
+            :name             => :version,
+            :duck_type        => String,
+            :default_behavior => "1.1",
+            :description      => "HTTP protocol version",
+          },
+          {
+            :name             => :debug,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "prints debug information to the __IO__ specified by __@memory[:stderr]__ (STDERR by default)",
+          },
+          {
+            :name             => :eol,
+            :duck_type        => Object,
+            :default_behavior => "\r\n",
+            :description      => "separator to join each line of the response",
+          },
+          {
+            :name             => :debug_request_parse,
+            :duck_type        => :boolean,
+            :default_behavior => :nil,
+            :forwarded        => [
+              { :to => experiment__http_request_parse , :as => :debug }
+            ],
+          },
+          {
+            :name             => :output_exceptions,
+            :duck_type        => :boolean,
+            :default_behavior => :nil,
+            :description      => "exceptions are normally properly handled by inner functions, but setting this to true can be helpful to debug some cases",
+          },
+          {
+            :name             => :reserved,
+            :duck_type        => Object,
+            :default_behavior => "interpreted as nil",
+            :description      => "for future use",
+          },
+        ],
+      },
+    ],
+  }
+
+=end
+  def experiment__http_response_invoke_clone args = []
+    request,
+      location,
+      code,
+      version,
+      debug,
+      eol,
+      debug_request_parse,
+      output_exceptions,
+      reserved = args
+    stderr = @memory[:stderr]
+    stdout = @memory[:stdout]
+    debug = debug.nne
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "caller=#{caller_label}")
+    debug && (stderr.puts "args.each_with_index=#{args.each_with_index.entries.inspect}")
+    request_parse = experiment__http_request_parse [
+      request,
+      debug_request_parse,
+      :methods_to_call.to_nil,
+      output_exceptions,
+    ]
+    debug && (stderr.puts "request_parse[2]=#{request_parse[2]}")
+    require "shellwords"
+    # request_parse[2][0] is the  the request_uri
+    # remove any starting slashes before sending to invoke:
+    args_for_rubyment = Shellwords.split(request_parse[2][0].to_s.gsub /\/*/, "")
+    debug && (stderr.puts "args_for_rubyment=#{args_for_rubyment}")
+    request_stdout = StringIO.new
+    request_stderr = StringIO.new
+    # not thread-safe:
+    @memory[:stdout] = request_stdout
+    @memory[:stderr] = request_stderr
+    block = bled [
+      :no_answer.to_nil,
+      :no_rescue.negate_me,
+      :output.negate_me,
+    ] {
+      invoke args_for_rubyment
+    }
+    invoke_result = block.first.call
+    @memory[:stdout] = stdout
+    @memory[:stderr] = stderr
+    html_request_stdout = request_stdout.string.split("\n")
+    html_request_stderr = request_stderr.string.split("\n")
+    require 'json'
+    payload = CGI.escapeHTML JSON.pretty_generate({
+     "invoke_result"  => invoke_result,
+      "request_stdout" => html_request_stdout,
+      "request_stderr" => html_request_stderr,
+    })
+
+    debug && (stderr.puts "args_for_rubyment.size=#{args_for_rubyment.size}")
+    debug && (stderr.puts "args_for_rubyment.size.nne=#{args_for_rubyment.size.nne}")
+    debug && (stderr.puts "args_for_rubyment.size.nne.negate_me=#{args_for_rubyment.size.nne.negate_me}")
+    args_for_rubyment.size.nne.negate_me && (payload = html_content__basic_shell)
+    debug && (stderr.puts "payload=#{payload}")
+    location = location.nne ""
+    version = version.nne "1.1"
+    code = code.nne "200 OK"
+    eol = eol.nne "\r\n"
+    rv = http_response_base [
+      payload,
+      :content_type.to_nil,
+      code,
+      version,
+      :keep_alive.to_nil,
+      debug,
+      eol,
+      location,
+    ]
+    debug && (stderr.puts "will return #{rv.inspect}")
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
+  end
+
+
 end
 
 

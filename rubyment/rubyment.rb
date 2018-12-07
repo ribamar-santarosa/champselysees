@@ -5257,9 +5257,12 @@ require '#{gem_name}'
 
   # gem_uninstall
   # args:
-  # [gem_spec (String)]
-  # returns:
-  # console output of gem uninstall (String)
+  # @param [Array] +args+, an +Array+ whose elements are expected to be:
+  # +gem_spect+:: [String] 
+  # +user_install+:: [Object]
+  # +quiet+:: [Object] if calling the object +nne+ method returns a +false+ value, will print debug information
+  # +ignored+:: [Object] ignored parameter
+  # @return [String] console output of gem uninstall
   def gem_uninstall args=ARGV
     stderr = @memory[:stderr]
     system_user_is_super = @memory[:system_user_is_super]

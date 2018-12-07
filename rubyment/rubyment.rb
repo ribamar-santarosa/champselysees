@@ -350,6 +350,9 @@ end
 module RubymentInternalModule
 
 
+  include InternalRubymentModule
+
+
 end # of InternalRubymentModule
 
 

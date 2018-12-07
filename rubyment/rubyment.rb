@@ -3380,9 +3380,14 @@ end
 
   # end_documentation
 =end
+
+module RubymentDevelopmentModule # must NOT be in master TODO
+end
+
 module RubymentModule
 
   Object.class_eval { include ModifierForClassObjectModule }
+  Object.class_eval { include RubymentModifierForClassObjectModule }
   include RubymentCodeGenerationModule
   include RubymentHTMLModule
   include RubymentStringsModule

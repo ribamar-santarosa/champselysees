@@ -775,6 +775,9 @@ end
 =begin 
   # begin_documentation
 
+  This module offers functions for invocation of Rubyment
+  (and Ruby) code in general.
+
   # end_documentation
 =end
 module RubymentInvocationModule

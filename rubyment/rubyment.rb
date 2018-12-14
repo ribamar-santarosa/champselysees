@@ -3813,6 +3813,7 @@ module RubymentModule
   include RubymentStringsModule
   include RubymentArraysModule
   include RubymentInternalModule
+  include RubymentInvocationModule
   include RubymentExperimentModule
   include RubymentMaintainedModule
   include RubymentDeprecatedModule

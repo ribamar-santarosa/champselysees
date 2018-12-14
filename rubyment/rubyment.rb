@@ -783,6 +783,30 @@ end
 module RubymentInvocationModule
 
 
+=begin
+  Takes an array as parameter and invokes a
+  method (second element of that array) of an object
+  (first element of that array) giving the remaining
+  array as argument list, and optionally giving
+  a block as extra parameter.
+
+  Closed for extensions
+
+  examples:
+
+  invoke__basic_sender_array [ 9, "next" ]
+  # => 10
+
+  invoke__basic_sender_array [ self, "p", "args", "to", "p" ]
+  # => ["args", "to", "p"]
+
+=end
+  def invoke__basic_sender_array args, &block
+    object, method_name, *args_to_method = args
+    object.send method_name, *args_to_method, &block
+  end
+
+
 end # of RubymentInvocationModule
 
 

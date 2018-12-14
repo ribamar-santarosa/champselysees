@@ -825,6 +825,10 @@ module RubymentInvocationModule
   invoke__basic_sender_array [ self, "p", "args", "to", "p" ]
   # => ["args", "to", "p"]
 
+  invoke__basic_sender_array [ [["S", "2"], ["<", "3" ]], :map  ], &:join
+  # => ["S2", "<3"]
+
+
 =end
   def invoke__basic_sender_array args, &block
     object, method_name, *args_to_method = args

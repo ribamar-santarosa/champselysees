@@ -772,6 +772,17 @@ module RubymentModifierForClassObjectModule
 end
 
 
+=begin 
+  # begin_documentation
+
+  # end_documentation
+=end
+module RubymentInvocationModule
+
+
+end # of RubymentInvocationModule
+
+
 =begin
   # begin_documentation
   This module receives functions that are being worked on.

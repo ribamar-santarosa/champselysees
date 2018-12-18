@@ -366,6 +366,98 @@ module RubymentStringsModule
   end
 
 
+=begin
+  If definition cannot map, retuns itself.
+
+  Otherwise, it will generate a string out of the values
+  given in that array, which can describe, for instance,
+  recursive expressions. Better explained by examples:
+
+  Examples:
+
+  string__from_definition [ "value", "var" ]
+  # => "var value"
+
+  string__from_definition [ "value" ]
+  # => "value"
+
+  string__from_definition [ "value", ["var"], "="   ]
+  # => "var=value"
+
+  string__from_definition [ "value", ["var"], ""  ]
+  # => "varvalue"
+
+  string__from_definition [ nil, ["var"], "="   ]
+  # => "var="
+
+  string__from_definition [ "value", ["var", "EXPORT"], "="  ]
+  # => "EXPORT var=value"
+
+  string__from_definition [ ["value"], ["var", "EXPORT"], "="  ]
+  # => "EXPORT var=value"
+
+  string__from_definition ["value", nil, nil, nil, "`", "`"]
+  # => "`value`"
+
+  string__from_definition [    ["value", nil, nil, nil, "`", "`"] , ["var", "EXPORT"], "="  ]
+  # => "EXPORT var=`value`"
+
+  # ----- test the spacer:
+
+  string__from_definition [ "value", ["var"], "=", ","  ]
+  # => "var,=,value"
+
+  string__from_definition [ "value", ["var"], nil, ","  ]
+  # => "var, ,value"
+
+  string__from_definition [ "value", ["var"], "", ","  ]
+  # => "var,value"
+
+  string__from_definition [ " ... describe here ... ", "contents:", "", "\n", "# begin section", "# end section "]
+  # => "# begin section\ncontents:\n ... describe here ... \n# end section "
+
+
+=end
+  def string__from_definition definition
+    return definition if (
+      definition.respond_to?(:map).negate_me
+    )
+
+    value,
+      variable,
+      operation,
+      spacer,
+      open,
+      close,
+      reserved = definition.map { |d|
+      send __method__, d # recursive call
+    }
+
+    # if variable is non empty, the default operation is "="
+    # of course, only applied if operation is not set
+    # A priori, nne not to be used, otherwise "" operation
+    # won't be allowed
+    operation ||= (variable && " " ||  "")
+    spacer = spacer.nne ""
+    variable  = variable.nne ""
+
+    rv = string__recursive_join [
+      spacer,  # separator
+      open,
+      [
+        spacer, # separator
+        variable,
+        operation,
+        value,
+      ],
+      close,
+    ]
+
+    rv
+
+  end
+
+
 end # of RubymentStringsModule
 
 

@@ -1155,6 +1155,7 @@ module RubymentExperimentModule
 =end
   def file__json args=[]
     require 'json'
+    require 'fileutils'
     file_path,
       enum,
       reserved = args

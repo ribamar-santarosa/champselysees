@@ -92,6 +92,39 @@ class Object
   end
 
 
+=begin
+  Turns any Ruby object into a composite.
+
+  Examples:
+
+  1.as_container(:components_only).entries
+  # => []
+
+  1.as_container.entries
+  # => [1]
+
+  "hello".as_container.entries
+  # => ["hello"]
+
+  [1, 2, 3].as_container().entries
+  # => [1, 2, 3]
+
+  [1, 2, 3].as_container(:components_only).entries
+  # => [1, 2, 3]
+
+
+=end
+  def as_container components_only=nil, method_name=:map
+    self.respond_to?(method_name) && (
+      self.send method_name
+    ) || (!components_only) && (
+      [self].send method_name
+    ) || (
+      [].send method_name
+    )
+  end
+
+
 end
 
 

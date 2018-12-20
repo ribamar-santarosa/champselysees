@@ -903,9 +903,10 @@ module RubymentInternalModule
   However, it's not sequencial, and therefore not
   used for versioning.
 =end
-  def rubyment_file_sha256
+  def rubyment_file_sha256 file=nil
     require 'openssl'
-    (Digest::SHA256.hexdigest File.read __FILE__)
+    file = containerize(file).first.nne __FILE__
+    (Digest::SHA256.hexdigest File.read file)
   end
 
 

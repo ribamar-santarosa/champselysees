@@ -4252,6 +4252,8 @@ end
   - some function to redesign part of Ruby API arguably misdesigned,
   like #arrays__zip
   - functional exception handling (#bled_call and #bled)
+  - certain programming patterns, like turning any ruby object in
+  an effective composite pattern (#as_container, #object__decompose)
 
 
   Rubyment functions must respect the open/closed principle

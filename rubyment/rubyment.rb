@@ -6539,6 +6539,14 @@ require '#{gem_name}'
       #  use the format, for gems with semantic versioning
       # ["gems", "~> 0"],
     ]
+    gem_non_ruby_executables = [
+      # gem normally can only deploy non_ruby execs.
+      # each file in this array will be escapsulated
+      # as a ruby script that calls that file instead.
+      # that ruby script will be placed in the
+      # bin/ dir, and added to gem_executables
+
+    ]
 
     [
        gem_name,
@@ -6562,6 +6570,7 @@ require '#{gem_name}'
        gem_bin_contents,
        gem_executables,
        gem_dependencies,
+       gem_non_ruby_executables,
    ]
   end
 

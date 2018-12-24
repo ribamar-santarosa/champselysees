@@ -1002,6 +1002,75 @@ end # of  RubymentInternalModule
 module RubymentPatternsModule
 
 
+=begin
+  Turns any_object into a composite, and
+  returns it in an array with its two parts:
+  the leaf, and its children (another
+  container)
+
+  Note that if an object can be decomposed
+  by duck_type_method (:map) by default,
+  it stays in the leaf, otherwise it is
+  components are returned in the children.
+  So expect always a nil for the leaf or
+  [] for children components.
+
+  Decompose an object is useful, for example,
+  to write a recursive function in functional
+  style.  Normally a recursive function will
+  require a test to check if it is the base
+  (leaf) case, otherwise will iterate through
+  children and call recursively the function.
+  With this, no test is needed. Since the "map"
+  call is not defined for every object, it won't
+  go infinite. Also, it won't throw an exception,
+  because the children is a container (empty,
+  when the leaf is defined):
+
+  def rec leaf_or_children
+    l, c = object__decompose leaf_or_children
+    c.map { |children| rec leaf_or_children }
+    do_something_with_leaf l # must be already in
+                             # a functional/fault
+                             # tolerant style
+  end
+
+  Examples:
+
+  l, c  = object__decompose [ "a", "b", "c"]
+  # => [nil, ["a", "b", "c"]]
+
+  l, c  = object__decompose "string"
+  # => ["string", []]
+
+  l, c  = object__decompose ["a", "b", "c"], :bytes
+  # => [["a", "b", "c"], []]
+
+  l, c  = object__decompose "string", :bytes
+  # => [nil, [115, 116, 114, 105, 110, 103]]
+
+
+=end
+  def object__decompose any_object, duck_type_method=:map
+
+    children = bled {
+      any_object.as_container(:only_components, duck_type_method).entries
+    }.first.call.first || []
+
+    leaf = bled([any_object]) {
+      (
+        any_object.as_container(nil, duck_type_method).entries -
+        children
+      ).first
+    }.first.call.first
+
+    [
+      leaf,
+      children,
+    ]
+  end
+
+
 end # of RubymentPatternsModule
 
 

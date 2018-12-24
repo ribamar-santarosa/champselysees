@@ -1363,7 +1363,7 @@ module RubymentInvocationModule
 
     required_gem,
       *only_one_currently_supported,
-      reserved = containerize(required_gem)
+      reserved = containerize(required_gems)
 
     required_gem = required_gem.nne "rubyment"
     load_current &&= "load #{__FILE__.inspect}"

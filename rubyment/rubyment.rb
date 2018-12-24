@@ -4650,7 +4650,8 @@ end
   - some functions to run a binary directly from a binary blob/memory
   chunk, or to convert that memory chunk in to an executable ruby
   script (#system_command__exec_via_file, #ruby_code__from_binary), so
-  it can be deployed as a binary in a gem package.
+  it can be deployed as a binary in a gem package
+  (#gem_deploy__non_ruby_binaries).
 
 
   Rubyment functions must respect the open/closed principle

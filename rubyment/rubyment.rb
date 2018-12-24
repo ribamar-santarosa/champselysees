@@ -6505,7 +6505,13 @@ end
     gem_validate_class,
     gem_validate_class_args,
     gem_validate_class_method,
-    gem_is_current_file = args
+    gem_is_current_file,
+      gem_bin_generate,
+      gem_bin_contents,
+      gem_executables,
+      gem_dependencies,
+      gem_non_ruby_executables,
+      reserved = args
 
     gem_name ||= "rubyment"
     gem_version ||= (version [])
@@ -6525,21 +6531,21 @@ end
     gem_validate_class ||= self.class.to_s
     gem_validate_class_args ||= {:invoke => ["p", "installed and validated"] }
     gem_validate_class_method ||= "new"
-    gem_is_current_file = __FILE__ # this enables the possibility of building
+    gem_is_current_file ||= __FILE__ # this enables the possibility of building
     #  a gem for the calling file itself, but be aware that lib/gem_file.rb
     # is supposed to be overriden later.
-    gem_bin_generate = "bin/#{gem_name}" # generate a bin file
-    gem_bin_contents =<<-ENDHEREDOC
+    gem_bin_generate ||= "bin/#{gem_name}" # generate a bin file
+    gem_bin_contents ||=<<-ENDHEREDOC
 #!/usr/bin/env ruby
 require '#{gem_name}'
 #{gem_validate_class}.new({:invoke => ARGV})
     ENDHEREDOC
-    gem_executables = [ gem_bin_generate && "#{gem_name}" ]
-    gem_dependencies = [
+    gem_executables ||= [ gem_bin_generate && "#{gem_name}" ]
+    gem_dependencies ||= [
       #  use the format, for gems with semantic versioning
       # ["gems", "~> 0"],
     ]
-    gem_non_ruby_executables = [
+    gem_non_ruby_executables ||= [
       # gem normally can only deploy non_ruby execs.
       # each file in this array will be escapsulated
       # as a ruby script that calls that file instead.

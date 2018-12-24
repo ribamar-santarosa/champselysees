@@ -991,6 +991,20 @@ module RubymentInternalModule
 end # of  RubymentInternalModule
 
 
+=begin 
+  # begin_documentation
+
+  This module offers generic functions to help
+  achieving certain programming patterns.
+
+  # end_documentation
+=end
+module RubymentPatternsModule
+
+
+end # of RubymentPatternsModule
+
+
 =begin
   # begin_documentation
 

@@ -1404,6 +1404,60 @@ end # of RubymentInvocationModule
 module RubymentGemGenerationModule
 
 
+=begin
+  Gem files by default can distribute only Ruby files.
+  This function implements the work needed to convert
+  and automatize the generation of ruby executables out
+  of  non ruby binaries
+=end
+  def gem_deploy__non_ruby_binaries args
+    gem_name,
+      gem_non_ruby_executables,
+      gem_executables, # same as gem_bin_executables
+      reserved = args
+
+    new_executables = gem_non_ruby_executables.map { |gem_non_ruby_executable|
+
+      new_gem_executable = string__recursive_join [
+        "/",
+        "bin",
+        File.basename(gem_non_ruby_executable),
+      ]
+
+      new_gem_executable_contents = ruby_code__from_binary(
+        [
+          nil,
+          File.read(gem_non_ruby_executable),
+        ],
+        [
+          gem_name,
+        ],
+      )
+
+      # write file
+      file_string__experimental [
+        new_gem_executable,
+        new_gem_executable_contents,
+      ]
+
+      bled_call {
+        require 'fileutils'
+        FileUtils.chmod "+x", new_gem_executable
+      }
+
+      File.basename(new_gem_executable)
+
+    } # of gem_non_ruby_executables.map
+
+    gem_executables = gem_executables.nne([]).concat new_executables
+
+    [
+      gem_executables,
+    ]
+
+  end # of gem_deploy_non_ruby_binaries
+
+
 end # of RubymentGemGenerationModule
 
 

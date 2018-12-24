@@ -4168,6 +4168,7 @@ end
   this module from a file without stopping the process (#autoreload).
   - some function to redesign part of Ruby API arguably misdesigned,
   like #arrays__zip
+  - functional exception handling (#bled_call and #bled)
 
 
   Rubyment functions must respect the open/closed principle

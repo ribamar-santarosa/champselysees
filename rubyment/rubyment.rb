@@ -323,6 +323,9 @@ module RubymentStringsModule
 
   Closed for extension
 
+  # TODO: FIXME
+  Depends on RubymentArraysModule, RubymentInvocationModule
+
   examples:
   strings__product [ "model 1", "model 2"], [":"], ["variant with sound system", "variant no sound system"], [" "],  ["and stabilizer", "and without stabilizer"]
   # => ["model 1:variant with sound system and stabilizer",
@@ -342,6 +345,9 @@ module RubymentStringsModule
 =begin
   Function that can generate a match of
   an array of strings.
+
+  # TODO: FIXME
+  Depends on RubymentArraysModule, RubymentInvocationModule
 
   Closed for extension
 
@@ -475,11 +481,13 @@ module RubymentStringsModule
       send __method__, d # recursive call
     }
 
-    # if variable is non empty, the default operation is "="
+    # if variable is non empty, the default operation is ""
     # of course, only applied if operation is not set
     # A priori, nne not to be used, otherwise "" operation
     # won't be allowed
     operation ||= (variable && " " ||  "")
+    # TODO: WIP FIX
+    # operation = variable && (operation.nne " ")
     spacer = spacer.nne ""
     variable  = variable.nne ""
 
@@ -650,6 +658,46 @@ module RubymentArraysModule
   def arrays__product *args
     first, *others = args
     first.product *others
+  end
+
+
+=begin
+  returns the partition slices of element. Ie, for
+  each array in arrays, returns an array with three
+  elements:
+  . the Range of elements before element in that array
+  . the index of element in that array
+  . the Range of elements after element in that array
+
+  examples:
+
+  arrays__partition_slices [ [ :a, :b, :c], [ nil, :b ], [:a] ], :b
+  # => [[0..0, 1, 2..-1], [0..0, 1, 2..-1], [nil, nil, nil]]
+
+  # note that the elements in the column 1 is just like:
+  array__index [ [ :a, :b, :c], [ nil, :b ], [:a] ], :b
+  # => [1, 1, nil]
+
+
+=end
+  def arrays__partition_slices arrays, element
+
+    a_index  = array__index arrays, element
+    a_index.map {|e|  [0..(e-1), e, (e+1)..-1] rescue [nil, e, nil] }
+
+  end
+
+
+=begin
+
+=end
+  def arrays__partitions arrays, element
+
+    partition_slices =  arrays__partition_slices arrays, element
+    partition_slices.map {|partition_slice|
+      array__at arrays, partition_slice
+    }
+
   end
 
 
@@ -1229,6 +1277,9 @@ module RubymentInvocationModule
 
 
 =begin
+  # TODO: a better interface would have been to accept
+  # really a file_string as parameter. Some binaries will
+  # require a whole file structure to run. 
   Generates a string that can be given to system (or any other
   command line executor) to execute a binary in memory (Ie,
   a file is generated having as contents a given string).
@@ -2208,10 +2259,16 @@ trying to get the interface compatible with
       client_loop_times,
       reserved = args
     tcp_ssl_server_method = tcp_ssl_server_method.nne :experiment__web_http_https_server
+    http_processing_method = http_processing_method.nne :experiment__http_response_invoke
+    # TODO this is a change:
+    # http_processing_method = :experiment__http_response_invoke_clone # TODO: remove_me
+    # TODO: it seems to be running experiment__http_response_invoke anyway, a bad behaviour
+    # no_debug_client = 1
     domain = domain.nne "localhost"
     http_server_port = http_server_port.nne 8003
     plain_http_server_port = plain_http_server_port.nne 8004
     no_debug_client = no_debug_client.nne
+    # no_debug_client = 1
     client_loop_times = client_loop_times.nne Float::INFINITY
     servers = send tcp_ssl_server_method,
       [
@@ -3298,6 +3355,17 @@ trying to get the interface compatible with
 
     iterating_object.send(yielding_method_name) { |a|
       a.send mapping_method_name, *args_to_mapping_method
+=begin
+      #  TODO: WIP
+      h = {
+        "iterating_object" => nil,
+        "a" => 0,
+        "args_to_mapping_method" => 1,
+        "mapping_method_name" => 2,
+      }
+      s = [ a, args_to_mapping_method, mapping_method_name ]
+      s[1].send s[2], *s[3]
+=end
     }
 
   end
@@ -3688,6 +3756,7 @@ module RubymentMaintainedModule
   # documentation_end
 =end
   def exception_info_base args=[]
+  # TODO: exception in nil case
     exception,
       max_str_index,
       reserved = args
@@ -4630,6 +4699,7 @@ end
   # begin_documentation
   This module receives all the Rubyment functions.
 
+  #goodexamples
   Rubyment functions are helper functions to achieve general
   repetitive programming tasks, including:
   - Encryption of files or user input with default proper parameters
@@ -4679,8 +4749,12 @@ end
   # end_documentation
 =end
 
+module RubymentDevelopmentModule # must NOT be in master TODO
+end
+
 module RubymentModule
 
+  include RubymentDevelopmentModule # must NOT be in master TODO
   Object.class_eval { include RubymentModifierForClassObjectModule }
   include RubymentCodeGenerationModule
   include RubymentHTMLModule
@@ -4774,6 +4848,9 @@ module RubymentModule
 
   # returns a version number comprised
   # of a major and a minor number
+  # TODO: be aware that function is an old
+  # TODO: note: major version = "api_version.extension_version"
+  # ARGV-default function.
   # args:
   # [major_version (String or nil), minor_version (String or nil) ]
   # defaults:
@@ -6405,6 +6482,7 @@ module RubymentModule
     reserved = args
 
     debug = @memory[:debug]
+    debug = 1 # TODO: remove_me
     stderr = @memory[:stderr]
     debug = debug.nne
     debug && (stderr.puts "{#{__method__} starting")
@@ -6548,6 +6626,8 @@ require '#{gem_name}'
       # as a ruby script that calls that file instead.
       # that ruby script will be placed in the
       # bin/ dir, and added to gem_executables
+      # TODO: remove_me
+      "tinga.sh"
 
     ]
 
@@ -6696,6 +6776,7 @@ require '#{gem_name}'
   # [gem_spec (String)]
   # returns:
   # console output of gem install (String)
+  #  TODO:  -f option should be default to avoid blocking
   def gem_install args=ARGV
     stderr = @memory[:stderr]
     system_user_is_super = @memory[:system_user_is_super]
@@ -6731,6 +6812,9 @@ require '#{gem_name}'
     gem_spec, future_arg, quiet = args
     quiet = quiet.nne
     debug = quiet.negate_me
+    # TODO: don't merge this
+    puts "NO MERGE PUSH!"
+    input_non_empty_string_or_multiline_prompt
     command="gem push #{gem_spec}"
     debug && (stderr.puts "command=#{command}")
     `#{command}`
@@ -6745,6 +6829,7 @@ require '#{gem_name}'
   # +ignored+:: [Object] ignored parameter
   # +gem_version+:: [Object]
   # @return [String] console output of gem uninstall
+  #  TODO:  -f option should be default to avoid blocking for keyboard
   def gem_uninstall_all args=[]
     stderr = @memory[:stderr]
     gem_spec, user_install, quiet, all, gem_version = args
@@ -6808,10 +6893,20 @@ require '#{gem_name}'
   #  validator_args (Array), validator_method (Method or String),
   #  file_to_load_instead (String)]
   # returns:
+  # TODO: FIXME If a bad rubyment is installed,
+  # require requirement will always load that bad installation,
+  # preventing it even from being removed in some cases.
   # Rubyment, true or false
+  # TODO: fork
+  # TODO: load does not really solve the problem. knowing that I can
+  # load a file doesn't mean that the gem is properly installed,
+  # unless the loaded file is actually installed file. It may
+  # still be valuable, however, before building the gem, if you want
+  # to validate that the loaded file will work.
   def validate_require args=ARGV
     stderr = @memory[:stderr]
     debug = @memory[:debug]
+    debug = 1 # TODO: remove_me
     debug && (stderr.puts "{#{__method__} starting")
     debug && (stderr.puts "caller=#{caller_label}")
     debug && (stderr.puts "args=#{args.inspect}")
@@ -6965,6 +7060,7 @@ require '#{gem_name}'
     memory = @memory
     debug = @memory[:debug]
     stderr = @memory[:stderr]
+    # debug = 1 # TODO: remove_me
 
     debug = debug.nne
     debug && (stderr.puts "{#{__method__} starting")
@@ -7808,6 +7904,7 @@ require '#{gem_name}'
       output_exception,
     ]).first.first
     debug_client = debug_client.nne || debug
+    # debug_client = 1
     debug && (stderr.puts "server=#{server}")
     rv = Thread.start {
       loop {
@@ -8414,8 +8511,24 @@ n8mFEtUKobsK
     debug && (stderr.puts "args=#{args.inspect}")
     # http_OK_response is completely controlled by here -- io_forward
     # will only prepend an argument having the request to it.
-    http_processing_method = http_processing_method.nne :http_OK_response
+    #http_processing_method = http_processing_method.nne :http_OK_response
+    http_processing_method = http_processing_method.nne :experiment__http_response_invoke
+    http_processing_method = http_processing_method.nne :experiment__http_response_invoke_clone
+    #  TODO: WIP why am I having to hard code things here?
+    #  http_processing_method = :experiment__http_response_invoke_clone # TODO: remove_me
     http_processing_method_args = http_processing_method_args.nne []
+    output_exceptions = :even_output_exceptions
+    # io_method_debug = 1 # io_tranform
+    # io_forward_debug = 1
+    # transform_call_debug = 1
+    # to_method_debug = 1
+    # to_object_method_debug = 1
+    #  debug_accept = 1
+    # note: indexes may vary accordingly to the method.
+    # experiment__http_response_invoke args:
+    http_processing_method_args[3] = :debug_http_processing_method_args
+    # http_processing_method_args[5] = :debug_request_parse
+    http_processing_method_args[6] = output_exceptions
     http_server_port = http_server_port.nne  8003
     redirect_location_host = http_ip_addr.nne "localhost"
     http_ip_addr = http_ip_addr.nne "0"
@@ -8441,7 +8554,7 @@ n8mFEtUKobsK
       http_ip_addr,
       debug,
       admit_non_ssl,
-      io_method,
+      io_method, # io_tranform by default
       [
         io_method_debug,
         happy_with_request,
@@ -8700,6 +8813,8 @@ n8mFEtUKobsK
   # +success?+:: [TrueClass, FalseClass]
   def shell_popen2e_command args=[]
     command,
+      debug,   # TODO should output WHILE the thread is running. because a command can be just outputing too long. 
+      timeout, # TODO
       reserved = args
     require "open3"
       stdin, stdoutanderr, wait_thr = Open3.popen2e(":;" + command)
@@ -9440,6 +9555,638 @@ n8mFEtUKobsK
 end
 
 
+
+=begin
+ module NOT supposed to be in master -- function signature very unreliable
+=end
+module RubymentDevelopmentModule
+
+
+=begin
+  Normally #system_command__exec_via_file will be
+  followed by a #system call. Just a convenience
+  for saving typing.
+
+  Check #system_command__exec_via_file for
+  documentation and examples.
+  # TODO: deprecate ? or sample?
+=end
+  def system__exec_via_file exec_via_file
+    system system_command__exec_via_file  exec_via_file
+  end
+
+
+=begin
+=end
+  def x
+  end
+
+
+=begin
+  TODO: WIP: can I execute pattern_exec__mapping_an_object
+  for each code_patterns using pattern_exec__mapping_an_object?
+  it seems impossible, because args_to_mapping_method is constant.
+
+      better would be to take a tuple as input, and a tuple
+      orderer, that says which index to map to a1, a2 or a3 below:
+      a1.send a2, *a3
+      don't know, guess it's already there: nope: a is tied
+      to the iterating object.
+
+=end
+  def pattern_execs__mapping_an_object code_patterns
+
+    code_pattern = [
+      [self],
+      "map",
+      "pattern_exec__mapping_an_object",
+      element,
+    ]
+
+
+  end
+
+
+=begin
+  TODO: I suspect that all the testing infrastructure will have to be thrown away.
+  TODO: implement
+  TODO: give it to #experiment__tester or #experiment__tester_with_bled or #tester_with_bled. I guess tester_with_bled
+=end
+  def test_cases__array__merge_shallow args=[]
+    testing_method = :array__merge_shallow
+    test_cases ||= [
+      # [ :id, :expectation, :actual_params ],
+      # actual_params can be an array with method_name + args to that method.
+      [
+        :test_id.__is(:any_id),
+        :expectation.__is(
+          [:a1, :a4, :a2]
+        ), 
+        :get_actual_results_with.array__is(
+          testing_method,
+             [:a1, nil, :a2 ],
+             [ :a3, :a4, :nil]
+        ),
+      ].__note("end of any_id")
+    ]
+  end
+
+
+=begin
+  TODO: I suspect that all the testing infrastructure will have to be thrown away.
+  TODO: implement
+  TODO: give it to #experiment__tester or #experiment__tester_with_bled or #tester_with_bled. I guess tester_with_bled
+=end
+  def test_cases__template args=[]
+    testing_method = :array__merge_shallow
+    test_cases ||= [
+      # [ :id, :expectation, :actual_params ],
+      # actual_params can be an array with method_name + args to that method.
+      [
+        :test_id.__is(:any_id),
+        :expectation.__is(
+        ), 
+        :get_actual_results_with.array__is(
+          testing_method,
+          :testing_method_args.array__is(
+          ).__note(" TODO: also not true: if it's a splat method, remove this entry and list args directly"),
+        ),
+      ].__note("end of any_id")
+    ]
+  end
+
+
+=begin
+=end
+  def send_if_responds *args
+   # nil.exec will exec, even if nil.respond_to? :exe is false.
+  end
+
+
+
+=begin
+  returns a quoted version of a string; escape against
+  quoting chars inside it.
+=end
+  def quoted_string__escaping s
+    "\"#{s}\""
+    # TODO: implement
+  end
+
+
+=begin
+  returns a quoted version of a string; escape against
+  quoting chars inside it.
+=end
+  def quoted_string__escaping_single s
+    "\"#{s}\""
+    # TODO: implement
+  end
+
+
+=begin
+    while (rubyment_memory__get_key :file_reloading) {
+      sleep wtime
+    }
+=end
+  def thread_safe__autoreload wtime=1
+    rubyment_memory__set_key :file_reloading, true
+    load rubyment_memory__get_key :filepath
+    rubyment_memory__set_key :file_reloading, false
+  end
+
+
+=begin
+enum = (s.scan /http_[^(]*/).uniq.map
+# => #<Enumerator: ...>
+# send_enumerator [ enum, :gsub, ["http_", ""] ]
+# => ["delete", "get", "head", "post", "put"]
+
+send_enumerator [ ["tinga_http_tinga", "http_catepa"], :gsub, ["http_", ""] ]
+#  => ["tinga_tinga", "catepa"]
+
+send_enumerator [ [ [1, 2, 3] ], :map, [], Proc.new {|x| x + 1 } ]  
+#  => [[2, 3, 4]]
+
+send_enumerator [ [ {}, {} ], :containerize, [], nil, 0]
+# => [[{}], [{}]]
+
+
+#bug:
+send_enumerator [ [ {}, {} ], :method.to_nil, :args.to_nil, Proc.new {}  ]
+# ArgumentError: no method name given
+
+# no bug, just not intuitive usage: 
+
+send_enumerator [ [ {}, {} ], Proc.new {|x| x.size }, [].to_nil, :whatever, 0]
+# => [0, 0]
+
+# two ways of achieving same thing:
+uri_parts = [ :scheme, :host, :path, :query, :fragment ]
+uo = URI.parse uri
+# the equivalent for:
+# uri_methods.map{|um| uo.send um }
+send_enumerator [ uri_methods, Proc.new {|um| uo.send um} , nil, :whatever_proc, 0 ] 
+send_enumerator [  uri_methods  , uo.method(:send), [].to_nil, :whatever_proc, 0  ]
+
+
+# or simply (after changes):
+      # replace_at_index = (method.respond_to? :call) && (replace_at_index.nne 0)
+send_enumerator [ [ {}, {} ], Proc.new {|x| x.size }]
+# but then there are regressions
+=end
+  def test__send_enumerator__hardcoded_cases
+  end
+
+
+
+  def deprecate__send_enumerator_with_debugs args=[]
+    enum,
+      method,
+      args_to_method,
+      block_to_method,
+      replace_at_index,
+      debug,
+      no_output_exceptions,
+      rescuing_exceptions,
+      return_not_only_first,
+      reserved = args
+
+    stderr = @memory[:stderr]
+    debug = debug.nne
+    # debug = 1
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "caller=#{caller_label}")
+    debug && (stderr.puts "args.each_with_index=#{args.each_with_index.entries.inspect}")
+    args_to_method = args_to_method.nne []
+    no_output_exceptions = no_output_exceptions.nne
+    rescuing_exceptions = rescuing_exceptions.nne
+    return_not_only_first = return_not_only_first.nne
+
+    calling_tuples = enum.map {|e|
+      # r.send_enumerator [ [ {}, {} ], :containerize, [], nil, 0]
+      # [e, method_to_call, method_name, replace_at_index]=[{}, :containerize, #<Method: Hash(Kernel)#send>, false]
+      # [e, method_to_call, method_name, replace_at_index]=[{}, :containerize, #<Method: Rubyment(Kernel)#send>, 0]
+
+      # replace_at_index = (method.respond_to? :call) && (replace_at_index.nne 0)
+      method_name = (!method.respond_to? :call) && method || nil
+      method_to_call = (!method_name) && method || (
+        (!replace_at_index) && e.method(:send)
+      ) || method(:send)
+      c_t = args_to_method.dup
+      replace_at_index && (c_t[replace_at_index] = e)
+      method_name && (c_t.unshift method_name)
+      c_t.unshift method_to_call
+      debug && (stderr.puts "[e, method_to_call, method_name, replace_at_index]=#{[e, method_name, method_to_call, replace_at_index]}")
+
+      c_t
+    }
+    debug && (stderr.puts "calling_tuples=#{calling_tuples}")
+
+    rv = calling_tuples.map {|c_t|
+      block = bled [
+        :nil,
+        rescuing_exceptions,
+        no_output_exceptions,
+      ] {
+        method_to_call, *args_to_call = c_t
+        method_to_call.call *args_to_call, &block_to_method
+      }
+      return_not_only_first.negate_me && (lrv = block.first.call.first)
+      return_not_only_first && (lrv = block.first.call)
+      lrv
+    }
+    debug && (stderr.puts "will return #{rv.inspect}")
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
+  end
+
+
+=begin
+  returns a timestamp in the format "%Y.%m.%d_%H.%M.%S"
+  # TODO: ensure format correct
+=end
+  def git_branch_name__now_strftime_default
+    Time.now.strftime("%Y.%m.%d_%H.%M.%S")
+  end
+
+
+=begin
+  TODO: useless function
+  don't merge
+=end
+  def html__from_output output
+    output = output.string rescue output
+    require 'cgi'
+    s = ""
+    CGI.escapeHTML output # JSON invalid, HTML valid
+    output # valid JSON, HTML  invalid
+    output.split("\n").map{|p| CGI.escapeHTML p } # JSON invalid, HTML valid
+    output.split("\n") # valid JSON, HTML invalid
+  end
+
+
+
+=begin
+=end
+  def __ args=[]
+    object,
+      debug,
+      reserved = args
+    stderr = @memory[:stderr]
+    debug = debug.nne
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "caller=#{caller_label}")
+    debug && (stderr.puts "args=#{args.inspect}")
+    debug && (stderr.puts "args.each_with_index=#{args.each_with_index.entries.inspect}")
+    debug && (stderr.puts "#{__method__} will return #{rv.inspect}")
+    # if raises exception before it will be unbalanced :
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
+  end
+
+
+=begin
+  String#undump is being added only in Ruby 2.5.0
+  Meanwhile, a remedy for the lack of that option
+  to revert a inspect, to_s or dump, is provided
+  by this function
+  TODO WIP?
+  TODO: works good with
+  es =    "unexpected test experiment__send_array_base array.map(&:to_s) : [[\"1\", \"2\", \"3\"], nil, nil] != [#, nil, nil]"
+  but not with:
+  es =    "unexpected test experiment__send_array_base array.map(&:to_s) : [[\"1\", \"2\", \"3\", \"\\n\"], nil, nil] != [#, nil, nil]"
+
+=end
+  def string_uninspect_remedy s
+    require "shellwords"
+    require 'cgi'
+    new_s = s.split("\\").join("\\\\")
+    new_s = s.gsub "\n", "\\\n"
+    new_s = s
+    rv = Shellwords.split(new_s).join(" ")
+    rv = Shellwords.split(new_s) 
+    rv = s.split("\n").map{|part|
+      Shellwords.split(part).join(" ")
+    }.join("\n")
+  end
+
+
+  def runtime_tmp_dir # for initialize
+  end
+
+
+=begin
+  returns args
+  TODO: deprecate
+=end
+  def experiment__resolve args=[]
+    reference_or_value,
+      resolver,
+      debug,
+      dont_resolve,
+      reserved = args
+    rv
+  end
+
+
+
+=begin
+      # note: some functions may misbehave if they have different
+      # behaviours depending if they get a block or not
+      # to be tested.
+      # "sender"
+=end
+  def experiment__send_array_base args=[]
+    object_to_send,
+      method_to_send,
+      args_to_send,
+      block_to_send,
+      args_to_bled,
+      is_array_method,
+      reference,
+      derref_args,
+      debug,
+      shallow,
+      send_to_self,
+      reserved = args
+
+    stderr = @memory[:stderr]
+    debug = debug.nne
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "args.each_with_index=#{args.each_with_index.entries.inspect}")
+
+    reference = reference.nne
+    args_to_send = args_to_send.nne []
+    is_array_method = is_array_method.nne
+    args_to_send = is_array_method && [args_to_send] || args_to_send
+    block_to_send = block_to_send.nne
+
+    args_to_bled = args_to_bled.nne []
+    default_on_exception,
+      dont_rescue,
+      output_backtrace,
+      unsed = args_to_bled
+
+    default_on_exception = default_on_exception.nne
+    dont_rescue =  dont_rescue.nne
+    output_backtrace = output_backtrace.nne
+
+    debug && (stderr.puts "general case{: #{object_to_send.inspect}.#{method_to_send.inspect}(#{args_to_send.inspect})&#{block_to_send}  }")
+
+    send_block = bled(args_to_bled) {
+      (debug || output_backtrace) && (stderr.puts "{#{__method__} block starting")
+      (debug || output_backtrace) && (stderr.puts "#{__method__}  block: args.each_with_index=#{args.each_with_index.entries.inspect}")
+
+      brv = object_to_send.send method_to_send, *args_to_send, &block_to_send
+
+      (debug || output_backtrace) && (stderr.puts "#{__method__} block will return #{brv.inspect}")
+      (debug || output_backtrace)  && (stderr.puts "#{__method__} block returning}")
+      brv
+    }.first
+
+    default_block = bled(args_to_bled) {
+      (debug || output_backtrace) && (stderr.puts "#{__method__} block: nil method makes  return #{args_to_send.inspect}")
+      args_to_send
+    }.first
+
+    block_return, e_info, exception = experiment__whether [
+      method_to_send,
+      send_block,
+      default_block,
+    ]
+
+    rv = [block_return, e_info, exception]
+
+    debug && (stderr.puts "will return #{rv.inspect}")
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
+  end
+
+
+=begin
+  TODO: not working: (at least for the case below):
+  experiment__tester test_cases__experiment__send_array_base
+  experiment__tester_with_bled test_cases__experiment__send_array_base
+  tester_with_bled test_cases__experiment__send_array_base
+  ./rubyment.rb  invoke_double experiment__tester containerize test_cases__experiment__send_array_base  |& tee out
+  ./rubyment.rb  invoke_double tester_with_bled containerize test_cases__experiment__send_array_base  |& tee out
+  invoke_double experiment__tester_with_bled containerize test_cases__experiment__send_array_base
+
+  this way works:
+  ./rubyment.rb  invoke_double experiment__tester_with_bled containerize test_cases__experiment__send_array_base  |& tee out
+
+
+
+=end
+  def test_cases__experiment__send_array_base args=[]
+    method_to_test,
+      reserved = args
+    method_to_test = method_to_test.nne :experiment__send_array_base
+    test_cases ||= [
+      # test_case:
+      [
+         # id:
+         "test #{method_to_test} base :array_first_remainder",
+         # expectation:
+         [ [ :arg_to_send_1, [:arg_to_send_2, :arg_to_send_3]], nil, nil],
+         # method_name + args:
+         [
+            # method_name:
+            method_to_test,
+            # args to method_to_test:
+            [
+               # array_first_remainder is a method of...
+               self,
+               # method to call
+               :array_first_remainder,
+               # args to array_first_remainder
+               [ :arg_to_send_1, :arg_to_send_2, :arg_to_send_3 ],
+               # block to array_first_remainder
+               nil,
+               # args_to_bled:
+               [nil, :dont_rescue.negate_me, :debug_block.negate_me],
+               # nil method takes Array (and not splat)
+               :is_array_method,
+               # destination:
+               nil,
+               # debug:
+               0,
+            ],
+         ],
+      ],
+      # test_case:
+      [
+         # id:
+         "test #{method_to_test} base nil method ",
+         # expectation:
+         [[ :arg_to_send_1, :arg_to_send_2, :arg_to_send_3 ], nil, nil],
+         # method_name + args:
+         [
+            # method_name:
+            method_to_test,
+            # args to method_to_test:
+            [
+               # object responding to method to call:
+               self,
+               # method to call: nil method (no method):
+               :method_to_call.to_nil,
+               # args to nil method:
+               [ :arg_to_send_1, :arg_to_send_2, :arg_to_send_3 ],
+               # block to nil method:
+               nil,
+               # args_to_bled:
+               [nil, :no_rescue.negate_me, :debug_block.to_nil],
+               # nil method takes splat (and not Array)
+               :is_array_method.to_nil,
+               # destination:
+               nil,
+               # debug:
+               0,
+            ],
+         ],
+      ],
+      # test_case:
+      [
+         # id:
+         "test #{method_to_test} nil.inspect ",
+         # expectation:
+         ["nil", nil, nil],
+         # method_name + args:
+         [
+            # method_name:
+            method_to_test,
+            # args to method_to_test:
+            [
+               # object responding to method to call:
+               nil,
+               # method to call on nil
+               :inspect,
+               # args to inspect:
+               nil,
+               # block to inspect:
+               nil,
+               # args_to_bled:
+               [nil, :no_rescue.negate_me, :debug_block.to_nil ],
+               # inspect takes splat (and not Array)
+               :is_array_method.to_nil,
+               # destination:
+               nil,
+               # debug:
+               0,
+            ],
+         ],
+      ],
+      # test_case:
+      [
+         # id:
+         "test #{method_to_test} array.map(&:to_s) ",
+         # expectation:
+         # [["1", "2", "3"], nil, nil], # TODO: re_enable_me
+         [["1", "2", "3", "\n"], nil, nil], # TODO: remove_me
+         # method_name + args:
+         [
+            # method_name:
+            method_to_test,
+            # args to method_to_test:
+            [
+               # object responding to method to call:
+               [1, 2, 3],
+               # method to call on [1, 2, 3]:
+               :map,
+               # args to :map
+               [],
+               # block to map:
+               lambda {|x| x.to_s },
+               # args_to_bled:
+               [nil, :no_rescue.negate_me, :debug_block.to_nil ],
+               # map takes splat (and not Array)
+               :is_array_method.to_nil,
+               # destination:
+               nil,
+               # debug:
+               0,
+            ],
+         ],
+      ].__note("TODO: not working"),
+      # test_case:
+      [
+         # id:
+         "test #{method_to_test} array_unflatten_base",
+         # expectation:
+         [[ :a, [ :b ], :c], nil, nil],
+         # method_name + args:
+         [
+            # method_name:
+            method_to_test,
+            # args to method_to_test:
+            [
+               # object responding to method call:
+               self,
+               # method to call on self
+               :array_unflatten_base, [
+                 [:a, "[", :b, "]", :c],
+                 :shallow,
+                 :debug.negate_me,
+                 :reserved_tokens.to_nil,
+                 :inverse.negate_me,
+               ],
+               # block to array_unflatten_base
+               nil,
+               # args_to_bled:
+               [nil, :dont_rescue.negate_me, :debug_block.to_nil],
+               # array_unflatten_base takes array (and not splat)
+               :is_array_method,
+               # destination:
+               nil,
+               # debug:
+               0,
+            ],
+         ],
+      ],
+      # test_case end
+
+    ]
+  end
+
+
+=begin
+  test for #experiment__send_array_base
+  TODO: not working
+=end
+  def test__experiment__send_array_base args=[]
+    stderr = @memory[:stderr]
+    debug = debug.nne
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "caller=#{caller_label}")
+    debug && (stderr.puts "args=#{args.inspect}")
+    test_cases = (test_cases__experiment__send_array_base args)
+    rv = experiment__tester_with_bled [
+      :test_cases_method.__is(:test_cases__experiment__send_array_base),
+        # :test_cases_method.is(nil),
+      :test_cases_method_args.__is(args),
+      :test_cases_array.__is(test_cases),
+      :debug.__is(nil),
+      :output_exceptions.__is(nil),
+      :to_method_debug.__is(nil),
+      :to_object_method_debug.__is(nil),
+      :no_rescue.__is(nil),
+    ]
+    debug && (stderr.puts "will return #{rv.inspect}")
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
+  end
+
+
+
+end
+
+
+=begin
+  the purpose of this class is just to be able
+  to have all the functions of RubymentModule
+  available in a single object.
+=end
 class Rubyment
    include RubymentModule
 end

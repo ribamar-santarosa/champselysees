@@ -4722,6 +4722,7 @@ require '#{gem_name}'
   # +happy_with_request+:: [String, nil] if nil, +eol+ is used.
   # +to_method_debug+:: [boolean] will forward this argument to  to_method
   # +to_object_method_debug+:: [boolean] will forward this argument to to_object_method
+  # +output_exceptions+:: [boolean]
   #
   # @return [nil]
   def io_forward args = ARGV
@@ -4735,6 +4736,7 @@ require '#{gem_name}'
       processing_method_args,
       to_method_debug,
       to_object_method_debug,
+      output_exceptions,
       reserved = args
     stderr = @memory[:stderr]
     debug.nne && (stderr.puts "{#{__method__} starting")

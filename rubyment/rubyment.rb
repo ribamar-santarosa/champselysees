@@ -123,7 +123,7 @@ module InternalRubymentModule
 
 
 =begin
-  updates the current @memory with a new hash m
+  sets the current @memory with a new hash m
 =end
   def rubyment_memory__set m
     @memory =  m

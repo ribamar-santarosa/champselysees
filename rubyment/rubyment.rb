@@ -3314,6 +3314,8 @@ end
   - gem package generation and submission.
   - tree parsing.
   - graph visitor.
+  - some advanced patterns, like reloading the implementation of
+  this module from a file without stopping the process.
 
 
   Rubyment functions must respect the open/closed principle

@@ -906,6 +906,7 @@ trying to get the interface compatible with
   +method+:: [Method, String]
   +method_args+:: [Array] args to be given to the +transform_method_name+
   +on_object+:: [String, Boolean]
+  +debug+:: [Boolean]
   
   @return [String] +processing_arg+
 =end

@@ -3346,7 +3346,6 @@ module RubymentModule
   include RubymentCodeGenerationModule
   include RubymentHTMLModule
   include RubymentStringsModule
-  include InternalRubymentModule
   include RubymentInternalModule
   include RubymentExperimentModule
   include RubymentMaintainedModule

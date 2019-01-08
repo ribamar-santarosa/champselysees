@@ -5039,8 +5039,6 @@ require '#{gem_name}'
         Thread.start(client) { |client|
           debug_client && (stderr.puts "{client #{client} starting")
           debug_client && (stderr.puts Thread.current)
-          debug.nne && (stderr.puts Thread.current)
-          debug.nne && (stderr.puts client)
           block = bled [
             nil,
             :no_rescue.negate_me,

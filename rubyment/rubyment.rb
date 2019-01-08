@@ -1389,6 +1389,24 @@ system #{memory_exec_function_call} [
 end # of RubymentInvocationModule
 
 
+=begin 
+  # begin_documentation
+
+  This module offers functions to generate or
+  deploy gem packages.
+
+  As of now, there are many similar functions
+  directly coded in RubymentModule; they will
+  be moved here upon proper maintenance/cleanup
+
+  # end_documentation
+=end
+module RubymentGemGenerationModule
+
+
+end # of RubymentGemGenerationModule
+
+
 =begin
   # begin_documentation
   This module receives functions that are being worked on.

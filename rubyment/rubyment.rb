@@ -5313,17 +5313,26 @@ require '#{gem_name}'
   # Rubyment, true or false
   def validate_require args=ARGV
     stderr = @memory[:stderr]
+    debug = @memory[:debug]
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "caller=#{caller_label}")
+    debug && (stderr.puts "args=#{args.inspect}")
+    debug && (stderr.puts "args.each_with_index=#{args.each_with_index.entries.inspect}")
     requirement, validator_class, validator_args, validator_method = containerize args
     validate_call = validator_class && true
     validator_class = to_class validator_class
     validator_method ||=  "new"
-    begin
+    rv = begin
       require requirement
       validate_call && (object_method_args_call [validator_method, validator_class, validator_args]) || (!validate_call) && true
     rescue LoadError => e
       stderr.puts e
       nil
     end
+
+    debug && (stderr.puts "#{__method__} will return #{rv.inspect}")
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
   end
 
   # system_rubyment

@@ -297,6 +297,27 @@ module RubymentStringsModule
   end
 
 
+=begin
+  Function that can generate a match of
+  an array of strings.
+
+  Closed for extension
+
+  examples:
+
+  # compare the results below, with calling strings__product [ "model 1", "model 2"], [":"], ["variant with sound system", "variant no sound system"], [" "],  ["and stabilizer", "and without stabilizer"]
+
+  strings__zip [ "model 1", "model 2"], [":"], ["variant with sound system", "variant no sound system"], [" "],  ["and stabilizer", "and without stabilizer"]
+  # => ["model 1:variant with sound system and stabilizer",
+  #  "model 2variant no sound systemand without stabilizer"]
+
+=end
+  def strings__zip *strings
+    arrays = arrays__zip *strings
+    invoke__basic_sender_array [ arrays, :map  ], &:join
+  end
+
+
 end # of RubymentStringsModule
 
 

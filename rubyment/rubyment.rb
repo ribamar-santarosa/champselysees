@@ -754,6 +754,21 @@ module RubymentInternalModule
   end
 
 
+=begin
+  The actual release of rubyment it is not tied
+  to the version returned by #version (that's the
+  execution version).
+  This function returns a SHA256 hex digest (string)
+  for this file, which is unique per file change set.
+  However, it's not sequencial, and therefore not
+  used for versioning.
+=end
+  def rubyment_file_sha256
+    require 'openssl'
+    (Digest::SHA256.hexdigest File.read __FILE__)
+  end
+
+
 end # of  RubymentInternalModule
 
 

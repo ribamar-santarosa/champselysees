@@ -2701,6 +2701,7 @@ end
 module RubymentModule
 
   Object.class_eval { include ModifierForClassObjectModule }
+  include InternalRubymentModule
   include RubymentExperimentModule
   include RubymentMaintainedModule
   include RubymentDeprecatedModule

@@ -265,6 +265,20 @@ module RubymentStringsModule
 end
 
 
+=begin 
+  # begin_documentation
+
+   This module offers functions to manipulate
+   Arrays.
+
+  # end_documentation
+=end
+module RubymentArraysModule
+
+
+end # of RubymentArraysModule
+
+
 =begin
   # begin_documentation
 

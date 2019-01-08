@@ -4656,6 +4656,7 @@ require '#{gem_name}'
   # +io_in+:: [IO] any +IO+, like a +Socket+, returned by #TCPServer::accept, where data will be read from.
   # +debug+:: [Object] if evals to false (or empty string), won't print debug information
   # +happy_with_request+:: [String, nil] if nil, +eol+ is used.
+  # +to_method_debug+:: [boolean] will forward this argument to  to_method
   #
   # @return [nil]
   def io_forward args = ARGV
@@ -4666,19 +4667,26 @@ require '#{gem_name}'
       happy_with_request,
       reserved,
       processing_method,
-      processing_method_args = args
-    io_gets_args = [io_in, debug, happy_with_request]
+      processing_method_args,
+      to_method_debug,
+      reserved = args
     stderr = @memory[:stderr]
 
     debug.nne && (stderr.puts "{#{__method__} starting")
     debug.nne && (stderr.puts args.inspect)
+    io_gets_args = [io_in, debug, happy_with_request]
     input = io_gets io_gets_args
     debug.nne && (stderr.puts input.inspect)
     debug.nne && (stderr.puts ios_out.class.inspect)
     processing_method ||= :echo
     processing_method_args ||= []
     processed_input = to_method(
-      [processing_method]).call(
+      [
+        processing_method,
+        :object.to_nil,
+        to_method_debug,
+      ]
+    ).call(
         [input] + processing_method_args
     )
     ios_out.map{ |shared_io_out|

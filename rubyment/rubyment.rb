@@ -816,35 +816,6 @@ module RubymentExperimentModule
 
 
 =begin
-  inverse of #file__json
-  note that, contrary to the common convention,
-  the debug output is on for this function
-  (due to a mistake, and to respect API-backwards-compatibility)
-=end
-  def load__file_json args=[]
-    require 'json'
-    file_path,
-    quiet,
-      reserved = args
-    debug = quiet.nne.negate_me
-    stderr = @memory[:stderr]
-    debug && (stderr.puts "{#{__method__} starting")
-    debug && (stderr.puts "caller=#{caller_label}")
-    debug && (stderr.puts "args=#{args.inspect}")
-    file_contents = File.read file_path
-    debug && (stderr.puts "file_contents size=#{file_contents.size}")
-    loaded = JSON.parse file_contents
-    debug && (stderr.puts "loaded size=#{loaded.size}")
-    debug && (stderr.puts "loaded=#{loaded.inspect}")
-    rv = loaded[:root.to_s]
-    # if raises exception before it will be unbalanced :
-    debug && (stderr.puts "#{__method__} will return #{rv.inspect}")
-    debug && (stderr.puts "#{__method__} returning}")
-    rv
-  end
-
-
-=begin
 c = :c
 experiment__input_select [[:a, :b, :c], c ]
 =end

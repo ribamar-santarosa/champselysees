@@ -95,6 +95,19 @@ class Object
 end
 
 
+=begin
+  # begin_documentation
+
+  This module offers function to generate ruby code
+
+  # end_documentation
+=end
+module RubymentRubyCodeGenerationModule
+
+
+end
+
+
 =begin 
   # begin_documentation
 

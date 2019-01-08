@@ -5548,6 +5548,12 @@ n8mFEtUKobsK
             :description      => "will be forwarded as debug argument to transform_call, somehow",
           },
           {
+            :name             => :to_method_debug,
+            :duck_type        => :boolean,
+            :default_behavior => :nil,
+            :description      => "will be forwarded as debug argument to to_method, somehow",
+          },
+          {
             :name             => :reserved,
             :duck_type        => Object,
             :default_behavior => :nil,
@@ -5581,6 +5587,7 @@ n8mFEtUKobsK
       output_exceptions,
       io_forward_debug,
       transform_call_debug,
+      to_method_debug,
       reserved = args
 
     debug = debug.nne
@@ -5624,6 +5631,7 @@ n8mFEtUKobsK
         http_processing_method_args,
         io_forward_debug,
         transform_call_debug,
+        to_method_debug,
       ],
       priv_pemfile,
       cert_pem_file,
@@ -5644,6 +5652,7 @@ n8mFEtUKobsK
         plain_http_processing_method_args,
         io_forward_debug,
         transform_call_debug,
+        to_method_debug,
       ],
       :priv_pemfile.to_nil,
       :cert_pem_file.to_nil,

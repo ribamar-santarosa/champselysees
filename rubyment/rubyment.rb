@@ -275,6 +275,28 @@ module RubymentStringsModule
   end
 
 
+=begin
+  Function that can generate distribution or combinations of
+  an array of strings.
+
+  Closed for extension
+
+  examples:
+  strings__product [ "model 1", "model 2"], [":"], ["variant with sound system", "variant no sound system"], [" "],  ["and stabilizer", "and without stabilizer"]
+  # => ["model 1:variant with sound system and stabilizer",
+  #  "model 1:variant with sound system and without stabilizer",
+  # ...
+  #  "model 2:variant no sound system and stabilizer",
+  #  "model 2:variant no sound system and without stabilizer"]
+
+
+=end
+  def strings__product *strings
+    arrays = arrays__product *strings
+    invoke__basic_sender_array [ arrays, :map  ], &:join
+  end
+
+
 end # of RubymentStringsModule
 
 

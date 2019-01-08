@@ -3073,6 +3073,166 @@ trying to get the interface compatible with
   end
 
 
+=begin
+  Takes a file_string definition as input and output
+  a new one.
+
+  A file_string definition is an image of a file on
+  a string. Each time this function is called, the
+  image is written to the disk (if set), and the previous
+  file_contents is loaded into the string.
+
+  The first element of file_string is a file_path, existing
+  or not.
+
+  the returned file_string has the same first element, and
+  the second is either:
+  . unexisting file_path
+  . a string having the file path contents, in the case it is a file_path
+  . a list of file_strings, one per each file inside a directory, in
+  the case file_path is a directory.
+
+  This function, after generating the file_string to be returned,
+  will write file_path accordingly to the second parameter. If :
+  . a string: will write the string to the file_path (if file_path
+  is not a directory, otherwise does nothing).
+  . a list of file_strings / nil: will call recursively this function
+  for each of the file_string inside, and will create file_path as
+  directory (if still does not exist).
+
+  There is yet a third element in a file_string,  mode (as in "rw+",
+  and not as in permissions), used as parameter for file write.
+  Check https://ruby-doc.org/core-2.3.1/IO.html#method-c-new
+
+
+  This function does not have semantics to be called from
+  the command line in its full interface, because
+  it differentiates nil from ""
+
+  Planned improvements: permissions, shallow cat of a dir.
+
+  Examples:
+
+  # -- case: touch (non existing path and empty string)
+  file_string__experimental ["non_existing_path", ""]
+
+  # -- case: echo >  (existing or not path (can't be a dir) and non empty string)
+  file_string__experimental ["existing_or_not_path__file", "contents of file"]
+
+  # -- case: echo >>  (existing path (no dir) and non empty string, "a" mode)
+  file_string__experimental ["existing_or_not_path__file", "contents of file", "a"]
+
+  # -- case: cat (path exists, (dir or file) otherwise becomes mkdir, nil string  -- it is a recursive cat in the case of directories )
+  file_string__experimental ["existing_path"]
+
+   # --- case: mkdir (or mkdir -p with only one argument): (non existing filepath, no string)
+  file_string__experimental ["non_existing_path"]
+
+   # -- case: mkdir -p  (non existing filepath, no string)
+  file_string__experimental ["a/b/c/d"]
+
+
+=end
+  def file_string__experimental file_string
+    args = file_string
+
+    file_path,
+      string_or_file_strings,
+      mode,
+      reserved = containerize(args)
+
+
+    # if file_path is a directory, calls recursively this
+    # function, retrieving the file_string representation
+    # for each entry in a subdirectory:
+    file_strings_entries = File.directory?(file_path) && (
+      Dir.new(file_path).entries
+    ).nne([]).map { |file_path_entry|
+      next_file_path = [file_path, file_path_entry].join("/")
+      # To avoid infinite recursion, we need to check if
+      # the next file path is not something like the
+      # parent with "/./" at the end.
+      # It is not simple to normalize file paths:
+      # https://stackoverflow.com/a/53884097/533510
+      # It makes more difficult the fact that the next
+      # may not yet exist (although the parent must exist).
+      # But the parent has to exist. And, if the next
+      # and the parent are the same, then both exist. In
+      # that case, we case compare if both have the
+      # same inode.
+
+      inodes = [
+        [
+          File.stat(file_path).ino,
+          File.stat(File.dirname file_path).ino,
+        ],
+        :index,
+        (
+          bled_call { File.stat(next_file_path).ino }
+        ).first,
+      ]
+
+      skip = invoke__basic_sender_array(inodes)
+      skip.negate_me &&
+        # recursive call
+        send(__method__, [next_file_path]) ||
+        nil
+    }.compact
+
+    # what is considered to be a file_path's contents?
+    # this value will be the string_or_file_strings of
+    # the returned value
+    file_contents =
+      # first case: it's a directory, thus its contents.
+      file_strings_entries || (
+      # second case: plain file, thus its contents as string
+        bled_call {
+          File.read(file_path)
+        }
+      # third case: non existing file (nil returned)
+      ).first
+
+    string,
+     file_strings = object__decompose string_or_file_strings
+
+    # let's just write file_path accordingly
+    # to string_or_file_strings, regardless of file_contents
+
+    require 'fileutils'
+    bled_call {
+      string && (
+        # for write matters:
+        # if string, then file_path is a file...
+        FileUtils.mkdir_p File.dirname file_path
+        File.write file_path,  string, mode: mode
+      ) || (
+        # otherwise file_path is a directory...
+        FileUtils.mkdir_p file_path
+      )
+    }
+
+
+    # if string_or_file_strings is a a list of file_strings
+    # so file_path is interpreted to be written as a
+    # directory
+    file_strings = file_strings.map { |next_file_string|
+      next_file_string = next_file_string.as_container
+      # prepend file_path:
+      next_file_string[0] = [
+        file_path,
+        next_file_string[0].to_s,
+      ].join("/")
+
+      send __method__, next_file_string # recursive call
+    }
+
+    [
+      file_path,
+      file_contents,
+    ]
+  end # of file_string__experimental
+
+
 end # of RubymentExperimentModule
 
 

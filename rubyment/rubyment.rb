@@ -5037,12 +5037,18 @@ require '#{gem_name}'
           debug_client && (stderr.puts Thread.current)
           debug.nne && (stderr.puts Thread.current)
           debug.nne && (stderr.puts client)
-          runoe {
+          block = bled [
+            nil,
+            :no_rescue.negate_me,
+            output_exception,
+          ] {
             to_method([callback_method])
               .call([client] + callback_method_args)
           }
+          rv  = block.first.call
           debug_client && (stderr.puts "client will return #{rv}")
           debug_client && (stderr.puts "client #{client} finishing}")
+          rv
         }
       }
     }

@@ -105,6 +105,17 @@ end
 module RubymentHTMLModule
 
 
+=begin
+  this is a template for functions in this module.
+=end
+  def html_content__ args=[]
+    html =<<-ENDHEREDOC
+
+    ENDHEREDOC
+    payload = "#{html}"
+  end
+
+
 end
 
 

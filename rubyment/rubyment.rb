@@ -5308,7 +5308,8 @@ require '#{gem_name}'
   # returns nil if not found
   # args:
   # [requirement (String), validator_class (Class or String or nil),
-  #  validator_args (Array), validator_method (Method or String)]
+  #  validator_args (Array), validator_method (Method or String),
+  #  file_to_load_instead (String)]
   # returns:
   # Rubyment, true or false
   def validate_require args=ARGV
@@ -5318,12 +5319,20 @@ require '#{gem_name}'
     debug && (stderr.puts "caller=#{caller_label}")
     debug && (stderr.puts "args=#{args.inspect}")
     debug && (stderr.puts "args.each_with_index=#{args.each_with_index.entries.inspect}")
-    requirement, validator_class, validator_args, validator_method = containerize args
+    requirement,
+      validator_class,
+      validator_args,
+      validator_method,
+      file_to_load_instead,
+      reserved = containerize args
     validate_call = validator_class && true
     validator_class = to_class validator_class
     validator_method ||=  "new"
     rv = begin
-      require requirement
+      debug  && (file_to_load_instead.nne.negate_me) && (stderr.puts "will require #{requirement}")
+      (file_to_load_instead.nne.negate_me) && (require requirement)
+      debug  && (file_to_load_instead) && (stderr.puts "will load #{file_to_load_instead}")
+      (file_to_load_instead) && (load file_to_load_instead)
       validate_call && (object_method_args_call [validator_method, validator_class, validator_args]) || (!validate_call) && true
     rescue LoadError => e
       stderr.puts e

@@ -403,6 +403,38 @@ module ModifierForClassObjectModule
 end
 
 
+=begin 
+  # begin_documentation
+
+  The module:
+  ModifierForClassObjectModule
+  should have been called:
+  RubymentModifierForClassObjectModule
+  instead, to preserve the naming standards.
+  RubymentModifierForClassObjectModule
+  will receive the new functions, and
+  ModifierForClassObjectModule
+  must be closed for extensions.
+
+  Object will be changed just by including
+  this file or requiring rubyment, which is not the
+  best approach, but kept to respect the open/closed
+  principle, the Object class is kept adding some
+  methods.
+
+  However, the best approach is to add new functions
+  to this module, which will only be used to modify
+  the Object class if the RubymentModule is included.
+
+
+  # end_documentation
+=end
+module RubymentModifierForClassObjectModule
+
+
+end
+
+
 =begin
   # begin_documentation
   This module receives functions that are being worked on.

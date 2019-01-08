@@ -134,7 +134,7 @@ class Object
   end
 
 
-end
+end # of class Object
 
 
 =begin

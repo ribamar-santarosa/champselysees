@@ -1875,6 +1875,17 @@ trying to get the interface compatible with
   end
 
 
+=begin
+  force arguments to be given to method
+  as a splat
+=end
+  def invoke_as_splat args=[]
+    method_to_invoke,
+    *args_to_method = args
+    send method_to_invoke, *args_to_method
+  end
+
+
 end
 
 

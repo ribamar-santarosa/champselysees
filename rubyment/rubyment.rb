@@ -112,6 +112,15 @@ class Object
   [1, 2, 3].as_container(:components_only).entries
   # => [1, 2, 3]
 
+  # Take the first element of the operation on the object a:
+  # a.as_container.entries - a.as_container(:only_components).entries
+  # to find what's the non composite component of a:
+
+  a = [ 1, 2, 3 ] ; a.as_container.entries - a.as_container(:only_components).entries
+  # => []
+
+  a = "str" ; a.as_container.entries - a.as_container(:only_components).entries
+  # => ["str"]
 
 =end
   def as_container components_only=nil, method_name=:map

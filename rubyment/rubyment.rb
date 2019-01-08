@@ -769,6 +769,42 @@ module RubymentInternalModule
   end
 
 
+=begin
+  By default, @memory (see rubyment_memory__ functions),
+  is lost after a rubyment invocation.
+
+  This function allows a rudimentar method of persisting
+  the memory (just that "on load" method is used, check
+  #help__concept__rubyment_memory_persistence ;
+  here rubyment_memory__merge_shallow_on_load_json_file but
+  it will be replaced by a deep version when that's available),
+  based on the current PWD.
+
+  The invocation lines will be logged along
+  with their results in memory.rubyment.json. Just try running
+  rubyment multiple times and check that file.
+
+  Note: changed running dir, another context,
+  another memory. If you return to the current
+  dir you can retake the state. Either carry memory.rubyment.json
+  around or symlink it, if really needed to run rubyment from
+  another dir.
+=end
+  def invoke_pwd_persistent *args
+    rubyment_memory__merge_shallow_on_load_json_file
+    result = invoke *args
+    @memory[:invocation_history] ||=  Array.new
+    time = time__now_strftime_default
+    @memory[:invocation_history].push({
+      "time" => time,
+      "command" => args,
+      "result" => result,
+    })
+    rubyment_memory__to_json_file
+    result
+  end
+
+
 end # of  RubymentInternalModule
 
 

@@ -3080,7 +3080,7 @@ module RubymentDeprecatedModule
   end
 
 
-end
+end # of RubymentDeprecatedModule
 
 
 =begin

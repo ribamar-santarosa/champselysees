@@ -95,6 +95,19 @@ class Object
 end
 
 
+=begin 
+  # begin_documentation
+   This module offers functions to manipulate
+   Strings.
+
+  # end_documentation
+=end
+module RubymentStringsModule
+
+
+end
+
+
 =begin
   # begin_documentation
   This module offers function to interface with certain

@@ -5486,21 +5486,22 @@ require '#{gem_name}'
       gem_bin_generate,
       gem_bin_contents,
     ]
-    already_installed = (
-      validate_require gem_validate_args gem_defaults
-    )
-    sleep 1
-    already_installed && (gem_uninstall_all [gem_name])
-    puts gem_list [gem_name]
     p (gem_path [gem_name, gem_version])
     gem_install [(gem_path [gem_name, gem_version])]
-    puts gem_list [gem_name]
-    v = (
+    listing = gem_list [gem_name]
+    v = listing.index version([])
+    debug && v && (stderr.puts "gem installed(#{v})")
+    debug && v.negate_me && (stderr.puts "gem not installed(#{v})")
+    v &&= (
       validate_require gem_validate_args gem_defaults
     )
-    gem_uninstall_all [gem_name]
-    already_installed && (gem_install [gem_name])
-    v
+    gem_uninstall [
+      gem_name,
+      :user_install.to_nil,
+      :quiet.to_nil,
+      :all.to_nil,
+      gem_version,
+    ]
   end
 
 

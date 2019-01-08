@@ -524,6 +524,7 @@ send_enumerator [ [ {}, {} ], Proc.new {|x| x.size }, [].to_nil, :whatever, 0]
       debug,
       no_output_exceptions,
       rescuing_exceptions,
+      return_not_only_first,
       reserved = args
 
     stderr = @memory[:stderr]
@@ -534,6 +535,7 @@ send_enumerator [ [ {}, {} ], Proc.new {|x| x.size }, [].to_nil, :whatever, 0]
     args_to_method = args_to_method.nne []
     no_output_exceptions = no_output_exceptions.nne
     rescuing_exceptions = rescuing_exceptions.nne
+    return_not_only_first = return_not_only_first.nne
 
     calling_tuples = enum.map {|e|
       method_name = (!method.respond_to? :call) && method || nil
@@ -559,7 +561,9 @@ send_enumerator [ [ {}, {} ], Proc.new {|x| x.size }, [].to_nil, :whatever, 0]
         method_to_call, *args_to_call = c_t
         method_to_call.call *args_to_call, &block_to_method
       }
-      block.first.call.first
+      return_not_only_first.negate_me && (lrv = block.first.call.first)
+      return_not_only_first && (lrv = block.first.call)
+      lrv
     }
     debug && (stderr.puts "will return #{rv.inspect}")
     debug && (stderr.puts "#{__method__} returning}")

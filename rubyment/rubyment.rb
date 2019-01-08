@@ -116,6 +116,57 @@ module RubymentHTMLModule
   end
 
 
+=begin
+  generates an html code with javascript,
+  to display a shell/invocation line to call
+  a GET <contents of the invocation line> on
+  the current server. The output is output
+  on a <PRE> tag.
+  If a server such
+  #test__experiment__web_http_https_server
+  is running, this html may provide an interface
+  to rubyment itself. By calling, eg
+  #autoreload on the invocation line, the
+  Ruby code can be even reloaded dynamically
+  without requiring the server to restart.
+=end
+  def html_content__basic_shell
+    html =<<-ENDHEREDOC
+<!DOCTYPE html>
+<html>
+<body>
+
+<form>
+  Invoke:<br>
+  <input id="invocation_line" size=100 type="text" name="username"><br>
+</form>
+<button type="button" onclick="loadDoc()">Ok</button>
+<pre id="demo">
+</pre>
+
+
+<script>
+function loadDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      ih = document.getElementById("demo").innerHTML
+      document.getElementById("demo").innerHTML =
+      this.responseText;
+    }
+  };
+  xhttp.open("GET", document.getElementById("invocation_line").value, true);
+  xhttp.send();
+}
+</script>
+
+</body>
+</html>
+    ENDHEREDOC
+    payload = "#{html}"
+  end
+
+
 end
 
 

@@ -4465,6 +4465,7 @@ require '#{gem_name}'
   # +to_object_method_debug+:: debug to_object_method call
   # +output_exceptions+::
   # +no_rescue+::
+  # +default_method+:: in the case no method can be derived from the args, this one is returned. Suggested Proc.new {|*args| } (not done for API respect)
   #
   # @return [Method] a method
   def to_method args = ARGV
@@ -4474,12 +4475,14 @@ require '#{gem_name}'
       to_object_method_debug,
       output_exceptions,
       no_rescue,
+      default_method,
       reserved = args
 
     stderr = @memory[:stderr]
     debug && (stderr.puts "{#{__method__} starting")
     debug && (stderr.puts "caller=#{caller_label}")
     debug && (stderr.puts "args.each_with_index=#{args.each_with_index.entries.inspect}")
+    default_method = default_method.nne # ideally Proc.new {|*args| }, but we can't change the API
     to_method_block = bled [
       nil,
       no_rescue,
@@ -4490,7 +4493,7 @@ require '#{gem_name}'
       ) || (
         method_name_or_method.respond_to?(:call) && method_name_or_method
       ) ||
-        method(method_name_or_method)
+        method(method_name_or_method) || default_method
     }
     rv = to_method_block.first.call
     debug && (stderr.puts "will return first of: #{rv.inspect}")

@@ -116,6 +116,9 @@ end
 module RubymentCodeGenerationModule
 
 
+  include RubymentRubyCodeGenerationModule
+
+
 end
 
 

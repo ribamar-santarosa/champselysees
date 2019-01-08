@@ -1729,7 +1729,6 @@ module RubymentDeprecatedModule
 
 
   def test_cases_template args=[]
-    # TODO: mispelled name. must go to deprecated
     # testing_method = :send_enumerator
     test_cases ||= [
       # [ :id, :expectation, :actual_params ],

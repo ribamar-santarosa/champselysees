@@ -6404,6 +6404,7 @@ module RubymentModule
     gem_bin_contents,
     gem_bin_executables,
     gem_dependencies,
+      gem_non_ruby_executables,
     reserved = args
 
     debug = @memory[:debug]
@@ -6420,6 +6421,14 @@ module RubymentModule
     }.join "\n  "
     debug && (stderr.puts "gem_dependencies=#{gem_dependencies}")
     debug && (stderr.puts "gem_dependencies_str=#{gem_dependencies_str.inspect}")
+
+    gem_bin_executables,
+      reserved = gem_deploy__non_ruby_binaries [
+        gem_name,
+        gem_non_ruby_executables,
+        gem_bin_executables,
+      ]
+    #
 
     contents =<<-ENDHEREDOC
 Gem::Specification.new do |s|

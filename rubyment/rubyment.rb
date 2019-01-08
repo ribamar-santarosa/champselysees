@@ -5536,6 +5536,12 @@ n8mFEtUKobsK
             :description      => "exceptions are normally properly handled by inner functions, but setting this to true can be helpful to debug some cases",
           },
           {
+            :name             => :io_forward_debug,
+            :duck_type        => :boolean,
+            :default_behavior => :nil,
+            :description      => "will be forwarded as debug argument to io_forward, somehow",
+          },
+          {
             :name             => :reserved,
             :duck_type        => Object,
             :default_behavior => :nil,
@@ -5567,6 +5573,7 @@ n8mFEtUKobsK
       plain_http_server_port,
       plain_http_ip_addr,
       output_exceptions,
+      io_forward_debug,
       reserved = args
 
     debug = debug.nne
@@ -5607,7 +5614,8 @@ n8mFEtUKobsK
         io_method_debug,
         happy_with_request,
         http_processing_method,
-        http_processing_method_args
+        http_processing_method_args,
+        io_forward_debug,
       ],
       priv_pemfile,
       cert_pem_file,
@@ -5626,6 +5634,7 @@ n8mFEtUKobsK
         happy_with_request,
         plain_http_processing_method,
         plain_http_processing_method_args,
+        io_forward_debug,
       ],
       :priv_pemfile.to_nil,
       :cert_pem_file.to_nil,

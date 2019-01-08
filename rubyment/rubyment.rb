@@ -4669,7 +4669,8 @@ require '#{gem_name}'
       processing_method_args = args
     io_gets_args = [io_in, debug, happy_with_request]
     stderr = @memory[:stderr]
-    debug.nne && (stderr.puts "#{__method__} starting")
+
+    debug.nne && (stderr.puts "{#{__method__} starting")
     debug.nne && (stderr.puts args.inspect)
     input = io_gets io_gets_args
     debug.nne && (stderr.puts input.inspect)
@@ -4694,7 +4695,7 @@ require '#{gem_name}'
 
       }
     }
-    debug.nne && (stderr.puts "#{__method__} returning")
+    debug.nne && (stderr.puts "#{__method__} returning}")
     nil
   end
 

@@ -4572,6 +4572,9 @@ end
   - functional exception handling (#bled_call and #bled)
   - certain programming patterns, like turning any ruby object in
   an effective composite pattern (#as_container, #object__decompose)
+  - ... or a imaging of two system resources, like a file and a
+  memory chunk (string), in a simplified interface that can
+  abstract away many functions (file_string__experimental).
 
 
   Rubyment functions must respect the open/closed principle

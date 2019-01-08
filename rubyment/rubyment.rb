@@ -1347,6 +1347,25 @@ trying to get the interface compatible with
   end
 
 
+=begin
+  Just alias to
+  experiment__tester_with_bled containerize test_cases__send_enumerator
+=end
+  def test__send_enumerator args=[]
+    debug,
+      reserved = args
+    stderr = @memory[:stderr]
+    debug = debug.nne
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "caller=#{caller_label}")
+    debug && (stderr.puts "args=#{args.inspect}")
+    rv = experiment__tester_with_bled [:test_cases__send_enumerator]
+    debug && (stderr.puts "will return #{rv.inspect}")
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
+  end
+
+
 end
 
 

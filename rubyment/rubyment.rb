@@ -5680,6 +5680,7 @@ n8mFEtUKobsK
         transform_call_debug,
         to_method_debug,
         to_object_method_debug,
+        output_exceptions,
       ],
       priv_pemfile,
       cert_pem_file,

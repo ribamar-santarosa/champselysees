@@ -275,7 +275,7 @@ module RubymentStringsModule
   end
 
 
-end
+end # of RubymentStringsModule
 
 
 =begin 

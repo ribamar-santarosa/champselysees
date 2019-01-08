@@ -5588,7 +5588,7 @@ n8mFEtUKobsK
     extra_cert_pemiles =  extra_cert_pem_files.nne ssl_cert_pkey_chain[2]
     debug =  debug.nne "yes, debug"
     io_method =  io_method.nne "io_transform"
-    io_method_debug =  io_method_debug.nne debug
+    io_method_debug = io_method_debug.nne
     happy_with_request = happy_with_request.nne
     admit_non_ssl = admit_non_ssl.nne
     plain_http_processing_method =  plain_http_processing_method.nne :test__http_response__redirect

@@ -5593,6 +5593,12 @@ n8mFEtUKobsK
             :description      => "will be forwarded as debug argument to to_method_method, somehow",
           },
           {
+            :name             => :debug_accept,
+            :duck_type        => :boolean,
+            :default_behavior => :nil,
+            :description      => "will be forwarded as __debug_client__ argument to tcp_ssl_server, somehow",
+          },
+          {
             :name             => :reserved,
             :duck_type        => Object,
             :default_behavior => :nil,
@@ -5628,6 +5634,7 @@ n8mFEtUKobsK
       transform_call_debug,
       to_method_debug,
       to_object_method_debug,
+      debug_accept,
       reserved = args
 
     debug = debug.nne
@@ -5678,6 +5685,7 @@ n8mFEtUKobsK
       cert_pem_file,
       extra_cert_pem_files,
       output_exceptions,
+      debug_accept,
     ]
     tcp_ssl_server_thread   =  send :tcp_ssl_server, tcp_ssl_server_args
     tcp_plain_server_args = [

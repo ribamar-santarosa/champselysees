@@ -90,6 +90,28 @@ class Object
       self
     )
   end
+
+
+end
+
+
+=begin
+  # begin_documentation
+  Object will be changed just by including
+  this file or requiring rubyment, which is not the
+  best approach, but kept to respect the open/closed
+  principle, the Object class is kept adding some
+  methods.
+
+  However, the best approach is to add new functions
+  to this module, which will only be used to modify
+  the Object class if the RubymentModule is included.
+
+  # end_documentation
+=end
+module ModifierForClassObjectModule
+
+
 end
 
 

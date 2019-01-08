@@ -980,6 +980,128 @@ trying to get the interface compatible with
   end
 
 
+=begin
+  # documentation_begin
+  # short_desc = "natural improvement of experiment__tester: but protect each case from exception throwing",
+  @memory[:documentation].push = {
+    :function   => :tester_with_bled,
+    :short_desc => short_desc,
+    :description => "",
+    :params     => [
+      {
+        :name             => :args,
+        :description      => "list of parameters",
+        :duck_type        => Array,
+        :default_behavior => [],
+        :params           => [
+          {
+            :name             => :test_cases,
+            :duck_type        => Array,
+            :default_behavior => :[],
+            :description      => "Array having the fields: __test_id__, __test_expected_value__ and __actual_params__. __actual_params__ is an __Array__ having  as first member __method_name__ to be called, and all its remaining args __method_args__ (a __splat__) will be given to __method_name__",
+          },
+          {
+            :name             => :debug,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "prints debug information to the __IO__ specified by __@memory[:stderr]__ (STDERR by default)",
+          },
+          {
+            :name             => :use_first_of_bled_return,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "will ignore the exception report information returned by bled, and use only the first value.",
+          },
+          {
+            :name             => :output_exceptions,
+            :duck_type        => :boolean,
+            :default_behavior => :nil,
+            :description      => "exceptions are normally properly handled by inner functions, but setting this to true can be helpful to debug some cases",
+            :forwarded        => [
+              { :to => :bled, :as => :output_exceptions }
+            ],
+          },
+          {
+            :name             => :no_rescue,
+            :duck_type        => :boolean,
+            :default_behavior => :nil,
+            :description      => "don't protect against exceptions happening",
+            :forwarded        => [
+              { :to => :bled, :as => :dont_rescue }
+            ],
+          },
+          {
+            :name             => :reserved,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "for future use",
+          },
+        ],
+      },
+    ],
+    :return_value     => [
+      {
+        :name             => :args,
+        :description      => "__true__ if tests were successful, __false__ otherwise",
+        :duck_type        => :boolean,
+      },
+    ],
+  }
+  # documentation_end
+=end
+  def tester_with_bled args=[]
+    stderr = @memory[:stderr]
+    test_cases,
+      debug,
+      use_first_of_bled_return,
+      output_exceptions,
+      no_rescue,
+      reserved = args
+
+    debug = debug.nne
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "caller=#{caller_label.inspect}")
+    debug && (stderr.puts "args=#{args.inspect}")
+    use_first_of_bled_return = use_first_of_bled_return.nne
+    test_cases = test_cases.nne [
+     # [ :id, :expectation, :actual_params ],
+     # :actual_params: array with :method_name + :method_args
+    ]
+    expectation = {}
+    actual = {}
+    debug && (stderr.puts "test_cases.size=#{test_cases.size}")
+    test_cases.each_with_index{ |test_case|
+      debug && (stderr.puts "test_case=[test_case_id, test_expectation, actual_params]=#{test_case.inspect}")
+      test_case_id, test_expectation, actual_params = test_case
+      actual_params_method_name,
+        *actual_params_method_args = actual_params
+      debug && (stderr.puts "will send: #{actual_params_method_name.to_s}(*#{actual_params_method_args.inspect})")
+
+      block = bled [
+        nil,
+        no_rescue,
+        output_exceptions,
+      ] {
+          send actual_params_method_name, *actual_params_method_args
+      }
+      result = block.first.call
+
+      expectation[test_case_id] = test_expectation
+      use_first_of_bled_return && (actual[test_case_id] = result.first)
+      use_first_of_bled_return.negate_me && (actual[test_case_id] = result)
+      debug && (stderr.puts "[test_expectation.hash, result.hash]=#{[test_expectation.hash, result.hash].inspect}")
+    }
+    judgement = actual.keys.map {|test_case|
+      [expectation[test_case], actual[test_case] , test_case]
+    }.map(&method("expect_equal")).all?
+
+    rv = judgement
+    debug && (stderr.puts "will return #{rv.inspect}")
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
+  end
+
+
 end
 
 

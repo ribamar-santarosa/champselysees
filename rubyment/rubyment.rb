@@ -4741,12 +4741,14 @@ require '#{gem_name}'
       reserved = args
     stderr = @memory[:stderr]
     debug.nne && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "caller=#{caller_label}")
     debug.nne && (stderr.puts args.inspect)
     io_gets_args = [io_in, debug, happy_with_request]
     input = io_gets io_gets_args
     debug.nne && (stderr.puts input.inspect)
     debug.nne && (stderr.puts ios_out.class.inspect)
     processing_method ||= :echo
+    debug && (stderr.puts "processing_method=#{processing_method}")
     processing_method_args ||= []
     processed_input = to_method(
       [

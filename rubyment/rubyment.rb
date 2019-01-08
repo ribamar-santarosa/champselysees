@@ -1419,6 +1419,136 @@ trying to get the interface compatible with
   end
 
 
+=begin
+  # documentation_begin
+  # short_desc = "parses an http request"
+  @memory[:documentation].push = {
+    :function   => :experiment__http_request_parse,
+    :short_desc => short_desc,
+    :description => "",
+    :params     => [
+      {
+        :name             => :args,
+        :description      => "list of parameters",
+        :duck_type        => Array,
+        :default_behavior => [],
+        :params           => [
+          {
+            :name             => :request,
+            :duck_type        => [String, :array_of_strings],
+            :default_behavior => :nil,
+            :description      => "for future use",
+          },
+            :name             => :debug,
+            :duck_type        => :boolean,
+            :default_behavior => :nil,
+            :description      => "prints debug information to the __IO__ specified by __@memory[:stderr]__ (STDERR by default)",
+          },
+          {
+            :name             => :methods_to_call,
+            :duck_type        => Array,
+            :default_behavior => [
+              :path_info,
+              :request_uri,
+              :body,
+              :request_method,
+              :ssl?,
+            ]
+            :description      => "methods/properties to extract from a WEBrick::HTTPRequest object -- it must be a valid method callable without parameters.",
+          },
+          {
+            :name             => :output_exceptions,
+            :duck_type        => :boolean,
+            :default_behavior => :nil,
+            :description      => "exceptions are normally properly handled by inner functions, but setting this to true can be helpful to debug some cases",
+          },
+          {
+            :name             => :reserved,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "for future use",
+          },
+        ],
+      },
+    ],
+    :return_value     => [
+      {
+        :name             => :args,
+        :description      => "list of parameters",
+        :duck_type        => Array,
+        :default_behavior => [],
+        :params           => [
+          {
+            :name             => :reserved,
+            :duck_type        => Object,
+            :default_behavior => :nil,
+            :description      => "for future use",
+          },
+        ],
+      },
+    ],
+  }
+  # documentation_end
+=end
+  def experiment__http_request_parse args=[]
+    request,
+      debug,
+      methods_to_call,
+      output_exceptions,
+      reserved = args
+    stderr = @memory[:stderr]
+    debug = debug.nne
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "caller=#{caller_label}")
+    debug && (stderr.puts "args.each_with_index=#{args.each_with_index.entries.inspect}")
+    # debug && (stderr.puts "backtrace=#{backtrace}")
+    output_exceptions = output_exceptions.nne
+    methods_to_call = methods_to_call.nne [
+      :path_info,
+      :request_uri,
+      :body,
+      :request_method,
+      :ssl?,
+    ]
+    request = (containerize request.nne "").join
+    debug && (stderr.puts "=#{}")
+    require 'webrick'
+    require 'stringio'
+    req = WEBrick::HTTPRequest.new(WEBrick::Config::HTTP)
+    block = bled [
+      :no_answer.to_nil,
+      :no_rescue.negate_me,
+      output_exceptions,
+    ] {
+      req.parse(StringIO.new(request))
+      req
+    }
+    parse_return = block.first.call
+    methods_result_return = send_enumerator [
+      methods_to_call,
+      req.method(:send),
+      :args_to_method.array__is(nil),
+      :block_to_method.__is(:whatever),
+      :insert_iterating_element_at.__is(0),
+      :debug.__is(nil),
+      :no_output_exceptions.__is(output_exceptions.negate_me),
+      :rescuing_exceptions.__is(nil),
+      :return_not_only_first.__is(true),
+    ]
+    methods_result = methods_result_return.transpose[0]
+    rv = [
+      req,
+      methods_to_call,
+      methods_result,
+      parse_return,
+      methods_result_return,
+    ]
+    debug && (stderr.puts "#{__method__}  will return #{rv.inspect}")
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
+  end
+
+
 end
 
 

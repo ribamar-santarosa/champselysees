@@ -4657,6 +4657,7 @@ require '#{gem_name}'
   # +debug+:: [Object] if evals to false (or empty string), won't print debug information
   # +happy_with_request+:: [String, nil] if nil, +eol+ is used.
   # +to_method_debug+:: [boolean] will forward this argument to  to_method
+  # +to_object_method_debug+:: [boolean] will forward this argument to to_object_method
   #
   # @return [nil]
   def io_forward args = ARGV
@@ -4669,9 +4670,9 @@ require '#{gem_name}'
       processing_method,
       processing_method_args,
       to_method_debug,
+      to_object_method_debug,
       reserved = args
     stderr = @memory[:stderr]
-
     debug.nne && (stderr.puts "{#{__method__} starting")
     debug.nne && (stderr.puts args.inspect)
     io_gets_args = [io_in, debug, happy_with_request]
@@ -4685,6 +4686,7 @@ require '#{gem_name}'
         processing_method,
         :object.to_nil,
         to_method_debug,
+        to_object_method_debug,
       ]
     ).call(
         [input] + processing_method_args

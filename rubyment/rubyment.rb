@@ -2360,7 +2360,7 @@ trying to get the interface compatible with
   end
 
 
-end
+end # of RubymentExperimentModule
 
 
 =begin

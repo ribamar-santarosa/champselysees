@@ -3022,6 +3022,7 @@ end
 module RubymentModule
 
   Object.class_eval { include ModifierForClassObjectModule }
+  include RubymentHTMLModule
   include RubymentStringsModule
   include InternalRubymentModule
   include RubymentExperimentModule

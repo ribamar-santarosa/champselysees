@@ -534,11 +534,15 @@ module RubymentInternalModule
   just takes cares of the issues created by the Rubyment
   memory implementation itself.
 
+  other special cases:
+  m[:closure_keys] contents will be converted into symbols
+
 =end
   def rubyment_memory__symbol_keys_shallow m = nil
     update_memory = m.nne.negate_me
     m = m.nne @memory
     m = m.map { |k, v|  [k.to_sym, v] }.to_h
+    m[:closure_keys].map!(&:to_sym)
     update_memory && (@memory = m) || m
   end
 

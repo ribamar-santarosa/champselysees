@@ -138,6 +138,14 @@ module InternalRubymentModule
   end
 
 
+=begin
+  get the current @memory[k]
+=end
+  def rubyment_memory__get_key k
+    @memory[k]
+  end
+
+
 end
 
 

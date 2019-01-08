@@ -5586,7 +5586,6 @@ n8mFEtUKobsK
     priv_pemfile  =   priv_pemfile.nne ssl_cert_pkey_chain[1]
     cert_pem_file =  cert_pem_file.nne ssl_cert_pkey_chain[0]
     extra_cert_pemiles =  extra_cert_pem_files.nne ssl_cert_pkey_chain[2]
-    debug =  debug.nne "yes, debug"
     io_method =  io_method.nne "io_transform"
     io_method_debug = io_method_debug.nne
     happy_with_request = happy_with_request.nne

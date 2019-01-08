@@ -105,6 +105,15 @@ end
 module RubymentStringsModule
 
 
+=begin
+  returns a quoted version of a string; does not escape against
+  quoting chars inside it.
+=end
+  def quoted_string__no_escaping s
+    "\"#{s}\""
+  end
+
+
 end
 
 

@@ -576,7 +576,7 @@ module RubymentInternalModule
   end
 
 
-end # of InternalRubymentModule
+end # of  RubymentInternalModule
 
 
 =begin

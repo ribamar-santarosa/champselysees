@@ -5465,6 +5465,14 @@ require '#{gem_name}'
   # true or false
   def gem_validate args=ARGV
     memory = @memory
+    debug = @memory[:debug]
+    stderr = @memory[:stderr]
+
+    debug = debug.nne
+    debug && (stderr.puts "{#{__method__} starting")
+    debug && (stderr.puts "caller=#{caller_label}")
+    debug && (stderr.puts "args=#{args.inspect}")
+    debug && (stderr.puts "args.each_with_index=#{args.each_with_index.entries.inspect}")
     gem_defaults = rubyment_gem_defaults args
     gem_name, gem_version = gem_defaults
     gem_files, gem_is_current_file = gem_files_args gem_defaults
@@ -5521,6 +5529,11 @@ require '#{gem_name}'
     gem_uninstall ["rubyment"]
     already_installed && (gem_install ["rubyment"])
     v
+    rv = v
+    debug && (stderr.puts "#{__method__} will return #{rv.inspect}")
+    # if raises exception before it will be unbalanced :
+    debug && (stderr.puts "#{__method__} returning}")
+    rv
   end
 
 

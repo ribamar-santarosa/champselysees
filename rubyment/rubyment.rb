@@ -371,6 +371,34 @@ module RubymentArraysModule
   end
 
 
+=begin
+
+  returns an array with the elements at the given
+  position in each array of arrays.
+
+  it's equivalent of calling arrays.transpose[position],
+  however, it saves the transposed memory.
+
+  examples:
+  array__at [ [ :a, :b, :c], [ nil, :b ], [:a] ], 0
+  # => [:a, nil, :a]
+
+  array__at [ [ :a, :b, :c], [ nil, :b ], [:a] ], 2
+  # => [:c, nil, nil]
+
+=end
+  def array__at arrays, position
+
+    pattern_exec__mapping_an_object [
+      arrays,
+      "map",
+      "at",
+      position,
+    ]
+
+  end
+
+
 end # of RubymentArraysModule
 
 

@@ -5022,12 +5022,13 @@ require '#{gem_name}'
     debug.nne && (stderr.puts server)
     Thread.start {
       loop {
-        client = runea ["yes, rescue",
-	  "yes, output exception",
-	  "nil on exception"
-	] {
-	  server.accept
-	}
+        client = runea [
+          "yes, rescue",
+          "yes, output exception",
+          "nil on exception"
+        ] {
+          server.accept
+        }
         Thread.start(client) { |client|
           debug.nne && (stderr.puts Thread.current)
           debug.nne && (stderr.puts client)

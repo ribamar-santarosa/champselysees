@@ -318,6 +318,54 @@ module RubymentStringsModule
   end
 
 
+=begin
+  Makes possible to join, similarly to Array#join, recursively.
+
+  Note of difference in behavior:
+
+  [ "", "" ].join "+"
+  # => "+"
+
+  [ nil, nil ].join "+"
+  # => "+"
+
+  In this function, empty strings are not joinned
+  (.nne and .compact are run before). It's a planned
+  change to expand the interface to be able to
+  instruct for not nne/compact strings/arrays before.
+  TODO: via inheritable joinner; possibly indenter
+
+  Examples:
+
+  string__recursive_join ["+", 1, 2, 3 ]
+  # => "1+2+3"
+
+  string__recursive_join [ "; ",  ["+", 1, 2, 3 ], ["-", 2, 1] ]
+  # => "1+2+3; 2-1"
+
+  string__recursive_join [ "; ",  ["+", 1, ["/", "a", "b"], 3 ], ["-", 2, 1] ]
+  # => "1+a/b+3; 2-1"
+
+
+
+=end
+  def string__recursive_join joinner_arrays_tuple
+    return joinner_arrays_tuple if (
+      joinner_arrays_tuple.respond_to?(:map).negate_me
+    )
+
+    joinner,
+      *operands = joinner_arrays_tuple
+    operands.map! { |operand|
+      (
+        send __method__, operand # recursive call
+      ).nne
+    }
+
+    operands.compact.join(joinner)
+  end
+
+
 end # of RubymentStringsModule
 
 

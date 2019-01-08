@@ -4616,6 +4616,7 @@ require '#{gem_name}'
   # +io_forward_debug+:: [boolean] will forward this argument to io_forward
   # +transform_call_debug+:: [boolean] will forward this argument to  transform_call
   # +to_method_debug+:: [boolean] will forward this argument to  to_method
+  # +to_object_method_debug+:: [boolean] will forward this argument to to_object_method
   #
   # @return [nil]
   def io_transform args = ARGV
@@ -4627,6 +4628,7 @@ require '#{gem_name}'
       io_forward_debug,
       transform_call_debug,
       to_method_debug,
+      to_object_method_debug,
       reserved = args
     stderr = @memory[:stderr]
     debug.nne && (stderr.puts "#{__method__} starting{")
@@ -4640,6 +4642,7 @@ require '#{gem_name}'
         transform_call_debug,
       ],
       to_method_debug,
+      to_object_method_debug,
     ]
     debug.nne && (stderr.puts "#{__method__} returning}")
     nil

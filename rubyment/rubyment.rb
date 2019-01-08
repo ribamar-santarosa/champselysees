@@ -818,6 +818,7 @@ module RubymentExperimentModule
 
 =begin
   write the second argument of the array args into the filepath in the first argument
+  read it back with #load__file_json_quiet
 =end
   def file__json args=[]
     require 'json'

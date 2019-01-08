@@ -1756,6 +1756,21 @@ trying to get the interface compatible with
   end
 
 
+=begin
+  returns an array having all the paths which are ancestors of
+  path, and path at the end of that array
+=end
+  def parent_dirs__from path
+    path_parent = File.dirname(path)
+    base_case   = (path == path_parent)
+    rv = []
+    base_case.negate_me && (
+      rv =  parent_dirs__from path_parent
+    )
+    rv.push path
+  end
+
+
 end
 
 

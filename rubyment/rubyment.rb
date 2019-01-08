@@ -1113,6 +1113,38 @@ module RubymentInvocationModule
   end
 
 
+=begin
+  Just a convenience for typing less. Calls
+  the block inside a bled, which is a function
+  which captures and returns exceptions and
+  runtime errors in a functional way, instead
+  of Ruby's way.
+
+  Examples:
+
+   bled_call {:return_value }
+   # => [:return_value, nil, nil]
+
+   bled_call { UndefinedStuff }
+   # => [nil,
+   # ...
+   #    nil],
+   #  NameError],
+   #   #<NameError: uninitialized constant #<Class:#<Rubyment:0x000000035adcc0>>::UndefinedStuff>]
+
+
+   bled_call [:return_value_on_error] { UndefinedStuff }
+   # => [:return_value_on_error,
+   #  [nil,
+   #   "message{\nuninitialized constant #<Class:#<Rubyment:0x0000000308e078>>::UndefinedStuff\
+
+=end
+  def bled_call *args, &block
+    b = bled *args, &block
+    b.first.call
+  end
+
+
 end # of RubymentInvocationModule
 
 

@@ -130,6 +130,14 @@ module InternalRubymentModule
   end
 
 
+=begin
+  set the current @memory[k] with v
+=end
+  def rubyment_memory__set_key k, v
+    @memory[k] = v
+  end
+
+
 end
 
 

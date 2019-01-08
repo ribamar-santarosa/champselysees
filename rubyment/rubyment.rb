@@ -2086,7 +2086,7 @@ end
 =end
 module RubymentModule
 
-  include RubymentClassInjectorModule
+  Object.class_eval { include ModifierForClassObjectModule }
   include RubymentExperimentModule
   include RubymentMaintainedModule
   include RubymentDeprecatedModule

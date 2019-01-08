@@ -106,6 +106,14 @@ end
 module InternalRubymentModule
 
 
+=begin
+  gets the current @memory
+=end
+  def rubyment_memory__
+    @memory
+  end
+
+
 end
 
 

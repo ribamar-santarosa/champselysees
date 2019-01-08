@@ -607,6 +607,28 @@ module RubymentInternalModule
   end
 
 
+=begin
+  returns a string having help for the idea of persistence
+  achieved with many of the functions of this module:
+=end
+  def help__concept__rubyment_memory_persistence
+    string = [
+      "# saves the current memory to the default memory_json_file_default ('memory.rubyment.json' by default, in the current dir): ",
+      "rubyment_memory__to_json_file",
+      "",
+      "# if you add a new key to that file, you can load it to memory with",
+      "rubyment_memory__merge_shallow_on_load_json_file",
+      "# in the above case, keys in the current memory will prevail, when they equal.",
+      "",
+      "# this function will try to restore the memory, as much as possible (not everything is serializable), to the state of when it was saved: ",
+      "rubyment_memory__merge_shallow_with_json_file",
+      "# in the above case, keys in the json file will prevail, when they equal.",
+      "",
+    ]
+    [ string.join("\n") ]
+  end
+
+
 end # of  RubymentInternalModule
 
 

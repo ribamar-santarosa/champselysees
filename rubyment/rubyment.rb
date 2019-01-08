@@ -5291,9 +5291,16 @@ require '#{gem_name}'
       reserved = args
     quiet = quiet.nne
     debug = quiet.negate_me
-    command="gem list | grep #{gem_spec}"
-    debug && (stderr.puts "command=#{command}")
-    `#{command}`
+    effective_command="gem list | grep #{gem_spec}"
+    command="gem list"
+    debug && (stderr.puts "command=#{effective_command}")
+    command_output = shell_popen3_command([command])[0]
+    grep_command_output = command_output.select { |l|
+      l.match /#{gem_spec}/
+    }
+    spec_grep_output = grep_command_output.join("\n")
+    puts spec_grep_output
+    spec_grep_output
   end
 
   # validate_require

@@ -95,6 +95,17 @@ class Object
 end
 
 
+=begin 
+  # begin_documentation
+
+  # end_documentation
+=end
+module RubymentCodeGenerationModule
+
+
+end
+
+
 =begin
   # begin_documentation
 

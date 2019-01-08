@@ -1084,6 +1084,14 @@ trying to get the interface compatible with
   end
 
 
+=begin
+  returns a timestamp in the format "%Y.%m.%d_%H:%M:%S"
+=end
+  def time__now_strftime_default
+    Time.now.strftime("%Y.%m.%d_%H:%M:%S")
+  end
+
+
 end
 
 

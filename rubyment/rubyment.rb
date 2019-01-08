@@ -1228,6 +1228,74 @@ module RubymentInvocationModule
   end
 
 
+=begin
+  Generates a string that can be given to system (or any other
+  command line executor) to execute a binary in memory (Ie,
+  a file is generated having as contents a given string).
+  If not file path is given a default one in /tmp will be
+  generated (using the digest sha256 of the file (truncated
+  at 96 chars, by now).
+  Arguments can be given in an array (they will be escaped
+  with Shellwords.join) or String (no escape apply)
+
+  Examples:
+
+  # write the contents of /bin/ls to a temporary file and offers
+  # a command to execute it:
+  system_command__exec_via_file [ [nil, File.read("/bin/ls") ] , ["-l", "-h"] ]
+  # => "/tmp/rubyment.file.a90ba058c747458330ba26b5e2a744f4fc57f92f9d0c9112b1cb2f76c66c4ba0 -l -h"
+
+  system_command__exec_via_file [ ["/tmp/my_ls", File.read("/bin/ls") ] , ["-l", "-h"] ]
+  # => "/tmp/my_ls -l -h"
+
+  system_command__exec_via_file [ ["/tmp/my_ls", File.read("/bin/ls") ] , "-l -h" ]
+  # => "/tmp/my_ls -l -h"
+
+
+=end
+  def system_command__exec_via_file exec_via_file
+   args = exec_via_file
+
+    binary_or_script_blob,
+    args_to_binary_or_blob,
+      reserved = containerize(args)
+
+    file_path_src,
+      string_src,
+      reserved = containerize(binary_or_script_blob)
+
+    require 'openssl'
+    string_src_sha256 = string_truncate [
+      Digest::SHA256.hexdigest(string_src.to_s),
+      96,
+    ]
+    default_path_for_string_src = "/tmp/rubyment.file.#{string_src_sha256}"
+
+    actual_file_path,
+      old_contents,
+      reserved = file_string__experimental [
+        file_path_src.nne(default_path_for_string_src),
+        string_src,
+      ]
+
+    bled_call {
+      require 'fileutils'
+      FileUtils.chmod "+x", actual_file_path
+    }
+    require "shellwords"
+    escaped_args_as_str = (
+      bled_call [ args_to_binary_or_blob ] {
+        Shellwords.join args_to_binary_or_blob
+      }
+    ).first.to_s
+    string__recursive_join [
+      " ",
+      actual_file_path,
+      escaped_args_as_str,
+    ]
+  end # of system_command__exec_via_file
+
+
 end # of RubymentInvocationModule
 
 

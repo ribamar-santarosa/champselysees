@@ -333,6 +333,26 @@ module InternalRubymentModule
 end
 
 
+=begin 
+  # begin_documentation
+  This module offers function to interface with certain
+  internal structures. Ie, these functions are supposed
+  to be useless unless running Rubyment.
+
+  The module InternalRubymentModule should have been
+  called RubymentInternalModule instead, to preserve
+  the naming standards. This module, while a full fix
+  is not in place, will receive the new functions, and
+  InternalRubymentModule must be closed for extensions.
+
+  # end_documentation
+=end
+module RubymentInternalModule
+
+
+end # of InternalRubymentModule
+
+
 =begin
   # begin_documentation
   Object will be changed just by including

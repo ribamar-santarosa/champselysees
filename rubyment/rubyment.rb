@@ -4292,6 +4292,7 @@ module RubymentModule
   include RubymentStringsModule
   include RubymentArraysModule
   include RubymentInternalModule
+  include RubymentPatternsModule
   include RubymentInvocationModule
   include RubymentExperimentModule
   include RubymentMaintainedModule

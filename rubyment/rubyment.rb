@@ -3386,7 +3386,6 @@ end
 
 module RubymentModule
 
-  Object.class_eval { include ModifierForClassObjectModule }
   Object.class_eval { include RubymentModifierForClassObjectModule }
   include RubymentCodeGenerationModule
   include RubymentHTMLModule

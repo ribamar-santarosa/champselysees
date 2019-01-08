@@ -3222,6 +3222,33 @@ module RubymentMaintainedModule
 =begin
   # documentation_begin
   # short_desc = "generates a block which may return exceptions instead of raising them."
+  examples = [
+    "
+    (bled [] { :bled_returns }).first.call
+    # => [:bled_returns, nil, nil]
+    ",
+    "
+    (bled { :bled_returns }).first.call
+    # => [:bled_returns, nil, nil]
+    ",
+    '
+    (bled  { X }).first.call
+    => [nil,
+     [nil,
+     # ...
+     #   ["uninitialized constant #<Class:#<Rubyment:0x000000035adcc0>>::X", nil],
+     # NameError],
+     #    #<NameError: uninitialized constant #<Class:#<Rubyment:0x000000035adcc0>>::X>]
+     ',
+     '
+     (bled ["X is not undefined" ]  { X }).first.call
+     # => ["X is not undefined",
+     #  [nil,
+     #   "message{\
+     ',
+
+  ]
+
   @memory[:documentation].push = {
     :function   => :bled,
     :short_desc => short_desc,

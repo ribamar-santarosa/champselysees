@@ -469,7 +469,7 @@ module RubymentInternalModule
   The merge is shallow, ie, only top-level
   keys are merged.
   If the same key is present in both objects,
-  the one in m will prevail. Note that this
+  the one in @memory will prevail. Note that this
   is the inverted behaviour as of
   #rubyment_memory__merge_shallow
 =end

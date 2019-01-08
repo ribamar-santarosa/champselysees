@@ -346,6 +346,31 @@ module RubymentArraysModule
   end
 
 
+=begin
+  returns an array with the indexes of ocurrences
+  of element in each array of arrays.
+
+  examples:
+  array__index [ [ :a, :b, :c], [ nil, :b ], [:a] ], :a
+  # => [0, nil, 0]
+
+  r.array__index [ [ :a, :b, :c], [ nil, :b ], [:a] ], :b
+  # => [1, 1, nil]
+
+
+=end
+  def array__index arrays, element
+
+    pattern_exec__mapping_an_object [
+      arrays,
+      "map",
+      "index",
+      element,
+    ]
+
+  end
+
+
 end # of RubymentArraysModule
 
 

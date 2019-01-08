@@ -1232,6 +1232,121 @@ trying to get the interface compatible with
   end
 
 
+=begin
+  give as first element in args to experiment__tester_with_bled
+=end
+  def test_cases__send_enumerator args=[]
+    testing_method = :send_enumerator
+    test_cases ||= [
+      [
+        :test_case_id.__is("array_base"),
+        :expectation.array__is("post", "get"),
+        :get_actual_results_with.array__is(
+          testing_method,
+          :testing_method_args.array__is(
+            :enum.array__is("http_post", "http_get"),
+            :method_to_each_in_enum.__is(:gsub),
+            :args_to_method.array__is("http_", ""),
+            :block_to_method.__is(:whatever),
+            :insert_iterating_element_at.__is(:ensure.__is(nil)),
+            :debug.__is(false),
+          ),
+        ),
+      ].__note("end of array_base"),
+
+      [
+        :test_case_id.__is("two_hashes_base"),
+        :expectation.array__is(
+          [{}], [{}],
+        ),
+        :get_actual_results_with.array__is(
+          testing_method,
+          :testing_method_args.array__is(
+            [ {}, {} ],
+            :containerize,
+            [],
+            :block_to_method.__is(:whatever),
+            :insert_iterating_element_at.__is(0),
+            :debug.__is(nil),
+          ),
+        ),
+      ].__note("end of two_hashes_base"),
+
+      [
+        :test_case_id.__is("two_hashes_size"),
+        :expectation.array__is(0, 0),
+        :get_actual_results_with.array__is(
+          testing_method,
+          :testing_method_args.array__is(
+            [ {}, {} ],
+            Proc.new {|x| x.size },
+            [].to_nil,
+            :block_to_method.__is(:whatever),
+            :insert_iterating_element_at.__is(0),
+            :debug.__is(nil),
+          ),
+        ),
+      ].__note("end of two_hashes_size"),
+
+      [
+        :test_case_id.__is("distribute_methods_over_object_v1"),
+        :expectation.array__is(
+          "Test", "TEST",
+        ),
+        :get_actual_results_with.array__is(
+          testing_method,
+          :testing_method_args.array__is(
+            ["capitalize", "upcase" ],
+            Proc.new {|method| "test".send method },
+            nil,
+            :block_to_method.__is(:whatever),
+            :insert_iterating_element_at.__is(0),
+            :debug.__is(nil),
+          ),
+        ),
+      ].__note("end of distribute_methods_over_object_v1"),
+
+      [
+        :test_case_id.__is("distribute_methods_over_object_v2"),
+        :expectation.array__is(
+          "Test", "TEST",
+        ),
+        :get_actual_results_with.array__is(
+          testing_method,
+          :testing_method_args.array__is(
+            ["capitalize", "upcase" ],
+            "test".method(:send),
+            :args_to_method.__is(nil),
+            :block_to_method.__is(:whatever),
+            :insert_iterating_element_at.__is(0),
+            :debug.__is(nil),
+          ),
+        ),
+      ].__note("end of distribute_methods_over_object_v2"),
+
+      [
+        :test_case_id.__is("array_map"),
+        :expectation.array__is(
+          [2, 3, 4],
+        ),
+        :get_actual_results_with.array__is(
+          testing_method,
+          :testing_method_args.array__is(
+            :enum.array__is([1, 2, 3]),
+            :method_to_each_in_enum.__is(:map),
+            :args_to_method.__is(nil),
+            :block_to_method.__is(Proc.new {|x| x + 1 }),
+            :insert_iterating_element_at.__is(:ensure.__is(nil)),
+            :debug.__is(nil),
+          ),
+        ),
+      ].__note("end of array_map"),
+
+    ]
+
+  end
+
+
 end
 
 

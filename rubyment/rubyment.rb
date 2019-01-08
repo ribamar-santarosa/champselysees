@@ -403,6 +403,31 @@ module RubymentArraysModule
   end
 
 
+=begin
+  Just a convenience function for achieving the
+  same as first_array.product other_arrays
+
+  Closed for extension
+
+  examples:
+
+  arrays__product [ "model 1", "model 2"], [":"], ["variant with sound system", "variant no system"], ["and stabilizer", "and without stabilizer"]
+  #  => [["model 1", ":", "variant with sound system", "and stabilizer"],
+  #  ["model 1", ":", "variant with sound system", "and without stabilizer"],
+  # ...
+  #  ["model 2", ":", "variant no system", "and stabilizer"],
+  #  ["model 2", ":", "variant no system", "and without stabilizer"]]
+
+
+
+
+=end
+  def arrays__product *args
+    first, *others = args
+    first.product *others
+  end
+
+
 end # of RubymentArraysModule
 
 

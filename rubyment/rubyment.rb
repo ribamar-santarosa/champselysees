@@ -3625,7 +3625,7 @@ module RubymentModule
       :running_dir => Dir.pwd,
       :home_dir => Dir.home,
       :system_user => ENV['USER'] || ENV['USERNAME'],
-      :system_user_is_super => ENV['USER']  == "root", # changed plan: platform indenpend.
+      :system_user_is_super => ENV['USER']  == "root",
       :static_separator_key => "strings_having_this"  +  "_string_not_guaranteed_to_work",
       :static_end_key => "strings_havinng_this_string" + "_also_not_guaranteed_to_work",
       :static_separator_key_per_execution => "strings_having_this"  +  "_string_not_guaranteed_to_work" + (Proc.new {}).to_s + Time.now.to_s,

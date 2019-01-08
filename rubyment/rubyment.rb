@@ -110,7 +110,7 @@ end
 
 =begin 
   # begin_documentation
-
+  This module offers function to generate computer languages code
   # end_documentation
 =end
 module RubymentCodeGenerationModule

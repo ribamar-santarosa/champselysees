@@ -1827,6 +1827,15 @@ trying to get the interface compatible with
   end
 
 
+=begin
+  will call puts on the stdout
+=end
+  def stdout_puts *args
+    stdout = rubyment_memory__get_key :stdout
+    stdout.puts *args
+  end
+
+
 end
 
 

@@ -267,9 +267,17 @@ end
 
 =begin
   # begin_documentation
+
+  CLOSED for extensions: The module InternalRubymentModule
+  should have been called RubymentInternalModule instead,
+  to preserve the naming standards. RubymentInternalModule
+  will receive the new functions, and
+  InternalRubymentModule must be closed for extensions.
+
   This module offers function to interface with certain
   internal structures. Ie, these functions are supposed
   to be useless unless running Rubyment.
+
 
   # end_documentation
 =end

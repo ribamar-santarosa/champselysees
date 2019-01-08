@@ -4637,6 +4637,7 @@ module RubymentModule
   include RubymentInternalModule
   include RubymentPatternsModule
   include RubymentInvocationModule
+  include RubymentGemGenerationModule
   include RubymentExperimentModule
   include RubymentMaintainedModule
   include RubymentDeprecatedModule

@@ -475,7 +475,7 @@ module RubymentStringsModule
       send __method__, d # recursive call
     }
 
-    # if variable is non empty, the default operation is "="
+    # if variable is non empty, the default operation is ""
     # of course, only applied if operation is not set
     # A priori, nne not to be used, otherwise "" operation
     # won't be allowed

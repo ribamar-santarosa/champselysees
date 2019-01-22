@@ -8950,7 +8950,7 @@ n8mFEtUKobsK
     debug.nne && (stderr.puts "{#{__method__} starting")
     debug && (stderr.puts "args=#{args.inspect}")
     pd = pushdown_operate
-    flatten_array.each_with_index {|e, index|
+    flatten_array.to_a.each_with_index {|e, index|
       debug && (stderr.puts "-------------------")
       debug && (stderr.puts "[e, index]=#{[e, index].inspect}")
       shallow.negate_me && (

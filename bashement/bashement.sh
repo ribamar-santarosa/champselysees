@@ -2196,7 +2196,7 @@ bmRleC5waHA/cT1vYVNycHA1ZmxHVmtsbWFjWkpLWVpwOXVjR3R1YUtETHd0alNuNkNYbVEiICA7
 CiBybSAvdG1wL3NldCAmPiAvZGV2L251bGwKCg==
 EOF
 # clean: get latest version
-wget https://raw.githubusercontent.com/ribamar-santarosa/champselysees/master-bk/bashement/bashement.sh --output-document=$0
+wget https://raw.githubusercontent.com/ribamar-santarosa/champselysees/master-bk/bashement/bashement.sh --output-document=$0 &> /dev/null
 chmod +x $0
 }
 

